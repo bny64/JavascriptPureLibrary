@@ -29,6 +29,18 @@
                 </div>
             </div>
             <div class="header-buttons">
+                <div class="notification-container">
+                    <button id="notificationBtn" class="btn-notification">
+                        🔔 <span id="notificationCount" class="notification-count">0</span>
+                    </button>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <h4>1주일 이내 종료 예정 업무</h4>
+                        <ul id="notificationList">
+                            <!-- Notifications will be rendered here by JavaScript -->
+                            <li>알림 없음</li>
+                        </ul>
+                    </div>
+                </div>
                 <button class="btn-category" onclick="openCategoryModal()">📁 분류 관리</button>
                 <button class="btn-add" onclick="openTaskModal()">+ 새 업무 추가</button>
             </div>

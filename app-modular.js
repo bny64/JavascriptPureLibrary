@@ -12,7 +12,8 @@ const AppState = {
     currentSearchType: 'text',
     sortField: 'endDate', // Default sort field
     sortDirection: 'asc', // Default sort direction
-    holidays: {} // New property for holiday data
+    holidays: {}, // New property for holiday data
+    notifications: [] // New property for tasks ending soon
 };
 
 // 초기화
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Made async
     await loadHolidays(); // Await holidays before rendering calendar
     renderCalendar();
     updateSelectedDateTitle();
+    initNotifications(); // Initialize notification functionality
 });
 
 // 테마 관리
@@ -113,6 +115,26 @@ async function deleteCategory(id) {
     await loadCategories(); // Re-fetch all categories to ensure UI is updated with latest backend state
 }
 
+async function copyCategory(category) {
+    if (!confirm(`'${category.mainCategory}${category.subCategory ? ' > ' + category.subCategory : ''}${category.detailCategory ? ' > ' + category.detailCategory : ''}' 분류를 복사하시겠습니까?`)) {
+        return;
+    }
+
+    const newCategory = { ...category };
+    delete newCategory.id; // Remove old ID
+    
+    // Append "(복사본)" to the most specific category name
+    if (newCategory.detailCategory) {
+        newCategory.detailCategory += ' (복사본)';
+    } else if (newCategory.subCategory) {
+        newCategory.subCategory += ' (복사본)';
+    } else {
+        newCategory.mainCategory += ' (복사본)';
+    }
+
+    await createCategory(newCategory); // Create new category
+}
+
 // 렌더링
 function renderCalendar() {
     UI.calendar.render(AppState.tasks, AppState.currentDate, AppState.selectedDate, AppState.holidays);
@@ -144,6 +166,77 @@ function updateSelectedDateTitle() {
     const day = AppState.selectedDate.getDate();
     title.textContent = `${year}년 ${month}월 ${day}일의 업무`;
 }
+
+// 알림 관련 함수
+function getTasksEndingSoon(tasks, days = 7) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(today.getDate() + days);
+    sevenDaysLater.setHours(23, 59, 59, 999); // Normalize to end of day
+
+    return tasks.filter(task => {
+        if (!task.endDate || task.status === '완료') {
+            return false;
+        }
+        const endDate = new Date(task.endDate + 'T23:59:59'); // End of the day
+        return endDate >= today && endDate <= sevenDaysLater;
+    }).sort((a, b) => new Date(a.endDate) - new Date(b.endDate)); // Sort by end date
+}
+
+function renderNotifications(notifications) {
+    const notificationList = document.getElementById('notificationList');
+    const notificationCount = document.getElementById('notificationCount');
+    notificationList.innerHTML = '';
+
+    if (notifications.length === 0) {
+        notificationList.innerHTML = '<li>알림 없음</li>';
+        notificationCount.textContent = '0';
+        return;
+    }
+
+    notificationCount.textContent = notifications.length;
+    notifications.forEach(task => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span class="task-name">${task.taskName}</span>
+            <span class="end-date">(${task.endDate} 종료)</span>
+        `;
+        li.onclick = () => {
+            selectDate(task.endDate); // Navigate to task's end date
+            openTaskModal(task);     // Open task modal for detail
+            toggleNotificationDropdown(); // Close dropdown
+        };
+        notificationList.appendChild(li);
+    });
+}
+
+function toggleNotificationDropdown() {
+    const dropdown = document.getElementById('notificationDropdown');
+    dropdown.classList.toggle('show');
+    // AppState.isNotificationDropdownOpen = dropdown.classList.contains('show'); // No need for AppState flag for dropdown state
+}
+
+async function initNotifications() {
+    // Add event listener for notification button
+    document.getElementById('notificationBtn').addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent document click from immediately closing
+        toggleNotificationDropdown();
+    });
+
+    // Initial load and render
+    // AppState.notifications is updated via overridden loadTasks
+    // renderNotifications(AppState.notifications); // Initial render will be done by overridden loadTasks
+}
+
+// Re-load notifications whenever tasks are loaded/reloaded
+const originalLoadTasks = loadTasks;
+loadTasks = async () => {
+    await originalLoadTasks(); // Call the original loadTasks function
+    AppState.notifications = getTasksEndingSoon(AppState.tasks);
+    renderNotifications(AppState.notifications);
+};
 
 // 날짜 선택
 function selectDate(date) {
@@ -681,6 +774,14 @@ window.onclick = function(event) {
     if (event.target === importantMemoModal) { // Handle new modal
         closeImportantMemoModal();
     }
+
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationBtn = document.getElementById('notificationBtn');
+
+    // Close notification dropdown if open and clicked outside
+    if (notificationDropdown && notificationBtn && notificationDropdown.classList.contains('show') && !notificationDropdown.contains(event.target) && !notificationBtn.contains(event.target)) {
+        toggleNotificationDropdown();
+    }
 }
 
 // 전역 함수 노출
@@ -690,6 +791,7 @@ window.copyTask = copyTask;
 window.deleteTask = deleteTask;
 window.editCategoryItem = editCategoryItem;
 window.deleteCategory = deleteCategory;
+window.copyCategory = copyCategory; // Expose copyCategory
 window.openImportantMemoModal = openImportantMemoModal; // Expose new function
 window.saveImportantMemo = saveImportantMemo; // Expose new function
 window.closeImportantMemoModal = closeImportantMemoModal; // Expose new function

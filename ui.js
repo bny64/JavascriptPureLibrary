@@ -290,10 +290,14 @@ const UI = {
                 const editBtn = DomUtils.createElement('button', 'btn-cat-edit', '수정');
                 editBtn.onclick = () => window.editCategoryItem(group.main);
                 
+                const copyBtn = DomUtils.createElement('button', 'btn-cat-copy', '복사');
+                copyBtn.onclick = () => window.copyCategory(group.main);
+
                 const deleteBtn = DomUtils.createElement('button', 'btn-cat-delete', '삭제');
                 deleteBtn.onclick = () => window.deleteCategory(group.main.id);
                 
                 actions.appendChild(editBtn);
+                actions.appendChild(copyBtn);
                 actions.appendChild(deleteBtn);
             }
             
@@ -315,10 +319,14 @@ const UI = {
                     const subEditBtn = DomUtils.createElement('button', 'btn-cat-edit', '수정');
                     subEditBtn.onclick = () => window.editCategoryItem(subGroup.sub);
                     
+                    const subCopyBtn = DomUtils.createElement('button', 'btn-cat-copy', '복사');
+                    subCopyBtn.onclick = () => window.copyCategory(subGroup.sub);
+
                     const subDeleteBtn = DomUtils.createElement('button', 'btn-cat-delete', '삭제');
                     subDeleteBtn.onclick = () => window.deleteCategory(subGroup.sub.id);
                     
                     subActions.appendChild(subEditBtn);
+                    subActions.appendChild(subCopyBtn);
                     subActions.appendChild(subDeleteBtn);
                 }
                 
@@ -337,10 +345,14 @@ const UI = {
                         const detailEditBtn = DomUtils.createElement('button', 'btn-cat-edit', '수정');
                         detailEditBtn.onclick = () => window.editCategoryItem(detailCat);
                         
+                        const detailCopyBtn = DomUtils.createElement('button', 'btn-cat-copy', '복사');
+                        detailCopyBtn.onclick = () => window.copyCategory(detailCat);
+
                         const detailDeleteBtn = DomUtils.createElement('button', 'btn-cat-delete', '삭제');
                         detailDeleteBtn.onclick = () => window.deleteCategory(detailCat.id);
                         
                         detailActions.appendChild(detailEditBtn);
+                        detailActions.appendChild(detailCopyBtn);
                         detailActions.appendChild(detailDeleteBtn);
                         
                         detailDiv.appendChild(detailNameSpan);

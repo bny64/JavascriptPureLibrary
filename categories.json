@@ -23,6 +23,42 @@
       "subCategory": "트레이딩",
       "detailCategory": "코인 - 수익률",
       "id": "1770896077944"
+    },
+    {
+      "mainCategory": "프론트엔드",
+      "subCategory": "UI",
+      "detailCategory": "홈페이지 개발",
+      "id": "17708961314610"
+    },
+    {
+      "mainCategory": "프론트엔드",
+      "subCategory": "UI",
+      "detailCategory": "마이페이지 개선",
+      "id": "17708961314611"
+    },
+    {
+      "mainCategory": "기획",
+      "subCategory": "서비스",
+      "detailCategory": "신규 기능 정의",
+      "id": "17708961314612"
+    },
+    {
+      "mainCategory": "디자인",
+      "subCategory": "웹",
+      "detailCategory": "로고 리뉴얼",
+      "id": "17708961314613"
+    },
+    {
+      "mainCategory": "백엔드",
+      "subCategory": "DB",
+      "detailCategory": "성능 최적화",
+      "id": "17708961314614"
+    },
+    {
+      "mainCategory": "QA",
+      "subCategory": "테스트",
+      "detailCategory": "통합 테스트",
+      "id": "17708961314615"
     }
   ]
 }
