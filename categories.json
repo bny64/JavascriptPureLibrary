@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "mainCategory": "백엔드",
+      "subCategory": "트레이딩",
+      "detailCategory": "코인",
+      "id": "1770896026742"
+    },
+    {
+      "mainCategory": "백엔드",
+      "subCategory": "트레이딩",
+      "detailCategory": "주식",
+      "id": "1770896037075"
+    },
+    {
+      "mainCategory": "백엔드",
+      "subCategory": "트레이딩",
+      "detailCategory": "주식 - 수익률",
+      "id": "1770896058311"
+    },
+    {
+      "mainCategory": "백엔드",
+      "subCategory": "트레이딩",
+      "detailCategory": "코인 - 수익률",
+      "id": "1770896077944"
+    }
+  ]
+}

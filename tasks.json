@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동매매",
+      "startDate": "",
+      "endDate": "",
+      "status": "대기",
+      "description": "",
+      "id": "1770896091964",
+      "createdAt": "2026-02-12T11:34:51.964Z"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동매매 ",
+      "startDate": "",
+      "endDate": "",
+      "status": "대기",
+      "description": "",
+      "id": "1770896112123",
+      "createdAt": "2026-02-12T11:35:12.123Z"
+    }
+  ]
+}

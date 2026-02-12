@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>업무 관리 시스템</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="themes.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>📋 업무 관리 시스템</h1>
+                <div class="theme-selector">
+                    <label>테마:</label>
+                    <select id="themeSelect" onchange="changeTheme(this.value)">
+                        <option value="green">녹색</option>
+                        <option value="blue">파란색</option>
+                        <option value="purple">보라색</option>
+                        <option value="orange">주황색</option>
+                        <option value="pink">분홍색</option>
+                        <option value="teal">청록색</option>
+                        <option value="red">빨간색</option>
+                        <option value="indigo">남색</option>
+                        <option value="brown">갈색</option>
+                        <option value="gray">회색</option>
+                    </select>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <button class="btn-category" onclick="openCategoryModal()">📁 분류 관리</button>
+                <button class="btn-add" onclick="openTaskModal()">+ 새 업무 추가</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- 왼쪽: 캘린더 (75%) -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <button onclick="previousMonth()">◀</button>
+                    <h2 id="currentMonth"></h2>
+                    <button onclick="nextMonth()">▶</button>
+                    <button class="btn-all-tasks" onclick="openAllTasksModal()">📋 전체보기</button>
+                </div>
+                <div class="calendar" id="calendar"></div>
+            </div>
+
+            <!-- 오른쪽 (25%) -->
+            <div class="right-section">
+                <div class="tasks-section">
+                    <div id="statusSummary" class="status-summary"></div>
+                    <h3 id="selectedDateTitle">선택된 날짜의 업무</h3>
+                    <div class="tasks-list" id="tasksList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 전체 업무 목록 모달 -->
+    <div id="allTasksModal" class="modal">
+        <div class="modal-content all-tasks-modal-content">
+            <span class="close" onclick="closeAllTasksModal()">&times;</span>
+            <h2>전체 업무 목록</h2>
+            
+            <div class="search-container">
+                <div class="search-type">
+                    <label><input type="radio" name="searchType" value="text" checked onchange="toggleSearchType()"> 단어 검색</label>
+                    <label><input type="radio" name="searchType" value="category" onchange="toggleSearchType()"> 선택 검색</label>
+                </div>
+                
+                <div id="textSearchBox" class="search-box">
+                    <input type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
+                </div>
+                
+                <div id="categorySearchBox" class="search-box" style="display: none;">
+                    <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"><option value="">전체 대분류</option></select>
+                    <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"><option value="">전체 중분류</option></select>
+                    <select id="searchCategory3" onchange="searchAllTasks()"><option value="">전체 소분류</option></select>
+                </div>
+
+                <div class="sort-controls">
+                    <label for="sortField">정렬 기준:</label>
+                    <select id="sortField" onchange="changeAllTasksSort()">
+                        <option value="endDate">종료 날짜</option>
+                        <option value="startDate">시작 날짜</option>
+                        <option value="taskName">업무명</option>
+                        <option value="status">상태</option>
+                    </select>
+                    <select id="sortDirection" onchange="changeAllTasksSort()">
+                        <option value="asc">오름차순</option>
+                        <option value="desc">내림차순</option>
+                    </select>
+                </div>
+                
+                <div class="status-filters">
+                    <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체">전체</button>
+                    <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기">대기</button>
+                    <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중">진행중</button>
+                    <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료">완료</button>
+                    <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류">보류</button>
+                </div>
+            </div>
+            
+            <div class="all-tasks-list-container">
+                <div class="pagination-controls">
+                    <button onclick="previousPage()" id="prevPageBtn">◀</button>
+                    <span id="pageInfo">1 / 1</span>
+                    <button onclick="nextPage()" id="nextPageBtn">▶</button>
+                </div>
+                <div class="all-tasks-list" id="allTasksList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 분류 관리 모달 -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content category-modal-content">
+            <span class="close" onclick="closeCategoryModal()">&times;</span>
+            <h2>분류 관리</h2>
+            
+            <div class="category-management">
+                <div class="category-form">
+                    <h3>새 분류 추가</h3>
+                    <form id="categoryForm" onsubmit="saveCategory(event)">
+                        <input type="hidden" id="categoryId">
+                        <div class="form-group">
+                            <label>대분류</label>
+                            <input type="text" id="mainCategory" required placeholder="예: 개발">
+                        </div>
+                        <div class="form-group">
+                            <label>중분류 (선택)</label>
+                            <input type="text" id="subCategory" placeholder="예: 웹 개발">
+                        </div>
+                        <div class="form-group">
+                            <label>소분류 (선택)</label>
+                            <input type="text" id="detailCategory" placeholder="예: 프론트엔드">
+                        </div>
+                        <div class="modal-buttons">
+                            <button type="submit" class="btn-save">저장</button>
+                            <button type="button" class="btn-cancel" onclick="closeCategoryModal()">취소</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="category-tree">
+                    <h3>등록된 분류</h3>
+                    <div id="categoryTreeView"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 업무 추가/수정 모달 -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content task-modal-content">
+            <span class="close" onclick="closeTaskModal()">&times;</span>
+            <h2 id="modalTitle">새 업무 추가</h2>
+            <form id="taskForm" onsubmit="saveTask(event)">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label>대분류</label>
+                    <select id="category1" required onchange="updateSubCategories()"><option value="">선택하세요</option></select>
+                </div>
+                <div class="form-group">
+                    <label>중분류</label>
+                    <select id="category2" onchange="updateDetailCategories()"><option value="">선택하세요</option></select>
+                </div>
+                <div class="form-group">
+                    <label>소분류</label>
+                    <select id="category3"><option value="">선택하세요</option></select>
+                </div>
+                <div class="form-group">
+                    <label>업무명</label>
+                    <input type="text" id="taskName" required placeholder="업무 이름을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label>시작 날짜</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label>종료 날짜</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="form-group">
+                    <label>진행 상태</label>
+                    <select id="status" required>
+                        <option value="대기">대기</option>
+                        <option value="진행중">진행중</option>
+                        <option value="완료">완료</option>
+                        <option value="보류">보류</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>설명</label>
+                    <textarea id="description" rows="4" placeholder="업무 설명을 입력하세요"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">저장</button>
+                    <button type="button" class="btn-cancel" onclick="closeTaskModal()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 중요 메모 모달 -->
+    <div id="importantMemoModal" class="modal">
+        <div class="modal-content memo-modal-content">
+            <span class="close" onclick="closeImportantMemoModal()">&times;</span>
+            <h2>중요 메모 관리</h2>
+            <form id="memoForm" onsubmit="saveImportantMemo(event)">
+                <input type="hidden" id="memoTaskId">
+                <div class="form-group">
+                    <label>중요 메모</label>
+                    <textarea id="importantMemoContent" rows="8" placeholder="중요한 내용을 메모하세요"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">저장</button>
+                    <button type="button" class="btn-cancel" onclick="closeImportantMemoModal()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+    <script src="api.js"></script>
+    <script src="ui.js"></script>
+    <script src="app-modular.js"></script>
+</body>
+</html>

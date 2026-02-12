@@ -1,0 +1,156 @@
+/* 테마 시스템 - CSS 변수 기반 */
+
+:root {
+    --primary-start: #11998e;
+    --primary-end: #38ef7d;
+    --primary-hover: #0e8577;
+}
+
+/* 녹색 테마 (기본) */
+body.theme-green {
+    --primary-start: #11998e;
+    --primary-end: #38ef7d;
+    --primary-hover: #0e8577;
+}
+
+/* 파란색 테마 */
+body.theme-blue {
+    --primary-start: #2196f3;
+    --primary-end: #64b5f6;
+    --primary-hover: #1976d2;
+}
+
+/* 보라색 테마 */
+body.theme-purple {
+    --primary-start: #9c27b0;
+    --primary-end: #ce93d8;
+    --primary-hover: #7b1fa2;
+}
+
+/* 주황색 테마 */
+body.theme-orange {
+    --primary-start: #ff6f00;
+    --primary-end: #ffb74d;
+    --primary-hover: #e65100;
+}
+
+/* 분홍색 테마 */
+body.theme-pink {
+    --primary-start: #e91e63;
+    --primary-end: #f48fb1;
+    --primary-hover: #c2185b;
+}
+
+/* 청록색 테마 */
+body.theme-teal {
+    --primary-start: #009688;
+    --primary-end: #4db6ac;
+    --primary-hover: #00796b;
+}
+
+/* 빨간색 테마 */
+body.theme-red {
+    --primary-start: #d32f2f;
+    --primary-end: #ef5350;
+    --primary-hover: #c62828;
+}
+
+/* 남색 테마 */
+body.theme-indigo {
+    --primary-start: #3f51b5;
+    --primary-end: #7986cb;
+    --primary-hover: #303f9f;
+}
+
+/* 갈색 테마 */
+body.theme-brown {
+    --primary-start: #795548;
+    --primary-end: #a1887f;
+    --primary-hover: #5d4037;
+}
+
+/* 회색 테마 */
+body.theme-gray {
+    --primary-start: #607d8b;
+    --primary-end: #90a4ae;
+    --primary-hover: #455a64;
+}
+
+/* 테마 적용 */
+body {
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+}
+
+.btn-add,
+.btn-category {
+    color: var(--primary-start);
+}
+
+.calendar-header button,
+.btn-all-tasks {
+    background: var(--primary-start);
+}
+
+.calendar-header button:hover,
+.btn-all-tasks:hover {
+    background: var(--primary-hover);
+}
+
+.calendar-day:hover {
+    border-color: var(--primary-start);
+    box-shadow: 0 4px 12px rgba(var(--primary-start), 0.2);
+}
+
+.calendar-day.header {
+    background: var(--primary-start);
+}
+
+.calendar-day.selected {
+    background: var(--primary-start);
+    border-color: var(--primary-hover);
+}
+
+.task-item {
+    border-left-color: var(--primary-start);
+}
+
+.task-item:hover {
+    background: rgba(var(--primary-start), 0.05);
+}
+
+.filter-btn.active {
+    background: var(--primary-start);
+    border-color: var(--primary-start);
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-start);
+    color: var(--primary-start);
+}
+
+.pagination-controls button {
+    background: var(--primary-start);
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background: var(--primary-hover);
+}
+
+.btn-save {
+    background: var(--primary-start);
+}
+
+.btn-save:hover {
+    background: var(--primary-hover);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-start);
+    box-shadow: 0 0 0 3px rgba(var(--primary-start), 0.1);
+}
