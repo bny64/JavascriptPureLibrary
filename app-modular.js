@@ -241,7 +241,9 @@ function formatDate(date) {
 // Gantt Chart 관련 함수
 
 function transformTasksForGantt(tasks) {
-    return tasks.map(task => {
+    return tasks
+        .filter(task => task.startDate && task.endDate) // Filter out tasks without valid start or end dates
+        .map(task => {
         let progress = 0;
         let custom_class = '';
         switch (task.status) {
@@ -295,28 +297,32 @@ function postProcessGanttHeaders() {
     const textElements = ganttElement.querySelectorAll('text');
 
     textElements.forEach(textElement => {
-        const originalText = textElement.textContent;
+        const originalText = textElement.textContent.trim();
+        const className = textElement.getAttribute('class') || '';
 
-        // Try to match and replace English month names with Korean numerical months
-        for (let i = 0; i < monthNamesEn.length; i++) {
-            const enMonth = monthNamesEn[i];
-            const koMonth = monthNamesKo[i];
+        // upper-text: 월 표시 (예: February -> 2월)
+        if (className.includes('upper-text')) {
+            for (let i = 0; i < monthNamesEn.length; i++) {
+                const enMonth = monthNamesEn[i];
+                const koMonth = monthNamesKo[i];
+                const regex = new RegExp(`^${enMonth}$`, 'i');
 
-            // Create a regex to match the full English month name (case-insensitive)
-            // \b ensures whole word match, avoiding partial matches within other words.
-            const regex = new RegExp(`\\b${enMonth}\\b`, 'gi');
-
-            if (regex.test(originalText)) {
-                // Replace the matched English month with the Korean numerical month
-                textElement.textContent = originalText.replace(regex, koMonth);
-                break; // Found and replaced, move to next text element
+                if (regex.test(originalText)) {
+                    textElement.textContent = koMonth;
+                    break;
+                }
             }
         }
-
-        // If an original text is just a 4-digit number (year), append '년'.
-        // This is separate from month replacement.
-        if (originalText.match(/^\d{4}$/) && !originalText.endsWith('년')) {
-             textElement.textContent = originalText + '년';
+        
+        // lower-text: 일 표시 (예: 15 -> 15일)
+        if (className.includes('lower-text')) {
+            // 숫자만 있는 경우 (일자)
+            if (/^\d{1,2}$/.test(originalText)) {
+                const dayNumber = parseInt(originalText);
+                if (dayNumber >= 1 && dayNumber <= 31) {
+                    textElement.textContent = dayNumber + '일';
+                }
+            }
         }
     });
 }
@@ -341,19 +347,19 @@ function initGanttChart() {
         return;
     }
     
-    // Frappe Gantt 초기화
+    // Frappe Gantt 초기화 - Day 모드로 설정
     AppState.gantt = new Gantt(ganttElement, ganttTasks, {
-        header_height: 50,
-        column_width: 30,
+        header_height: 65,        // 헤더 높이
+        column_width: 40,         // 열 너비 (일자별)
         step: 24,
         view_modes: ['Day', 'Week', 'Month'],
-        bar_height: 20,
-        bar_corner_radius: 3,
+        bar_height: 30,           // 바 높이
+        bar_corner_radius: 4,
         arrow_curve: 5,
-        padding: 18,
-        view_mode: 'Month',
+        padding: 24,
+        view_mode: 'Day',         // ★ Day 모드로 변경 (월,일 표시)
         date_format: 'YYYY-MM-DD',
-        // language: 'ko', // Frappe Gantt might not support 'ko' directly without custom translations
+        language: 'ko',
         details_view_mode: false,
 
         on_click: function (task) {
@@ -366,10 +372,9 @@ function initGanttChart() {
         },
         on_progress_change: function (task, progress) {
             console.log(task, progress);
-            // Frappe Gantt doesn't directly support status, so we'd need to map progress back
             let status = '진행중';
             if (progress === 100) status = '완료';
-            else if (progress === 0) status = '대기'; // Or original status if not started
+            else if (progress === 0) status = '대기';
             updateTask(task.id, { status: status });
         },
         on_view_change: function (mode) {
@@ -379,11 +384,14 @@ function initGanttChart() {
         }
     });
     
-    // Initial view mode setting
-    AppState.gantt.change_view_mode('Month');
+    // ★ Day 모드로 설정 (월,일 기준)
+    AppState.gantt.change_view_mode('Day');
 
-    postProcessGanttHeaders();
-    applyGanttDateTextStyling();
+    // 한글 헤더 처리 지연 실행
+    setTimeout(() => {
+        postProcessGanttHeaders();
+        applyGanttDateTextStyling();
+    }, 100);
 }
 
 async function initNotifications() {
