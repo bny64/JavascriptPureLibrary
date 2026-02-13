@@ -301,20 +301,19 @@ header h1 {
 
 .status-summary-item-wrapper {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: space-around;
+    justify-content: space-between; /* Distribute items evenly with space between them */
 }
 
 .status-summary-item {
     display: flex;
+    flex: 1; /* Allow items to grow and shrink, taking equal space */
     flex-direction: column;
     align-items: center;
-    padding: 8px 12px;
+    padding: 8px 0px; /* Reduced horizontal padding */
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    min-width: 80px;
+    /* min-width removed to allow shrinking */
 }
 
 .status-summary-label {
@@ -1070,4 +1069,106 @@ header h1 {
 
 .btn-cat-copy:hover {
     background: #2196f3; /* Darker blue on hover */
+}
+
+/* View Selector Dropdown */
+.view-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.current-view {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+}
+
+.view-dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1002;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.view-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.view-dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+.view-dropdown.show {
+    display: block;
+}
+
+.current-view::after {
+    content: '▼';
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+/* View Container */
+.view-container {
+    height: calc(100vh - 125px); /* Adjust based on header height */
+    overflow-y: auto;
+}
+
+
+/* Gantt Chart View */
+.gantt-chart-container {
+    padding: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.gantt-chart-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#gantt {
+    flex-grow: 1;
+}
+
+/* Frappe Gantt Customizations */
+#gantt .grid-header {
+    fill: #f5f5f5;
+}
+
+#gantt .grid-row {
+    fill: #ffffff;
+}
+
+#gantt .grid-row:nth-child(even) {
+    fill: #fafafa;
+}
+
+/* Gantt Chart Weekend and Holiday Text Styling */
+#gantt .lower-text.gantt-weekend-text,
+#gantt .lower-text.gantt-holiday-text {
+    fill: red !important;
+}
+
+#gantt .upper-text.gantt-weekend-text,
+#gantt .upper-text.gantt-holiday-text {
+    fill: red !important;
 }

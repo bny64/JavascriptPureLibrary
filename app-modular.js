@@ -13,19 +13,29 @@ const AppState = {
     sortField: 'endDate', // Default sort field
     sortDirection: 'asc', // Default sort direction
     holidays: {}, // New property for holiday data
-    notifications: [] // New property for tasks ending soon
+    notifications: [], // New property for tasks ending soon
+    gantt: null
 };
 
-// 초기화
-document.addEventListener('DOMContentLoaded', async () => { // Made async
-    loadTheme();
-    await loadCategories(); // Await categories for dropdowns
-    await loadTasks(); // Await tasks for initial calendar render
-    await loadHolidays(); // Await holidays before rendering calendar
-    renderCalendar();
-    updateSelectedDateTitle();
-    initNotifications(); // Initialize notification functionality
-});
+// Helper arrays for month translation
+const monthNamesKo = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+// Helper function to get week number (ISO 8601)
+function getWeekNumber(d) {
+    // Copy date so don't modify original
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    // Get first day of year
+    var yearStart = new Date(Date.UTC(d.getFullYear(), 0, 1));
+    // Calculate full weeks to the nearest Thursday
+    var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+}
+
 
 // 테마 관리
 function loadTheme() {
@@ -39,7 +49,9 @@ function changeTheme(theme) {
     StorageUtils.set('theme', theme);
 }
 
-// 데이터 로드
+
+// --- API 호출 함수들 (loadTasks, createTask 등) ---
+
 async function loadTasks() {
     AppState.tasks = await API.tasks.getAll();
     UI.task.renderStatusSummary(AppState.tasks, 'statusSummary'); // Render status summary for all tasks
@@ -51,22 +63,6 @@ async function loadTasks() {
     }
 }
 
-async function loadCategories() {
-    AppState.categories = await API.categories.getAll();
-    UI.category.renderTree(AppState.categories);
-}
-
-async function loadHolidays() {
-    try {
-        const response = await fetch('/api/holidays');
-        AppState.holidays = await response.json();
-    } catch (error) {
-        console.error('Error loading holidays:', error);
-        AppState.holidays = {};
-    }
-}
-
-// 업무 CRUD
 async function createTask(task) {
     await API.tasks.create(task);
     await loadTasks(); // Re-fetch all tasks to ensure UI is updated with latest backend state
@@ -95,7 +91,11 @@ function copyTask(task) {
     });
 }
 
-// 분류 CRUD
+async function loadCategories() {
+    AppState.categories = await API.categories.getAll();
+    UI.category.renderTree(AppState.categories);
+}
+
 async function createCategory(category) {
     await API.categories.create(category);
     await loadCategories(); // Re-fetch all categories to ensure UI is updated with latest backend state
@@ -135,18 +135,26 @@ async function copyCategory(category) {
     await createCategory(newCategory); // Create new category
 }
 
-// 렌더링
+async function loadHolidays() {
+    try {
+        const response = await fetch('/api/holidays');
+        AppState.holidays = await response.json();
+    } catch (error) {
+        console.error('Error loading holidays:', error);
+        AppState.holidays = {};
+    }
+}
+
+
+// --- 렌더링 함수들 (renderCalendar, renderTasksForSelectedDate 등) ---
+
 function renderCalendar() {
     UI.calendar.render(AppState.tasks, AppState.currentDate, AppState.selectedDate, AppState.holidays);
 }
 
 function renderTasksForSelectedDate() {
     const tasksList = document.getElementById('tasksList');
-    // const statusSummaryDiv = document.getElementById('statusSummary'); // No longer needed here
     const tasksForDate = UI.calendar.getTasksForDate(AppState.selectedDate, AppState.tasks);
-    
-    // Render status summary - now handled in loadTasks() for all tasks
-    // statusSummaryDiv.innerHTML = UI.task.renderStatusSummary(tasksForDate);
     
     if (tasksForDate.length === 0) {
         tasksList.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">선택한 날짜에 업무가 없습니다.</p>';
@@ -167,7 +175,9 @@ function updateSelectedDateTitle() {
     title.textContent = `${year}년 ${month}월 ${day}일의 업무`;
 }
 
-// 알림 관련 함수
+
+// --- 알림 관련 함수 ---
+
 function getTasksEndingSoon(tasks, days = 7) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize today to start of day
@@ -215,30 +225,202 @@ function renderNotifications(notifications) {
 function toggleNotificationDropdown() {
     const dropdown = document.getElementById('notificationDropdown');
     dropdown.classList.toggle('show');
-    // AppState.isNotificationDropdownOpen = dropdown.classList.contains('show'); // No need for AppState flag for dropdown state
+}
+
+// Helper function to format a Date object to 'YYYY-MM-DD'
+function formatDate(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Gantt Chart 관련 함수
+
+function transformTasksForGantt(tasks) {
+    return tasks.map(task => {
+        let progress = 0;
+        let custom_class = '';
+        switch (task.status) {
+            case '완료': // Completed
+                progress = 100;
+                custom_class = 'gantt-task-completed';
+                break;
+            case '진행중': // In Progress
+                progress = 50; // Assume 50% for in-progress
+                custom_class = 'gantt-task-in-progress';
+                break;
+            case '대기': // Pending
+                progress = 0;
+                custom_class = 'gantt-task-pending';
+                break;
+            case '보류': // On Hold
+                progress = 0;
+                custom_class = 'gantt-task-on-hold';
+                break;
+        }
+
+        // Use category1 for group if available, otherwise taskName
+        const parentCategory = task.category1 || task.taskName;
+        // Combine categories for unique task name in Gantt
+        const ganttTaskName = [task.category1, task.category2, task.category3, task.taskName]
+                                .filter(Boolean).join(' > ');
+                                
+        // Ensure start and end dates are valid for Gantt chart
+        const startDate = task.startDate || task.endDate;
+        const endDate = task.endDate || task.startDate;
+
+        return {
+            id: task.id,
+            name: ganttTaskName,
+            start: startDate,
+            end: endDate,
+            progress: progress,
+            custom_class: custom_class,
+            // Assuming frappe-gantt can use 'dependencies' for linking tasks
+            // dependencies: task.dependencies ? task.dependencies.join(',') : '',
+            // Assuming 'start_date' and 'end_date' can be used for display, if 'start' and 'end' are for calculation
+        };
+    });
+}
+
+function postProcessGanttHeaders() {
+    const ganttElement = document.getElementById('gantt');
+    if (!ganttElement) return;
+
+    // Get all text elements within the Gantt SVG
+    const textElements = ganttElement.querySelectorAll('text');
+
+    textElements.forEach(textElement => {
+        const originalText = textElement.textContent;
+
+        // Try to match and replace English month names with Korean numerical months
+        for (let i = 0; i < monthNamesEn.length; i++) {
+            const enMonth = monthNamesEn[i];
+            const koMonth = monthNamesKo[i];
+
+            // Create a regex to match the full English month name (case-insensitive)
+            // \b ensures whole word match, avoiding partial matches within other words.
+            const regex = new RegExp(`\\b${enMonth}\\b`, 'gi');
+
+            if (regex.test(originalText)) {
+                // Replace the matched English month with the Korean numerical month
+                textElement.textContent = originalText.replace(regex, koMonth);
+                break; // Found and replaced, move to next text element
+            }
+        }
+
+        // If an original text is just a 4-digit number (year), append '년'.
+        // This is separate from month replacement.
+        if (originalText.match(/^\d{4}$/) && !originalText.endsWith('년')) {
+             textElement.textContent = originalText + '년';
+        }
+    });
+}
+
+function applyGanttDateTextStyling() {
+    // This function can be used for other date text styling not covered by tick_format.
+    // For now, it remains a placeholder.
+}
+
+function initGanttChart() {
+    const ganttTasks = transformTasksForGantt(AppState.tasks);
+    const ganttElement = document.getElementById('gantt');
+
+    // Clear previous gantt instance if exists
+    if (AppState.gantt) {
+        // AppState.gantt.destroy(); // Frappe Gantt does not have a public destroy method
+    }
+    ganttElement.innerHTML = ''; // Clear previous SVG content
+
+    if (ganttTasks.length === 0) {
+        ganttElement.innerHTML = '<p style="text-align: center; padding: 20px;">간트 차트에 표시할 업무가 없습니다.</p>';
+        return;
+    }
+    
+    // Frappe Gantt 초기화
+    AppState.gantt = new Gantt(ganttElement, ganttTasks, {
+        header_height: 50,
+        column_width: 30,
+        step: 24,
+        view_modes: ['Day', 'Week', 'Month'],
+        bar_height: 20,
+        bar_corner_radius: 3,
+        arrow_curve: 5,
+        padding: 18,
+        view_mode: 'Month',
+        date_format: 'YYYY-MM-DD',
+        // language: 'ko', // Frappe Gantt might not support 'ko' directly without custom translations
+        details_view_mode: false,
+
+        on_click: function (task) {
+            console.log(task);
+            openTaskModal(AppState.tasks.find(t => t.id === task.id));
+        },
+        on_date_change: function (task, start, end) {
+            console.log(task, start, end);
+            updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) });
+        },
+        on_progress_change: function (task, progress) {
+            console.log(task, progress);
+            // Frappe Gantt doesn't directly support status, so we'd need to map progress back
+            let status = '진행중';
+            if (progress === 100) status = '완료';
+            else if (progress === 0) status = '대기'; // Or original status if not started
+            updateTask(task.id, { status: status });
+        },
+        on_view_change: function (mode) {
+            console.log(mode);
+            postProcessGanttHeaders();
+            applyGanttDateTextStyling();
+        }
+    });
+    
+    // Initial view mode setting
+    AppState.gantt.change_view_mode('Month');
+
+    postProcessGanttHeaders();
+    applyGanttDateTextStyling();
 }
 
 async function initNotifications() {
-    // Add event listener for notification button
     document.getElementById('notificationBtn').addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent document click from immediately closing
+        event.stopPropagation();
         toggleNotificationDropdown();
     });
-
-    // Initial load and render
-    // AppState.notifications is updated via overridden loadTasks
-    // renderNotifications(AppState.notifications); // Initial render will be done by overridden loadTasks
 }
+
+
+function switchView(viewName) {
+    const calendarView = document.getElementById('calendar-view');
+    const ganttChartView = document.getElementById('gantt-chart-view');
+    const currentViewButton = document.querySelector('.current-view');
+
+    if (viewName === 'calendar') {
+        calendarView.style.display = 'block';
+        ganttChartView.style.display = 'none';
+        currentViewButton.textContent = '📅 일정 관리';
+    } else if (viewName === 'gantt') {
+        calendarView.style.display = 'none';
+        ganttChartView.style.display = 'block';
+        currentViewButton.textContent = '📊 간트 차트';
+        initGanttChart();
+    }
+}
+
 
 // Re-load notifications whenever tasks are loaded/reloaded
 const originalLoadTasks = loadTasks;
 loadTasks = async () => {
-    await originalLoadTasks(); // Call the original loadTasks function
+    await originalLoadTasks();
     AppState.notifications = getTasksEndingSoon(AppState.tasks);
     renderNotifications(AppState.notifications);
 };
 
-// 날짜 선택
+
+// --- 날짜 선택 및 이동 함수 ---
+
 function selectDate(date) {
     AppState.selectedDate = new Date(date);
     renderCalendar();
@@ -246,7 +428,6 @@ function selectDate(date) {
     updateSelectedDateTitle();
 }
 
-// 월 이동
 function previousMonth() {
     AppState.currentDate.setMonth(AppState.currentDate.getMonth() - 1);
     renderCalendar();
@@ -257,25 +438,24 @@ function nextMonth() {
     renderCalendar();
 }
 
-// 전체 업무 모달
-function openAllTasksModal(statusToFilter = '전체') { // Accept optional statusToFilter
+
+// --- 전체 업무 모달 관련 함수 ---
+
+function openAllTasksModal(statusToFilter = '전체') {
     const modal = document.getElementById('allTasksModal');
     
-    // Set the filter in AppState
     AppState.currentStatusFilter = statusToFilter;
-    AppState.currentPage = 1; // Reset to first page
+    AppState.currentPage = 1;
     
     populateSearchCategories();
     renderAllTasks();
 
-    // Update the UI of filter buttons based on the currentStatusFilter
     const filterBtns = document.querySelectorAll('#allTasksModal .filter-btn');
     filterBtns.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-status') === AppState.currentStatusFilter) {
             btn.classList.add('active');
         } else if (AppState.currentStatusFilter === '' && btn.getAttribute('data-status') === '전체') {
-            // If filtering for '', '전체' button should be active
             btn.classList.add('active');
         }
     });
@@ -372,12 +552,10 @@ function renderAllTasks() {
     
     let filteredTasks = AppState.tasks;
     
-    // 상태 필터
     if (AppState.currentStatusFilter !== '전체') {
         filteredTasks = filteredTasks.filter(task => task.status === AppState.currentStatusFilter);
     }
     
-    // 검색 필터
     if (AppState.currentSearchType === 'text') {
         const searchText = document.getElementById('textSearchInput').value.toLowerCase();
         if (searchText) {
@@ -407,7 +585,7 @@ function renderAllTasks() {
 
         switch (AppState.sortField) {
             case 'endDate':
-                valA = a.endDate ? new Date(a.endDate) : new Date(0); // Use epoch for empty dates
+                valA = a.endDate ? new Date(a.endDate) : new Date(0);
                 valB = b.endDate ? new Date(b.endDate) : new Date(0);
                 break;
             case 'startDate':
@@ -484,20 +662,20 @@ function filterByStatus(status) {
     renderAllTasks();
 }
 
-// 상태별 필터링된 전체 업무 모달 열기
 function openAllTasksModalWithStatus(status) {
     openAllTasksModal(status);
 }
 
-// 전체 업무 목록 정렬 변경
 function changeAllTasksSort() {
     AppState.sortField = document.getElementById('sortField').value;
     AppState.sortDirection = document.getElementById('sortDirection').value;
-    AppState.currentPage = 1; // Reset to first page on sort change
+    AppState.currentPage = 1;
     renderAllTasks();
 }
 
-// 카테고리 모달
+
+// --- 카테고리 모달 관련 함수 ---
+
 function openCategoryModal() {
     const modal = document.getElementById('categoryModal');
     resetCategoryForm();
@@ -543,7 +721,9 @@ async function saveCategory(event) {
     resetCategoryForm();
 }
 
-// 업무 모달
+
+// --- 업무 모달 관련 함수 ---
+
 function openTaskModal(task = null) {
     const modal = document.getElementById('taskModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -574,20 +754,18 @@ function openTaskModal(task = null) {
         document.getElementById('endDate').value = task.endDate;
         document.getElementById('status').value = task.status;
         document.getElementById('description').value = task.description || '';
-        // document.getElementById('importantMemo').value = task.importantMemo || ''; // Removed
     } else {
         modalTitle.textContent = '새 업무 추가';
         document.getElementById('taskId').value = '';
         document.getElementById('taskForm').reset();
         
-        // Remove default date assignment to make them truly optional
         document.getElementById('startDate').value = ''; 
         document.getElementById('endDate').value = '';
     }
     
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
-    DomUtils.scrollToTop(modal.querySelector('.modal-content')); // Moved to the correct position
+    DomUtils.scrollToTop(modal.querySelector('.modal-content'));
 }
 
 function closeTaskModal() {
@@ -620,7 +798,7 @@ function updateSubCategories() {
     
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === category1 && c.subCategory)
+            .filter(c => c.mainCategory === cat1 && c.subCategory)
             .map(c => c.subCategory)
     );
     
@@ -628,7 +806,7 @@ function updateSubCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        category2Select.appendChild(option);
+        cat2.appendChild(option);
     });
 }
 
@@ -637,19 +815,19 @@ function updateDetailCategories() {
     const category2 = document.getElementById('category2').value;
     const category3Select = document.getElementById('category3');
     
-    category3Select.innerHTML = '<option value="">선택하세요</option>';
+    cat3.innerHTML = '<option value="">선택하세요</option>';
     
     if (!category1 || !category2) return;
     
     const detailCategories = AppState.categories
-        .filter(c => c.mainCategory === category1 && c.subCategory === category2 && c.detailCategory)
+        .filter(c => c.mainCategory === cat1 && c.subCategory === cat2 && c.detailCategory)
         .map(c => c.detailCategory);
     
     detailCategories.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        category3Select.appendChild(option);
+        cat3.appendChild(option);
     });
 }
 
@@ -658,7 +836,6 @@ async function saveTask(event) {
     
     const taskId = document.getElementById('taskId').value;
     
-    // 분류 값 저장
     const savedCategory1 = document.getElementById('category1').value;
     const savedCategory2 = document.getElementById('category2').value;
     const savedCategory3 = document.getElementById('category3').value;
@@ -672,10 +849,9 @@ async function saveTask(event) {
         endDate: document.getElementById('endDate').value,
         status: document.getElementById('status').value,
         description: document.getElementById('description').value,
-        // importantMemo: document.getElementById('importantMemo').value || '' // Removed
     };
     
-    if (taskData.startDate && taskData.endDate) { // Only validate if both dates are provided
+    if (taskData.startDate && taskData.endDate) {
         if (new Date(taskData.startDate) > new Date(taskData.endDate)) {
             alert('종료 날짜는 시작 날짜보다 이후여야 합니다.');
             return;
@@ -693,13 +869,12 @@ async function saveTask(event) {
     } else {
         try {
             await createTask(taskData);
-            closeTaskModal(); // Close modal after new task is created
+            closeTaskModal();
         } catch (error) {
             console.error('Error creating task:', error);
             alert('업무 생성 중 오류가 발생했습니다.');
         }
         
-        // 새 업무 등록 시 분류는 유지
         const today = KoreanTime.today();
         
         document.getElementById('taskName').value = '';
@@ -707,9 +882,7 @@ async function saveTask(event) {
         document.getElementById('endDate').value = today;
         document.getElementById('status').value = '대기';
         document.getElementById('description').value = '';
-        document.getElementById('importantMemo').value = '';
         
-        // 분류 복원
         document.getElementById('category1').value = savedCategory1;
         updateSubCategories();
         document.getElementById('category2').value = savedCategory2;
@@ -720,7 +893,9 @@ async function saveTask(event) {
     }
 }
 
-// 중요 메모 모달
+
+// --- 중요 메모 모달 관련 함수 ---
+
 function openImportantMemoModal(taskId, memoContent) {
     const modal = document.getElementById('importantMemoModal');
     document.getElementById('memoTaskId').value = taskId;
@@ -747,7 +922,7 @@ async function saveImportantMemo(event) {
     }
 
     try {
-        await updateTask(taskId, { importantMemo }); // Use existing updateTask, it calls loadTasks()
+        await updateTask(taskId, { importantMemo });
         closeImportantMemoModal();
     } catch (error) {
         console.error('Error saving important memo:', error);
@@ -755,12 +930,64 @@ async function saveImportantMemo(event) {
     }
 }
 
-// 모달 외부 클릭
+
+// --- DOMContentLoaded 리스너 ---
+
+document.addEventListener('DOMContentLoaded', async () => {
+    loadTheme();
+    await loadCategories();
+    await loadTasks();
+    await loadHolidays();
+    renderCalendar();
+    updateSelectedDateTitle();
+    initNotifications();
+
+    // Add event listeners for view switching
+    const calendarLink = document.getElementById('calendarViewLink');
+    const ganttLink = document.getElementById('ganttViewLink');
+    const viewSelector = document.querySelector('.view-selector');
+    const currentViewButton = document.querySelector('.current-view');
+    const viewDropdown = document.querySelector('.view-dropdown');
+
+    if (calendarLink) {
+        calendarLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchView('calendar');
+            if (viewDropdown) viewDropdown.classList.remove('show');
+        });
+    }
+
+    if (ganttLink) {
+        ganttLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchView('gantt');
+            if (viewDropdown) viewDropdown.classList.remove('show');
+        });
+    }
+
+    // Dropdown view selector logic
+    if (currentViewButton && viewDropdown && viewSelector) {
+        currentViewButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            viewDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (viewDropdown.classList.contains('show') && !viewSelector.contains(event.target)) {
+                viewDropdown.classList.remove('show');
+            }
+        });
+    }
+});
+
+
+// --- 전역 이벤트 리스너 ---
+
 window.onclick = function(event) {
     const taskModal = document.getElementById('taskModal');
     const categoryModal = document.getElementById('categoryModal');
     const allTasksModal = document.getElementById('allTasksModal');
-    const importantMemoModal = document.getElementById('importantMemoModal'); // New modal
+    const importantMemoModal = document.getElementById('importantMemoModal');
     
     if (event.target === taskModal) {
         closeTaskModal();
@@ -771,32 +998,74 @@ window.onclick = function(event) {
     if (event.target === allTasksModal) {
         closeAllTasksModal();
     }
-    if (event.target === importantMemoModal) { // Handle new modal
+    if (event.target === importantMemoModal) {
         closeImportantMemoModal();
     }
 
     const notificationDropdown = document.getElementById('notificationDropdown');
     const notificationBtn = document.getElementById('notificationBtn');
 
-    // Close notification dropdown if open and clicked outside
     if (notificationDropdown && notificationBtn && notificationDropdown.classList.contains('show') && !notificationDropdown.contains(event.target) && !notificationBtn.contains(event.target)) {
         toggleNotificationDropdown();
     }
 }
 
-// 전역 함수 노출
+
+// --- 전역 함수 노출 ---
+
+window.loadTheme = loadTheme; // Added to window scope
+window.changeTheme = changeTheme; // Added to window scope
+window.switchView = switchView; // Added to window scope
+window.initGanttChart = initGanttChart; // Added to window scope
+window.transformTasksForGantt = transformTasksForGantt; // Added to window scope
+window.postProcessGanttHeaders = postProcessGanttHeaders; // Added to window scope
+window.applyGanttDateTextStyling = applyGanttDateTextStyling; // Added to window scope
+window.loadTasks = loadTasks; // Added to window scope
+window.createTask = createTask; // Added to window scope
+window.updateTask = updateTask; // Added to window scope
+window.deleteTask = deleteTask; // Added to window scope
+window.copyTask = copyTask; // Added to window scope
+window.loadCategories = loadCategories; // Added to window scope
+window.createCategory = createCategory; // Added to window scope
+window.updateCategory = updateCategory; // Added to window scope
+window.deleteCategory = deleteCategory; // Added to window scope
+window.copyCategory = copyCategory; // Added to window scope
+window.loadHolidays = loadHolidays; // Added to window scope
+window.renderCalendar = renderCalendar; // Added to window scope
+window.renderTasksForSelectedDate = renderTasksForSelectedDate; // Added to window scope
+window.updateSelectedDateTitle = updateSelectedDateTitle; // Added to window scope
+window.getTasksEndingSoon = getTasksEndingSoon; // Added to window scope
+window.renderNotifications = renderNotifications; // Added to window scope
+window.toggleNotificationDropdown = toggleNotificationDropdown; // Added to window scope
+window.initNotifications = initNotifications; // Added to window scope
 window.selectDate = selectDate;
+window.previousMonth = previousMonth; // Added to window scope
+window.nextMonth = nextMonth; // Added to window scope
+window.openAllTasksModal = openAllTasksModal; // Added to window scope
+window.closeAllTasksModal = closeAllTasksModal; // Added to window scope
+window.toggleSearchType = toggleSearchType; // Added to window scope
+window.populateSearchCategories = populateSearchCategories; // Added to window scope
+window.updateSearchCategory2 = updateSearchCategory2; // Added to window scope
+window.updateSearchCategory3 = updateSearchCategory3; // Added to window scope
+window.searchAllTasks = searchAllTasks; // Added to window scope
+window.renderAllTasks = renderAllTasks; // Added to window scope
+window.updatePaginationControls = updatePaginationControls; // Added to window scope
+window.previousPage = previousPage; // Added to window scope
+window.nextPage = nextPage; // Added to window scope
+window.filterByStatus = filterByStatus; // Added to window scope
+window.openAllTasksModalWithStatus = openAllTasksModalWithStatus;
+window.changeAllTasksSort = changeAllTasksSort; // Added to window scope
+window.openCategoryModal = openCategoryModal; // Added to window scope
+window.closeCategoryModal = closeCategoryModal; // Added to window scope
+window.resetCategoryForm = resetCategoryForm; // Added to window scope
+window.editCategoryItem = editCategoryItem; // Added to window scope
+window.saveCategory = saveCategory; // Added to window scope
 window.openTaskModal = openTaskModal;
-window.copyTask = copyTask;
-window.deleteTask = deleteTask;
-window.editCategoryItem = editCategoryItem;
-window.deleteCategory = deleteCategory;
-window.copyCategory = copyCategory; // Expose copyCategory
-window.openImportantMemoModal = openImportantMemoModal; // Expose new function
-window.saveImportantMemo = saveImportantMemo; // Expose new function
-window.closeImportantMemoModal = closeImportantMemoModal; // Expose new function
-window.changeAllTasksSort = changeAllTasksSort; // Expose new function
-window.openAllTasksModalWithStatus = openAllTasksModalWithStatus; // Expose new function
-
-
-
+window.closeTaskModal = closeTaskModal; // Added to window scope
+window.populateCategoryDropdowns = populateCategoryDropdowns; // Added to window scope
+window.updateSubCategories = updateSubCategories; // Added to window scope
+window.updateDetailCategories = updateDetailCategories; // Added to window scope
+window.saveTask = saveTask; // Added to window scope
+window.openImportantMemoModal = openImportantMemoModal;
+window.closeImportantMemoModal = closeImportantMemoModal;
+window.saveImportantMemo = saveImportantMemo;

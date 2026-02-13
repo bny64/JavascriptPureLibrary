@@ -6,12 +6,19 @@
     <title>업무 관리 시스템</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="lib/frappe-gantt.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="header-left">
-                <h1>📋 업무 관리 시스템</h1>
+                <div class="view-selector">
+                    <button class="current-view">📅 일정 관리</button>
+                    <div class="view-dropdown">
+                        <a href="#" id="calendarViewLink">📅 일정 관리</a>
+                        <a href="#" id="ganttViewLink">📊 간트 차트</a>
+                    </div>
+                </div>
                 <div class="theme-selector">
                     <label>테마:</label>
                     <select id="themeSelect" onchange="changeTheme(this.value)">
@@ -46,25 +53,33 @@
             </div>
         </header>
 
-        <div class="main-content">
-            <!-- 왼쪽: 캘린더 (75%) -->
-            <div class="calendar-section">
-                <div class="calendar-header">
-                    <button onclick="previousMonth()">◀</button>
-                    <h2 id="currentMonth"></h2>
-                    <button onclick="nextMonth()">▶</button>
-                    <button class="btn-all-tasks" onclick="openAllTasksModal()">📋 전체보기</button>
+        <div id="calendar-view" class="view-container">
+            <div class="main-content">
+                <!-- 왼쪽: 캘린더 (75%) -->
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <button onclick="previousMonth()">◀</button>
+                        <h2 id="currentMonth"></h2>
+                        <button onclick="nextMonth()">▶</button>
+                        <button class="btn-all-tasks" onclick="openAllTasksModal()">📋 전체보기</button>
+                    </div>
+                    <div class="calendar" id="calendar"></div>
                 </div>
-                <div class="calendar" id="calendar"></div>
-            </div>
 
-            <!-- 오른쪽 (25%) -->
-            <div class="right-section">
-                <div class="tasks-section">
-                    <div id="statusSummary" class="status-summary"></div>
-                    <h3 id="selectedDateTitle">선택된 날짜의 업무</h3>
-                    <div class="tasks-list" id="tasksList"></div>
+                <!-- 오른쪽 (25%) -->
+                <div class="right-section">
+                    <div class="tasks-section">
+                        <div id="statusSummary" class="status-summary"></div>
+                        <h3 id="selectedDateTitle">선택된 날짜의 업무</h3>
+                        <div class="tasks-list" id="tasksList"></div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div id="gantt-chart-view" class="view-container" style="display: none;">
+            <div class="gantt-chart-container">
+                <h2 class="gantt-chart-title">간트 차트</h2>
+                <svg id="gantt"></svg>
             </div>
         </div>
     </div>
@@ -237,5 +252,6 @@
     <script src="api.js"></script>
     <script src="ui.js"></script>
     <script src="app-modular.js"></script>
+    <script src="lib/frappe-gantt.min.js"></script>
 </body>
 </html>
