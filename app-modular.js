@@ -56,6 +56,7 @@ function changeTheme(theme) {
 async function loadTasks() {
     AppState.tasks = await API.tasks.getAll();
     UI.task.renderStatusSummary(AppState.tasks, 'statusSummary'); // Render status summary for all tasks
+    UI.task.renderPrioritySummary(AppState.tasks, 'prioritySummary'); // Render priority summary for all tasks
     renderCalendar();
     renderTasksForSelectedDate();
     // If the All Tasks modal is open, re-render its list
@@ -442,17 +443,10 @@ function nextMonth() {
 
 // --- 전체 업무 모달 관련 함수 ---
 
-function openAllTasksModal(statusToFilter = '전체') {
-    const modal = document.getElementById('allTasksModal');
-    
-    AppState.currentStatusFilter = statusToFilter;
-    AppState.currentPage = 1;
-    
-    populateSearchCategories();
-    renderAllTasks();
-
-    const filterBtns = document.querySelectorAll('#allTasksModal .filter-btn');
-    filterBtns.forEach(btn => {
+function activateFilterButtons() {
+    // Activate Status Filter Buttons
+    const statusFilterBtns = document.querySelectorAll('#allTasksModal .status-filters .filter-btn');
+    statusFilterBtns.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-status') === AppState.currentStatusFilter) {
             btn.classList.add('active');
@@ -460,6 +454,29 @@ function openAllTasksModal(statusToFilter = '전체') {
             btn.classList.add('active');
         }
     });
+
+    // Activate Priority Filter Buttons
+    const priorityFilterBtns = document.querySelectorAll('#allTasksModal .priority-filters .filter-btn');
+    priorityFilterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-priority') === AppState.currentPriorityFilter) {
+            btn.classList.add('active');
+        } else if (AppState.currentPriorityFilter === '' && btn.getAttribute('data-priority') === '전체') {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체') {
+    const modal = document.getElementById('allTasksModal');
+    
+    AppState.currentStatusFilter = statusToFilter;
+    AppState.currentPriorityFilter = priorityToFilter;
+    AppState.currentPage = 1;
+    
+    populateSearchCategories();
+    renderAllTasks();
+    activateFilterButtons(); // Activate filter buttons based on current AppState
 
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
@@ -510,7 +527,7 @@ function updateSearchCategory2() {
     
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === category1 && c.subCategory)
+            .filter(c => c.mainCategory === cat1 && c.subCategory)
             .map(c => c.subCategory)
     );
     
@@ -684,7 +701,11 @@ function filterByPriority(priority) {
 }
 
 function openAllTasksModalWithStatus(status) {
-    openAllTasksModal(status);
+    openAllTasksModal(status, '전체');
+}
+
+function openAllTasksModalWithPriority(priority) {
+    openAllTasksModal('전체', priority);
 }
 
 function changeAllTasksSort() {
@@ -782,8 +803,8 @@ function openTaskModal(task = null) {
         document.getElementById('taskForm').reset();
         
         const today = KoreanTime.today(); // Use KoreanTime.today() for consistent date
-        document.getElementById('startDate').value = today;
-        document.getElementById('endDate').value = today;
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
         document.getElementById('status').value = '대기';
         document.getElementById('priority').value = 'middle'; // Set default priority
     }

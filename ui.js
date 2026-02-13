@@ -220,11 +220,57 @@ const UI = {
             Object.keys(statusCounts).forEach(status => {
                 const count = statusCounts[status];
                 const statusClass = `status-${status}`;
-                const clickableStatus = status === '전체' ? '' : status; // '전체' status should clear the filter
+                const clickableStatus = status; // Pass '전체' literally
                 summaryHtml += `
                     <div class="status-summary-item" onclick="window.openAllTasksModalWithStatus('${clickableStatus}')">
                         <span class="status-summary-label ${statusClass}">${status}</span>
                         <span class="status-summary-count ${statusClass}">${count}</span>
+                    </div>
+                `;
+            });
+            summaryHtml += '</div>';
+            targetElement.innerHTML = summaryHtml;
+        },
+
+        renderPrioritySummary: function(tasks, targetElementId) {
+            const targetElement = document.getElementById(targetElementId);
+            if (!targetElement) return;
+
+            const priorityLabels = {
+                'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+            };
+            const priorityOrder = ['very-high', 'high', 'middle', 'low', 'very-low'];
+            
+            const priorityCounts = {
+                '전체': tasks.length,
+                'very-high': 0,
+                'high': 0,
+                'middle': 0,
+                'low': 0,
+                'very-low': 0
+            };
+
+            tasks.forEach(task => {
+                const priority = task.priority || 'middle'; // Default to middle if not set
+                if (priorityCounts.hasOwnProperty(priority)) {
+                    priorityCounts[priority]++;
+                }
+            });
+
+            let summaryHtml = '<div class="priority-summary-item-wrapper">';
+            summaryHtml += `
+                <div class="priority-summary-item" onclick="window.openAllTasksModalWithPriority('전체')">
+                    <span class="priority-summary-label">전체</span>
+                    <span class="priority-summary-count">${tasks.length}</span>
+                </div>
+            `;
+            priorityOrder.forEach(priorityKey => {
+                const count = priorityCounts[priorityKey];
+                const priorityClass = `priority-${priorityKey}`;
+                summaryHtml += `
+                    <div class="priority-summary-item" onclick="window.openAllTasksModalWithPriority('${priorityKey}')">
+                        <span class="priority-summary-label ${priorityClass}">${priorityLabels[priorityKey]}</span>
+                        <span class="priority-summary-count ${priorityClass}">${count}</span>
                     </div>
                 `;
             });
