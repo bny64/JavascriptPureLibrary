@@ -9,6 +9,7 @@ const AppState = {
     currentPage: 1,
     tasksPerPage: 5,
     currentStatusFilter: '전체',
+    currentPriorityFilter: '전체',
     currentSearchType: 'text',
     sortField: 'endDate', // Default sort field
     sortDirection: 'asc', // Default sort direction
@@ -509,7 +510,7 @@ function updateSearchCategory2() {
     
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === cat1 && c.subCategory)
+            .filter(c => c.mainCategory === category1 && c.subCategory)
             .map(c => c.subCategory)
     );
     
@@ -554,6 +555,11 @@ function renderAllTasks() {
     
     if (AppState.currentStatusFilter !== '전체') {
         filteredTasks = filteredTasks.filter(task => task.status === AppState.currentStatusFilter);
+    }
+    
+    // 우선순위 필터
+    if (AppState.currentPriorityFilter !== '전체') {
+        filteredTasks = filteredTasks.filter(task => task.priority === AppState.currentPriorityFilter);
     }
     
     if (AppState.currentSearchType === 'text') {
@@ -651,7 +657,7 @@ function filterByStatus(status) {
     AppState.currentStatusFilter = status;
     AppState.currentPage = 1;
     
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.status-filters .filter-btn');
     filterBtns.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-status') === status) {
@@ -659,6 +665,21 @@ function filterByStatus(status) {
         }
     });
     
+    renderAllTasks();
+}
+
+function filterByPriority(priority) {
+    AppState.currentPriorityFilter = priority;
+    AppState.currentPage = 1;
+
+    const filterBtns = document.querySelectorAll('.priority-filters .filter-btn');
+    filterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-priority') === priority) {
+            btn.classList.add('active');
+        }
+    });
+
     renderAllTasks();
 }
 
@@ -753,14 +774,18 @@ function openTaskModal(task = null) {
         document.getElementById('startDate').value = task.startDate;
         document.getElementById('endDate').value = task.endDate;
         document.getElementById('status').value = task.status;
+        document.getElementById('priority').value = task.priority || 'middle';
         document.getElementById('description').value = task.description || '';
     } else {
         modalTitle.textContent = '새 업무 추가';
         document.getElementById('taskId').value = '';
         document.getElementById('taskForm').reset();
         
-        document.getElementById('startDate').value = ''; 
-        document.getElementById('endDate').value = '';
+        const today = KoreanTime.today(); // Use KoreanTime.today() for consistent date
+        document.getElementById('startDate').value = today;
+        document.getElementById('endDate').value = today;
+        document.getElementById('status').value = '대기';
+        document.getElementById('priority').value = 'middle'; // Set default priority
     }
     
     modal.style.display = 'block';
@@ -798,7 +823,7 @@ function updateSubCategories() {
     
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === cat1 && c.subCategory)
+            .filter(c => c.mainCategory === category1 && c.subCategory)
             .map(c => c.subCategory)
     );
     
@@ -806,7 +831,7 @@ function updateSubCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        cat2.appendChild(option);
+        category2Select.appendChild(option);
     });
 }
 
@@ -815,19 +840,19 @@ function updateDetailCategories() {
     const category2 = document.getElementById('category2').value;
     const category3Select = document.getElementById('category3');
     
-    cat3.innerHTML = '<option value="">선택하세요</option>';
+    category3Select.innerHTML = '<option value="">선택하세요</option>';
     
     if (!category1 || !category2) return;
     
     const detailCategories = AppState.categories
-        .filter(c => c.mainCategory === cat1 && c.subCategory === cat2 && c.detailCategory)
+        .filter(c => c.mainCategory === category1 && c.subCategory === category2 && c.detailCategory)
         .map(c => c.detailCategory);
     
     detailCategories.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        cat3.appendChild(option);
+        category3Select.appendChild(option);
     });
 }
 
@@ -848,6 +873,7 @@ async function saveTask(event) {
         startDate: document.getElementById('startDate').value,
         endDate: document.getElementById('endDate').value,
         status: document.getElementById('status').value,
+        priority: document.getElementById('priority').value,
         description: document.getElementById('description').value,
     };
     
@@ -1053,6 +1079,7 @@ window.updatePaginationControls = updatePaginationControls; // Added to window s
 window.previousPage = previousPage; // Added to window scope
 window.nextPage = nextPage; // Added to window scope
 window.filterByStatus = filterByStatus; // Added to window scope
+window.filterByPriority = filterByPriority; // Added to window scope
 window.openAllTasksModalWithStatus = openAllTasksModalWithStatus;
 window.changeAllTasksSort = changeAllTasksSort; // Added to window scope
 window.openCategoryModal = openCategoryModal; // Added to window scope

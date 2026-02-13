@@ -139,8 +139,13 @@ const UI = {
             const header = DomUtils.createElement('div', 'task-header');
             const title = DomUtils.createElement('div', 'task-title', task.taskName);
             const status = DomUtils.createElement('span', `task-status status-${task.status}`, task.status);
+            const priorityText = {
+                'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+            }[task.priority] || '중간';
+            const priority = DomUtils.createElement('span', `task-priority priority-${task.priority}`, priorityText);
             header.appendChild(title);
             header.appendChild(status);
+            header.appendChild(priority);
             
             // 카테고리
             const category = DomUtils.createElement('div', 'task-category');

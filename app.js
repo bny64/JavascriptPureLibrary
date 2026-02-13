@@ -6,6 +6,7 @@ let selectedDate = new Date();
 let currentPage = 1;
 let tasksPerPage = 5;
 let currentStatusFilter = '전체';
+let currentPriorityFilter = '전체';
 let currentSearchType = 'text';
 
 // 초기화
@@ -286,8 +287,13 @@ function createTaskElement(task) {
     const header = DomUtils.createElement('div', 'task-header');
     const title = DomUtils.createElement('div', 'task-title', task.taskName);
     const status = DomUtils.createElement('span', `task-status status-${task.status}`, task.status);
+    const priorityText = {
+        'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+    }[task.priority] || '중간';
+    const priority = DomUtils.createElement('span', `task-priority priority-${task.priority}`, priorityText);
     header.appendChild(title);
     header.appendChild(status);
+    header.appendChild(priority);
     
     // 카테고리
     const category = DomUtils.createElement('div', 'task-category');
@@ -457,6 +463,7 @@ function searchAllTasks() {
 }
 
 function renderAllTasks() {
+    console.log('renderAllTasks called. currentStatusFilter:', currentStatusFilter, 'currentPriorityFilter:', currentPriorityFilter);
     const allTasksList = document.getElementById('allTasksList');
     
     let filteredTasks = tasks;
@@ -464,6 +471,11 @@ function renderAllTasks() {
     // 상태 필터
     if (currentStatusFilter !== '전체') {
         filteredTasks = filteredTasks.filter(task => task.status === currentStatusFilter);
+    }
+
+    // 우선순위 필터
+    if (currentPriorityFilter !== '전체') {
+        filteredTasks = filteredTasks.filter(task => task.priority === currentPriorityFilter);
     }
     
     // 검색 필터
@@ -538,7 +550,7 @@ function filterByStatus(status) {
     currentStatusFilter = status;
     currentPage = 1;
     
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.status-filters .filter-btn');
     filterBtns.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-status') === status) {
@@ -546,6 +558,22 @@ function filterByStatus(status) {
         }
     });
     
+    renderAllTasks();
+}
+
+function filterByPriority(priority) {
+    console.log('filterByPriority called with:', priority);
+    currentPriorityFilter = priority;
+    currentPage = 1;
+
+    const filterBtns = document.querySelectorAll('.priority-filters .filter-btn');
+    filterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-priority') === priority) {
+            btn.classList.add('active');
+        }
+    });
+
     renderAllTasks();
 }
 
@@ -775,6 +803,7 @@ function openTaskModal(task = null) {
         document.getElementById('startDate').value = task.startDate;
         document.getElementById('endDate').value = task.endDate;
         document.getElementById('status').value = task.status;
+        document.getElementById('priority').value = task.priority || 'middle';
         document.getElementById('description').value = task.description || '';
         document.getElementById('importantMemo').value = task.importantMemo || '';
     } else {
@@ -871,10 +900,9 @@ async function saveTask(event) {
         startDate: document.getElementById('startDate').value,
         endDate: document.getElementById('endDate').value,
         status: document.getElementById('status').value,
-        description: document.getElementById('description').value,
-        importantMemo: document.getElementById('importantMemo').value || ''
+        priority: document.getElementById('priority').value,
+        description: document.getElementById('description').value
     };
-    
     if (new Date(taskData.startDate) > new Date(taskData.endDate)) {
         alert('종료 날짜는 시작 날짜보다 이후여야 합니다.');
         return;
@@ -894,8 +922,8 @@ async function saveTask(event) {
         document.getElementById('startDate').value = today;
         document.getElementById('endDate').value = today;
         document.getElementById('status').value = '대기';
+        document.getElementById('priority').value = 'middle'; // Set default priority
         document.getElementById('description').value = '';
-        document.getElementById('importantMemo').value = '';
         
         // 분류 값 복원
         document.getElementById('category1').value = savedCategory1;
