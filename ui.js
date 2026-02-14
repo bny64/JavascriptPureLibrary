@@ -233,7 +233,7 @@ const UI = {
                 const statusClass = `status-${status}`;
                 const clickableStatus = status; // Pass '전체' literally
                 summaryHtml += `
-                    <div class="status-summary-item" onclick="window.openAllTasksModalWithStatus('${clickableStatus}')">
+                    <div class="status-summary-item" data-status="${status}" onclick="window.openAllTasksModalWithStatus('${clickableStatus}')">
                         <span class="status-summary-label ${statusClass}">${status}</span>
                         <span class="status-summary-count ${statusClass}">${count}</span>
                     </div>
@@ -270,7 +270,7 @@ const UI = {
 
             let summaryHtml = '<div class="priority-summary-item-wrapper">';
             summaryHtml += `
-                <div class="priority-summary-item" onclick="window.openAllTasksModalWithPriority('전체')">
+                <div class="priority-summary-item" data-priority="전체" onclick="window.openAllTasksModalWithPriority('전체')">
                     <span class="priority-summary-label">전체</span>
                     <span class="priority-summary-count">${tasks.length}</span>
                 </div>
@@ -279,7 +279,7 @@ const UI = {
                 const count = priorityCounts[priorityKey];
                 const priorityClass = `priority-${priorityKey}`;
                 summaryHtml += `
-                    <div class="priority-summary-item" onclick="window.openAllTasksModalWithPriority('${priorityKey}')">
+                    <div class="priority-summary-item" data-priority="${priorityKey}" onclick="window.openAllTasksModalWithPriority('${priorityKey}')">
                         <span class="priority-summary-label ${priorityClass}">${priorityLabels[priorityKey]}</span>
                         <span class="priority-summary-count ${priorityClass}">${count}</span>
                     </div>
