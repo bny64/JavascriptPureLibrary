@@ -7,9 +7,11 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    min-height: 100vh;
+    height: 100vh; /* Explicitly set height to 100vh */
     padding: 20px;
     transition: background 0.3s ease;
+    display: flex; /* Make body a flex container */
+    flex-direction: column; /* Stack children vertically */
 }
 
 body.modal-open {
@@ -17,12 +19,15 @@ body.modal-open {
 }
 
 .container {
-    max-width: 1800px;
+    min-width: 100%; /* Change to 100% width to ensure it scales correctly */
     margin: 0 auto;
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    flex-grow: 1; /* Allow container to take up remaining height in body */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack children vertically */
 }
 
 header {
@@ -1228,9 +1233,8 @@ h3#selectedDateTitle {
 
 /* View Container */
 .view-container {
-    height: 85vh;
-     flex-grow: 1;
-    overflow-y: auto;
+    flex-grow: 1; /* Allow to take remaining vertical space from .container */
+    overflow-y: auto; /* Ensure it is the primary scrollable area */
 }
 
 

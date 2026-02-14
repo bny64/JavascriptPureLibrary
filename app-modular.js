@@ -879,7 +879,7 @@ function updateSubCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        cat2.appendChild(option);
+        category2Select.appendChild(option);
     });
 }
 
@@ -900,7 +900,7 @@ function updateDetailCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        cat3.appendChild(option);
+        category3Select.appendChild(option);
     });
 }
 
