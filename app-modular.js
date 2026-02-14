@@ -332,22 +332,30 @@ function applyGanttDateTextStyling() {
     // For now, it remains a placeholder.
 }
 
-function initGanttChart() {
+function initGanttChart(forceRefresh = false) { // Add forceRefresh parameter
     const ganttTasks = transformTasksForGantt(AppState.tasks);
     const ganttElement = document.getElementById('gantt');
 
-    // Clear previous gantt instance if exists
-    if (AppState.gantt) {
-        // AppState.gantt.destroy(); // Frappe Gantt does not have a public destroy method
+    if (!ganttElement) return; // Ensure element exists
+
+    if (AppState.gantt && !forceRefresh) {
+        // If gantt instance exists and no force refresh, just ensure its data is current
+        // Frappe Gantt does not have a public 'updateData' method, but refresh can be triggered by view change or by passing new tasks
+        AppState.gantt.refresh(ganttTasks); // Pass current tasks for refresh
+        AppState.gantt.change_view_mode(AppState.gantt.options.view_mode); // Force redraw with current mode
+        postProcessGanttHeaders();
+        applyGanttDateTextStyling();
+        return;
     }
-    ganttElement.innerHTML = ''; // Clear previous SVG content
+
+    // If no instance or forceRefresh is true, create a new one
+    ganttElement.innerHTML = ''; // Clear previous SVG content before creating new instance
 
     if (ganttTasks.length === 0) {
         ganttElement.innerHTML = '<p style="text-align: center; padding: 20px;">간트 차트에 표시할 업무가 없습니다.</p>';
         return;
     }
     
-    // Frappe Gantt 초기화 - Day 모드로 설정
     AppState.gantt = new Gantt(ganttElement, ganttTasks, {
         header_height: 65,        // 헤더 높이
         column_width: 40,         // 열 너비 (일자별)
@@ -415,7 +423,9 @@ function switchView(viewName) {
         calendarView.style.display = 'none';
         ganttChartView.style.display = 'block';
         currentViewButton.textContent = '📊 간트 차트';
-        initGanttChart();
+        
+        // Only initialize Gantt if it hasn't been, or refresh if it exists
+        initGanttChart(); 
     }
 }
 
@@ -535,7 +545,7 @@ function updateSearchCategory2() {
     
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === cat1 && c.subCategory)
+            .filter(c => c.mainCategory === category1 && c.subCategory)
             .map(c => c.subCategory)
     );
     
@@ -557,7 +567,7 @@ function updateSearchCategory3() {
     if (!cat1 || !cat2) return;
     
     const detailCategories = AppState.categories
-        .filter(c => c.mainCategory === cat1 && c.subCategory === cat2 && c.detailCategory)
+        .filter(c => c.mainCategory === cat1 && c.subCategory === category2 && c.detailCategory)
         .map(c => c.detailCategory);
     
     detailCategories.forEach(cat => {
@@ -685,7 +695,9 @@ function filterByStatus(status) {
     const filterBtns = document.querySelectorAll('.status-filters .filter-btn');
     filterBtns.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.getAttribute('data-status') === status) {
+        if (btn.getAttribute('data-status') === AppState.currentStatusFilter) {
+            btn.classList.add('active');
+        } else if (AppState.currentStatusFilter === '' && btn.getAttribute('data-status') === '전체') {
             btn.classList.add('active');
         }
     });
@@ -700,7 +712,9 @@ function filterByPriority(priority) {
     const filterBtns = document.querySelectorAll('.priority-filters .filter-btn');
     filterBtns.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.getAttribute('data-priority') === priority) {
+        if (btn.getAttribute('data-priority') === AppState.currentPriorityFilter) {
+            btn.classList.add('active');
+        } else if (AppState.currentPriorityFilter === '' && btn.getAttribute('data-priority') === '전체') {
             btn.classList.add('active');
         }
     });
@@ -860,7 +874,7 @@ function updateSubCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        category2Select.appendChild(option);
+        cat2.appendChild(option);
     });
 }
 
@@ -881,7 +895,7 @@ function updateDetailCategories() {
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
-        category3Select.appendChild(option);
+        cat3.appendChild(option);
     });
 }
 

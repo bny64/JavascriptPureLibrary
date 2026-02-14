@@ -172,7 +172,7 @@ header h1 {
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     height: calc(100% - 80px);
-    grid-auto-rows: 1fr; /* Ensures all rows have equal height */
+    grid-auto-rows: minmax(85px, 1fr); /* Ensures a minimum height and equal distribution */
 }
 
 .calendar-day {
@@ -283,20 +283,29 @@ header h1 {
     overflow-y: auto; /* Add this line */
 }
 
+/* New sticky-header-container rule */
+.sticky-header-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white; /* Ensures no content from below shows through */
+}
+
 /* 오늘 업무 상태 요약 */
 .status-summary {
     background: #f8f9fa;
     padding: 15px 20px;
     border-radius: 12px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */ /* Removed to eliminate gap */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    /* Removed position: sticky; */
+    /* Removed top: 0; */
+    /* Removed z-index: 100; */
     background: white; /* Ensure solid background when sticky */
-    padding-top: 30px; /* Match section padding for top alignment */
-    margin-top: -30px; /* Counteract added padding to stick to true top */
+    /* Removed padding-top: 30px; */ /* Match section padding for top alignment */
+    /* Removed margin-top: -30px; */ /* Counteract added padding to stick to true top */
     padding-bottom: 20px; /* Maintain space below */
+    /* Removed transform: translateZ(0); */ /* No longer necessary */
 }
 
 .status-summary-item-wrapper {
@@ -346,8 +355,13 @@ header h1 {
     background: #f8f9fa;
     padding: 15px 20px;
     border-radius: 12px;
-    margin-bottom: 20px;
+    /* Removed margin-bottom: 20px; to eliminate gap */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    /* Removed position: sticky; */
+    /* Removed top: 87px; */ /* New sticky height of status-summary (15px + 52px content + 20px padding-bottom) */
+    /* Removed z-index: 99; */ /* Lower than status-summary's 100 */
+    background: white; /* Ensure solid background when sticky */
+    /* Removed transform: translateZ(0); */ /* No longer necessary */
 }
 
 .priority-summary-item-wrapper {
@@ -395,7 +409,22 @@ header h1 {
 /* 업무 목록 (100%) */
 .tasks-section {
     flex: 1;
-    padding: 30px;
+    /* Removed padding: 30px; */
+}
+
+.tasks-content-wrapper {
+    padding: 30px; /* Apply the original tasks-section padding here */
+    padding-top: 0; /* No top padding directly below sticky elements */
+}
+
+h3#selectedDateTitle {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 18px;
+    padding-left: 30px; /* Add left padding */
+    padding-top: 15px; /* Add top padding for spacing */
+    padding-bottom: 15px; /* Add bottom padding for spacing */
+    background-color: white; /* Ensure it has a solid background when sticky */
 }
 
 .task-item {
@@ -538,7 +567,7 @@ header h1 {
 }
 
 .btn-copy:hover {
-    background: #f57c00;
+    background: #f5c107;
 }
 
 .btn-delete {
@@ -760,45 +789,6 @@ header h1 {
     border-color: #4caf50;
 }
 
-.filter-btn[data-status="보류"].active {
-    background: #9e9e9e;
-    border-color: #9e9e9e;
-}
-
-/* Priority Filter Buttons */
-.priority-filters {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px; /* Add some space from status filters */
-}
-
-.priority-filters .filter-btn.active {
-    background: #11998e; /* Default active color for priority filters */
-    border-color: #11998e;
-    color: white;
-}
-
-.filter-btn[data-priority="very-high"].active {
-    background: #e53935; /* Red */
-    border-color: #e53935;
-}
-
-.filter-btn[data-priority="high"].active {
-    background: #fb8c00; /* Orange */
-    border-color: #fb8c00;
-}
-
-.filter-btn[data-priority="middle"].active {
-    background: #3f51b5; /* Indigo */
-    border-color: #3f51b5;
-}
-
-.filter-btn[data-priority="low"].active {
-    background: #4caf50; /* Green */
-    border-color: #4caf50;
-}
-
 .filter-btn[data-priority="very-low"].active {
     background: #607d8b; /* Blue Grey */
     border-color: #607d8b;
@@ -877,8 +867,7 @@ header h1 {
 }
 
 .form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.form-group select:focus {
     outline: none;
     border-color: #11998e;
     box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
