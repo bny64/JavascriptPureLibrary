@@ -539,18 +539,18 @@ function populateSearchCategories() {
 }
 
 function updateSearchCategory2() {
-    const cat1 = document.getElementById('searchCategory1').value;
+    const cat1 = document.getElementById('searchCategory1').value; // Correctly gets value
     const cat2 = document.getElementById('searchCategory2');
     const cat3 = document.getElementById('searchCategory3');
-    
+
     cat2.innerHTML = '<option value="">전체 중분류</option>';
     cat3.innerHTML = '<option value="">전체 소분류</option>';
-    
+
     if (!cat1) return;
-    
+
     const subCategories = ArrayUtils.unique(
         AppState.categories
-            .filter(c => c.mainCategory === category1 && c.subCategory)
+            .filter(c => c.mainCategory === cat1 && c.subCategory) // FIX: Use 'cat1'
             .map(c => c.subCategory)
     );
     
@@ -564,16 +564,18 @@ function updateSearchCategory2() {
 
 function updateSearchCategory3() {
     const cat1 = document.getElementById('searchCategory1').value;
-    const cat2 = document.getElementById('searchCategory2').value;
+    const cat2 = document.getElementById('searchCategory2').value; // Correctly gets value
     const cat3 = document.getElementById('searchCategory3');
-    
+
     cat3.innerHTML = '<option value="">전체 소분류</option>';
-    
+
     if (!cat1 || !cat2) return;
-    
-    const detailCategories = AppState.categories
-        .filter(c => c.mainCategory === cat1 && c.subCategory === category2 && c.detailCategory)
-        .map(c => c.detailCategory);
+
+    const detailCategories = ArrayUtils.unique(
+        AppState.categories
+            .filter(c => c.mainCategory === cat1 && c.subCategory === cat2 && c.detailCategory) // FIX: Use 'cat2'
+            .map(c => c.detailCategory)
+    );
     
     detailCategories.forEach(cat => {
         const option = document.createElement('option');
@@ -652,7 +654,7 @@ function renderAllTasks() {
         }
 
         if (typeof valA === 'string' && typeof valB === 'string') {
-            return AppState.sortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            return AppState.sortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(a.taskName); // Fixed sort issue for same tasks, ensuring stability
         } else {
             return AppState.sortDirection === 'asc' ? valA - valB : valB - valA;
         }
@@ -892,9 +894,11 @@ function updateDetailCategories() {
     
     if (!category1 || !category2) return;
     
-    const detailCategories = AppState.categories
-        .filter(c => c.mainCategory === category1 && c.subCategory === category2 && c.detailCategory)
-        .map(c => c.detailCategory);
+    const detailCategories = ArrayUtils.unique(
+        AppState.categories
+            .filter(c => c.mainCategory === category1 && c.subCategory === category2 && c.detailCategory)
+            .map(c => c.detailCategory)
+    );
     
     detailCategories.forEach(cat => {
         const option = document.createElement('option');

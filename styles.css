@@ -21,6 +21,7 @@ body.modal-open {
 }
 
 .container {
+  max-width: 1800px;
   min-width: 100%; /* Change to 100% width to ensure it scales correctly */
   margin: 0 auto;
   background: white;
