@@ -243,6 +243,11 @@ function formatDate(date) {
 function transformTasksForGantt(tasks) {
     return tasks
         .filter(task => task.startDate && task.endDate) // Filter out tasks without valid start or end dates
+        .sort((a, b) => { // Add sorting here
+            const dateA = new Date(a.endDate);
+            const dateB = new Date(b.endDate);
+            return dateA.getTime() - dateB.getTime(); // Sort ascending by endDate
+        })
         .map(task => {
         let progress = 0;
         let custom_class = '';
