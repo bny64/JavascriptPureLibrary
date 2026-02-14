@@ -170,7 +170,7 @@ header h1 {
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 4px;
     height: calc(100% - 80px);
     grid-auto-rows: minmax(100px, 1fr); /* Ensures a minimum height and equal distribution */
 }
@@ -186,6 +186,7 @@ header h1 {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: 0; /* Allow item to shrink below content size */
 }
 
 .calendar-day:hover {
