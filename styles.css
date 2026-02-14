@@ -172,7 +172,7 @@ header h1 {
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     height: calc(100% - 80px);
-    grid-auto-rows: minmax(85px, 1fr); /* Ensures a minimum height and equal distribution */
+    grid-auto-rows: minmax(100px, 1fr); /* Ensures a minimum height and equal distribution */
 }
 
 .calendar-day {
@@ -257,9 +257,7 @@ header h1 {
     margin-top: 2px;
     text-align: center;
     line-height: 1.2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal; /* Allow text to wrap */
 }
 
 .task-dot {

@@ -10,7 +10,8 @@
       "status": "대기",
       "description": "",
       "id": "1770896091964",
-      "createdAt": "2026-02-12T11:34:51.964Z"
+      "createdAt": "2026-02-12T11:34:51.964Z",
+      "priority": "very-low"
     },
     {
       "category1": "백엔드",
@@ -22,7 +23,8 @@
       "status": "대기",
       "description": "",
       "id": "1770896112123",
-      "createdAt": "2026-02-12T11:35:12.123Z"
+      "createdAt": "2026-02-12T11:35:12.123Z",
+      "priority": "very-high"
     },
     {
       "category1": "QA",
@@ -34,7 +36,8 @@
       "status": "완료",
       "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
       "id": "17077461405100",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-high"
     },
     {
       "category1": "백엔드",
@@ -46,7 +49,8 @@
       "status": "보류",
       "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
       "id": "17077461405101",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-high"
     },
     {
       "category1": "기획",
@@ -58,7 +62,8 @@
       "status": "대기",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "17077461405102",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-high"
     },
     {
       "category1": "프론트엔드",
@@ -70,7 +75,8 @@
       "status": "진행 중",
       "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 업무입니다.",
       "id": "17077461405103",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "low"
     },
     {
       "category1": "디자인",
@@ -82,7 +88,8 @@
       "status": "완료",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077461405104",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-low"
     },
     {
       "category1": "백엔드",
@@ -94,7 +101,8 @@
       "status": "진행 중",
       "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
       "id": "17077461405105",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-low"
     },
     {
       "category1": "QA",
@@ -106,7 +114,8 @@
       "status": "진행 중",
       "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
       "id": "17077461405106",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "middle"
     },
     {
       "category1": "디자인",
@@ -118,7 +127,8 @@
       "status": "진행 중",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077461405107",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-low"
     },
     {
       "category1": "백엔드",
@@ -130,7 +140,8 @@
       "status": "보류",
       "description": "백엔드 트레이딩 부서의 코인 - 수익률에 대한 업무입니다.",
       "id": "17077461405108",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "middle"
     },
     {
       "category1": "프론트엔드",
@@ -142,7 +153,8 @@
       "status": "보류",
       "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
       "id": "17077461405109",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "low"
     },
     {
       "category1": "기획",
@@ -154,7 +166,8 @@
       "status": "완료",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "170774614051010",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-low"
     },
     {
       "category1": "프론트엔드",
@@ -166,7 +179,8 @@
       "status": "진행 중",
       "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 업무입니다.",
       "id": "170774614051011",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "high"
     },
     {
       "category1": "백엔드",
@@ -178,7 +192,8 @@
       "status": "진행 중",
       "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
       "id": "170774614051012",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "middle"
     },
     {
       "category1": "백엔드",
@@ -190,7 +205,8 @@
       "status": "대기",
       "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
       "id": "170774614051013",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-high"
     },
     {
       "category1": "프론트엔드",
@@ -202,7 +218,8 @@
       "status": "완료",
       "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
       "id": "170774614051014",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "low"
     },
     {
       "category1": "백엔드",
@@ -214,7 +231,8 @@
       "status": "대기",
       "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
       "id": "170774614051015",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-low"
     },
     {
       "category1": "백엔드",
@@ -226,7 +244,8 @@
       "status": "보류",
       "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
       "id": "170774614051016",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "high"
     },
     {
       "category1": "백엔드",
@@ -238,19 +257,21 @@
       "status": "완료",
       "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
       "id": "170774614051017",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "middle"
     },
     {
       "category1": "기획",
-      "category2": "서비스",
-      "category3": "신규 기능 정의",
+      "category2": "",
+      "category3": "",
       "taskName": "예시 업무 19: 신규 기능 정의 관련 작업",
       "startDate": "2026-01-20",
       "endDate": "2026-02-14",
       "status": "대기",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "170774614051018",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "very-high"
     },
     {
       "category1": "디자인",
@@ -262,7 +283,8 @@
       "status": "대기",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "170774614051019",
-      "createdAt": "2026-02-12T13:55:40.510Z"
+      "createdAt": "2026-02-12T13:55:40.510Z",
+      "priority": "high"
     },
     {
       "category1": "프론트엔드",
@@ -274,7 +296,8 @@
       "status": "진행 중",
       "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 업무입니다.",
       "id": "17077463665301000",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "high"
     },
     {
       "category1": "QA",
@@ -286,7 +309,8 @@
       "status": "완료",
       "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
       "id": "17077463665301001",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-high"
     },
     {
       "category1": "백엔드",
@@ -298,7 +322,8 @@
       "status": "대기",
       "description": "백엔드 트레이딩 부서의 주식에 대한 업무입니다.",
       "id": "17077463665301002",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-low"
     },
     {
       "category1": "백엔드",
@@ -310,7 +335,8 @@
       "status": "보류",
       "description": "백엔드 트레이딩 부서의 코인 - 수익률에 대한 업무입니다.",
       "id": "17077463665301003",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "middle"
     },
     {
       "category1": "디자인",
@@ -322,7 +348,8 @@
       "status": "완료",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077463665301004",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "high"
     },
     {
       "category1": "프론트엔드",
@@ -334,7 +361,8 @@
       "status": "진행 중",
       "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
       "id": "17077463665301005",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-high"
     },
     {
       "category1": "백엔드",
@@ -346,7 +374,8 @@
       "status": "대기",
       "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
       "id": "17077463665301006",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "low"
     },
     {
       "category1": "기획",
@@ -358,7 +387,8 @@
       "status": "진행 중",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "17077463665301007",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "middle"
     },
     {
       "category1": "프론트엔드",
@@ -370,7 +400,8 @@
       "status": "완료",
       "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 업무입니다.",
       "id": "17077463665301008",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "high"
     },
     {
       "category1": "백엔드",
@@ -382,7 +413,8 @@
       "status": "대기",
       "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
       "id": "17077463665301009",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-high"
     },
     {
       "category1": "QA",
@@ -394,7 +426,8 @@
       "status": "보류",
       "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
       "id": "17077463665301010",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "low"
     },
     {
       "category1": "기획",
@@ -406,7 +439,8 @@
       "status": "완료",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "17077463665301011",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "middle"
     },
     {
       "category1": "백엔드",
@@ -418,7 +452,8 @@
       "status": "진행 중",
       "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
       "id": "17077463665301012",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "high"
     },
     {
       "category1": "디자인",
@@ -430,7 +465,8 @@
       "status": "대기",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077463665301013",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-high"
     },
     {
       "category1": "프론트엔드",
@@ -442,7 +478,8 @@
       "status": "진행 중",
       "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
       "id": "17077463665301014",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "low"
     },
     {
       "category1": "백엔드",
@@ -454,7 +491,8 @@
       "status": "완료",
       "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
       "id": "17077463665301015",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "middle"
     },
     {
       "category1": "QA",
@@ -466,7 +504,8 @@
       "status": "대기",
       "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
       "id": "17077463665301016",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "high"
     },
     {
       "category1": "백엔드",
@@ -478,7 +517,8 @@
       "status": "보류",
       "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
       "id": "17077463665301017",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "very-high"
     },
     {
       "category1": "기획",
@@ -490,7 +530,8 @@
       "status": "진행 중",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "17077463665301018",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "low"
     },
     {
       "category1": "디자인",
@@ -502,7 +543,1594 @@
       "status": "대기",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077463665301019",
-      "createdAt": "2026-02-12T13:59:26.530Z"
+      "createdAt": "2026-02-12T13:59:26.530Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "추가 예시 업무 21: 코인 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
+      "id": "17077463778902000",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "추가 예시 업무 22: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-20",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
+      "id": "17077463778902001",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "추가 예시 업무 23: 통합 테스트 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "완료",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
+      "id": "17077463778902002",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "추가 예시 업무 24: 주식 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 업무입니다.",
+      "id": "17077463778902003",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인 - 수익률",
+      "taskName": "추가 예시 업무 25: 코인 - 수익률 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-16",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인 - 수익률에 대한 업무입니다.",
+      "id": "17077463778902004",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "추가 예시 업무 26: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-07",
+      "endDate": "2026-02-12",
+      "status": "완료",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
+      "id": "17077463778902005",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "추가 예시 업무 27: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-22",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
+      "id": "17077463778902006",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "추가 예시 업무 28: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "대기",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
+      "id": "17077463778902007",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "추가 예시 업무 29: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
+      "id": "17077463778902008",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "추가 예시 업무 30: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 업무입니다.",
+      "id": "17077463778902009",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "추가 예시 업무 31: 코인 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
+      "id": "17077463778902010",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "low"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "추가 예시 업무 32: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "보류",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
+      "id": "17077463778902011",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "추가 예시 업무 33: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-12",
+      "status": "완료",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
+      "id": "17077463778902012",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식 - 수익률",
+      "taskName": "추가 예시 업무 34: 주식 - 수익률 관련 작업",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-21",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
+      "id": "17077463778902013",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "추가 예시 업무 35: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
+      "id": "17077463778902014",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "추가 예시 업무 36: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-07",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 업무입니다.",
+      "id": "17077463778902015",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "추가 예시 업무 37: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-16",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 업무입니다.",
+      "id": "17077463778902016",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "추가 예시 업무 38: 통합 테스트 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 업무입니다.",
+      "id": "17077463778902017",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "추가 예시 업무 39: 코인 관련 작업",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-21",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
+      "id": "17077463778902018",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "추가 예시 업무 40: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
+      "id": "17077463778902019",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "추가 예시 업무 41: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
+      "id": "17077463778902020",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "추가 예시 업무 42: 코인 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 업무입니다.",
+      "id": "17077463778902021",
+      "createdAt": "2026-02-12T14:01:17.890Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 1: 홈페이지 개발 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-03",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132000",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 2: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-18",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132001",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 3: 통합 테스트 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132002",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 4: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132003",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "자동 생성 업무 5: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-23",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132004",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 6: 코인 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-14",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132005",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 7: 주식 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-16",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132006",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 8: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132007",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 9: 성능 최적화 관련 작업",
+      "startDate": "2026-03-23",
+      "endDate": "2026-04-03",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132008",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-low"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 10: 통합 테스트 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-16",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132009",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 11: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132010",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "자동 생성 업무 12: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132011",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 13: 코인 관련 작업",
+      "startDate": "2026-03-09",
+      "endDate": "2026-03-12",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132012",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 14: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132013",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 15: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-01-09",
+      "endDate": "2026-02-06",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132014",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 16: 성능 최적화 관련 작업",
+      "startDate": "2026-01-20",
+      "endDate": "2026-02-18",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132015",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 17: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-18",
+      "status": "보류",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132016",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 18: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132017",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 19: 홈페이지 개발 관련 작업",
+      "startDate": "2026-01-21",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132018",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 20: 코인 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132019",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 21: 주식 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-16",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132020",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 22: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132021",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 23: 성능 최적화 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "진행 중",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132022",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 24: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132023",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 25: 신규 기능 정의 관련 작업",
+      "startDate": "2026-01-28",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132024",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 26: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132025",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 27: 코인 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-18",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132026",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 28: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132027",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 29: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132028",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 30: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-16",
+      "status": "대기",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132029",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 31: 통합 테스트 관련 작업",
+      "startDate": "2026-02-07",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132030",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 32: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132031",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 33: 홈페이지 개발 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-12",
+      "status": "보류",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132032",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 34: 코인 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132033",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 35: 주식 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132034",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 36: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132035",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 37: 성능 최적화 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132036",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 38: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132037",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 39: 신규 기능 정의 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-24",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132038",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "자동 생성 업무 40: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132039",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 41: 코인 관련 작업",
+      "startDate": "2026-01-13",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132040",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 42: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132041",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 43: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132042",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 44: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132043",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 45: 통합 테스트 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-12",
+      "status": "보류",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132044",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 46: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "대기",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132045",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 47: 홈페이지 개발 관련 작업",
+      "startDate": "2026-01-21",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132046",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 48: 코인 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132047",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 49: 주식 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-16",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132048",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 50: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132049",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 51: 성능 최적화 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "진행 중",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132050",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 52: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132051",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 53: 신규 기능 정의 관련 작업",
+      "startDate": "2026-01-28",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132052",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 54: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132053",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 55: 코인 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-18",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132054",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 56: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132055",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 57: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132056",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 58: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-16",
+      "status": "대기",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132057",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 59: 통합 테스트 관련 작업",
+      "startDate": "2026-02-07",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132058",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 60: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132059",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 61: 홈페이지 개발 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-12",
+      "status": "보류",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132060",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 62: 코인 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132061",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 63: 주식 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132062",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 64: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132063",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 65: 성능 최적화 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132064",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 66: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132065",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 67: 신규 기능 정의 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-24",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132066",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "자동 생성 업무 68: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132067",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 69: 코인 관련 작업",
+      "startDate": "2026-01-13",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132068",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 70: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132069",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 71: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132070",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 72: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132071",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 73: 통합 테스트 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-12",
+      "status": "보류",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132072",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 74: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "대기",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132073",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 75: 홈페이지 개발 관련 작업",
+      "startDate": "2026-01-21",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132074",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 76: 코인 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132075",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 77: 주식 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-16",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132076",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 78: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-14",
+      "status": "대기",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132077",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 79: 성능 최적화 관련 작업",
+      "startDate": "2026-02-09",
+      "endDate": "2026-02-18",
+      "status": "진행 중",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132078",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 80: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132079",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 81: 신규 기능 정의 관련 작업",
+      "startDate": "2026-01-28",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132080",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 82: 홈페이지 개발 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132081",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 83: 코인 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-18",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132082",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 84: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132083",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 85: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132084",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 86: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-16",
+      "status": "대기",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132085",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 87: 통합 테스트 관련 작업",
+      "startDate": "2026-02-07",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132086",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 88: 신규 기능 정의 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132087",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "홈페이지 개발",
+      "taskName": "자동 생성 업무 89: 홈페이지 개발 관련 작업",
+      "startDate": "2026-03-24",
+      "endDate": "2026-04-12",
+      "status": "보류",
+      "description": "프론트엔드 UI 부서의 홈페이지 개발에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132088",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 90: 코인 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132089",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 91: 주식 관련 작업",
+      "startDate": "2026-01-25",
+      "endDate": "2026-02-13",
+      "status": "진행 중",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132090",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 92: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-17",
+      "status": "완료",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132091",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 93: 성능 최적화 관련 작업",
+      "startDate": "2026-02-08",
+      "endDate": "2026-02-23",
+      "status": "보류",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132092",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "QA",
+      "category2": "테스트",
+      "category3": "통합 테스트",
+      "taskName": "자동 생성 업무 94: 통합 테스트 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "대기",
+      "description": "QA 테스트 부서의 통합 테스트에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132093",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "기획",
+      "category2": "서비스",
+      "category3": "신규 기능 정의",
+      "taskName": "자동 생성 업무 95: 신규 기능 정의 관련 작업",
+      "startDate": "2026-03-01",
+      "endDate": "2026-03-24",
+      "status": "진행 중",
+      "description": "기획 서비스 부서의 신규 기능 정의에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132094",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "자동 생성 업무 96: 마이페이지 개선 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-13",
+      "status": "완료",
+      "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132095",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동 생성 업무 97: 코인 관련 작업",
+      "startDate": "2026-01-13",
+      "endDate": "2026-02-09",
+      "status": "보류",
+      "description": "백엔드 트레이딩 부서의 코인에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132096",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "high"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "주식",
+      "taskName": "자동 생성 업무 98: 주식 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-18",
+      "status": "대기",
+      "description": "백엔드 트레이딩 부서의 주식에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132097",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "very-high"
+    },
+    {
+      "category1": "디자인",
+      "category2": "웹",
+      "category3": "로고 리뉴얼",
+      "taskName": "자동 생성 업무 99: 로고 리뉴얼 관련 작업",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-12",
+      "status": "진행 중",
+      "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132098",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "low"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "DB",
+      "category3": "성능 최적화",
+      "taskName": "자동 생성 업무 100: 성능 최적화 관련 작업",
+      "startDate": "2026-02-12",
+      "endDate": "2026-02-15",
+      "status": "완료",
+      "description": "백엔드 DB 부서의 성능 최적화에 대한 자동 생성 업무입니다.",
+      "id": "17077478052132099",
+      "createdAt": "2026-02-12T14:23:25.213Z",
+      "priority": "middle"
     }
   ]
 }
