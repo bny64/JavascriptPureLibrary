@@ -45,11 +45,22 @@ const UI = {
             }
             
             // 다음 달
-            const remainingDays = 42 - calendar.children.length + 7;
-            for (let day = 1; day <= remainingDays; day++) {
+            // Calculate total days rendered so far (excluding weekday headers)
+            const daysRenderedSoFar = calendar.children.length - weekdays.length; // calendar.children.length includes weekday headers
+            
+            // We want to limit to a maximum of 5 rows of days (5 * 7 = 35 days)
+            const maxDaysInGrid = 35; 
+            
+            let daysToRenderFromNextMonth = 0;
+            if (daysRenderedSoFar < maxDaysInGrid) {
+                daysToRenderFromNextMonth = maxDaysInGrid - daysRenderedSoFar;
+            }
+            
+            for (let day = 1; day <= daysToRenderFromNextMonth; day++) {
+                const date = new Date(year, month + 1, day);
                 const dayDiv = this.createDayElement(
-                    new Date(year, month + 1, day),
-                    true,
+                    date,
+                    true, // isOtherMonth
                     tasks,
                     selectedDate,
                     holidays

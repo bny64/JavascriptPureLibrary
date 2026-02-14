@@ -1227,7 +1227,8 @@ h3#selectedDateTitle {
 
 /* View Container */
 .view-container {
-    height: calc(100vh - 125px); /* Adjust based on header height */
+    height: 85vh;
+     flex-grow: 1;
     overflow-y: auto;
 }
 
