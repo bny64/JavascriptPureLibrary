@@ -65,6 +65,11 @@ async function loadTasks() {
         initGanttChart();
     }
 
+    // Refresh Dashboard if visible
+    if (document.getElementById('dashboard-view').style.display === 'block') {
+        UI.dashboard.render(AppState.tasks);
+    }
+
     // If the All Tasks modal is open, re-render its list
     if (document.getElementById('allTasksModal').style.display === 'block') {
         renderAllTasks();
@@ -426,21 +431,52 @@ async function initNotifications() {
 function switchView(viewName) {
     const calendarView = document.getElementById('calendar-view');
     const ganttChartView = document.getElementById('gantt-chart-view');
+    const dashboardView = document.getElementById('dashboard-view');
     const currentViewButton = document.querySelector('.current-view');
+
+    // Hide all views
+    calendarView.style.display = 'none';
+    ganttChartView.style.display = 'none';
+    dashboardView.style.display = 'none';
 
     if (viewName === 'calendar') {
         calendarView.style.display = 'block';
-        ganttChartView.style.display = 'none';
         currentViewButton.textContent = '📅 일정 관리';
     } else if (viewName === 'gantt') {
-        calendarView.style.display = 'none';
         ganttChartView.style.display = 'block';
         currentViewButton.textContent = '📊 간트 차트';
-        
-        // Only initialize Gantt if it hasn't been, or refresh if it exists
         initGanttChart(); 
+    } else if (viewName === 'dashboard') {
+        dashboardView.style.display = 'block';
+        currentViewButton.textContent = '📈 대시보드';
+        UI.dashboard.render(AppState.tasks);
     }
     StorageUtils.set('currentView', viewName);
+}
+
+// Kanban Drag and Drop Functions
+function allowDrop(ev) {
+    ev.preventDefault();
+    const column = ev.currentTarget;
+    if (column.classList.contains('kanban-column')) {
+        column.classList.add('drag-over');
+    }
+}
+
+async function dropTask(ev) {
+    ev.preventDefault();
+    const column = ev.currentTarget;
+    column.classList.remove('drag-over');
+    
+    const taskId = ev.dataTransfer.getData("text/plain");
+    const newStatus = column.getAttribute('data-status');
+    
+    if (taskId && newStatus) {
+        const task = AppState.tasks.find(t => t.id === taskId);
+        if (task && task.status !== newStatus) {
+            await updateTask(taskId, { status: newStatus });
+        }
+    }
 }
 
 function loadView() {
@@ -1036,11 +1072,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     initNotifications();
 
     // Add event listeners for view switching
+    const dashboardLink = document.getElementById('dashboardViewLink');
     const calendarLink = document.getElementById('calendarViewLink');
     const ganttLink = document.getElementById('ganttViewLink');
+    const kanbanLink = document.getElementById('kanbanViewLink');
     const viewSelector = document.querySelector('.view-selector');
     const currentViewButton = document.querySelector('.current-view');
     const viewDropdown = document.querySelector('.view-dropdown');
+
+    if (dashboardLink) {
+        dashboardLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchView('dashboard');
+            if (viewDropdown) viewDropdown.classList.remove('show');
+        });
+    }
 
     if (calendarLink) {
         calendarLink.addEventListener('click', (e) => {
@@ -1054,6 +1100,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         ganttLink.addEventListener('click', (e) => {
             e.preventDefault();
             switchView('gantt');
+            if (viewDropdown) viewDropdown.classList.remove('show');
+        });
+    }
+
+    if (kanbanLink) {
+        kanbanLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchView('kanban');
             if (viewDropdown) viewDropdown.classList.remove('show');
         });
     }
@@ -1164,3 +1218,5 @@ window.saveTask = saveTask; // Added to window scope
 window.openImportantMemoModal = openImportantMemoModal;
 window.closeImportantMemoModal = closeImportantMemoModal;
 window.saveImportantMemo = saveImportantMemo;
+window.allowDrop = allowDrop;
+window.dropTask = dropTask;

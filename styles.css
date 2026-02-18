@@ -1187,6 +1187,156 @@ h3#selectedDateTitle {
 }
 
 /* 반응형 */
+/* Dashboard Styles */
+.dashboard-container {
+  padding: 30px;
+  background-color: #f0f2f5;
+  min-height: 100%;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.dashboard-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+}
+
+.summary-card .icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.summary-card .value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #11998e;
+  margin: 5px 0;
+}
+
+.summary-card .label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.dashboard-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-card h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 10px;
+}
+
+.dashboard-card.full-width {
+  grid-column: span 2;
+}
+
+/* Simple CSS Bar Chart */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chart-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chart-bar-label {
+  width: 80px;
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+.chart-bar-wrapper {
+  flex-grow: 1;
+  height: 12px;
+  background: #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  transition: width 1s ease-out;
+}
+
+.chart-bar-value {
+  width: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+}
+
+/* Category Progress List */
+.category-progress-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 30px;
+}
+
+.cat-progress-item {
+  margin-bottom: 5px;
+}
+
+.cat-progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.cat-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.cat-percent {
+  font-size: 12px;
+  font-weight: 700;
+  color: #11998e;
+}
+
 @media (max-width: 1200px) {
   .calendar {
     gap: 5px;

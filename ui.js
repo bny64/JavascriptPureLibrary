@@ -427,5 +427,138 @@ const UI = {
             
             return itemDiv;
         }
+    },
+    
+    // 대시보드 렌더링
+    dashboard: {
+        render: function(tasks) {
+            this.renderSummary(tasks);
+            this.renderStatusChart(tasks);
+            this.renderPriorityChart(tasks);
+            this.renderCategoryProgress(tasks);
+        },
+
+        renderSummary: function(tasks) {
+            const container = document.getElementById('dashboardSummary');
+            if (!container) return;
+
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.status === '완료').length;
+            const inProgress = tasks.filter(t => t.status === '진행중').length;
+            const pending = tasks.filter(t => t.status === '대기').length;
+            const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            const stats = [
+                { label: '전체 업무', value: total, icon: '📋' },
+                { label: '진행 중', value: inProgress, icon: '🔵' },
+                { label: '완료 업무', value: completed, icon: '✅' },
+                { label: '전체 진행률', value: `${progressPercent}%`, icon: '📈' }
+            ];
+
+            container.innerHTML = stats.map(stat => `
+                <div class="summary-card">
+                    <div class="icon">${stat.icon}</div>
+                    <div class="value">${stat.value}</div>
+                    <div class="label">${stat.label}</div>
+                </div>
+            `).join('');
+        },
+
+        renderStatusChart: function(tasks) {
+            const container = document.getElementById('statusChart');
+            if (!container) return;
+
+            const counts = {
+                '대기': tasks.filter(t => t.status === '대기').length,
+                '진행중': tasks.filter(t => t.status === '진행중').length,
+                '완료': tasks.filter(t => t.status === '완료').length,
+                '보류': tasks.filter(t => t.status === '보류').length
+            };
+
+            const colors = {
+                '대기': '#ffc107',
+                '진행중': '#2196f3',
+                '완료': '#4caf50',
+                '보류': '#9e9e9e'
+            };
+
+            this.renderBarChart(container, counts, colors, tasks.length);
+        },
+
+        renderPriorityChart: function(tasks) {
+            const container = document.getElementById('priorityChart');
+            if (!container) return;
+
+            const labels = {
+                'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+            };
+            
+            const counts = {
+                'very-high': tasks.filter(t => t.priority === 'very-high').length,
+                'high': tasks.filter(t => t.priority === 'high').length,
+                'middle': tasks.filter(t => (t.priority === 'middle' || !t.priority)).length,
+                'low': tasks.filter(t => t.priority === 'low').length,
+                'very-low': tasks.filter(t => t.priority === 'very-low').length
+            };
+
+            const colors = {
+                'very-high': '#e53935', 'high': '#fb8c00', 'middle': '#3f51b5', 'low': '#4caf50', 'very-low': '#607d8b'
+            };
+
+            const namedCounts = {};
+            Object.keys(counts).forEach(key => namedCounts[labels[key]] = counts[key]);
+            
+            const namedColors = {};
+            Object.keys(colors).forEach(key => namedColors[labels[key]] = colors[key]);
+
+            this.renderBarChart(container, namedCounts, namedColors, tasks.length);
+        },
+
+        renderBarChart: function(container, counts, colors, total) {
+            container.innerHTML = Object.keys(counts).map(label => {
+                const count = counts[label];
+                const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                return `
+                    <div class="chart-bar-item">
+                        <div class="chart-bar-label">${label}</div>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar-fill" style="width: ${percent}%; background-color: ${colors[label] || '#ddd'}"></div>
+                        </div>
+                        <div class="chart-bar-value">${count}</div>
+                    </div>
+                `;
+            }).join('');
+        },
+
+        renderCategoryProgress: function(tasks) {
+            const container = document.getElementById('categoryProgressList');
+            if (!container) return;
+
+            const catStats = {};
+            tasks.forEach(task => {
+                const cat = task.category1 || '미분류';
+                if (!catStats[cat]) catStats[cat] = { total: 0, completed: 0 };
+                catStats[cat].total++;
+                if (task.status === '완료') catStats[cat].completed++;
+            });
+
+            const sortedCats = Object.keys(catStats).sort();
+            
+            container.innerHTML = sortedCats.map(cat => {
+                const stats = catStats[cat];
+                const percent = Math.round((stats.completed / stats.total) * 100);
+                return `
+                    <div class="cat-progress-item">
+                        <div class="cat-progress-header">
+                            <span class="cat-name">${cat}</span>
+                            <span class="cat-percent">${percent}% (${stats.completed}/${stats.total})</span>
+                        </div>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar-fill" style="width: ${percent}%; background-color: #11998e"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
     }
 };
