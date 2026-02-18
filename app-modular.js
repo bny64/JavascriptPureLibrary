@@ -59,6 +59,12 @@ async function loadTasks() {
     UI.task.renderPrioritySummary(AppState.tasks, 'prioritySummary'); // Render priority summary for all tasks
     renderCalendar();
     renderTasksForSelectedDate();
+
+    // Refresh Gantt if visible
+    if (document.getElementById('gantt-chart-view').style.display === 'block') {
+        initGanttChart();
+    }
+
     // If the All Tasks modal is open, re-render its list
     if (document.getElementById('allTasksModal').style.display === 'block') {
         renderAllTasks();
@@ -434,6 +440,12 @@ function switchView(viewName) {
         // Only initialize Gantt if it hasn't been, or refresh if it exists
         initGanttChart(); 
     }
+    StorageUtils.set('currentView', viewName);
+}
+
+function loadView() {
+    const savedView = StorageUtils.get('currentView', 'calendar');
+    switchView(savedView);
 }
 
 
@@ -1015,6 +1027,7 @@ async function saveImportantMemo(event) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     loadTheme();
+    loadView(); // 적용된 뷰를 즉시 로드하여 깜빡임 방지
     await loadCategories();
     await loadTasks();
     await loadHolidays();
@@ -1096,6 +1109,7 @@ window.onclick = function(event) {
 window.loadTheme = loadTheme; // Added to window scope
 window.changeTheme = changeTheme; // Added to window scope
 window.switchView = switchView; // Added to window scope
+window.loadView = loadView; // Added to window scope
 window.initGanttChart = initGanttChart; // Added to window scope
 window.transformTasksForGantt = transformTasksForGantt; // Added to window scope
 window.postProcessGanttHeaders = postProcessGanttHeaders; // Added to window scope
