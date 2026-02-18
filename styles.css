@@ -660,8 +660,20 @@ h3#selectedDateTitle {
 .task-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center; /* 아이콘과 텍스트가 세로 중앙에 오도록 */
   margin-bottom: 8px;
+}
+
+.task-memo-icon {
+  font-size: 16px;
+  color: #d84315; /* 강조 색상 */
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.task-memo-icon:hover {
+  transform: scale(1.2);
 }
 
 .task-title {

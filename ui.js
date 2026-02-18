@@ -157,6 +157,16 @@ const UI = {
             header.appendChild(title);
             header.appendChild(status);
             header.appendChild(priority);
+
+            if (task.importantMemo && task.importantMemo.trim() !== '') {
+                const memoIcon = DomUtils.createElement('span', 'task-memo-icon', '📌');
+                memoIcon.title = '중요 메모 있음';
+                memoIcon.onclick = (e) => {
+                    e.stopPropagation(); // 카드 클릭 이벤트와 중복 방지
+                    window.openImportantMemoModal(task.id, task.importantMemo);
+                };
+                header.appendChild(memoIcon);
+            }
             
             // 카테고리
             const category = DomUtils.createElement('div', 'task-category');

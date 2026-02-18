@@ -323,7 +323,8 @@
       "description": "백엔드 트레이딩 부서의 주식에 대한 업무입니다.",
       "id": "17077463665301002",
       "createdAt": "2026-02-12T13:59:26.530Z",
-      "priority": "very-low"
+      "priority": "very-low",
+      "importantMemo": "중요 메모"
     },
     {
       "category1": "백엔드",
@@ -544,7 +545,8 @@
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 업무입니다.",
       "id": "17077463665301019",
       "createdAt": "2026-02-12T13:59:26.530Z",
-      "priority": "middle"
+      "priority": "middle",
+      "importantMemo": "메모메모\n"
     },
     {
       "category1": "백엔드",
