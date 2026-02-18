@@ -21,6 +21,10 @@
                         <a href="#" id="kanbanViewLink">📋 칸반 보드</a>
                     </div>
                 </div>
+                <div class="global-search-container">
+                    <input type="text" id="globalSearchInput" placeholder="🔍 업무 제목, 내용 검색..." onkeyup="handleGlobalSearch(event)">
+                    <div id="globalSearchResults" class="global-search-results"></div>
+                </div>
                 <div class="theme-selector">
                     <label>테마:</label>
                     <select id="themeSelect" onchange="changeTheme(this.value)">

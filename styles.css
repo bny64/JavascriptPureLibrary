@@ -46,7 +46,98 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px; /* Reduced gap to accommodate search bar */
+}
+
+/* Global Search Styles */
+.global-search-container {
+  position: relative;
+  width: 250px;
+  transition: width 0.3s; /* Smooth container expansion */
+}
+
+.global-search-container:focus-within {
+  width: 400px; /* Expand container itself to push other elements */
+}
+
+#globalSearchInput {
+  width: 100%;
+  padding: 8px 15px;
+  padding-left: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#globalSearchInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#globalSearchInput:focus {
+  outline: none;
+  background: white;
+  color: #333;
+  /* width: 350px; */ /* Removed: container will handle expansion */
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#globalSearchInput:focus::placeholder {
+  color: #999;
+}
+
+.global-search-results {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  min-width: 350px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  display: none; /* Hidden by default */
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #f0f7f4;
+}
+
+.search-result-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.search-result-meta {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-result-empty {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
 }
 
 header h1 {

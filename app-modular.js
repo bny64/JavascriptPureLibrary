@@ -490,6 +490,60 @@ async function dropTask(ev) {
     }
 }
 
+// Global Search Functions
+function handleGlobalSearch(event) {
+    const query = event.target.value.toLowerCase().trim();
+    const resultsContainer = document.getElementById('globalSearchResults');
+    
+    if (!query) {
+        resultsContainer.style.display = 'none';
+        return;
+    }
+
+    const matches = AppState.tasks.filter(task => 
+        task.taskName.toLowerCase().includes(query) || 
+        (task.description && task.description.toLowerCase().includes(query)) ||
+        task.category1.toLowerCase().includes(query)
+    ).slice(0, 10); // Limit to top 10 results
+
+    renderGlobalSearchResults(matches);
+}
+
+function renderGlobalSearchResults(matches) {
+    const resultsContainer = document.getElementById('globalSearchResults');
+    resultsContainer.innerHTML = '';
+    resultsContainer.style.display = 'block';
+
+    if (matches.length === 0) {
+        resultsContainer.innerHTML = '<div class="search-result-empty">검색 결과가 없습니다.</div>';
+        return;
+    }
+
+    matches.forEach(task => {
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        
+        const priorityText = {
+            'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+        }[task.priority] || '중간';
+
+        item.innerHTML = `
+            <div class="search-result-title">${TextUtils.escapeHtml(task.taskName)}</div>
+            <div class="search-result-meta">
+                <span>${TextUtils.escapeHtml(task.category1)} > ${task.status}</span>
+                <span>${priorityText} | ${task.endDate || ''}</span>
+            </div>
+        `;
+
+        item.onclick = () => {
+            openTaskModal(task);
+            document.getElementById('globalSearchInput').value = '';
+            resultsContainer.style.display = 'none';
+        };
+        resultsContainer.appendChild(item);
+    });
+}
+
 function loadView() {
     const savedView = StorageUtils.get('currentView', 'calendar');
     switchView(savedView);
@@ -1156,8 +1210,15 @@ window.onclick = function(event) {
     if (event.target === allTasksModal) {
         closeAllTasksModal();
     }
-    if (event.target === importantMemoModal) {
+    if (importantMemoModal && event.target === importantMemoModal) {
         closeImportantMemoModal();
+    }
+
+    // Close global search results when clicking outside
+    const globalSearchResults = document.getElementById('globalSearchResults');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    if (globalSearchResults && !globalSearchResults.contains(event.target) && event.target !== globalSearchInput) {
+        globalSearchResults.style.display = 'none';
     }
 
     const notificationDropdown = document.getElementById('notificationDropdown');
@@ -1231,3 +1292,4 @@ window.closeImportantMemoModal = closeImportantMemoModal;
 window.saveImportantMemo = saveImportantMemo;
 window.allowDrop = allowDrop;
 window.dropTask = dropTask;
+window.handleGlobalSearch = handleGlobalSearch;
