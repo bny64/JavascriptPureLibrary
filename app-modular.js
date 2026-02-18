@@ -70,6 +70,11 @@ async function loadTasks() {
         UI.dashboard.render(AppState.tasks);
     }
 
+    // Refresh Kanban if visible
+    if (document.getElementById('kanban-view').style.display === 'block') {
+        UI.kanban.render(AppState.tasks);
+    }
+
     // If the All Tasks modal is open, re-render its list
     if (document.getElementById('allTasksModal').style.display === 'block') {
         renderAllTasks();
@@ -432,12 +437,14 @@ function switchView(viewName) {
     const calendarView = document.getElementById('calendar-view');
     const ganttChartView = document.getElementById('gantt-chart-view');
     const dashboardView = document.getElementById('dashboard-view');
+    const kanbanView = document.getElementById('kanban-view');
     const currentViewButton = document.querySelector('.current-view');
 
     // Hide all views
     calendarView.style.display = 'none';
     ganttChartView.style.display = 'none';
     dashboardView.style.display = 'none';
+    if (kanbanView) kanbanView.style.display = 'none';
 
     if (viewName === 'calendar') {
         calendarView.style.display = 'block';
@@ -450,6 +457,10 @@ function switchView(viewName) {
         dashboardView.style.display = 'block';
         currentViewButton.textContent = '📈 대시보드';
         UI.dashboard.render(AppState.tasks);
+    } else if (viewName === 'kanban') {
+        if (kanbanView) kanbanView.style.display = 'block';
+        currentViewButton.textContent = '📋 칸반 보드';
+        UI.kanban.render(AppState.tasks);
     }
     StorageUtils.set('currentView', viewName);
 }
