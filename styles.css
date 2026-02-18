@@ -1499,6 +1499,36 @@ h3#selectedDateTitle {
   align-items: center;
   border-radius: 12px 12px 0 0;
   color: white;
+  position: relative; /* 검색창 포함을 위해 */
+  gap: 10px; /* 제목과 검색창 사이 간격 */
+}
+
+.kanban-column-header .count {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.kanban-search-input {
+  width: auto;
+  flex-grow: 1; /* 남은 공간 채우기 */
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.kanban-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.kanban-search-input:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .kanban-column-header .count {

@@ -581,10 +581,20 @@ const UI = {
             statuses.forEach(status => {
                 const columnContainer = document.getElementById(`kanban-${status}`);
                 const countElement = document.querySelector(`.kanban-column-header.status-${status} .count`);
+                const searchTerm = AppState.kanbanSearchTerms[status] || '';
                 
                 if (!columnContainer) return;
                 
-                const filteredTasks = tasks.filter(t => t.status === status);
+                let filteredTasks = tasks.filter(t => t.status === status);
+
+                if (searchTerm) {
+                    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                    filteredTasks = filteredTasks.filter(task =>
+                        task.taskName.toLowerCase().includes(lowerCaseSearchTerm) ||
+                        (task.description && task.description.toLowerCase().includes(lowerCaseSearchTerm))
+                    );
+                }
+
                 countElement.textContent = filteredTasks.length;
                 
                 columnContainer.innerHTML = '';

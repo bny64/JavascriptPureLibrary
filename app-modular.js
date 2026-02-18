@@ -25,6 +25,13 @@ const AppState = {
     // Gantt Chart Filters
     ganttStatusFilter: StorageUtils.get('ganttStatusFilter', '전체'),
     ganttPriorityFilter: StorageUtils.get('ganttPriorityFilter', '전체'),
+    // Kanban Search
+    kanbanSearchTerms: {
+        '대기': '',
+        '진행중': '',
+        '완료': '',
+        '보류': ''
+    },
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
     gantt: null
@@ -512,6 +519,15 @@ function switchView(viewName) {
     } else if (viewName === 'kanban') {
         if (kanbanView) kanbanView.style.display = 'block';
         currentViewButton.textContent = '📋 칸반 보드';
+        
+        // 칸반 뷰 전환 시 검색어 초기화
+        for (const status in AppState.kanbanSearchTerms) {
+            AppState.kanbanSearchTerms[status] = '';
+            const searchInput = document.querySelector(`#kanban-${status}`).previousElementSibling.querySelector('.kanban-search-input');
+            if (searchInput) {
+                searchInput.value = '';
+            }
+        }
         UI.kanban.render(AppState.tasks);
     }
     StorageUtils.set('currentView', viewName);
@@ -950,6 +966,11 @@ function activateGanttFilterButtons() {
     });
 }
 
+// --- 칸반 보드 검색 필터 관련 함수 ---
+function filterKanbanColumn(status, searchTerm) {
+    AppState.kanbanSearchTerms[status] = searchTerm;
+    UI.kanban.render(AppState.tasks); // 필터링된 업무로 해당 컬럼 다시 렌더링
+}
 
 // --- 알림 설정 모달 관련 함수 ---
 
@@ -1519,3 +1540,4 @@ window.populateNotificationDetailCategories = populateNotificationDetailCategori
 window.allowDrop = allowDrop;
 window.dropTask = dropTask;
 window.handleGlobalSearch = handleGlobalSearch;
+window.filterKanbanColumn = filterKanbanColumn;
