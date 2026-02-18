@@ -1520,3 +1520,23 @@ h3#selectedDateTitle {
 .gantt-today-button:hover {
   opacity: 0.9;
 }
+
+.gantt .bar-wrapper.gantt-priority-very-high .bar {
+  fill: #e5393533;
+}
+
+.gantt .bar-wrapper.gantt-priority-high .bar {
+  fill: #fb8c0033;
+}
+
+.gantt .bar-wrapper.gantt-priority-middle .bar {
+  fill: #3f51b533;
+}
+
+.gantt .bar-wrapper.gantt-priority-low .bar {
+  fill: #4caf5033;
+}
+
+.gantt .bar-wrapper.gantt-priority-very-low .bar {
+  fill: #607d8b33;
+}

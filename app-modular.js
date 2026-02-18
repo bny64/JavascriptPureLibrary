@@ -251,23 +251,25 @@ function transformTasksForGantt(tasks) {
         .map(task => {
         let progress = 0;
         let custom_class = '';
-        switch (task.status) {
-            case '완료': // Completed
-                progress = 100;
-                custom_class = 'gantt-task-completed';
+        // *** CORRECTED: Assign custom_class based on task.priority, not task.status ***
+        switch (task.priority) {
+            case 'very-high':
+                custom_class = 'gantt-priority-very-high';
                 break;
-            case '진행중': // In Progress
-                progress = 50; // Assume 50% for in-progress
-                custom_class = 'gantt-task-in-progress';
+            case 'high':
+                custom_class = 'gantt-priority-high';
                 break;
-            case '대기': // Pending
-                progress = 0;
-                custom_class = 'gantt-task-pending';
+            case 'middle':
+                custom_class = 'gantt-priority-middle';
                 break;
-            case '보류': // On Hold
-                progress = 0;
-                custom_class = 'gantt-task-on-hold';
+            case 'low':
+                custom_class = 'gantt-priority-low';
                 break;
+            case 'very-low':
+                custom_class = 'gantt-priority-very-low';
+                break;
+            default:
+                custom_class = 'gantt-priority-middle'; // Default to middle if not set
         }
 
         // Use category1 for group if available, otherwise taskName
@@ -286,7 +288,7 @@ function transformTasksForGantt(tasks) {
             start: startDate,
             end: endDate,
             progress: progress,
-            custom_class: custom_class,
+            custom_class: custom_class, // Now uses priority class
             // Assuming frappe-gantt can use 'dependencies' for linking tasks
             // dependencies: task.dependencies ? task.dependencies.join(',') : '',
             // Assuming 'start_date' and 'end_date' can be used for display, if 'start' and 'end' are for calculation
@@ -380,7 +382,7 @@ function initGanttChart(forceRefresh = false) { // Add forceRefresh parameter
             openTaskModal(AppState.tasks.find(t => t.id === task.id));
         },
         on_date_change: function (task, start, end) {
-            console.log(task, start, end);
+            console*console.log(task, start, end);
             updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) });
         },
         on_progress_change: function (task, progress) {
