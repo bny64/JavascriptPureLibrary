@@ -450,6 +450,7 @@ const UI = {
 
             const stats = [
                 { label: '전체 업무', value: total, icon: '📋' },
+                { label: '대기 업무', value: pending, icon: '🟡' },
                 { label: '진행 중', value: inProgress, icon: '🔵' },
                 { label: '완료 업무', value: completed, icon: '✅' },
                 { label: '전체 진행률', value: `${progressPercent}%`, icon: '📈' }
