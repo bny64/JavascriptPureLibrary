@@ -47,13 +47,14 @@
                         🔔 <span id="notificationCount" class="notification-count">0</span>
                     </button>
                     <div id="notificationDropdown" class="notification-dropdown">
-                        <h4>1주일 이내 종료 예정 업무</h4>
+                        <h4 id="notificationDropdownTitle">1주일 이내 종료 예정 업무</h4>
                         <ul id="notificationList">
                             <!-- Notifications will be rendered here by JavaScript -->
                             <li>알림 없음</li>
                         </ul>
                     </div>
                 </div>
+                <button id="notificationSettingsBtn" class="btn-notification-settings" onclick="openNotificationSettingsModal()">⚙️ 알림 설정</button>
                 <button class="btn-category" onclick="openCategoryModal()">📁 분류 관리</button>
                 <button class="btn-add" onclick="openTaskModal()">+ 새 업무 추가</button>
             </div>
@@ -317,6 +318,55 @@
                 <div class="modal-buttons">
                     <button type="submit" class="btn-save">저장</button>
                     <button type="button" class="btn-cancel" onclick="closeImportantMemoModal()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 알림 설정 모달 -->
+    <div id="notificationSettingsModal" class="modal">
+        <div class="modal-content notification-settings-modal-content">
+            <span class="close" onclick="closeNotificationSettingsModal()">&times;</span>
+            <h2>알림 설정</h2>
+            <form id="notificationSettingsForm" onsubmit="saveNotificationSettings(event)">
+                <div class="form-group">
+                    <label for="notificationDaysBefore">종료일 D-Day (며칠 전):</label>
+                    <input type="number" id="notificationDaysBefore" min="0" value="7">
+                </div>
+                <div class="form-group">
+                    <label>우선순위:</label>
+                    <div class="notification-priority-options">
+                        <label><input type="checkbox" name="notificationPriority" value="very-high"> 매우 높음</label>
+                        <label><input type="checkbox" name="notificationPriority" value="high"> 높음</label>
+                        <label><input type="checkbox" name="notificationPriority" value="middle"> 중간</label>
+                        <label><input type="checkbox" name="notificationPriority" value="low"> 낮음</label>
+                        <label><input type="checkbox" name="notificationPriority" value="very-low"> 매우 낮음</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>상태:</label>
+                    <div class="notification-status-options">
+                        <label><input type="checkbox" name="notificationStatus" value="대기"> 대기</label>
+                        <label><input type="checkbox" name="notificationStatus" value="진행중"> 진행중</label>
+                        <label><input type="checkbox" name="notificationStatus" value="보류"> 보류</label>
+                        <!-- '완료' 상태는 알림 대상에서 제외하는 것이 일반적 -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notificationCategory1">카테고리 (대분류):</label>
+                    <select id="notificationCategory1" onchange="populateNotificationSubCategories()"><option value="전체">전체</option></select>
+                </div>
+                <div class="form-group">
+                    <label for="notificationCategory2">카테고리 (중분류):</label>
+                    <select id="notificationCategory2" onchange="populateNotificationDetailCategories()"><option value="전체">전체</option></select>
+                </div>
+                <div class="form-group">
+                    <label for="notificationCategory3">카테고리 (소분류):</label>
+                    <select id="notificationCategory3"><option value="전체">전체</option></select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">저장</button>
+                    <button type="button" class="btn-cancel" onclick="closeNotificationSettingsModal()">취소</button>
                 </div>
             </form>
         </div>

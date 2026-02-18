@@ -13,6 +13,15 @@ const AppState = {
     currentSearchType: 'text',
     sortField: 'endDate', // Default sort field
     sortDirection: 'asc', // Default sort direction
+    filterStartDate: null, // New property for start date filter
+    filterEndDate: null,   // New property for end date filter
+    // Notification Settings
+    notificationDaysBefore: StorageUtils.get('notificationDaysBefore', 7),
+    notificationPriorities: StorageUtils.get('notificationPriorities', ['very-high', 'high', 'middle']),
+    notificationStatuses: StorageUtils.get('notificationStatuses', ['대기', '진행중', '보류']),
+    notificationCategory1: StorageUtils.get('notificationCategory1', '전체'),
+    notificationCategory2: StorageUtils.get('notificationCategory2', '전체'),
+    notificationCategory3: StorageUtils.get('notificationCategory3', '전체'),
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
     gantt: null
@@ -196,26 +205,53 @@ function updateSelectedDateTitle() {
 
 // --- 알림 관련 함수 ---
 
-function getTasksEndingSoon(tasks, days = 7) {
-    const today = new Date();
+function getTasksEndingSoon() {
+    const today = KoreanTime.now();
     today.setHours(0, 0, 0, 0); // Normalize today to start of day
 
-    const sevenDaysLater = new Date(today);
-    sevenDaysLater.setDate(today.getDate() + days);
-    sevenDaysLater.setHours(23, 59, 59, 999); // Normalize to end of day
+    const notificationTasks = AppState.tasks.filter(task => {
+        // 1. 상태 필터링 (완료된 업무는 알림에서 제외)
+        if (task.status === '완료') return false;
+        if (!AppState.notificationStatuses.includes(task.status)) return false;
 
-    return tasks.filter(task => {
-        if (!task.endDate || task.status === '완료') {
-            return false;
-        }
-        const endDate = new Date(task.endDate + 'T23:59:59'); // End of the day
-        return endDate >= today && endDate <= sevenDaysLater;
-    }).sort((a, b) => new Date(a.endDate) - new Date(b.endDate)); // Sort by end date
+        // 2. 종료일 D-Day 필터링
+        if (!task.endDate) return false;
+        const endDate = KoreanTime.toKST(task.endDate);
+        endDate.setHours(23, 59, 59, 999); // Normalize to end of day
+
+        // 명시적으로 종료일이 오늘보다 과거인 업무는 제외
+        if (endDate < today) return false;
+
+        const daysDiff = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        if (daysDiff < 0 || daysDiff > AppState.notificationDaysBefore) return false;
+
+        // 3. 우선순위 필터링
+        if (!AppState.notificationPriorities.includes(task.priority)) return false;
+
+        // 4. 카테고리 필터링
+        if (AppState.notificationCategory1 !== '전체' && task.category1 !== AppState.notificationCategory1) return false;
+        if (AppState.notificationCategory2 !== '전체' && task.category2 !== AppState.notificationCategory2) return false;
+        if (AppState.notificationCategory3 !== '전체' && task.category3 !== AppState.notificationCategory3) return false;
+
+        return true;
+    });
+
+    return notificationTasks.sort((a, b) => new Date(a.endDate) - new Date(b.endDate)); // Sort by end date
 }
 
 function renderNotifications(notifications) {
     const notificationList = document.getElementById('notificationList');
     const notificationCount = document.getElementById('notificationCount');
+    const notificationTitle = document.getElementById('notificationDropdownTitle');
+
+    if (notificationTitle) {
+        if (AppState.notificationDaysBefore === 0) {
+            notificationTitle.textContent = '오늘 종료 예정 업무';
+        } else {
+            notificationTitle.textContent = `종료일 D-${AppState.notificationDaysBefore}일 이내 업무`;
+        }
+    }
+    
     notificationList.innerHTML = '';
 
     if (notifications.length === 0) {
@@ -860,6 +896,133 @@ function changeAllTasksSort() {
 }
 
 
+function changeAllTasksSort() {
+    AppState.sortField = document.getElementById('sortField').value;
+    AppState.sortDirection = document.getElementById('sortDirection').value;
+    AppState.currentPage = 1;
+    renderAllTasks();
+}
+
+
+// --- 알림 설정 모달 관련 함수 ---
+
+function openNotificationSettingsModal() {
+    const modal = document.getElementById('notificationSettingsModal');
+    // 현재 설정 로드
+    document.getElementById('notificationDaysBefore').value = AppState.notificationDaysBefore;
+
+    document.querySelectorAll('input[name="notificationPriority"]').forEach(checkbox => {
+        checkbox.checked = AppState.notificationPriorities.includes(checkbox.value);
+    });
+    document.querySelectorAll('input[name="notificationStatus"]').forEach(checkbox => {
+        checkbox.checked = AppState.notificationStatuses.includes(checkbox.value);
+    });
+
+    populateNotificationCategories();
+    document.getElementById('notificationCategory1').value = AppState.notificationCategory1;
+    populateNotificationSubCategories(); // 중분류 채우고 선택
+    document.getElementById('notificationCategory2').value = AppState.notificationCategory2;
+    populateNotificationDetailCategories(); // 소분류 채우고 선택
+    document.getElementById('notificationCategory3').value = AppState.notificationCategory3;
+
+    modal.style.display = 'block';
+    document.body.classList.add('modal-open');
+    DomUtils.scrollToTop(modal.querySelector('.modal-content'));
+}
+
+function closeNotificationSettingsModal() {
+    document.getElementById('notificationSettingsModal').style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
+
+function populateNotificationCategories() {
+    const category1Select = document.getElementById('notificationCategory1');
+    const mainCategories = ArrayUtils.unique(AppState.categories.map(c => c.mainCategory));
+    
+    category1Select.innerHTML = '<option value="전체">전체</option>';
+    mainCategories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        category1Select.appendChild(option);
+    });
+}
+
+function populateNotificationSubCategories() {
+    const category1 = document.getElementById('notificationCategory1').value;
+    const category2Select = document.getElementById('notificationCategory2');
+    
+    category2Select.innerHTML = '<option value="전체">전체</option>';
+    
+    if (category1 === '전체') return;
+    
+    const subCategories = ArrayUtils.unique(
+        AppState.categories
+            .filter(c => c.mainCategory === category1 && c.subCategory)
+            .map(c => c.subCategory)
+    );
+    
+    subCategories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        category2Select.appendChild(option);
+    });
+}
+
+function populateNotificationDetailCategories() {
+    const category1 = document.getElementById('notificationCategory1').value;
+    const category2 = document.getElementById('notificationCategory2').value;
+    const category3Select = document.getElementById('notificationCategory3');
+    
+    category3Select.innerHTML = '<option value="전체">전체</option>';
+    
+    if (category1 === '전체' || category2 === '전체') return;
+    
+    const detailCategories = ArrayUtils.unique(
+        AppState.categories
+            .filter(c => c.mainCategory === category1 && c.subCategory === category2 && c.detailCategory)
+            .map(c => c.detailCategory)
+    );
+    
+    detailCategories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        category3Select.appendChild(option);
+    });
+}
+
+
+async function saveNotificationSettings(event) {
+    event.preventDefault();
+
+    // D-Day
+    AppState.notificationDaysBefore = parseInt(document.getElementById('notificationDaysBefore').value);
+    StorageUtils.set('notificationDaysBefore', AppState.notificationDaysBefore);
+
+    // Priorities
+    AppState.notificationPriorities = Array.from(document.querySelectorAll('input[name="notificationPriority"]:checked')).map(cb => cb.value);
+    StorageUtils.set('notificationPriorities', AppState.notificationPriorities);
+    
+    // Statuses
+    AppState.notificationStatuses = Array.from(document.querySelectorAll('input[name="notificationStatus"]:checked')).map(cb => cb.value);
+    StorageUtils.set('notificationStatuses', AppState.notificationStatuses);
+
+    // Categories
+    AppState.notificationCategory1 = document.getElementById('notificationCategory1').value;
+    AppState.notificationCategory2 = document.getElementById('notificationCategory2').value;
+    AppState.notificationCategory3 = document.getElementById('notificationCategory3').value;
+    StorageUtils.set('notificationCategory1', AppState.notificationCategory1);
+    StorageUtils.set('notificationCategory2', AppState.notificationCategory2);
+    StorageUtils.set('notificationCategory3', AppState.notificationCategory3);
+
+    // 알림 리프레시
+    await loadTasks(); // 모든 업무를 다시 로드하여 알림을 갱신
+    closeNotificationSettingsModal();
+    alert('알림 설정이 저장되었습니다.');
+}
+
 // --- 카테고리 모달 관련 함수 ---
 
 function openCategoryModal() {
@@ -1136,6 +1299,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateSelectedDateTitle();
     initNotifications();
 
+    // Add event listeners for notification settings
+    document.getElementById('notificationSettingsBtn').addEventListener('click', openNotificationSettingsModal);
+    document.getElementById('notificationCategory1').addEventListener('change', populateNotificationSubCategories);
+    document.getElementById('notificationCategory2').addEventListener('change', populateNotificationDetailCategories);
+
     // Add event listeners for view switching
     const dashboardLink = document.getElementById('dashboardViewLink');
     const calendarLink = document.getElementById('calendarViewLink');
@@ -1212,6 +1380,10 @@ window.onclick = function(event) {
     }
     if (importantMemoModal && event.target === importantMemoModal) {
         closeImportantMemoModal();
+    }
+    const notificationSettingsModal = document.getElementById('notificationSettingsModal');
+    if (notificationSettingsModal && event.target === notificationSettingsModal) {
+        closeNotificationSettingsModal();
     }
 
     // Close global search results when clicking outside
@@ -1290,6 +1462,11 @@ window.saveTask = saveTask; // Added to window scope
 window.openImportantMemoModal = openImportantMemoModal;
 window.closeImportantMemoModal = closeImportantMemoModal;
 window.saveImportantMemo = saveImportantMemo;
+window.openNotificationSettingsModal = openNotificationSettingsModal;
+window.closeNotificationSettingsModal = closeNotificationSettingsModal;
+window.saveNotificationSettings = saveNotificationSettings;
+window.populateNotificationSubCategories = populateNotificationSubCategories;
+window.populateNotificationDetailCategories = populateNotificationDetailCategories;
 window.allowDrop = allowDrop;
 window.dropTask = dropTask;
 window.handleGlobalSearch = handleGlobalSearch;

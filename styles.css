@@ -201,6 +201,23 @@ header h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.btn-notification-settings {
+  background: white;
+  color: #11998e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-notification-settings:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .main-content {
   display: flex;
   height: calc(100vh - 180px);
@@ -1534,6 +1551,45 @@ h3#selectedDateTitle {
 .kanban-column.drag-over {
   background: #dfe3e6;
   outline: 2px dashed #11998e;
+}
+
+.kanban-column.drag-over {
+  background: #dfe3e6;
+  outline: 2px dashed #11998e;
+}
+
+.notification-settings-modal-content {
+  max-width: 700px;
+}
+
+.notification-priority-options,
+.notification-status-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.notification-priority-options label,
+.notification-status-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.notification-priority-options input[type="checkbox"],
+.notification-status-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #11998e; /* Checkbox color */
 }
 
 @media (max-width: 1200px) {

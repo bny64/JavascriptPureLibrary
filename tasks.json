@@ -6,12 +6,12 @@
       "category3": "코인",
       "taskName": "자동매매",
       "startDate": "2026-02-12",
-      "endDate": "2026-02-18",
+      "endDate": "2026-02-23",
       "status": "대기",
       "description": "",
       "id": "1770896091964",
       "createdAt": "2026-02-12T11:34:51.964Z",
-      "priority": "very-low"
+      "priority": "very-high"
     },
     {
       "category1": "백엔드",
@@ -19,7 +19,7 @@
       "category3": "주식",
       "taskName": "자동매매 ",
       "startDate": "",
-      "endDate": "2026-02-18",
+      "endDate": "2026-02-22",
       "status": "대기",
       "description": "",
       "id": "1770896112123",
@@ -384,7 +384,7 @@
       "taskName": "추가 예시 업무 8: 신규 기능 정의 관련 작업",
       "startDate": "2026-02-08",
       "endDate": "2026-02-12",
-      "status": "진행 중",
+      "status": "대기",
       "description": "기획 서비스 부서의 신규 기능 정의에 대한 업무입니다.",
       "id": "17077463665301007",
       "createdAt": "2026-02-12T13:59:26.530Z",
@@ -1020,7 +1020,7 @@
       "category3": "로고 리뉴얼",
       "taskName": "자동 생성 업무 15: 로고 리뉴얼 관련 작업",
       "startDate": "2026-01-09",
-      "endDate": "2026-02-06",
+      "endDate": "2026-02-20",
       "status": "대기",
       "description": "디자인 웹 부서의 로고 리뉴얼에 대한 자동 생성 업무입니다.",
       "id": "17077478052132014",
@@ -2131,6 +2131,19 @@
       "id": "17077478052132099",
       "createdAt": "2026-02-12T14:23:25.213Z",
       "priority": "middle"
+    },
+    {
+      "category1": "문서작성",
+      "category2": "",
+      "category3": "",
+      "taskName": "자동매매",
+      "startDate": "",
+      "endDate": "",
+      "status": "대기",
+      "priority": "low",
+      "description": "",
+      "id": "1771417777160",
+      "createdAt": "2026-02-18T12:29:37.160Z"
     }
   ]
 }
