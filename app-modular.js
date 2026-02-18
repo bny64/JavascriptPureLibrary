@@ -22,6 +22,9 @@ const AppState = {
     notificationCategory1: StorageUtils.get('notificationCategory1', '전체'),
     notificationCategory2: StorageUtils.get('notificationCategory2', '전체'),
     notificationCategory3: StorageUtils.get('notificationCategory3', '전체'),
+    // Gantt Chart Filters
+    ganttStatusFilter: StorageUtils.get('ganttStatusFilter', '전체'),
+    ganttPriorityFilter: StorageUtils.get('ganttPriorityFilter', '전체'),
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
     gantt: null
@@ -293,8 +296,20 @@ function formatDate(date) {
 // Gantt Chart 관련 함수
 
 function transformTasksForGantt(tasks) {
-    return tasks
-        .filter(task => task.startDate && task.endDate) // Filter out tasks without valid start or end dates
+    let filteredTasks = tasks
+        .filter(task => task.startDate && task.endDate); // Filter out tasks without valid start or end dates
+
+    // Gantt Status Filter
+    if (AppState.ganttStatusFilter !== '전체') {
+        filteredTasks = filteredTasks.filter(task => task.status === AppState.ganttStatusFilter);
+    }
+
+    // Gantt Priority Filter
+    if (AppState.ganttPriorityFilter !== '전체') {
+        filteredTasks = filteredTasks.filter(task => task.priority === AppState.ganttPriorityFilter);
+    }
+
+    return filteredTasks
         .sort((a, b) => { // Add sorting here
             const dateA = new Date(a.endDate);
             const dateB = new Date(b.endDate);
@@ -349,7 +364,7 @@ function transformTasksForGantt(tasks) {
 }
 
 function postProcessGanttHeaders() {
-    const ganttElement = document.getElementById('gantt');
+    const ganttElement = document.getElementById('gantt-target');
     if (!ganttElement) return;
 
     // Get all text elements within the Gantt SVG
@@ -392,8 +407,9 @@ function applyGanttDateTextStyling() {
 }
 
 function initGanttChart(forceRefresh = false) { // Add forceRefresh parameter
+    activateGanttFilterButtons(); // 필터 버튼 상태 업데이트 (초기 로드 또는 리프레시 시)
     const ganttTasks = transformTasksForGantt(AppState.tasks);
-    const ganttElement = document.getElementById('gantt');
+    const ganttElement = document.getElementById('gantt-target');
 
     if (!ganttElement) return; // Ensure element exists
 
@@ -895,12 +911,43 @@ function changeAllTasksSort() {
     renderAllTasks();
 }
 
+// --- 간트 차트 필터 관련 함수 ---
+function filterGanttByStatus(status) {
+    AppState.ganttStatusFilter = status;
+    StorageUtils.set('ganttStatusFilter', status); // 설정 저장
+    initGanttChart(true); // 필터 적용 후 간트 차트 리프레시 (강제 리프레시)
+    activateGanttFilterButtons(); // 버튼 상태 업데이트
+}
 
-function changeAllTasksSort() {
-    AppState.sortField = document.getElementById('sortField').value;
-    AppState.sortDirection = document.getElementById('sortDirection').value;
-    AppState.currentPage = 1;
-    renderAllTasks();
+function filterGanttByPriority(priority) {
+    AppState.ganttPriorityFilter = priority;
+    StorageUtils.set('ganttPriorityFilter', priority); // 설정 저장
+    initGanttChart(true); // 필터 적용 후 간트 차트 리프레시 (강제 리프레시)
+    activateGanttFilterButtons(); // 버튼 상태 업데이트
+}
+
+function activateGanttFilterButtons() {
+    // 상태 필터 버튼 활성화
+    const statusFilterBtns = document.querySelectorAll('.gantt-filters .status-filters .filter-btn');
+    statusFilterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-status') === AppState.ganttStatusFilter) {
+            btn.classList.add('active');
+        } else if (AppState.ganttStatusFilter === '' && btn.getAttribute('data-status') === '전체') {
+            btn.classList.add('active');
+        }
+    });
+
+    // 우선순위 필터 버튼 활성화
+    const priorityFilterBtns = document.querySelectorAll('.gantt-filters .priority-filters .filter-btn');
+    priorityFilterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-priority') === AppState.ganttPriorityFilter) {
+            btn.classList.add('active');
+        } else if (AppState.ganttPriorityFilter === '' && btn.getAttribute('data-priority') === '전체') {
+            btn.classList.add('active');
+        }
+    });
 }
 
 
@@ -1448,6 +1495,8 @@ window.filterByStatus = filterByStatus; // Added to window scope
 window.filterByPriority = filterByPriority; // Added to window scope
 window.openAllTasksModalWithStatus = openAllTasksModalWithStatus;
 window.changeAllTasksSort = changeAllTasksSort; // Added to window scope
+window.filterGanttByStatus = filterGanttByStatus;
+window.filterGanttByPriority = filterGanttByPriority;
 window.openCategoryModal = openCategoryModal; // Added to window scope
 window.closeCategoryModal = closeCategoryModal; // Added to window scope
 window.resetCategoryForm = resetCategoryForm; // Added to window scope

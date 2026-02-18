@@ -91,7 +91,24 @@
         <div id="gantt-chart-view" class="view-container" style="display: none;">
             <div class="gantt-chart-container">
                 <h2 class="gantt-chart-title">간트 차트</h2>
-                <svg id="gantt"></svg>
+                <div class="gantt-filters">
+                    <div class="status-filters">
+                        <button class="filter-btn active" onclick="filterGanttByStatus('전체')" data-status="전체">상태: 전체</button>
+                        <button class="filter-btn" onclick="filterGanttByStatus('대기')" data-status="대기">대기</button>
+                        <button class="filter-btn" onclick="filterGanttByStatus('진행중')" data-status="진행중">진행중</button>
+                        <button class="filter-btn" onclick="filterGanttByStatus('완료')" data-status="완료">완료</button>
+                        <button class="filter-btn" onclick="filterGanttByStatus('보류')" data-status="보류">보류</button>
+                    </div>
+                    <div class="priority-filters">
+                        <button class="filter-btn active" onclick="filterGanttByPriority('전체')" data-priority="전체">우선순위: 전체</button>
+                        <button class="filter-btn" onclick="filterGanttByPriority('very-high')" data-priority="very-high">매우 높음</button>
+                        <button class="filter-btn" onclick="filterGanttByPriority('high')" data-priority="high">높음</button>
+                        <button class="filter-btn" onclick="filterGanttByPriority('middle')" data-priority="middle">중간</button>
+                        <button class="filter-btn" onclick="filterGanttByPriority('low')" data-priority="low">낮음</button>
+                        <button class="filter-btn" onclick="filterGanttByPriority('very-low')" data-priority="very-low">매우 낮음</button>
+                    </div>
+                </div>
+                <div id="gantt-target"></div>
             </div>
         </div>
         <div id="dashboard-view" class="view-container" style="display: none;">
