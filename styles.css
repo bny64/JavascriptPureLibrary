@@ -507,6 +507,31 @@ header h1 {
   color: #9e9e9e;
 }
 
+/* 미완료 업무 요약 스타일 */
+.unfinished-tasks-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  display: flex; /* Make it a flex container */
+  justify-content: space-between; /* Space between label and count */
+  align-items: center; /* Vertically align items */
+}
+
+.unfinished-tasks-summary .unfinished-tasks-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.unfinished-tasks-summary .unfinished-tasks-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d84315; /* A prominent color for unfinished tasks */
+}
+
 /* 오늘 업무 우선순위 요약 */
 .priority-summary {
   background: #f8f9fa;
@@ -519,6 +544,29 @@ header h1 {
   /* Removed z-index: 99; */ /* Lower than status-summary's 100 */
   background: white; /* Ensure solid background when sticky */
   /* Removed transform: translateZ(0); */ /* No longer necessary */
+}
+
+/* 미완료 업무 요약 스타일 */
+.unfinished-tasks-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px; /* Spacing below this section */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  text-align: center;
+}
+
+.unfinished-tasks-summary h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.unfinished-tasks-summary #unfinishedTaskCount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d84315; /* A prominent color for unfinished tasks */
 }
 
 .priority-summary-item-wrapper {

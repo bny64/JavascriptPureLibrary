@@ -76,6 +76,7 @@ async function loadTasks() {
     AppState.tasks = await API.tasks.getAll();
     UI.task.renderStatusSummary(AppState.tasks, 'statusSummary'); // Render status summary for all tasks
     UI.task.renderPrioritySummary(AppState.tasks, 'prioritySummary'); // Render priority summary for all tasks
+    UI.task.renderUnfinishedTasksSummary(AppState.tasks); // Render unfinished tasks summary
     renderCalendar();
     renderTasksForSelectedDate();
 

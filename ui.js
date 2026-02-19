@@ -257,13 +257,15 @@ const UI = {
             const targetElement = document.getElementById(targetElementId);
             if (!targetElement) return;
 
+            const unfinishedTasks = tasks.filter(task => task.status !== '완료'); // Filter out completed tasks
+
             const priorityLabels = {
                 'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
             };
             const priorityOrder = ['very-high', 'high', 'middle', 'low', 'very-low'];
             
             const priorityCounts = {
-                '전체': tasks.length,
+                '전체': unfinishedTasks.length, // Count from unfinished tasks
                 'very-high': 0,
                 'high': 0,
                 'middle': 0,
@@ -271,7 +273,7 @@ const UI = {
                 'very-low': 0
             };
 
-            tasks.forEach(task => {
+            unfinishedTasks.forEach(task => { // Iterate over unfinished tasks
                 const priority = task.priority || 'middle'; // Default to middle if not set
                 if (priorityCounts.hasOwnProperty(priority)) {
                     priorityCounts[priority]++;
@@ -282,7 +284,7 @@ const UI = {
             summaryHtml += `
                 <div class="priority-summary-item" data-priority="전체" onclick="window.openAllTasksModalWithPriority('전체')">
                     <span class="priority-summary-label">전체</span>
-                    <span class="priority-summary-count">${tasks.length}</span>
+                    <span class="priority-summary-count">${unfinishedTasks.length}</span>
                 </div>
             `;
             priorityOrder.forEach(priorityKey => {
@@ -297,6 +299,14 @@ const UI = {
             });
             summaryHtml += '</div>';
             targetElement.innerHTML = summaryHtml;
+        },
+
+        renderUnfinishedTasksSummary: function(tasks) {
+            const unfinishedTaskCountElement = document.getElementById('unfinishedTaskCount');
+            if (!unfinishedTaskCountElement) return;
+
+            const unfinishedTasks = tasks.filter(task => task.status !== '완료');
+            unfinishedTaskCountElement.textContent = unfinishedTasks.length;
         }
     },
     
