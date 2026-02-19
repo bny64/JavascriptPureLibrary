@@ -469,20 +469,26 @@ const UI = {
             const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
             const stats = [
-                { label: '전체 업무', value: total, icon: '📋' },
-                { label: '대기 업무', value: pending, icon: '🟡' },
-                { label: '진행 중', value: inProgress, icon: '🔵' },
-                { label: '완료 업무', value: completed, icon: '✅' },
-                { label: '전체 진행률', value: `${progressPercent}%`, icon: '📈' }
+                { label: '전체 업무', value: total, icon: '📋', status: '전체' },
+                { label: '대기 업무', value: pending, icon: '🟡', status: '대기' },
+                { label: '진행 중', value: inProgress, icon: '🔵', status: '진행중' },
+                { label: '완료 업무', value: completed, icon: '✅', status: '완료' },
+                { label: '전체 진행률', value: `${progressPercent}%`, icon: '📈', status: null }
             ];
 
-            container.innerHTML = stats.map(stat => `
-                <div class="summary-card">
-                    <div class="icon">${stat.icon}</div>
-                    <div class="value">${stat.value}</div>
-                    <div class="label">${stat.label}</div>
-                </div>
-            `).join('');
+            container.innerHTML = stats.map(stat => {
+                const clickable = stat.status !== null;
+                const onclickAttr = clickable ? `onclick="window.openAllTasksModalWithStatus('${stat.status}')"` : '';
+                const cursorClass = clickable ? 'cursor-pointer' : '';
+
+                return `
+                    <div class="summary-card ${cursorClass}" ${onclickAttr}>
+                        <div class="icon">${stat.icon}</div>
+                        <div class="value">${stat.value}</div>
+                        <div class="label">${stat.label}</div>
+                    </div>
+                `;
+            }).join('');
         },
 
         renderStatusChart: function(tasks) {
@@ -503,7 +509,7 @@ const UI = {
                 '보류': '#9e9e9e'
             };
 
-            this.renderBarChart(container, counts, colors, tasks.length);
+            this.renderBarChart(container, counts, colors, tasks.length, 'status');
         },
 
         renderPriorityChart: function(tasks) {
@@ -526,24 +532,23 @@ const UI = {
                 'very-high': '#e53935', 'high': '#fb8c00', 'middle': '#3f51b5', 'low': '#4caf50', 'very-low': '#607d8b'
             };
 
-            const namedCounts = {};
-            Object.keys(counts).forEach(key => namedCounts[labels[key]] = counts[key]);
-            
-            const namedColors = {};
-            Object.keys(colors).forEach(key => namedColors[labels[key]] = colors[key]);
-
-            this.renderBarChart(container, namedCounts, namedColors, tasks.length);
+            this.renderBarChart(container, counts, colors, tasks.length, 'priority', labels);
         },
 
-        renderBarChart: function(container, counts, colors, total) {
-            container.innerHTML = Object.keys(counts).map(label => {
-                const count = counts[label];
+        renderBarChart: function(container, counts, colors, total, type, labels = null) {
+            container.innerHTML = Object.keys(counts).map(key => {
+                const count = counts[key];
                 const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                const label = labels ? labels[key] : key;
+                const onclickAttr = type === 'status' 
+                    ? `onclick="window.openAllTasksModalWithStatus('${key}')"`
+                    : `onclick="window.openAllTasksModalWithPriority('${key}')"`;
+
                 return `
-                    <div class="chart-bar-item">
+                    <div class="chart-bar-item cursor-pointer" ${onclickAttr}>
                         <div class="chart-bar-label">${label}</div>
                         <div class="chart-bar-wrapper">
-                            <div class="chart-bar-fill" style="width: ${percent}%; background-color: ${colors[label] || '#ddd'}"></div>
+                            <div class="chart-bar-fill" style="width: ${percent}%; background-color: ${colors[key] || '#ddd'}"></div>
                         </div>
                         <div class="chart-bar-value">${count}</div>
                     </div>
@@ -569,7 +574,7 @@ const UI = {
                 const stats = catStats[cat];
                 const percent = Math.round((stats.completed / stats.total) * 100);
                 return `
-                    <div class="cat-progress-item">
+                    <div class="cat-progress-item cursor-pointer" onclick="window.openAllTasksModalWithCategory('${cat}')">
                         <div class="cat-progress-header">
                             <span class="cat-name">${cat}</span>
                             <span class="cat-percent">${percent}% (${stats.completed}/${stats.total})</span>

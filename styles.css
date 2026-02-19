@@ -20,6 +20,10 @@ body.modal-open {
   overflow: hidden;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .container {
   max-width: none; /* Remove max-width constraint */
   min-width: 0; /* Allow container to shrink */

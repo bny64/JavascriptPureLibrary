@@ -26,6 +26,9 @@ const AppState = {
     // Gantt Chart Filters
     ganttStatusFilter: StorageUtils.get('ganttStatusFilter', '전체'),
     ganttPriorityFilter: StorageUtils.get('ganttPriorityFilter', '전체'),
+    currentSearchCategory1: '', // New property for category filter
+    currentSearchCategory2: '', // New property for category filter
+    currentSearchCategory3: '', // New property for category filter
     // Kanban Search
     kanbanSearchTerms: {
         '대기': '',
@@ -746,6 +749,8 @@ function populateSearchCategories() {
         option.textContent = cat;
         cat1.appendChild(option);
     });
+    // Set selected value from AppState
+    cat1.value = AppState.currentSearchCategory1;
 }
 
 function updateSearchCategory2() {
@@ -770,6 +775,9 @@ function updateSearchCategory2() {
         option.textContent = cat;
         cat2.appendChild(option);
     });
+    // Set selected value from AppState and trigger update for category3
+    cat2.value = AppState.currentSearchCategory2;
+    updateSearchCategory3();
 }
 
 function updateSearchCategory3() {
@@ -793,6 +801,8 @@ function updateSearchCategory3() {
         option.textContent = cat;
         cat3.appendChild(option);
     });
+    // Set selected value from AppState
+    cat3.value = AppState.currentSearchCategory3;
 }
 
 function searchAllTasks() {
@@ -822,14 +832,17 @@ function renderAllTasks() {
                 (task.description && task.description.toLowerCase().includes(searchText))
             );
         }
-    } else {
-        const cat1 = document.getElementById('searchCategory1').value;
-        const cat2 = document.getElementById('searchCategory2').value;
-        const cat3 = document.getElementById('searchCategory3').value;
-        
-        if (cat1) filteredTasks = filteredTasks.filter(task => task.category1 === cat1);
-        if (cat2) filteredTasks = filteredTasks.filter(task => task.category2 === cat2);
-        if (cat3) filteredTasks = filteredTasks.filter(task => task.category3 === cat3);
+    } else { // Category search
+        // Use AppState category filters for rendering
+        if (AppState.currentSearchCategory1) {
+            filteredTasks = filteredTasks.filter(task => task.category1 === AppState.currentSearchCategory1);
+        }
+        if (AppState.currentSearchCategory2) {
+            filteredTasks = filteredTasks.filter(task => task.category2 === AppState.currentSearchCategory2);
+        }
+        if (AppState.currentSearchCategory3) {
+            filteredTasks = filteredTasks.filter(task => task.category3 === AppState.currentSearchCategory3);
+        }
     }
     
     if (filteredTasks.length === 0) {
@@ -945,6 +958,23 @@ function openAllTasksModalWithStatus(status) {
 
 function openAllTasksModalWithPriority(priority) {
     openAllTasksModal('전체', priority);
+}
+
+function openAllTasksModalWithCategory(category1, category2 = '', category3 = '') {
+    AppState.currentSearchCategory1 = category1;
+    AppState.currentSearchCategory2 = category2;
+    AppState.currentSearchCategory3 = category3;
+    
+    // Reset status and priority filters when opening with category
+    AppState.currentStatusFilter = '전체';
+    AppState.currentPriorityFilter = '전체';
+
+    // Set search type to category
+    document.querySelector('input[name="searchType"][value="category"]').checked = true;
+    toggleSearchType();
+
+    // Call openAllTasksModal to handle the rest, including rendering and showing modal
+    openAllTasksModal(); 
 }
 
 function changeAllTasksSort() {
@@ -1507,6 +1537,7 @@ window.filterByPriority = filterByPriority; // Added to window scope
 window.filterSelectedDateTasksByStatus = filterSelectedDateTasksByStatus; // Added to window scope
 window.openAllTasksModalWithStatus = openAllTasksModalWithStatus;
 window.changeAllTasksSort = changeAllTasksSort; // Added to window scope
+window.openAllTasksModalWithCategory = openAllTasksModalWithCategory;
 window.filterGanttByStatus = filterGanttByStatus;
 window.filterGanttByPriority = filterGanttByPriority;
 window.openCategoryModal = openCategoryModal; // Added to window scope
