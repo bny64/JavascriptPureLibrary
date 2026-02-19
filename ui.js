@@ -134,9 +134,22 @@ const UI = {
         },
         
         getTasksForDate: function(date, tasks) {
+            const selectedDateTimestamp = date.getTime();
             return tasks.filter(task => {
-                // Only mark tasks on their end date, if an end date exists
-                return task.endDate && KoreanTime.isSameDay(date, task.endDate);
+                const taskStartDate = task.startDate ? KoreanTime.toKST(task.startDate).getTime() : null;
+                const taskEndDate = task.endDate ? KoreanTime.toKST(task.endDate).getTime() : null;
+
+                if (taskStartDate && taskEndDate) {
+                    // Task with both start and end date: active within the range
+                    return selectedDateTimestamp >= taskStartDate && selectedDateTimestamp <= taskEndDate;
+                } else if (taskStartDate) {
+                    // Task with only start date: active only on start date
+                    return selectedDateTimestamp === taskStartDate;
+                } else if (taskEndDate) {
+                    // Task with only end date: active only on end date
+                    return selectedDateTimestamp === taskEndDate;
+                }
+                return false; // Task has no dates
             });
         }
     },

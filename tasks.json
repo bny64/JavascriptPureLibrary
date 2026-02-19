@@ -55,7 +55,7 @@
     {
       "category1": "기획",
       "category2": "서비스",
-      "category3": "신규 기능 정의",
+      "category3": "",
       "taskName": "예시 업무 3: 신규 기능 정의 관련 작업",
       "startDate": "2026-02-16",
       "endDate": "2026-03-03",
@@ -893,7 +893,7 @@
       "taskName": "자동 생성 업무 5: 마이페이지 개선 관련 작업",
       "startDate": "2026-02-08",
       "endDate": "2026-02-23",
-      "status": "완료",
+      "status": "보류",
       "description": "프론트엔드 UI 부서의 마이페이지 개선에 대한 자동 생성 업무입니다.",
       "id": "17077478052132004",
       "createdAt": "2026-02-12T14:23:25.213Z",
@@ -1083,8 +1083,8 @@
     },
     {
       "category1": "백엔드",
-      "category2": "트레이딩",
-      "category3": "코인",
+      "category2": "DB",
+      "category3": "성능 최적화",
       "taskName": "자동 생성 업무 20: 코인 관련 작업",
       "startDate": "2026-02-12",
       "endDate": "2026-02-14",

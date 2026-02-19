@@ -10,6 +10,7 @@ const AppState = {
     tasksPerPage: 5,
     currentStatusFilter: '전체',
     currentPriorityFilter: '전체',
+    currentSelectedDateStatusFilter: '전체', // New filter for selected date tasks
     currentSearchType: 'text',
     sortField: 'endDate', // Default sort field
     sortDirection: 'asc', // Default sort direction
@@ -192,8 +193,23 @@ function renderCalendar() {
 
 function renderTasksForSelectedDate() {
     const tasksList = document.getElementById('tasksList');
-    const tasksForDate = UI.calendar.getTasksForDate(AppState.selectedDate, AppState.tasks);
+    let tasksForDate = UI.calendar.getTasksForDate(AppState.selectedDate, AppState.tasks);
     
+    // Apply status filter for selected date tasks
+    if (AppState.currentSelectedDateStatusFilter !== '전체') {
+        tasksForDate = tasksForDate.filter(task => task.status === AppState.currentSelectedDateStatusFilter);
+    }
+
+    // Update active state of filter buttons for selected date (MOVED HERE)
+    const filterBtns = document.querySelectorAll('#selectedDateStatusFilters .filter-btn');
+    filterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        // Ensure robust comparison by trimming whitespace
+        if (btn.getAttribute('data-status').trim() === AppState.currentSelectedDateStatusFilter.trim()) {
+            btn.classList.add('active');
+        }
+    });
+
     if (tasksForDate.length === 0) {
         tasksList.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">선택한 날짜에 업무가 없습니다.</p>';
         return;
@@ -203,6 +219,11 @@ function renderTasksForSelectedDate() {
     tasksForDate.forEach(task => {
         tasksList.appendChild(UI.task.createCard(task));
     });
+}
+
+function filterSelectedDateTasksByStatus(status) {
+    AppState.currentSelectedDateStatusFilter = status;
+    renderTasksForSelectedDate(); // Re-render tasks for selected date
 }
 
 function updateSelectedDateTitle() {
@@ -1515,6 +1536,7 @@ window.previousPage = previousPage; // Added to window scope
 window.nextPage = nextPage; // Added to window scope
 window.filterByStatus = filterByStatus; // Added to window scope
 window.filterByPriority = filterByPriority; // Added to window scope
+window.filterSelectedDateTasksByStatus = filterSelectedDateTasksByStatus; // Added to window scope
 window.openAllTasksModalWithStatus = openAllTasksModalWithStatus;
 window.changeAllTasksSort = changeAllTasksSort; // Added to window scope
 window.filterGanttByStatus = filterGanttByStatus;

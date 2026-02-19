@@ -677,6 +677,44 @@ h3#selectedDateTitle {
   background-color: white; /* Ensure it has a solid background when sticky */
 }
 
+.selected-date-status-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 0 30px; /* Match tasks-section padding */
+}
+
+.selected-date-status-filters .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #666;
+}
+
+.selected-date-status-filters .filter-btn:hover {
+    border-color: #11998e;
+    color: #11998e;
+    transform: translateY(-1px);
+}
+
+.selected-date-status-filters .filter-btn.active {
+    background: #11998e;
+    border-color: #11998e;
+    color: white;
+}
+
+/* Status-specific active colors for selected date filters (reuse from global filters) */
+.selected-date-status-filters .filter-btn[data-status="대기"].active { background: #ffc107; border-color: #ffc107; }
+.selected-date-status-filters .filter-btn.filter-btn-inprogress.active { background: #2196f3; border-color: #2196f3; }
+.selected-date-status-filters .filter-btn[data-status="완료"].active { background: #4caf50; border-color: #4caf50; }
+.selected-date-status-filters .filter-btn[data-status="보류"].active { background: #9e9e9e; border-color: #9e9e9e; }
+
 .task-item {
   background: #f8f9fa;
   border-left: 4px solid #11998e;
