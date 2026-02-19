@@ -430,7 +430,7 @@ header h1 {
   background: white; /* Ensure solid background when sticky */
   /* Removed padding-top: 30px; */ /* Match section padding for top alignment */
   /* Removed margin-top: -30px; */ /* Counteract added padding to stick to true top */
-  padding-bottom: 20px; /* Maintain space below */
+  padding-bottom: 10px; /* Maintain space below */
   /* Removed transform: translateZ(0); */ /* No longer necessary */
 }
 
@@ -512,7 +512,7 @@ header h1 {
   background: #f8f9fa;
   padding: 15px 20px;
   border-radius: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   background: white;
   display: flex; /* Make it a flex container */
@@ -669,11 +669,11 @@ header h1 {
 
 h3#selectedDateTitle {
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 18px;
   padding-left: 30px; /* Add left padding */
   padding-top: 15px; /* Add top padding for spacing */
-  padding-bottom: 15px; /* Add bottom padding for spacing */
+  padding-bottom: 10px; /* Add bottom padding for spacing */
   background-color: white; /* Ensure it has a solid background when sticky */
 }
 
@@ -681,7 +681,7 @@ h3#selectedDateTitle {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 0 30px; /* Match tasks-section padding */
 }
 
