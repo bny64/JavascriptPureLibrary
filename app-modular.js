@@ -519,7 +519,11 @@ function switchView(viewName) {
     const ganttChartView = document.getElementById('gantt-chart-view');
     const dashboardView = document.getElementById('dashboard-view');
     const kanbanView = document.getElementById('kanban-view');
-    const currentViewButton = document.querySelector('.current-view');
+
+    // Remove active class from all sidebar links
+    document.querySelectorAll('.sidebar-menu li a').forEach(link => {
+        link.classList.remove('active');
+    });
 
     // Hide all views
     calendarView.style.display = 'none';
@@ -527,20 +531,21 @@ function switchView(viewName) {
     dashboardView.style.display = 'none';
     if (kanbanView) kanbanView.style.display = 'none';
 
+    // Show selected view and set active class on sidebar link
     if (viewName === 'calendar') {
         calendarView.style.display = 'block';
-        currentViewButton.textContent = '📅 일정 관리';
+        document.getElementById('sidebarCalendarLink').classList.add('active');
     } else if (viewName === 'gantt') {
         ganttChartView.style.display = 'block';
-        currentViewButton.textContent = '📊 간트 차트';
+        document.getElementById('sidebarGanttLink').classList.add('active');
         initGanttChart(); 
     } else if (viewName === 'dashboard') {
         dashboardView.style.display = 'block';
-        currentViewButton.textContent = '📈 대시보드';
+        document.getElementById('sidebarDashboardLink').classList.add('active');
         UI.dashboard.render(AppState.tasks);
     } else if (viewName === 'kanban') {
         if (kanbanView) kanbanView.style.display = 'block';
-        currentViewButton.textContent = '📋 칸반 보드';
+        document.getElementById('sidebarKanbanLink').classList.add('active');
         
         // 칸반 뷰 전환 시 검색어 초기화
         for (const status in AppState.kanbanSearchTerms) {
@@ -1395,59 +1400,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('notificationCategory2').addEventListener('change', populateNotificationDetailCategories);
 
     // Add event listeners for view switching
-    const dashboardLink = document.getElementById('dashboardViewLink');
-    const calendarLink = document.getElementById('calendarViewLink');
-    const ganttLink = document.getElementById('ganttViewLink');
-    const kanbanLink = document.getElementById('kanbanViewLink');
-    const viewSelector = document.querySelector('.view-selector');
-    const currentViewButton = document.querySelector('.current-view');
-    const viewDropdown = document.querySelector('.view-dropdown');
-
-    if (dashboardLink) {
-        dashboardLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('dashboard');
-            if (viewDropdown) viewDropdown.classList.remove('show');
-        });
-    }
-
-    if (calendarLink) {
-        calendarLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('calendar');
-            if (viewDropdown) viewDropdown.classList.remove('show');
-        });
-    }
-
-    if (ganttLink) {
-        ganttLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('gantt');
-            if (viewDropdown) viewDropdown.classList.remove('show');
-        });
-    }
-
-    if (kanbanLink) {
-        kanbanLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('kanban');
-            if (viewDropdown) viewDropdown.classList.remove('show');
-        });
-    }
-
-    // Dropdown view selector logic
-    if (currentViewButton && viewDropdown && viewSelector) {
-        currentViewButton.addEventListener('click', (event) => {
-            event.stopPropagation();
-            viewDropdown.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (viewDropdown.classList.contains('show') && !viewSelector.contains(event.target)) {
-                viewDropdown.classList.remove('show');
-            }
-        });
-    }
+    document.getElementById('sidebarDashboardLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('dashboard');
+    });
+    document.getElementById('sidebarCalendarLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('calendar');
+    });
+    document.getElementById('sidebarGanttLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('gantt');
+    });
+    document.getElementById('sidebarKanbanLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('kanban');
+    });
 });
 
 

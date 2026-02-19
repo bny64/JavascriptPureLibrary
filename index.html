@@ -9,18 +9,20 @@
     <link rel="stylesheet" href="lib/frappe-gantt.css">
 </head>
 <body>
+    <aside class="sidebar" id="mainSidebar">
+        <div class="sidebar-header">
+            <h2>메뉴</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" id="sidebarDashboardLink" data-view="dashboard">📈 대시보드</a></li>
+            <li><a href="#" id="sidebarCalendarLink" data-view="calendar">📅 일정 관리</a></li>
+            <li><a href="#" id="sidebarGanttLink" data-view="gantt">📊 간트 차트</a></li>
+            <li><a href="#" id="sidebarKanbanLink" data-view="kanban">📋 칸반 보드</a></li>
+        </ul>
+    </aside>
     <div class="container">
         <header>
             <div class="header-left">
-                <div class="view-selector">
-                    <button class="current-view">📅 일정 관리</button>
-                    <div class="view-dropdown">
-                        <a href="#" id="dashboardViewLink">📈 대시보드</a>
-                        <a href="#" id="calendarViewLink">📅 일정 관리</a>
-                        <a href="#" id="ganttViewLink">📊 간트 차트</a>
-                        <a href="#" id="kanbanViewLink">📋 칸반 보드</a>
-                    </div>
-                </div>
                 <div class="global-search-container">
                     <input type="text" id="globalSearchInput" placeholder="🔍 업무 제목, 내용 검색..." onkeyup="handleGlobalSearch(event)">
                     <div id="globalSearchResults" class="global-search-results"></div>
