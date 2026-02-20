@@ -38,7 +38,9 @@ const AppState = {
     },
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
-    gantt: null
+    gantt: null,
+    ganttInitialized: false, // Flag to control one-time initial scroll
+    ganttScrollLeft: 0 // Persist horizontal scroll position
 };
 
 // Helper arrays for month translation
@@ -438,25 +440,22 @@ function applyGanttDateTextStyling() {
     // For now, it remains a placeholder.
 }
 
-function initGanttChart(forceRefresh = false) { // Add forceRefresh parameter
-    activateGanttFilterButtons(); // 필터 버튼 상태 업데이트 (초기 로드 또는 리프레시 시)
+function initGanttChart(forceRefresh = false) {
+    activateGanttFilterButtons();
     const ganttTasks = transformTasksForGantt(AppState.tasks);
     const ganttElement = document.getElementById('gantt-target');
 
-    if (!ganttElement) return; // Ensure element exists
+    if (!ganttElement) return;
 
+    // If a chart instance exists and we are not forcing a refresh, just update the data.
     if (AppState.gantt && !forceRefresh) {
-        // If gantt instance exists and no force refresh, just ensure its data is current
-        // Frappe Gantt does not have a public 'updateData' method, but refresh can be triggered by view change or by passing new tasks
-        AppState.gantt.refresh(ganttTasks); // Pass current tasks for refresh
-        AppState.gantt.change_view_mode(AppState.gantt.options.view_mode); // Force redraw with current mode
-        postProcessGanttHeaders();
-        applyGanttDateTextStyling();
+        AppState.gantt.refresh(ganttTasks);
         return;
     }
 
-    // If no instance or forceRefresh is true, create a new one
-    ganttElement.innerHTML = ''; // Clear previous SVG content before creating new instance
+    // If no instance or a force refresh is needed, create a new one.
+    ganttElement.innerHTML = '';
+    AppState.gantt = null;
 
     if (ganttTasks.length === 0) {
         ganttElement.innerHTML = '<p style="text-align: center; padding: 20px;">간트 차트에 표시할 업무가 없습니다.</p>';
@@ -464,49 +463,45 @@ function initGanttChart(forceRefresh = false) { // Add forceRefresh parameter
     }
     
     AppState.gantt = new Gantt(ganttElement, ganttTasks, {
-        header_height: 65,        // 헤더 높이
-        column_width: 40,         // 열 너비 (일자별)
+        header_height: 65,
+        column_width: 40,
         step: 24,
         view_modes: ['Day', 'Week', 'Month'],
-        bar_height: 30,           // 바 높이
+        bar_height: 30,
         bar_corner_radius: 4,
         arrow_curve: 5,
         padding: 24,
-        view_mode: 'Day',         // ★ Day 모드로 변경 (월,일 표시)
+        view_mode: 'Day',
         date_format: 'YYYY-MM-DD',
         language: 'ko',
-        details_view_mode: false,
-
-        on_click: function (task) {
-            console.log(task);
-            openTaskModal(AppState.tasks.find(t => t.id === task.id));
-        },
-        on_date_change: function (task, start, end) {
-            console*console.log(task, start, end);
-            updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) });
-        },
-        on_progress_change: function (task, progress) {
-            console.log(task, progress);
-            let status = '진행중';
-            if (progress === 100) status = '완료';
-            else if (progress === 0) status = '대기';
-            updateTask(task.id, { status: status });
-        },
-        on_view_change: function (mode) {
-            console.log(mode);
-            postProcessGanttHeaders();
-            applyGanttDateTextStyling();
-        }
+        infinite_padding: false, // *** FIX: Disable infinite padding to prevent scroll jumping ***
+        on_click: (task) => openTaskModal(AppState.tasks.find(t => t.id === task.id)),
+        on_date_change: (task, start, end) => updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) }),
+        on_view_change: (mode) => postProcessGanttHeaders(),
     });
-    
-    // ★ Day 모드로 설정 (월,일 기준)
-    AppState.gantt.change_view_mode('Day');
 
-    // 한글 헤더 처리 지연 실행
+    // A small delay is necessary for the Gantt chart to render before we can scroll.
     setTimeout(() => {
         postProcessGanttHeaders();
-        applyGanttDateTextStyling();
-    }, 100);
+
+        // --- Robust scroll to today ---
+        const today = new Date();
+        // The gantt_start is a property set by the library after initialization
+        const ganttStartDate = AppState.gantt.gantt_start;
+        
+        if (ganttStartDate) {
+            // Calculate the number of days between the start of the chart and today
+            const daysDiff = (today.getTime() - ganttStartDate.getTime()) / (1000 * 60 * 60 * 24);
+            
+            // Calculate the scroll position
+            // column_width is the width of one day. We scroll to today minus half the container width to center it.
+            const scrollOffset = (daysDiff * AppState.gantt.options.column_width) - (ganttElement.clientWidth / 2);
+
+            if (scrollOffset > 0) {
+                ganttElement.scrollLeft = scrollOffset;
+            }
+        }
+    }, 150); // Use a slightly longer delay to be safe
 }
 
 async function initNotifications() {
@@ -541,6 +536,7 @@ function switchView(viewName) {
     } else if (viewName === 'gantt') {
         ganttChartView.style.display = 'block';
         document.getElementById('sidebarGanttLink').classList.add('active');
+        AppState.ganttInitialized = false; // Reset initialization flag for fresh scroll
         initGanttChart(); 
     } else if (viewName === 'dashboard') {
         dashboardView.style.display = 'block';

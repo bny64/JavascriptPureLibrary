@@ -1956,33 +1956,48 @@ h3#selectedDateTitle {
 
 /* View Container */
 .view-container {
-  flex-grow: 1; /* Allow to take remaining vertical space from .container */
-  overflow-y: auto; /* Ensure it is the primary scrollable area */
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Specific adjustment for Gantt View to prevent double scrollbars */
+#gantt-chart-view.view-container {
+  overflow-y: hidden;
 }
 
 /* Gantt Chart View */
 .gantt-chart-container {
-  padding: 30px;
-  height: calc(100vh - 180px); /* 전체 뷰포트 높이에서 헤더 및 패딩 등을 뺀 값 */
+  padding: 20px 30px;
+  height: calc(100vh - 100px); /* Fill remaining viewport height */
   display: flex;
   flex-direction: column;
   min-width: 0;
+  overflow: hidden; /* Important: container should not scroll, only target */
 }
 
 .gantt-chart-title {
   font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 #gantt-target {
-  flex-grow: 1; /* 남은 공간을 모두 채움 */
-  overflow-x: auto;
-  overflow-y: auto; /* 내부 세로 스크롤 허용 */
+  flex-grow: 1;
+  overflow: auto; /* Always show scrollbars here if needed */
   background: white;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  min-height: auto; /* 콘텐츠에 따라 유연하게 */
+  min-height: 0;
+}
+
+/* Ensure the library container fills the target and shows its scrollbars */
+#gantt-target .gantt-container {
+  height: 100%;
+  width: 100%;
+  overflow: visible; /* Let the #gantt-target handle the scrolling */
+  border: none;
 }
 
 /* Frappe Gantt Customizations (Overrides) */
@@ -2002,8 +2017,8 @@ h3#selectedDateTitle {
 }
 
 .gantt-container {
-  min-height: 60vh;
-  max-height: 60vh;
+  min-height: auto; /* Removed fixed 60vh */
+  max-height: none; /* Removed fixed 60vh */
   border: 1px solid #e0e0e0;
   box-shadow: none; /* Remove default shadow */
   border-radius: 8px;
