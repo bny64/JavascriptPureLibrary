@@ -2107,21 +2107,14 @@ h3#selectedDateTitle {
   opacity: 0.8;
 }
 
-/* Custom "Today" button style */
-.gantt-today-button {
-  background-color: var(--g-today-highlight);
-  color: var(--g-text-light);
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
+/* Ensure Gantt headers are not floating */
+.gantt .upper-text, .gantt .lower-text {
+  pointer-events: none; /* Prevent interference */
 }
-.gantt-today-button:hover {
-  opacity: 0.9;
+
+/* Disable floating month labels (overriding frappe-gantt default sticky behavior) */
+.gantt-container .current-upper {
+  display: none !important;
 }
 
 .gantt .bar-wrapper.gantt-priority-very-high .bar {
@@ -2142,4 +2135,9 @@ h3#selectedDateTitle {
 
 .gantt .bar-wrapper.gantt-priority-very-low .bar {
   fill: #607d8b33;
+}
+
+/* Hide dummy tasks used for padding */
+.gantt .bar-wrapper.gantt-dummy-task {
+  display: none !important;
 }

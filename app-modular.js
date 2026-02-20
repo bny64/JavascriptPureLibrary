@@ -331,70 +331,75 @@ function formatDate(date) {
 
 function transformTasksForGantt(tasks) {
     let filteredTasks = tasks
-        .filter(task => task.startDate && task.endDate); // Filter out tasks without valid start or end dates
+        .filter(task => task.startDate && task.endDate);
 
-    // Gantt Status Filter
     if (AppState.ganttStatusFilter !== '전체') {
         filteredTasks = filteredTasks.filter(task => task.status === AppState.ganttStatusFilter);
     }
 
-    // Gantt Priority Filter
     if (AppState.ganttPriorityFilter !== '전체') {
         filteredTasks = filteredTasks.filter(task => task.priority === AppState.ganttPriorityFilter);
     }
 
-    return filteredTasks
-        .sort((a, b) => { // Add sorting here
-            const dateA = new Date(a.endDate);
-            const dateB = new Date(b.endDate);
-            return dateA.getTime() - dateB.getTime(); // Sort ascending by endDate
-        })
-        .map(task => {
-        let progress = 0;
+    if (filteredTasks.length === 0) return [];
+
+    const sortedTasks = [...filteredTasks].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+    const ganttTasks = sortedTasks.map(task => {
         let custom_class = '';
-        // *** CORRECTED: Assign custom_class based on task.priority, not task.status ***
         switch (task.priority) {
-            case 'very-high':
-                custom_class = 'gantt-priority-very-high';
-                break;
-            case 'high':
-                custom_class = 'gantt-priority-high';
-                break;
-            case 'middle':
-                custom_class = 'gantt-priority-middle';
-                break;
-            case 'low':
-                custom_class = 'gantt-priority-low';
-                break;
-            case 'very-low':
-                custom_class = 'gantt-priority-very-low';
-                break;
-            default:
-                custom_class = 'gantt-priority-middle'; // Default to middle if not set
+            case 'very-high': custom_class = 'gantt-priority-very-high'; break;
+            case 'high': custom_class = 'gantt-priority-high'; break;
+            case 'middle': custom_class = 'gantt-priority-middle'; break;
+            case 'low': custom_class = 'gantt-priority-low'; break;
+            case 'very-low': custom_class = 'gantt-priority-very-low'; break;
+            default: custom_class = 'gantt-priority-middle';
         }
 
-        // Use category1 for group if available, otherwise taskName
-        const parentCategory = task.category1 || task.taskName;
-        // Combine categories for unique task name in Gantt
         const ganttTaskName = [task.category1, task.category2, task.category3, task.taskName]
                                 .filter(Boolean).join(' > ');
-                                
-        // Ensure start and end dates are valid for Gantt chart
-        const startDate = task.startDate || task.endDate;
-        const endDate = task.endDate || task.startDate;
 
         return {
             id: task.id,
             name: ganttTaskName,
-            start: startDate,
-            end: endDate,
-            progress: progress,
-            custom_class: custom_class, // Now uses priority class
-            // Assuming frappe-gantt can use 'dependencies' for linking tasks
-            // dependencies: task.dependencies ? task.dependencies.join(',') : '',
-            // Assuming 'start_date' and 'end_date' can be used for display, if 'start' and 'end' are for calculation
+            start: task.startDate,
+            end: task.endDate,
+            progress: 0,
+            custom_class: custom_class,
         };
     });
+
+    // --- Add Buffer Tasks (+/- 1 Month) at the BOTTOM ---
+    const startDates = sortedTasks.map(t => new Date(t.startDate).getTime());
+    const endDates = sortedTasks.map(t => new Date(t.endDate).getTime());
+    const minStart = new Date(Math.min(...startDates));
+    const maxEnd = new Date(Math.max(...endDates));
+
+    const dummyStart = new Date(minStart);
+    dummyStart.setMonth(dummyStart.getMonth() - 1);
+    const dummyEnd = new Date(maxEnd);
+    dummyEnd.setMonth(dummyEnd.getMonth() + 1);
+
+    const bufferTasks = [
+        {
+            id: 'dummy_start_buffer',
+            name: '\u00A0', // Non-breaking space
+            start: formatDate(dummyStart),
+            end: formatDate(dummyStart),
+            progress: 0,
+            custom_class: 'gantt-dummy-task'
+        },
+        {
+            id: 'dummy_end_buffer',
+            name: '\u00A0',
+            start: formatDate(dummyEnd),
+            end: formatDate(dummyEnd),
+            progress: 0,
+            custom_class: 'gantt-dummy-task'
+        }
+    ];
+
+    return [...ganttTasks, ...bufferTasks]; // Actual tasks first, buffers last
 }
 
 function postProcessGanttHeaders() {
@@ -464,17 +469,19 @@ function initGanttChart(forceRefresh = false) {
     
     AppState.gantt = new Gantt(ganttElement, ganttTasks, {
         header_height: 65,
-        column_width: 40,
+        column_width: 50,
         step: 24,
         view_modes: ['Day', 'Week', 'Month'],
-        bar_height: 30,
+        bar_height: 25,
+        padding: 35,
         bar_corner_radius: 4,
         arrow_curve: 5,
-        padding: 24,
         view_mode: 'Day',
         date_format: 'YYYY-MM-DD',
         language: 'ko',
-        infinite_padding: false, // *** FIX: Disable infinite padding to prevent scroll jumping ***
+        infinite_padding: false,
+        today_button: false,    // *** DISABLE: Remove floating Today button on the right ***
+        auto_move_label: false, // *** DISABLE: Stop month labels from floating/following scroll ***
         on_click: (task) => openTaskModal(AppState.tasks.find(t => t.id === task.id)),
         on_date_change: (task, start, end) => updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) }),
         on_view_change: (mode) => postProcessGanttHeaders(),
@@ -486,22 +493,31 @@ function initGanttChart(forceRefresh = false) {
 
         // --- Robust scroll to today ---
         const today = new Date();
-        // The gantt_start is a property set by the library after initialization
         const ganttStartDate = AppState.gantt.gantt_start;
         
         if (ganttStartDate) {
-            // Calculate the number of days between the start of the chart and today
             const daysDiff = (today.getTime() - ganttStartDate.getTime()) / (1000 * 60 * 60 * 24);
-            
-            // Calculate the scroll position
-            // column_width is the width of one day. We scroll to today minus half the container width to center it.
             const scrollOffset = (daysDiff * AppState.gantt.options.column_width) - (ganttElement.clientWidth / 2);
 
             if (scrollOffset > 0) {
                 ganttElement.scrollLeft = scrollOffset;
             }
         }
-    }, 150); // Use a slightly longer delay to be safe
+        
+        setGanttMinWidth(ganttElement);
+    }, 150);
+}
+
+function setGanttMinWidth(ganttElement) {
+    if (!ganttElement) return;
+    const svgElement = ganttElement.querySelector('svg.gantt');
+    if (svgElement) {
+        const containerWidth = ganttElement.clientWidth;
+        const svgWidth = parseFloat(svgElement.getAttribute('width'));
+        if (svgWidth < containerWidth) {
+            svgElement.setAttribute('width', (containerWidth + 50) + 'px'); // Add extra buffer
+        }
+    }
 }
 
 async function initNotifications() {
