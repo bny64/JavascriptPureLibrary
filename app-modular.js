@@ -459,10 +459,13 @@ function initGanttChart(forceRefresh = false) {
     }
 
     // If no instance or a force refresh is needed, create a new one.
+    // --- FIX: Hide container during initial render to prevent visible jumping ---
+    ganttElement.style.visibility = 'hidden';
     ganttElement.innerHTML = '';
     AppState.gantt = null;
 
     if (ganttTasks.length === 0) {
+        ganttElement.style.visibility = 'visible';
         ganttElement.innerHTML = '<p style="text-align: center; padding: 20px;">간트 차트에 표시할 업무가 없습니다.</p>';
         return;
     }
@@ -480,8 +483,8 @@ function initGanttChart(forceRefresh = false) {
         date_format: 'YYYY-MM-DD',
         language: 'ko',
         infinite_padding: false,
-        today_button: false,    // *** DISABLE: Remove floating Today button on the right ***
-        auto_move_label: false, // *** DISABLE: Stop month labels from floating/following scroll ***
+        today_button: false,
+        auto_move_label: false,
         on_click: (task) => openTaskModal(AppState.tasks.find(t => t.id === task.id)),
         on_date_change: (task, start, end) => updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) }),
         on_view_change: (mode) => postProcessGanttHeaders(),
@@ -491,11 +494,13 @@ function initGanttChart(forceRefresh = false) {
     setTimeout(() => {
         postProcessGanttHeaders();
 
-        // --- Robust scroll to today ---
         const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const ganttStartDate = AppState.gantt.gantt_start;
+        const ganttEndDate = AppState.gantt.gantt_end;
         
-        if (ganttStartDate) {
+        // --- FIX: Scroll to today ONLY if it is within the chart range ---
+        if (ganttStartDate && today >= ganttStartDate && today <= ganttEndDate) {
             const daysDiff = (today.getTime() - ganttStartDate.getTime()) / (1000 * 60 * 60 * 24);
             const scrollOffset = (daysDiff * AppState.gantt.options.column_width) - (ganttElement.clientWidth / 2);
 
@@ -505,6 +510,9 @@ function initGanttChart(forceRefresh = false) {
         }
         
         setGanttMinWidth(ganttElement);
+        
+        // --- FIX: Finally reveal the chart after positioning is done ---
+        ganttElement.style.visibility = 'visible';
     }, 150);
 }
 
