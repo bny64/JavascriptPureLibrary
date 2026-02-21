@@ -649,6 +649,19 @@
       "priority": "middle",
       "description": "시스템 예외 발생 시 사용자 알림",
       "createdAt": "2026-02-15T10:00:00.000Z"
+    },
+    {
+      "category1": "연구/개발",
+      "category2": "신사업 검토",
+      "category3": "AI 솔루션",
+      "taskName": "제미나이 AI 개발 계획",
+      "startDate": "2026-02-21",
+      "endDate": "2026-02-28",
+      "status": "진행중",
+      "priority": "high",
+      "description": "",
+      "id": "1771636186259",
+      "createdAt": "2026-02-21T01:09:46.259Z"
     }
   ]
 }
