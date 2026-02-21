@@ -1,0 +1,58 @@
+<div class="modal-content task-modal-content">
+    <span class="close" onclick="closeTaskModal()">&times;</span>
+    <h2 id="modalTitle">새 업무 추가</h2>
+    <form id="taskForm" onsubmit="saveTask(event)">
+        <input type="hidden" id="taskId">
+        <div class="form-group">
+            <label>대분류</label>
+            <select id="category1" required onchange="updateSubCategories()"><option value="">선택하세요</option></select>
+        </div>
+        <div class="form-group">
+            <label>중분류</label>
+            <select id="category2" onchange="updateDetailCategories()"><option value="">선택하세요</option></select>
+        </div>
+        <div class="form-group">
+            <label>소분류</label>
+            <select id="category3"><option value="">선택하세요</option></select>
+        </div>
+        <div class="form-group">
+            <label>업무명</label>
+            <input type="text" id="taskName" required placeholder="업무 이름을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label>시작 날짜</label>
+            <input type="date" id="startDate">
+        </div>
+        <div class="form-group">
+            <label>종료 날짜</label>
+            <input type="date" id="endDate">
+        </div>
+        <div class="form-group">
+            <label>진행 상태</label>
+            <select id="status" required>
+                <option value="대기">대기</option>
+                <option value="진행중">진행중</option>
+                <option value="완료">완료</option>
+                <option value="보류">보류</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>우선순위</label>
+            <select id="priority" required>
+                <option value="very-high">매우 높음</option>
+                <option value="high">높음</option>
+                <option value="middle" selected>중간</option>
+                <option value="low">낮음</option>
+                <option value="very-low">매우 낮음</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>설명</label>
+            <textarea id="description" rows="4" placeholder="업무 설명을 입력하세요"></textarea>
+        </div>
+        <div class="modal-buttons">
+            <button type="submit" class="btn-save">저장</button>
+            <button type="button" class="btn-cancel" onclick="closeTaskModal()">취소</button>
+        </div>
+    </form>
+</div>

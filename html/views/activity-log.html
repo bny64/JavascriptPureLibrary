@@ -1,0 +1,12 @@
+<div class="activity-log-container">
+    <h2 class="activity-log-title">시스템 활동 로그</h2>
+    <div class="log-filters">
+        <button class="filter-btn active" onclick="filterLogs('전체')" data-action="전체">전체</button>
+        <button class="filter-btn" onclick="filterLogs('등록')" data-action="등록">등록</button>
+        <button class="filter-btn" onclick="filterLogs('수정')" data-action="수정">수정</button>
+        <button class="filter-btn" onclick="filterLogs('삭제')" data-action="삭제">삭제</button>
+    </div>
+    <div class="timeline" id="activityTimeline">
+        <!-- 타임라인 아이템이 여기에 렌더링됩니다 -->
+    </div>
+</div>

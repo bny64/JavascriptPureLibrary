@@ -26,6 +26,8 @@ import { DashboardUI }    from './ui/dashboard-ui.js';
 import { KanbanUI }       from './ui/kanban-ui.js';
 import { ActivityLogUI }  from './ui/activity-log-ui.js';
 
+import { injectComponents } from './utils/html-loader.js';
+
 // ──────────────────────────────────────────────
 // 기능 모듈
 // ──────────────────────────────────────────────
@@ -87,9 +89,12 @@ function changeTheme(theme) {
 // ══════════════════════════════════════════════
 async function loadTasks() {
     AppState.tasks = await API.tasks.getAll();
-    TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
-    TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
-    TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
+    
+    // 요소가 있을 때만 요약 렌더링
+    if (document.getElementById('statusSummary')) TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
+    if (document.getElementById('prioritySummary')) TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
+    if (document.getElementById('unfinishedTaskCount')) TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
+    
     renderCalendar();
     renderTasksForSelectedDate();
 
@@ -168,15 +173,21 @@ function renderCalendar() {
 
 function renderTasksForSelectedDate() {
     const tasksList = document.getElementById('tasksList');
+    if (!tasksList) return;
+
     let tasksForDate = CalendarUI.getTasksForDate(AppState.selectedDate, AppState.tasks);
+
 
     if (AppState.currentSelectedDateStatusFilter !== '전체') {
         tasksForDate = tasksForDate.filter(t => t.status === AppState.currentSelectedDateStatusFilter);
     }
 
-    document.querySelectorAll('#selectedDateStatusFilters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-status').trim() === AppState.currentSelectedDateStatusFilter.trim());
-    });
+    const statusFilters = document.querySelectorAll('#selectedDateStatusFilters .filter-btn');
+    if (statusFilters.length > 0) {
+        statusFilters.forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-status').trim() === AppState.currentSelectedDateStatusFilter.trim());
+        });
+    }
 
     if (tasksForDate.length === 0) {
         tasksList.innerHTML = '<p style="color:#999;text-align:center;padding:20px;">선택한 날짜에 업무가 없습니다.</p>';
@@ -193,6 +204,8 @@ function filterSelectedDateTasksByStatus(status) {
 
 function updateSelectedDateTitle() {
     const title = document.getElementById('selectedDateTitle');
+    if (!title) return;
+
     const d = AppState.selectedDate;
     title.textContent = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일의 업무`;
 }
@@ -218,36 +231,64 @@ function nextMonth() {
 // ══════════════════════════════════════════════
 // 뷰 전환
 // ══════════════════════════════════════════════
-function switchView(viewName) {
-    ['calendar-view', 'gantt-chart-view', 'dashboard-view', 'kanban-view', 'activity-log-view'].forEach(id => {
-        const el = document.getElementById(id);
+async function switchView(viewName) {
+    const views = {
+        'dashboard': { id: 'dashboard-view', url: 'html/views/dashboard.html', linkId: 'sidebarDashboardLink' },
+        'calendar': { id: 'calendar-view', url: 'html/views/calendar.html', linkId: 'sidebarCalendarLink' },
+        'gantt': { id: 'gantt-chart-view', url: 'html/views/gantt.html', linkId: 'sidebarGanttLink' },
+        'kanban': { id: 'kanban-view', url: 'html/views/kanban.html', linkId: 'sidebarKanbanLink' },
+        'activityLog': { id: 'activity-log-view', url: 'html/views/activity-log.html', linkId: 'sidebarActivityLogLink' }
+    };
+
+    // 모든 뷰 숨기기
+    Object.values(views).forEach(v => {
+        const el = document.getElementById(v.id);
         if (el) el.style.display = 'none';
     });
     document.querySelectorAll('.sidebar-menu li a').forEach(a => a.classList.remove('active'));
 
-    const showView = (id, linkId) => {
-        const view = document.getElementById(id);
-        if (view) view.style.display = 'block';
-        const link = document.getElementById(linkId);
-        if (link) link.classList.add('active');
-    };
+    const target = views[viewName];
+    if (!target) return;
 
+    const viewContainer = document.getElementById(target.id);
+    if (!viewContainer) return;
+
+    // 컨텐츠가 비어있으면 동적 로드
+    if (viewContainer.innerHTML.trim() === '') {
+        try {
+            const response = await fetch(target.url);
+            viewContainer.innerHTML = await response.text();
+        } catch (error) {
+            console.error(`Error loading view ${viewName}:`, error);
+            viewContainer.innerHTML = `<p style="padding:20px; color:red;">뷰를 로드하는 중 오류가 발생했습니다.</p>`;
+        }
+    }
+
+    // 표시 및 활성화
+    viewContainer.style.display = 'block';
+    const link = document.getElementById(target.linkId);
+    if (link) link.classList.add('active');
+
+    // 뷰별 초기화 로직
     switch (viewName) {
         case 'calendar':
-            showView('calendar-view', 'sidebarCalendarLink');
+            renderCalendar();
+            renderTasksForSelectedDate();
+            // 요약 정보 즉시 렌더링 보장
+            TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
+            TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
+            TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
+            updateSelectedDateTitle();
             break;
         case 'gantt':
-            showView('gantt-chart-view', 'sidebarGanttLink');
             AppState.ganttInitialized = false;
             initGanttChart();
             break;
         case 'dashboard':
-            showView('dashboard-view', 'sidebarDashboardLink');
             DashboardUI.render(AppState.tasks);
             break;
         case 'kanban':
-            showView('kanban-view', 'sidebarKanbanLink');
-            // 검색어 초기화
+            // 검색어 초기화 및 렌더링
             for (const status in AppState.kanbanSearchTerms) {
                 AppState.kanbanSearchTerms[status] = '';
                 const header = document.querySelector(`.kanban-column-header.status-${status}`);
@@ -259,7 +300,6 @@ function switchView(viewName) {
             KanbanUI.render(AppState.tasks);
             break;
         case 'activityLog':
-            showView('activity-log-view', 'sidebarActivityLogLink');
             loadLogs();
             break;
     }
@@ -267,9 +307,9 @@ function switchView(viewName) {
     StorageUtils.set('currentView', viewName);
 }
 
-function loadView() {
+async function loadView() {
     const savedView = StorageUtils.get('currentView', 'calendar');
-    switchView(savedView);
+    await switchView(savedView);
 }
 
 
@@ -389,8 +429,17 @@ function getWeekNumber(d) {
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
+    // 1. 필수 모달 주입
+    await injectComponents('#modal-container', [
+        { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
+        { id: 'categoryModal', url: 'html/modals/category.html', wrapperClass: 'modal' },
+        { id: 'taskModal', url: 'html/modals/task.html', wrapperClass: 'modal' },
+        { id: 'importantMemoModal', url: 'html/modals/important-memo.html', wrapperClass: 'modal' },
+        { id: 'notificationSettingsModal', url: 'html/modals/notification-settings.html', wrapperClass: 'modal' }
+    ]);
+
     loadTheme();
-    loadView();
+    await loadView();
 
     await loadCategories();
     await loadTasks();

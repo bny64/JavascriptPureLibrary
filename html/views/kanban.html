@@ -1,0 +1,33 @@
+<div class="kanban-container">
+    <h2 class="kanban-title">업무 칸반 보드</h2>
+    <div class="kanban-board">
+        <div class="kanban-column" data-status="대기" ondragover="allowDrop(event)" ondrop="dropTask(event)">
+            <div class="kanban-column-header status-대기">
+                대기 <span class="count">0</span>
+                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('대기', this.value)">
+            </div>
+            <div class="kanban-tasks" id="kanban-대기"></div>
+        </div>
+        <div class="kanban-column" data-status="진행중" ondragover="allowDrop(event)" ondrop="dropTask(event)">
+            <div class="kanban-column-header status-진행중">
+                진행중 <span class="count">0</span>
+                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('진행중', this.value)">
+            </div>
+            <div class="kanban-tasks" id="kanban-진행중"></div>
+        </div>
+        <div class="kanban-column" data-status="완료" ondragover="allowDrop(event)" ondrop="dropTask(event)">
+            <div class="kanban-column-header status-완료">
+                완료 <span class="count">0</span>
+                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('완료', this.value)">
+            </div>
+            <div class="kanban-tasks" id="kanban-완료"></div>
+        </div>
+        <div class="kanban-column" data-status="보류" ondragover="allowDrop(event)" ondrop="dropTask(event)">
+            <div class="kanban-column-header status-보류">
+                보류 <span class="count">0</span>
+                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('보류', this.value)">
+            </div>
+            <div class="kanban-tasks" id="kanban-보류"></div>
+        </div>
+    </div>
+</div>

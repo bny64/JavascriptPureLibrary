@@ -1,0 +1,33 @@
+<div class="modal-content category-modal-content">
+    <span class="close" onclick="closeCategoryModal()">&times;</span>
+    <h2>분류 관리</h2>
+    
+    <div class="category-management">
+        <div class="category-form">
+            <h3>새 분류 추가</h3>
+            <form id="categoryForm" onsubmit="saveCategory(event)">
+                <input type="hidden" id="categoryId">
+                <div class="form-group">
+                    <label>대분류</label>
+                    <input type="text" id="mainCategory" required placeholder="예: 개발">
+                </div>
+                <div class="form-group">
+                    <label>중분류 (선택)</label>
+                    <input type="text" id="subCategory" placeholder="예: 웹 개발">
+                </div>
+                <div class="form-group">
+                    <label>소분류 (선택)</label>
+                    <input type="text" id="detailCategory" placeholder="예: 프론트엔드">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">저장</button>
+                    <button type="button" class="btn-cancel" onclick="closeCategoryModal()">취소</button>
+                </div>
+            </form>
+        </div>
+        <div class="category-tree">
+            <h3>등록된 분류</h3>
+            <div id="categoryTreeView"></div>
+        </div>
+    </div>
+</div>

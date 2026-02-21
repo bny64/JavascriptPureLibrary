@@ -6,10 +6,14 @@ import { KoreanTime } from '../utils/korean-time.js';
 export const CalendarUI = {
     render(tasks, currentDate, selectedDate, holidays) {
         const calendar = document.getElementById('calendar');
+        const currentMonthEl = document.getElementById('currentMonth');
+        
+        if (!calendar || !currentMonthEl) return;
+
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
 
-        document.getElementById('currentMonth').textContent = `${year}년 ${month + 1}월`;
+        currentMonthEl.textContent = `${year}년 ${month + 1}월`;
         calendar.innerHTML = '';
 
         // 요일 헤더
