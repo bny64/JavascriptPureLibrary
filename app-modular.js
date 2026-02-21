@@ -39,6 +39,7 @@ const AppState = {
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
     logs: [], // New property for activity logs
+    currentLogFilter: '전체', // New property for activity log filter
     gantt: null,
     ganttInitialized: false, // Flag to control one-time initial scroll
     ganttScrollLeft: 0 // Persist horizontal scroll position
@@ -599,7 +600,29 @@ function switchView(viewName) {
 
 async function loadLogs() {
     AppState.logs = await API.logs.getAll();
-    UI.activityLog.render(AppState.logs);
+    
+    let filteredLogs = AppState.logs;
+    if (AppState.currentLogFilter !== '전체') {
+        filteredLogs = AppState.logs.filter(log => log.action === AppState.currentLogFilter);
+    }
+    
+    UI.activityLog.render(filteredLogs);
+    updateLogFilterButtons();
+}
+
+function filterLogs(action) {
+    AppState.currentLogFilter = action;
+    loadLogs();
+}
+
+function updateLogFilterButtons() {
+    const filterBtns = document.querySelectorAll('.log-filters .filter-btn');
+    filterBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-action') === AppState.currentLogFilter) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 function handleLogClick(taskId, taskName) {
@@ -1616,3 +1639,4 @@ window.dropTask = dropTask;
 window.handleGlobalSearch = handleGlobalSearch;
 window.filterKanbanColumn = filterKanbanColumn;
 window.handleLogClick = handleLogClick;
+window.filterLogs = filterLogs;

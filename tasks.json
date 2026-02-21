@@ -444,19 +444,6 @@
       "priority": "middle"
     },
     {
-      "category1": "백엔드",
-      "category2": "트레이딩",
-      "category3": "주식 - 수익률",
-      "taskName": "추가 예시 업무 13: 주식 - 수익률 관련 작업",
-      "startDate": "2026-02-11",
-      "endDate": "2026-02-21",
-      "status": "대기",
-      "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
-      "id": "17077463665301012",
-      "createdAt": "2026-02-12T13:59:26.530Z",
-      "priority": "high"
-    },
-    {
       "category1": "디자인",
       "category2": "웹",
       "category3": "로고 리뉴얼",
@@ -2178,8 +2165,8 @@
       "category2": "UI",
       "category3": "마이페이지 개선",
       "taskName": "개선사항",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2026-02-19",
+      "endDate": "2026-02-26",
       "status": "완료",
       "priority": "middle",
       "description": "",

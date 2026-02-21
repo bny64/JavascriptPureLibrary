@@ -2143,8 +2143,19 @@ h3#selectedDateTitle {
 .activity-log-title {
   font-size: 24px;
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
+
+.log-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.log-filters .filter-btn[data-action="등록"].active { background-color: #4caf50; border-color: #4caf50; color: white; }
+.log-filters .filter-btn[data-action="수정"].active { background-color: #2196f3; border-color: #2196f3; color: white; }
+.log-filters .filter-btn[data-action="삭제"].active { background-color: #f44336; border-color: #f44336; color: white; }
 
 .timeline {
   position: relative;
