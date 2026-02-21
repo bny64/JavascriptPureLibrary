@@ -116,5 +116,19 @@ const API = {
                 throw error;
             }
         }
+    },
+    
+    // Logs API
+    logs: {
+        // 모든 활동 로그 가져오기
+        getAll: async function() {
+            try {
+                const response = await fetch(`${API.baseURL}/api/logs`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading logs:', error);
+                return [];
+            }
+        }
     }
 };

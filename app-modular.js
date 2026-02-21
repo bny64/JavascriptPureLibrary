@@ -38,6 +38,7 @@ const AppState = {
     },
     holidays: {}, // New property for holiday data
     notifications: [], // New property for tasks ending soon
+    logs: [], // New property for activity logs
     gantt: null,
     ganttInitialized: false, // Flag to control one-time initial scroll
     ganttScrollLeft: 0 // Persist horizontal scroll position
@@ -99,6 +100,11 @@ async function loadTasks() {
     // Refresh Kanban if visible
     if (document.getElementById('kanban-view').style.display === 'block') {
         UI.kanban.render(AppState.tasks);
+    }
+
+    // Refresh Activity Log if visible
+    if (document.getElementById('activity-log-view').style.display === 'block') {
+        loadLogs();
     }
 
     // If the All Tasks modal is open, re-render its list
@@ -541,6 +547,7 @@ function switchView(viewName) {
     const ganttChartView = document.getElementById('gantt-chart-view');
     const dashboardView = document.getElementById('dashboard-view');
     const kanbanView = document.getElementById('kanban-view');
+    const activityLogView = document.getElementById('activity-log-view');
 
     // Remove active class from all sidebar links
     document.querySelectorAll('.sidebar-menu li a').forEach(link => {
@@ -552,6 +559,7 @@ function switchView(viewName) {
     ganttChartView.style.display = 'none';
     dashboardView.style.display = 'none';
     if (kanbanView) kanbanView.style.display = 'none';
+    if (activityLogView) activityLogView.style.display = 'none';
 
     // Show selected view and set active class on sidebar link
     if (viewName === 'calendar') {
@@ -573,14 +581,34 @@ function switchView(viewName) {
         // 칸반 뷰 전환 시 검색어 초기화
         for (const status in AppState.kanbanSearchTerms) {
             AppState.kanbanSearchTerms[status] = '';
-            const searchInput = document.querySelector(`#kanban-${status}`).previousElementSibling.querySelector('.kanban-search-input');
-            if (searchInput) {
-                searchInput.value = '';
+            const columnHeader = document.querySelector(`.kanban-column-header.status-${status}`);
+            if (columnHeader) {
+                const searchInput = columnHeader.querySelector('.kanban-search-input');
+                if (searchInput) searchInput.value = '';
             }
         }
         UI.kanban.render(AppState.tasks);
+    } else if (viewName === 'activityLog') {
+        if (activityLogView) activityLogView.style.display = 'block';
+        const logLink = document.getElementById('sidebarActivityLogLink');
+        if (logLink) logLink.classList.add('active');
+        loadLogs();
     }
     StorageUtils.set('currentView', viewName);
+}
+
+async function loadLogs() {
+    AppState.logs = await API.logs.getAll();
+    UI.activityLog.render(AppState.logs);
+}
+
+function handleLogClick(taskId, taskName) {
+    const task = AppState.tasks.find(t => t.id === taskId);
+    if (task) {
+        openTaskModal(task);
+    } else {
+        alert(`'${taskName}' 업무는 삭제되어 상세 내용을 확인할 수 없습니다.`);
+    }
 }
 
 // Kanban Drag and Drop Functions
@@ -1466,6 +1494,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         switchView('kanban');
     });
+    document.getElementById('sidebarActivityLogLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('activityLog');
+    });
 });
 
 
@@ -1583,3 +1615,4 @@ window.allowDrop = allowDrop;
 window.dropTask = dropTask;
 window.handleGlobalSearch = handleGlobalSearch;
 window.filterKanbanColumn = filterKanbanColumn;
+window.handleLogClick = handleLogClick;

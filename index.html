@@ -18,6 +18,7 @@
             <li><a href="#" id="sidebarCalendarLink" data-view="calendar">📅 일정 관리</a></li>
             <li><a href="#" id="sidebarGanttLink" data-view="gantt">📊 간트 차트</a></li>
             <li><a href="#" id="sidebarKanbanLink" data-view="kanban">📋 칸반 보드</a></li>
+            <li><a href="#" id="sidebarActivityLogLink" data-view="activityLog">📜 활동 로그</a></li>
         </ul>
     </aside>
     <div class="container">
@@ -178,6 +179,14 @@
                         </div>
                         <div class="kanban-tasks" id="kanban-보류"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id="activity-log-view" class="view-container" style="display: none;">
+            <div class="activity-log-container">
+                <h2 class="activity-log-title">시스템 활동 로그</h2>
+                <div class="timeline" id="activityTimeline">
+                    <!-- 타임라인 아이템이 여기에 렌더링됩니다 -->
                 </div>
             </div>
         </div>

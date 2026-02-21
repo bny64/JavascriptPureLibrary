@@ -7,6 +7,7 @@ const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'tasks.json');
 const CATEGORY_FILE = path.join(__dirname, 'categories.json');
 const HOLIDAY_FILE = path.join(__dirname, 'holidays.json'); // New holiday file constant
+const LOG_FILE = path.join(__dirname, 'logs.json');
 
 // 데이터 파일 초기화
 if (!fs.existsSync(DATA_FILE)) {
@@ -22,6 +23,10 @@ if (!fs.existsSync(HOLIDAY_FILE)) {
     fs.writeFileSync(HOLIDAY_FILE, JSON.stringify({}, null, 2));
 }
 
+if (!fs.existsSync(LOG_FILE)) {
+    fs.writeFileSync(LOG_FILE, JSON.stringify({ logs: [] }, null, 2));
+}
+
 // 데이터 읽기
 function readData() {
     try {
@@ -35,6 +40,39 @@ function readData() {
 // 데이터 쓰기
 function writeData(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
+
+// 로그 읽기
+function readLogs() {
+    try {
+        const data = fs.readFileSync(LOG_FILE, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        return { logs: [] };
+    }
+}
+
+// 로그 쓰기
+function writeLog(action, taskId, taskName, details = '') {
+    try {
+        const data = readLogs();
+        const newLog = {
+            id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+            taskId,
+            taskName,
+            action,
+            details,
+            timestamp: new Date().toISOString()
+        };
+        data.logs.unshift(newLog); // 최신 로그가 앞으로 오게 추가
+        // 로그 개수 제한 (예: 최근 500개만 유지)
+        if (data.logs.length > 500) {
+            data.logs = data.logs.slice(0, 500);
+        }
+        fs.writeFileSync(LOG_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error('Error writing log:', error);
+    }
 }
 
 // MIME 타입 매핑
@@ -65,6 +103,14 @@ const server = http.createServer((req, res) => {
         const data = readData();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(data.tasks));
+        return;
+    }
+
+    // 로그 API
+    if (pathname === '/api/logs' && req.method === 'GET') {
+        const data = readLogs();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data.logs));
         return;
     }
 
@@ -158,6 +204,7 @@ const server = http.createServer((req, res) => {
             task.createdAt = new Date().toISOString();
             data.tasks.push(task);
             writeData(data);
+            writeLog('등록', task.id, task.taskName); // 로그 기록
             res.writeHead(201, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(task));
         });
@@ -173,8 +220,47 @@ const server = http.createServer((req, res) => {
             const data = readData();
             const index = data.tasks.findIndex(t => t.id === id);
             if (index !== -1) {
+                const oldTask = { ...data.tasks[index] };
                 data.tasks[index] = { ...data.tasks[index], ...updatedTask, id };
+                const newTask = data.tasks[index];
+                
+                // 변경 사항 비교 및 상세 메시지 생성
+                const fieldMap = {
+                    taskName: '업무명',
+                    startDate: '시작 날짜',
+                    endDate: '종료 날짜',
+                    status: '진행 상태',
+                    priority: '우선순위',
+                    category1: '대분류',
+                    category2: '중분류',
+                    category3: '소분류',
+                    description: '설명',
+                    importantMemo: '중요 메모'
+                };
+
+                const priorityMap = {
+                    'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
+                };
+
+                const changes = [];
+                for (const key in fieldMap) {
+                    let oldVal = oldTask[key] || '';
+                    let newVal = newTask[key] || '';
+
+                    if (oldVal !== newVal) {
+                        // 우선순위 값 한글화
+                        if (key === 'priority') {
+                            oldVal = priorityMap[oldVal] || oldVal;
+                            newVal = priorityMap[newVal] || newVal;
+                        }
+                        changes.push(`[${fieldMap[key]}] ${oldVal} → ${newVal}`);
+                    }
+                }
+
+                const details = changes.join(', ');
                 writeData(data);
+                writeLog('수정', id, newTask.taskName, details); // 상세 내용 포함하여 로그 기록
+                
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(data.tasks[index]));
             } else {
@@ -190,8 +276,10 @@ const server = http.createServer((req, res) => {
         const data = readData();
         const index = data.tasks.findIndex(t => t.id === id);
         if (index !== -1) {
+            const taskName = data.tasks[index].taskName; // 삭제 전 이름 보관
             data.tasks.splice(index, 1);
             writeData(data);
+            writeLog('삭제', id, taskName); // 로그 기록
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true }));
         } else {

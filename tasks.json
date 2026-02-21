@@ -1,17 +1,17 @@
 {
   "tasks": [
     {
-      "category1": "백엔드",
-      "category2": "트레이딩",
-      "category3": "코인",
-      "taskName": "자동매매",
-      "startDate": "2026-02-12",
-      "endDate": "2026-02-23",
-      "status": "대기",
-      "description": "",
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "",
+      "taskName": "자동매매2",
+      "startDate": "2026-02-10",
+      "endDate": "2026-02-24",
+      "status": "진행중",
+      "description": "설명",
       "id": "1770896091964",
       "createdAt": "2026-02-12T11:34:51.964Z",
-      "priority": "very-high"
+      "priority": "low"
     },
     {
       "category1": "백엔드",
@@ -450,7 +450,7 @@
       "taskName": "추가 예시 업무 13: 주식 - 수익률 관련 작업",
       "startDate": "2026-02-11",
       "endDate": "2026-02-21",
-      "status": "진행 중",
+      "status": "대기",
       "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
       "id": "17077463665301012",
       "createdAt": "2026-02-12T13:59:26.530Z",
@@ -2146,6 +2146,45 @@
       "description": "",
       "id": "1771417777160",
       "createdAt": "2026-02-18T12:29:37.160Z"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "자동매매",
+      "startDate": "",
+      "endDate": "",
+      "status": "대기",
+      "priority": "middle",
+      "description": "",
+      "id": "1771634262750",
+      "createdAt": "2026-02-21T00:37:42.750Z"
+    },
+    {
+      "category1": "백엔드",
+      "category2": "트레이딩",
+      "category3": "코인",
+      "taskName": "추가 예시 업무 13: 주식 - 수익률 관련 작업 (복사본)",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-21",
+      "status": "진행중",
+      "priority": "high",
+      "description": "백엔드 트레이딩 부서의 주식 - 수익률에 대한 업무입니다.",
+      "id": "1771634715530",
+      "createdAt": "2026-02-21T00:45:15.530Z"
+    },
+    {
+      "category1": "프론트엔드",
+      "category2": "UI",
+      "category3": "마이페이지 개선",
+      "taskName": "개선사항",
+      "startDate": "",
+      "endDate": "",
+      "status": "완료",
+      "priority": "middle",
+      "description": "",
+      "id": "1771634814018",
+      "createdAt": "2026-02-21T00:46:54.018Z"
     }
   ]
 }

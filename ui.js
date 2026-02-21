@@ -662,5 +662,65 @@ const UI = {
             };
             return colors[priority] || '#3f51b5';
         }
+    },
+
+    // 활동 로그 렌더링
+    activityLog: {
+        formatLogDetail: function(detail) {
+            if (!detail) return '';
+            
+            // 상태 텍스트 매칭 및 치환
+            const statuses = ['대기', '진행중', '완료', '보류'];
+            const priorities = {
+                '매우 높음': 'very-high',
+                '높음': 'high',
+                '중간': 'middle',
+                '낮음': 'low',
+                '매우 낮음': 'very-low'
+            };
+
+            let formatted = TextUtils.escapeHtml(detail);
+
+            // 상태 뱃지 적용
+            statuses.forEach(status => {
+                const regex = new RegExp(status, 'g');
+                formatted = formatted.replace(regex, `<span class="log-detail-badge status-${status}">${status}</span>`);
+            });
+
+            // 우선순위 뱃지 적용
+            Object.keys(priorities).forEach(label => {
+                const regex = new RegExp(label, 'g');
+                formatted = formatted.replace(regex, `<span class="log-detail-badge priority-${priorities[label]}">${label}</span>`);
+            });
+
+            return formatted;
+        },
+
+        render: function(logs) {
+            const container = document.getElementById('activityTimeline');
+            if (!container) return;
+
+            if (!logs || logs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">기록된 활동이 없습니다.</p>';
+                return;
+            }
+
+            container.innerHTML = logs.map(log => `
+                <div class="timeline-item action-${log.action}">
+                    <div class="timeline-content" onclick="window.handleLogClick('${log.taskId}', '${log.taskName}')">
+                        <span class="log-time">${KoreanTime.toKST(log.timestamp).toLocaleString()}</span>
+                        <div class="log-header">
+                            <span class="log-task-name">${TextUtils.escapeHtml(log.taskName)}</span>
+                            <span class="log-action">${log.action}</span>
+                        </div>
+                        ${log.details ? `
+                            <div class="log-details">
+                                ${log.details.split(', ').map(change => `<div>• ${this.formatLogDetail(change)}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
     }
 };
