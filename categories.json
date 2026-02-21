@@ -1,70 +1,14 @@
 {
   "categories": [
-    {
-      "mainCategory": "백엔드",
-      "subCategory": "트레이딩",
-      "detailCategory": "코인",
-      "id": "1770896026742"
-    },
-    {
-      "mainCategory": "백엔드",
-      "subCategory": "트레이딩",
-      "detailCategory": "주식",
-      "id": "1770896037075"
-    },
-    {
-      "mainCategory": "백엔드",
-      "subCategory": "트레이딩",
-      "detailCategory": "주식 - 수익률",
-      "id": "1770896058311"
-    },
-    {
-      "mainCategory": "백엔드",
-      "subCategory": "트레이딩",
-      "detailCategory": "코인 - 수익률",
-      "id": "1770896077944"
-    },
-    {
-      "mainCategory": "프론트엔드",
-      "subCategory": "UI",
-      "detailCategory": "홈페이지 개발",
-      "id": "17708961314610"
-    },
-    {
-      "mainCategory": "프론트엔드",
-      "subCategory": "UI",
-      "detailCategory": "마이페이지 개선",
-      "id": "17708961314611"
-    },
-    {
-      "mainCategory": "기획",
-      "subCategory": "서비스",
-      "detailCategory": "신규 기능 정의",
-      "id": "17708961314612"
-    },
-    {
-      "mainCategory": "디자인",
-      "subCategory": "웹",
-      "detailCategory": "로고 리뉴얼",
-      "id": "17708961314613"
-    },
-    {
-      "mainCategory": "백엔드",
-      "subCategory": "DB",
-      "detailCategory": "성능 최적화",
-      "id": "17708961314614"
-    },
-    {
-      "mainCategory": "QA",
-      "subCategory": "테스트",
-      "detailCategory": "통합 테스트",
-      "id": "17708961314615"
-    },
-    {
-      "mainCategory": "문서작성",
-      "subCategory": "",
-      "detailCategory": "",
-      "id": "1771417757390"
-    }
+    { "id": "cat1", "mainCategory": "IT/개발", "subCategory": "웹 개발", "detailCategory": "프론트엔드" },
+    { "id": "cat2", "mainCategory": "IT/개발", "subCategory": "웹 개발", "detailCategory": "백엔드" },
+    { "id": "cat3", "mainCategory": "IT/프로젝트", "subCategory": "기획/설계", "detailCategory": "요구사항 분석" },
+    { "id": "cat4", "mainCategory": "운영/인프라", "subCategory": "서버 관리", "detailCategory": "정기 점검" },
+    { "id": "cat5", "mainCategory": "운영/인프라", "subCategory": "보안 관리", "detailCategory": "취약점 스캔" },
+    { "id": "cat6", "mainCategory": "경영/지원", "subCategory": "인사관리", "detailCategory": "채용" },
+    { "id": "cat7", "mainCategory": "경영/지원", "subCategory": "회계/재무", "detailCategory": "분기 정산" },
+    { "id": "cat8", "mainCategory": "영업/마케팅", "subCategory": "온라인 마케팅", "detailCategory": "SNS 운영" },
+    { "id": "cat9", "mainCategory": "고객/지원", "subCategory": "기술 지원", "detailCategory": "장애 대응" },
+    { "id": "cat10", "mainCategory": "연구/개발", "subCategory": "신사업 검토", "detailCategory": "AI 솔루션" }
   ]
 }
