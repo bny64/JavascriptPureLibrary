@@ -46,7 +46,7 @@
       "category3": "채용",
       "taskName": "상반기 신입사원 면접",
       "startDate": "2026-02-16",
-      "endDate": "2026-02-25",
+      "endDate": "2026-02-26",
       "status": "진행중",
       "priority": "high",
       "description": "1차 기술 면접 진행 중",
@@ -339,19 +339,6 @@
       "createdAt": "2026-02-18T14:00:00.000Z"
     },
     {
-      "id": "t27",
-      "category1": "영업/마케팅",
-      "category2": "온라인 마케팅",
-      "category3": "SNS 운영",
-      "taskName": "뉴스레터 2월호 발송",
-      "startDate": "2026-02-25",
-      "endDate": "2026-02-25",
-      "status": "진행중",
-      "priority": "high",
-      "description": "구독자 1만명 대상",
-      "createdAt": "2026-02-18T15:30:00.000Z"
-    },
-    {
       "id": "t28",
       "category1": "운영/인프라",
       "category2": "보안 관리",
@@ -592,9 +579,9 @@
       "category3": "SNS 운영",
       "taskName": "구글 애즈 키워드 경쟁 분석",
       "startDate": "2026-02-10",
-      "endDate": "2026-02-14",
-      "status": "완료",
-      "priority": "middle",
+      "endDate": "2026-02-21",
+      "status": "진행중",
+      "priority": "high",
       "description": "경쟁사 광고 전략 파악",
       "createdAt": "2026-02-10T13:00:00.000Z"
     },
