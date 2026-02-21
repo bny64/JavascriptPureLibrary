@@ -1,14 +1,70 @@
 {
   "categories": [
-    { "id": "cat1", "mainCategory": "IT/개발", "subCategory": "웹 개발", "detailCategory": "프론트엔드" },
-    { "id": "cat2", "mainCategory": "IT/개발", "subCategory": "웹 개발", "detailCategory": "백엔드" },
-    { "id": "cat3", "mainCategory": "IT/프로젝트", "subCategory": "기획/설계", "detailCategory": "요구사항 분석" },
-    { "id": "cat4", "mainCategory": "운영/인프라", "subCategory": "서버 관리", "detailCategory": "정기 점검" },
-    { "id": "cat5", "mainCategory": "운영/인프라", "subCategory": "보안 관리", "detailCategory": "취약점 스캔" },
-    { "id": "cat6", "mainCategory": "경영/지원", "subCategory": "인사관리", "detailCategory": "채용" },
-    { "id": "cat7", "mainCategory": "경영/지원", "subCategory": "회계/재무", "detailCategory": "분기 정산" },
-    { "id": "cat8", "mainCategory": "영업/마케팅", "subCategory": "온라인 마케팅", "detailCategory": "SNS 운영" },
-    { "id": "cat9", "mainCategory": "고객/지원", "subCategory": "기술 지원", "detailCategory": "장애 대응" },
-    { "id": "cat10", "mainCategory": "연구/개발", "subCategory": "신사업 검토", "detailCategory": "AI 솔루션" }
+    {
+      "id": "cat1",
+      "mainCategory": "IT/개발",
+      "subCategory": "웹 개발",
+      "detailCategory": "프론트엔드"
+    },
+    {
+      "id": "cat2",
+      "mainCategory": "IT/개발",
+      "subCategory": "웹 개발",
+      "detailCategory": "백엔드"
+    },
+    {
+      "id": "cat3",
+      "mainCategory": "IT/프로젝트",
+      "subCategory": "기획/설계",
+      "detailCategory": "요구사항 분석"
+    },
+    {
+      "id": "cat4",
+      "mainCategory": "운영/인프라",
+      "subCategory": "서버 관리",
+      "detailCategory": "정기 점검"
+    },
+    {
+      "id": "cat5",
+      "mainCategory": "운영/인프라",
+      "subCategory": "보안 관리",
+      "detailCategory": "취약점 스캔"
+    },
+    {
+      "id": "cat6",
+      "mainCategory": "경영/지원",
+      "subCategory": "인사관리",
+      "detailCategory": "채용"
+    },
+    {
+      "id": "cat7",
+      "mainCategory": "경영/지원",
+      "subCategory": "회계/재무",
+      "detailCategory": "분기 정산"
+    },
+    {
+      "id": "cat8",
+      "mainCategory": "영업/마케팅",
+      "subCategory": "온라인 마케팅",
+      "detailCategory": "SNS 운영"
+    },
+    {
+      "id": "cat9",
+      "mainCategory": "고객/지원",
+      "subCategory": "기술 지원",
+      "detailCategory": "장애 대응"
+    },
+    {
+      "id": "cat10",
+      "mainCategory": "연구/개발",
+      "subCategory": "신사업 검토",
+      "detailCategory": "AI 솔루션"
+    },
+    {
+      "mainCategory": "연구/개발",
+      "subCategory": "신사업 검토",
+      "detailCategory": "LLM 솔루션",
+      "id": "1771667250769"
+    }
   ]
 }

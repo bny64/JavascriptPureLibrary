@@ -3,28 +3,28 @@
 // ──────────────────────────────────────────────
 // 유틸리티
 // ──────────────────────────────────────────────
-import { KoreanTime }    from './js/utils/korean-time.js';
-import { DomUtils, TextUtils, ArrayUtils, StorageUtils } from './js/utils/dom.js';
+import { KoreanTime }    from './utils/korean-time.js';
+import { DomUtils, TextUtils, ArrayUtils, StorageUtils } from './utils/dom.js';
 
 // ──────────────────────────────────────────────
 // 전역 상태
 // ──────────────────────────────────────────────
-import { AppState } from './js/state/app-state.js';
+import { AppState } from './state/app-state.js';
 
 // ──────────────────────────────────────────────
 // API
 // ──────────────────────────────────────────────
-import { API } from './js/api/api.js';
+import { API } from './api/api.js';
 
 // ──────────────────────────────────────────────
 // UI
 // ──────────────────────────────────────────────
-import { CalendarUI }     from './js/ui/calendar-ui.js';
-import { TaskUI }         from './js/ui/task-ui.js';
-import { CategoryUI }     from './js/ui/category-ui.js';
-import { DashboardUI }    from './js/ui/dashboard-ui.js';
-import { KanbanUI }       from './js/ui/kanban-ui.js';
-import { ActivityLogUI }  from './js/ui/activity-log-ui.js';
+import { CalendarUI }     from './ui/calendar-ui.js';
+import { TaskUI }         from './ui/task-ui.js';
+import { CategoryUI }     from './ui/category-ui.js';
+import { DashboardUI }    from './ui/dashboard-ui.js';
+import { KanbanUI }       from './ui/kanban-ui.js';
+import { ActivityLogUI }  from './ui/activity-log-ui.js';
 
 // ──────────────────────────────────────────────
 // 기능 모듈
@@ -33,29 +33,29 @@ import {
     initGanttChart, filterGanttByStatus, filterGanttByPriority,
     activateGanttFilterButtons, postProcessGanttHeaders,
     transformTasksForGantt, setGanttMinWidth
-} from './js/modules/gantt.js';
+} from './modules/gantt.js';
 
 import {
     getTasksEndingSoon, renderNotifications, toggleNotificationDropdown, initNotifications,
     openNotificationSettingsModal, closeNotificationSettingsModal,
     populateNotificationCategories, populateNotificationSubCategories,
     populateNotificationDetailCategories, saveNotificationSettings
-} from './js/modules/notification.js';
+} from './modules/notification.js';
 
 import {
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
     saveTask, copyTask
-} from './js/modules/task-modal.js';
+} from './modules/task-modal.js';
 
 import {
     openCategoryModal, closeCategoryModal,
     resetCategoryForm, editCategoryItem, saveCategory
-} from './js/modules/category-modal.js';
+} from './modules/category-modal.js';
 
 import {
     openImportantMemoModal, closeImportantMemoModal, saveImportantMemo
-} from './js/modules/memo-modal.js';
+} from './modules/memo-modal.js';
 
 import {
     openAllTasksModal, closeAllTasksModal,
@@ -64,7 +64,7 @@ import {
     searchAllTasks, renderAllTasks, updatePaginationControls,
     previousPage, nextPage, filterByStatus, filterByPriority,
     changeAllTasksSort, activateFilterButtons
-} from './js/modules/all-tasks-modal.js';
+} from './modules/all-tasks-modal.js';
 
 
 // ══════════════════════════════════════════════

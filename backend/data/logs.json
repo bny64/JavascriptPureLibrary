@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1771667208606fcge8",
+      "taskId": "t16",
+      "taskName": "검색 엔진 엘라스틱서치 교체",
+      "action": "수정",
+      "details": "{UPDATE} [진행 상태] 대기 → 진행중",
+      "timestamp": "2026-02-21T09:46:48.607Z"
+    },
+    {
       "id": "17716667265256yhvz",
       "taskId": "t27",
       "taskName": "뉴스레터 2월호 발송",
