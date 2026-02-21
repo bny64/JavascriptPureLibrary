@@ -2282,6 +2282,23 @@ h3#selectedDateTitle {
 .log-detail-badge.priority-low { background-color: #4caf50; }
 .log-detail-badge.priority-very-low { background-color: #607d8b; }
 
+/* Status Badges for Changes */
+.change-tag {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 800;
+  color: white;
+  margin-right: 5px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.change-tag.new { background-color: #2ecc71; }
+.change-tag.update { background-color: #3498db; }
+.change-tag.delete { background-color: #e74c3c; }
+
 @media (max-width: 600px) {
   .timeline::after {
     left: 21px;

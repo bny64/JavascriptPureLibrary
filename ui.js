@@ -681,6 +681,11 @@ const UI = {
 
             let formatted = TextUtils.escapeHtml(detail);
 
+            // 변경 태그(NEW, UPDATE, DELETE) 치환
+            formatted = formatted.replace(/\{NEW\}/g, '<span class="change-tag new">NEW</span>');
+            formatted = formatted.replace(/\{UPDATE\}/g, '<span class="change-tag update">UPDATE</span>');
+            formatted = formatted.replace(/\{DELETE\}/g, '<span class="change-tag delete">DELETE</span>');
+
             // 상태 뱃지 적용
             statuses.forEach(status => {
                 const regex = new RegExp(status, 'g');

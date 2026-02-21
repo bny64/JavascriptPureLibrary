@@ -253,7 +253,19 @@ const server = http.createServer((req, res) => {
                             oldVal = priorityMap[oldVal] || oldVal;
                             newVal = priorityMap[newVal] || newVal;
                         }
-                        changes.push(`[${fieldMap[key]}] ${oldVal} → ${newVal}`);
+                        
+                        let tag = '';
+                        if (!oldVal && newVal) tag = '{NEW}';
+                        else if (oldVal && newVal) tag = '{UPDATE}';
+                        else if (oldVal && !newVal) tag = '{DELETE}';
+
+                        if (tag === '{NEW}') {
+                            changes.push(`${tag} [${fieldMap[key]}] ${newVal}`);
+                        } else if (tag === '{UPDATE}') {
+                            changes.push(`${tag} [${fieldMap[key]}] ${oldVal} → ${newVal}`);
+                        } else if (tag === '{DELETE}') {
+                            changes.push(`${tag} [${fieldMap[key]}] ${oldVal} 삭제됨`);
+                        }
                     }
                 }
 
