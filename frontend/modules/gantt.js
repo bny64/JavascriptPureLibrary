@@ -3,8 +3,8 @@
 import { AppState } from '../state/app-state.js';
 import { StorageUtils } from '../utils/dom.js';
 
-const monthNamesKo = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
-const monthNamesEn = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const monthNamesKo = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function formatDate(date) {
     const d = new Date(date);
@@ -47,8 +47,8 @@ export function transformTasksForGantt(tasks) {
     const dummyEnd = new Date(maxEnd); dummyEnd.setMonth(dummyEnd.getMonth() + 1);
 
     return [...ganttTasks,
-        { id: 'dummy_start_buffer', name: '\u00A0', start: formatDate(dummyStart), end: formatDate(dummyStart), progress: 0, custom_class: 'gantt-dummy-task' },
-        { id: 'dummy_end_buffer', name: '\u00A0', start: formatDate(dummyEnd), end: formatDate(dummyEnd), progress: 0, custom_class: 'gantt-dummy-task' }
+    { id: 'dummy_start_buffer', name: '\u00A0', start: formatDate(dummyStart), end: formatDate(dummyStart), progress: 0, custom_class: 'gantt-dummy-task' },
+    { id: 'dummy_end_buffer', name: '\u00A0', start: formatDate(dummyEnd), end: formatDate(dummyEnd), progress: 0, custom_class: 'gantt-dummy-task' }
     ];
 }
 
@@ -92,14 +92,27 @@ export function initGanttChart(forceRefresh = false) {
         return;
     }
 
+    let isDragging = false;
+
     AppState.gantt = new Gantt(ganttEl, ganttTasks, {
         header_height: 65, column_width: 50, step: 24,
         view_modes: ['Day', 'Week', 'Month'],
         bar_height: 25, padding: 35, bar_corner_radius: 4, arrow_curve: 5,
         view_mode: 'Day', date_format: 'YYYY-MM-DD', language: 'ko',
         infinite_padding: false, today_button: false, auto_move_label: false,
-        on_click: (task) => window.openTaskModal(AppState.tasks.find(t => t.id === task.id)),
-        on_date_change: (task, start, end) => window.updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) }),
+        on_click: (task) => {
+            if (isDragging) {
+                isDragging = false;
+                return;
+            }
+            window.openTaskModal(AppState.tasks.find(t => t.id === task.id));
+        },
+        on_date_change: (task, start, end) => {
+            isDragging = true;
+            window.updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) });
+            // 드래그 종료 후 약간의 딜레이 후 플래그 초기화 (클릭 이벤트 무시용)
+            setTimeout(() => { isDragging = false; }, 200);
+        },
         on_view_change: () => postProcessGanttHeaders(),
     });
 
