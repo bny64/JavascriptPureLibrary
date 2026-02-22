@@ -92,26 +92,15 @@ export function initGanttChart(forceRefresh = false) {
         return;
     }
 
-    let isDragging = false;
-
     AppState.gantt = new Gantt(ganttEl, ganttTasks, {
         header_height: 65, column_width: 50, step: 24,
         view_modes: ['Day', 'Week', 'Month'],
         bar_height: 25, padding: 35, bar_corner_radius: 4, arrow_curve: 5,
         view_mode: 'Day', date_format: 'YYYY-MM-DD', language: 'ko',
         infinite_padding: false, today_button: false, auto_move_label: false,
+        readonly: true,
         on_click: (task) => {
-            if (isDragging) {
-                isDragging = false;
-                return;
-            }
             window.openTaskModal(AppState.tasks.find(t => t.id === task.id));
-        },
-        on_date_change: (task, start, end) => {
-            isDragging = true;
-            window.updateTask(task.id, { startDate: formatDate(start), endDate: formatDate(end) });
-            // 드래그 종료 후 약간의 딜레이 후 플래그 초기화 (클릭 이벤트 무시용)
-            setTimeout(() => { isDragging = false; }, 200);
         },
         on_view_change: () => postProcessGanttHeaders(),
     });
