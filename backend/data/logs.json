@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1771730680100y0g1j",
+      "taskId": "t12",
+      "taskName": "DB 서버 스토리지 증설",
+      "action": "수정",
+      "details": "{UPDATE} [진행 상태] 대기 → 완료",
+      "timestamp": "2026-02-22T03:24:40.101Z"
+    },
+    {
       "id": "1771667208606fcge8",
       "taskId": "t16",
       "taskName": "검색 엔진 엘라스틱서치 교체",

@@ -3,7 +3,7 @@
 // ──────────────────────────────────────────────
 // 유틸리티
 // ──────────────────────────────────────────────
-import { KoreanTime }    from './utils/korean-time.js';
+import { KoreanTime } from './utils/korean-time.js';
 import { DomUtils, TextUtils, ArrayUtils, StorageUtils } from './utils/dom.js';
 
 // ──────────────────────────────────────────────
@@ -19,12 +19,12 @@ import { API } from './api/api.js';
 // ──────────────────────────────────────────────
 // UI
 // ──────────────────────────────────────────────
-import { CalendarUI }     from './ui/calendar-ui.js';
-import { TaskUI }         from './ui/task-ui.js';
-import { CategoryUI }     from './ui/category-ui.js';
-import { DashboardUI }    from './ui/dashboard-ui.js';
-import { KanbanUI }       from './ui/kanban-ui.js';
-import { ActivityLogUI }  from './ui/activity-log-ui.js';
+import { CalendarUI } from './ui/calendar-ui.js';
+import { TaskUI } from './ui/task-ui.js';
+import { CategoryUI } from './ui/category-ui.js';
+import { DashboardUI } from './ui/dashboard-ui.js';
+import { KanbanUI } from './ui/kanban-ui.js';
+import { ActivityLogUI } from './ui/activity-log-ui.js';
 
 import { injectComponents } from './utils/html-loader.js';
 
@@ -68,6 +68,19 @@ import {
     changeAllTasksSort, activateFilterButtons
 } from './modules/all-tasks-modal.js';
 
+import {
+    switchView, loadView
+} from './modules/view-controller.js';
+
+import {
+    renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle,
+    selectDate, previousMonth, nextMonth, filterSelectedDateTasksByStatus
+} from './modules/calendar-controller.js';
+
+import {
+    loadLogs, filterLogs, handleLogClick
+} from './modules/activity-log-controller.js';
+
 
 // ══════════════════════════════════════════════
 // 테마 관리
@@ -89,12 +102,12 @@ function changeTheme(theme) {
 // ══════════════════════════════════════════════
 async function loadTasks() {
     AppState.tasks = await API.tasks.getAll();
-    
+
     // 요소가 있을 때만 요약 렌더링
     if (document.getElementById('statusSummary')) TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
     if (document.getElementById('prioritySummary')) TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
     if (document.getElementById('unfinishedTaskCount')) TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
-    
+
     renderCalendar();
     renderTasksForSelectedDate();
 
@@ -164,184 +177,6 @@ async function loadHolidays() {
 }
 
 
-// ══════════════════════════════════════════════
-// 캘린더 렌더링
-// ══════════════════════════════════════════════
-function renderCalendar() {
-    CalendarUI.render(AppState.tasks, AppState.currentDate, AppState.selectedDate, AppState.holidays);
-}
-
-function renderTasksForSelectedDate() {
-    const tasksList = document.getElementById('tasksList');
-    if (!tasksList) return;
-
-    let tasksForDate = CalendarUI.getTasksForDate(AppState.selectedDate, AppState.tasks);
-
-
-    if (AppState.currentSelectedDateStatusFilter !== '전체') {
-        tasksForDate = tasksForDate.filter(t => t.status === AppState.currentSelectedDateStatusFilter);
-    }
-
-    const statusFilters = document.querySelectorAll('#selectedDateStatusFilters .filter-btn');
-    if (statusFilters.length > 0) {
-        statusFilters.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-status').trim() === AppState.currentSelectedDateStatusFilter.trim());
-        });
-    }
-
-    if (tasksForDate.length === 0) {
-        tasksList.innerHTML = '<p style="color:#999;text-align:center;padding:20px;">선택한 날짜에 업무가 없습니다.</p>';
-        return;
-    }
-    tasksList.innerHTML = '';
-    tasksForDate.forEach(task => tasksList.appendChild(TaskUI.createCard(task)));
-}
-
-function filterSelectedDateTasksByStatus(status) {
-    AppState.currentSelectedDateStatusFilter = status;
-    renderTasksForSelectedDate();
-}
-
-function updateSelectedDateTitle() {
-    const title = document.getElementById('selectedDateTitle');
-    if (!title) return;
-
-    const d = AppState.selectedDate;
-    title.textContent = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일의 업무`;
-}
-
-function selectDate(date) {
-    AppState.selectedDate = new Date(date);
-    renderCalendar();
-    renderTasksForSelectedDate();
-    updateSelectedDateTitle();
-}
-
-function previousMonth() {
-    AppState.currentDate.setMonth(AppState.currentDate.getMonth() - 1);
-    renderCalendar();
-}
-
-function nextMonth() {
-    AppState.currentDate.setMonth(AppState.currentDate.getMonth() + 1);
-    renderCalendar();
-}
-
-
-// ══════════════════════════════════════════════
-// 뷰 전환
-// ══════════════════════════════════════════════
-async function switchView(viewName) {
-    const views = {
-        'dashboard': { id: 'dashboard-view', url: 'html/views/dashboard.html', linkId: 'sidebarDashboardLink' },
-        'calendar': { id: 'calendar-view', url: 'html/views/calendar.html', linkId: 'sidebarCalendarLink' },
-        'gantt': { id: 'gantt-chart-view', url: 'html/views/gantt.html', linkId: 'sidebarGanttLink' },
-        'kanban': { id: 'kanban-view', url: 'html/views/kanban.html', linkId: 'sidebarKanbanLink' },
-        'activityLog': { id: 'activity-log-view', url: 'html/views/activity-log.html', linkId: 'sidebarActivityLogLink' }
-    };
-
-    // 모든 뷰 숨기기
-    Object.values(views).forEach(v => {
-        const el = document.getElementById(v.id);
-        if (el) el.style.display = 'none';
-    });
-    document.querySelectorAll('.sidebar-menu li a').forEach(a => a.classList.remove('active'));
-
-    const target = views[viewName];
-    if (!target) return;
-
-    const viewContainer = document.getElementById(target.id);
-    if (!viewContainer) return;
-
-    // 컨텐츠가 비어있으면 동적 로드
-    if (viewContainer.innerHTML.trim() === '') {
-        try {
-            const response = await fetch(target.url);
-            viewContainer.innerHTML = await response.text();
-        } catch (error) {
-            console.error(`Error loading view ${viewName}:`, error);
-            viewContainer.innerHTML = `<p style="padding:20px; color:red;">뷰를 로드하는 중 오류가 발생했습니다.</p>`;
-        }
-    }
-
-    // 표시 및 활성화
-    viewContainer.style.display = 'block';
-    const link = document.getElementById(target.linkId);
-    if (link) link.classList.add('active');
-
-    // 뷰별 초기화 로직
-    switch (viewName) {
-        case 'calendar':
-            renderCalendar();
-            renderTasksForSelectedDate();
-            // 요약 정보 즉시 렌더링 보장
-            TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
-            TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
-            TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
-            updateSelectedDateTitle();
-            break;
-        case 'gantt':
-            AppState.ganttInitialized = false;
-            initGanttChart();
-            break;
-        case 'dashboard':
-            DashboardUI.render(AppState.tasks);
-            break;
-        case 'kanban':
-            // 검색어 초기화 및 렌더링
-            for (const status in AppState.kanbanSearchTerms) {
-                AppState.kanbanSearchTerms[status] = '';
-                const header = document.querySelector(`.kanban-column-header.status-${status}`);
-                if (header) {
-                    const input = header.querySelector('.kanban-search-input');
-                    if (input) input.value = '';
-                }
-            }
-            KanbanUI.render(AppState.tasks);
-            break;
-        case 'activityLog':
-            loadLogs();
-            break;
-    }
-
-    StorageUtils.set('currentView', viewName);
-}
-
-async function loadView() {
-    const savedView = StorageUtils.get('currentView', 'calendar');
-    await switchView(savedView);
-}
-
-
-// ══════════════════════════════════════════════
-// 활동 로그
-// ══════════════════════════════════════════════
-async function loadLogs() {
-    AppState.logs = await API.logs.getAll();
-    let filteredLogs = AppState.logs;
-    if (AppState.currentLogFilter !== '전체') {
-        filteredLogs = AppState.logs.filter(l => l.action === AppState.currentLogFilter);
-    }
-    ActivityLogUI.render(filteredLogs);
-    updateLogFilterButtons();
-}
-
-function filterLogs(action) {
-    AppState.currentLogFilter = action;
-    loadLogs();
-}
-
-function updateLogFilterButtons() {
-    document.querySelectorAll('.log-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-action') === AppState.currentLogFilter);
-    });
-}
-
-function handleLogClick(taskId, taskName) {
-    const task = AppState.tasks.find(t => t.id === taskId);
-    if (task) openTaskModal(task);
-    else alert(`'${taskName}' 업무는 삭제되어 상세 내용을 확인할 수 없습니다.`);
-}
 
 
 // ══════════════════════════════════════════════
@@ -471,12 +306,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ══════════════════════════════════════════════
 // 전역 모달 닫기 (배경 클릭)
 // ══════════════════════════════════════════════
-window.onclick = function(event) {
-    if (event.target === document.getElementById('taskModal'))                   closeTaskModal();
-    if (event.target === document.getElementById('categoryModal'))               closeCategoryModal();
-    if (event.target === document.getElementById('allTasksModal'))               closeAllTasksModal();
-    if (event.target === document.getElementById('importantMemoModal'))          closeImportantMemoModal();
-    if (event.target === document.getElementById('notificationSettingsModal'))   closeNotificationSettingsModal();
+window.onclick = function (event) {
+    if (event.target === document.getElementById('taskModal')) closeTaskModal();
+    if (event.target === document.getElementById('categoryModal')) closeCategoryModal();
+    if (event.target === document.getElementById('allTasksModal')) closeAllTasksModal();
+    if (event.target === document.getElementById('importantMemoModal')) closeImportantMemoModal();
+    if (event.target === document.getElementById('notificationSettingsModal')) closeNotificationSettingsModal();
 
     // 글로벌 검색 결과 닫기
     const results = document.getElementById('globalSearchResults');

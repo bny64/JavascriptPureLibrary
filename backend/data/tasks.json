@@ -151,7 +151,7 @@
       "taskName": "DB 서버 스토리지 증설",
       "startDate": "2026-02-22",
       "endDate": "2026-02-22",
-      "status": "대기",
+      "status": "완료",
       "priority": "high",
       "description": "새벽 시간 점검 예정",
       "createdAt": "2026-02-18T11:00:00.000Z"
