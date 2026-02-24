@@ -1137,7 +1137,15 @@ h3#selectedDateTitle {
 
 .all-tasks-modal-content {
   max-width: 1000px;
+  height: 85vh;
   max-height: 85vh;
+  display: flex !important;
+  flex-direction: column;
+  overflow-y: hidden !important;
+}
+
+.all-tasks-header {
+  flex: 0 0 auto;
 }
 
 @keyframes modalFadeIn {
@@ -1266,12 +1274,19 @@ h3#selectedDateTitle {
   background: #455a64;
 }
 
+.filter-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 /* 상태 필터 버튼 */
-.status-filters {
+.status-filters,
+.priority-filters {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 5px;
 }
 
 .filter-btn {
@@ -1347,14 +1362,35 @@ h3#selectedDateTitle {
 }
 
 .all-tasks-list-container {
-  max-height: 500px;
+  flex: 1;
   overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
 }
 
 .all-tasks-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+}
+
+.all-tasks-list .task-item {
+  padding: 10px 14px;
+}
+
+.all-tasks-list .task-header {
+  margin-bottom: 4px;
+}
+
+.all-tasks-list .task-title {
+  font-size: 13px;
+}
+
+.all-tasks-list .task-description {
+  margin-top: 4px;
+  -webkit-line-clamp: 1;
 }
 
 .pagination-controls {

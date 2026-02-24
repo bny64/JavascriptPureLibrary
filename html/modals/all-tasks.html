@@ -1,54 +1,68 @@
 <div class="modal-content all-tasks-modal-content">
     <span class="close" onclick="closeAllTasksModal()">&times;</span>
-    <h2>전체 업무 목록</h2>
-    
-    <div class="search-container">
-        <div class="search-type">
-            <label><input type="radio" name="searchType" value="text" checked onchange="toggleSearchType()"> 단어 검색</label>
-            <label><input type="radio" name="searchType" value="category" onchange="toggleSearchType()"> 선택 검색</label>
-        </div>
-        
-        <div id="textSearchBox" class="search-box">
-            <input type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
-        </div>
-        
-        <div id="categorySearchBox" class="search-box" style="display: none;">
-            <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"><option value="">전체 대분류</option></select>
-            <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"><option value="">전체 중분류</option></select>
-            <select id="searchCategory3" onchange="searchAllTasks()"><option value="">전체 소분류</option></select>
+    <div class="all-tasks-header">
+        <h2>전체 업무 목록</h2>
+
+        <div class="search-container">
+            <div class="search-type">
+                <label><input type="radio" name="searchType" value="text" checked onchange="toggleSearchType()"> 단어
+                    검색</label>
+                <label><input type="radio" name="searchType" value="category" onchange="toggleSearchType()"> 선택
+                    검색</label>
+            </div>
+
+            <div id="textSearchBox" class="search-box">
+                <input type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
+            </div>
+
+            <div id="categorySearchBox" class="search-box" style="display: none;">
+                <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()">
+                    <option value="">전체 대분류</option>
+                </select>
+                <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()">
+                    <option value="">전체 중분류</option>
+                </select>
+                <select id="searchCategory3" onchange="searchAllTasks()">
+                    <option value="">전체 소분류</option>
+                </select>
+            </div>
+
+            <div class="sort-controls">
+                <label for="sortField">정렬 기준:</label>
+                <select id="sortField" onchange="changeAllTasksSort()">
+                    <option value="endDate">종료 날짜</option>
+                    <option value="startDate">시작 날짜</option>
+                    <option value="taskName">업무명</option>
+                    <option value="status">상태</option>
+                </select>
+                <select id="sortDirection" onchange="changeAllTasksSort()">
+                    <option value="asc">오름차순</option>
+                    <option value="desc">내림차순</option>
+                </select>
+            </div>
         </div>
 
-        <div class="sort-controls">
-            <label for="sortField">정렬 기준:</label>
-            <select id="sortField" onchange="changeAllTasksSort()">
-                <option value="endDate">종료 날짜</option>
-                <option value="startDate">시작 날짜</option>
-                <option value="taskName">업무명</option>
-                <option value="status">상태</option>
-            </select>
-            <select id="sortDirection" onchange="changeAllTasksSort()">
-                <option value="asc">오름차순</option>
-                <option value="desc">내림차순</option>
-            </select>
-        </div>
-        
-        <div class="status-filters">
-            <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체">상태: 전체</button>
-            <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기">대기</button>
-            <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중">진행중</button>
-            <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료">완료</button>
-            <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류">보류</button>
-        </div>
-        <div class="priority-filters">
-            <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체">우선순위: 전체</button>
-            <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high">매우 높음</button>
-            <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high">높음</button>
-            <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle">중간</button>
-            <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low">낮음</button>
-            <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low">매우 낮음</button>
+        <div class="filter-group-container">
+            <div class="status-filters">
+                <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체">상태: 전체</button>
+                <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기">대기</button>
+                <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중">진행중</button>
+                <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료">완료</button>
+                <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류">보류</button>
+            </div>
+            <div class="priority-filters">
+                <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체">우선순위: 전체</button>
+                <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high">매우
+                    높음</button>
+                <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high">높음</button>
+                <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle">중간</button>
+                <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low">낮음</button>
+                <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low">매우
+                    낮음</button>
+            </div>
         </div>
     </div>
-    
+
     <div class="all-tasks-list-container">
         <div class="pagination-controls">
             <button onclick="previousPage()" id="prevPageBtn">◀</button>
