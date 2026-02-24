@@ -1,64 +1,88 @@
 <div class="modal-content all-tasks-modal-content">
-    <span class="close" onclick="closeAllTasksModal()">&times;</span>
-    <div class="all-tasks-header">
-        <h2>전체 업무 목록</h2>
-
-        <div class="search-container">
-            <div class="search-type">
-                <label><input type="radio" name="searchType" value="text" checked onchange="toggleSearchType()"> 단어
-                    검색</label>
-                <label><input type="radio" name="searchType" value="category" onchange="toggleSearchType()"> 선택
-                    검색</label>
-            </div>
-
-            <div id="textSearchBox" class="search-box">
-                <input type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
-            </div>
-
-            <div id="categorySearchBox" class="search-box" style="display: none;">
-                <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()">
-                    <option value="">전체 대분류</option>
-                </select>
-                <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()">
-                    <option value="">전체 중분류</option>
-                </select>
-                <select id="searchCategory3" onchange="searchAllTasks()">
-                    <option value="">전체 소분류</option>
-                </select>
-            </div>
-
-            <div class="sort-controls">
-                <label for="sortField">정렬 기준:</label>
-                <select id="sortField" onchange="changeAllTasksSort()">
-                    <option value="endDate">종료 날짜</option>
-                    <option value="startDate">시작 날짜</option>
-                    <option value="taskName">업무명</option>
-                    <option value="status">상태</option>
-                </select>
-                <select id="sortDirection" onchange="changeAllTasksSort()">
-                    <option value="asc">오름차순</option>
-                    <option value="desc">내림차순</option>
-                </select>
-            </div>
+    <div class="all-tasks-header"
+        style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="margin: 0; font-size: 20px;">전체 업무 목록</h2>
+            <span class="close" onclick="closeAllTasksModal()" style="float: none; line-height: 1;">&times;</span>
         </div>
 
-        <div class="filter-group-container">
-            <div class="status-filters">
-                <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체">상태: 전체</button>
-                <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기">대기</button>
-                <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중">진행중</button>
-                <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료">완료</button>
-                <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류">보류</button>
+        <div
+            style="background: #f8f9fa; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;">
+            <!-- 상단 검색바 및 정렬 -->
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                <div class="search-type" style="margin-bottom: 0; gap: 10px;">
+                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="text" checked
+                            onchange="toggleSearchType()"> 단어 검색</label>
+                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="category"
+                            onchange="toggleSearchType()"> 선택 검색</label>
+                </div>
+
+                <div id="textSearchBox" class="search-box" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                    <input style="padding: 6px 12px; margin-bottom: 0; height: 32px;" type="text" id="textSearchInput"
+                        placeholder="업무명 또는 내용..." onkeyup="searchAllTasks()">
+                </div>
+
+                <div id="categorySearchBox" class="search-box"
+                    style="display: none; margin-bottom: 0; flex: 1; min-width: 200px; display: flex; gap: 5px;">
+                    <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        <option value="">대분류</option>
+                    </select>
+                    <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        <option value="">중분류</option>
+                    </select>
+                    <select id="searchCategory3" onchange="searchAllTasks()"
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        <option value="">소분류</option>
+                    </select>
+                </div>
+
+                <div class="sort-controls" style="margin-bottom: 0;">
+                    <label for="sortField" style="font-size: 13px;">정렬:</label>
+                    <select id="sortField" onchange="changeAllTasksSort()"
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        <option value="endDate">종료 날짜</option>
+                        <option value="startDate">시작 날짜</option>
+                        <option value="taskName">업무명</option>
+                        <option value="status">상태</option>
+                    </select>
+                    <select id="sortDirection" onchange="changeAllTasksSort()"
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        <option value="asc">오름차순</option>
+                        <option value="desc">내림차순</option>
+                    </select>
+                </div>
             </div>
-            <div class="priority-filters">
-                <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체">우선순위: 전체</button>
-                <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high">매우
-                    높음</button>
-                <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high">높음</button>
-                <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle">중간</button>
-                <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low">낮음</button>
-                <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low">매우
-                    낮음</button>
+
+            <!-- 하단 필터 -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="status-filters" style="margin-bottom: 0; gap: 6px;">
+                    <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체"
+                        style="padding: 4px 10px; font-size: 12px;">상태: 전체</button>
+                    <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기"
+                        style="padding: 4px 10px; font-size: 12px;">대기</button>
+                    <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중"
+                        style="padding: 4px 10px; font-size: 12px;">진행중</button>
+                    <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료"
+                        style="padding: 4px 10px; font-size: 12px;">완료</button>
+                    <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류"
+                        style="padding: 4px 10px; font-size: 12px;">보류</button>
+                </div>
+                <div class="priority-filters" style="margin-bottom: 0; gap: 6px;">
+                    <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체"
+                        style="padding: 4px 10px; font-size: 12px;">우선순위: 전체</button>
+                    <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high"
+                        style="padding: 4px 10px; font-size: 12px;">매우 높음</button>
+                    <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high"
+                        style="padding: 4px 10px; font-size: 12px;">높음</button>
+                    <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle"
+                        style="padding: 4px 10px; font-size: 12px;">중간</button>
+                    <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low"
+                        style="padding: 4px 10px; font-size: 12px;">낮음</button>
+                    <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low"
+                        style="padding: 4px 10px; font-size: 12px;">매우 낮음</button>
+                </div>
             </div>
         </div>
     </div>
