@@ -62,7 +62,7 @@
       "endDate": "2026-02-28",
       "status": "진행중",
       "priority": "middle",
-      "description": "현업 인터뷰 및 요구사항 정리",
+      "description": "",
       "createdAt": "2026-01-15T09:30:00.000Z"
     },
     {
@@ -114,7 +114,7 @@
       "endDate": "2026-03-27",
       "status": "진행중",
       "priority": "middle",
-      "description": "PoC 진행 및 비용 분석",
+      "description": "<p><s>PoC 진행 및 비용 분석</s></p>",
       "createdAt": "2026-02-01T13:00:00.000Z"
     },
     {
@@ -478,7 +478,7 @@
       "endDate": "2026-03-15",
       "status": "대기",
       "priority": "middle",
-      "description": "Chart.js vs Highcharts 비교",
+      "description": "<blockquote>Chart.js vs Highcharts 비교</blockquote>",
       "createdAt": "2026-02-18T17:30:00.000Z"
     },
     {

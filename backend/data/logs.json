@@ -1,6 +1,38 @@
 {
   "logs": [
     {
+      "id": "1771936880384mgv93",
+      "taskId": "t9",
+      "taskName": "LLM 모델 도입 타당성 검토",
+      "action": "수정",
+      "details": "{UPDATE} [설명] <p><span style=\"background-color: rgb(178, 107, 0);\">PoC 진행 및 비용 분석</span></p> → <p><s>PoC 진행 및 비용 분석</s></p>",
+      "timestamp": "2026-02-24T12:41:20.384Z"
+    },
+    {
+      "id": "1771936871104dduij",
+      "taskId": "t9",
+      "taskName": "LLM 모델 도입 타당성 검토",
+      "action": "수정",
+      "details": "{UPDATE} [설명] PoC 진행 및 비용 분석 → <p><span style=\"background-color: rgb(178, 107, 0);\">PoC 진행 및 비용 분석</span></p>",
+      "timestamp": "2026-02-24T12:41:11.104Z"
+    },
+    {
+      "id": "1771936849579010cv",
+      "taskId": "t38",
+      "taskName": "데이터 시각화 차트 라이브러리 도입",
+      "action": "수정",
+      "details": "{UPDATE} [설명] Chart.js vs Highcharts 비교 → <blockquote>Chart.js vs Highcharts 비교</blockquote>",
+      "timestamp": "2026-02-24T12:40:49.579Z"
+    },
+    {
+      "id": "1771936839540ck96e",
+      "taskId": "t5",
+      "taskName": "차세대 시스템 요구사항 정의",
+      "action": "수정",
+      "details": "{DELETE} [설명] 현업 인터뷰 및 요구사항 정리 삭제됨",
+      "timestamp": "2026-02-24T12:40:39.540Z"
+    },
+    {
       "id": "1771932966924odp54",
       "taskId": "1771932966923",
       "taskName": "클라우드 인프라 비용 절감 최적화 (복사본)",

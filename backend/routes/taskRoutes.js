@@ -36,17 +36,17 @@ const taskRoutes = (req, res, pathname) => {
             const updatedTask = JSON.parse(body);
             const data = DataManager.tasks.read();
             const index = data.tasks.findIndex(t => t.id === id);
-            
+
             if (index !== -1) {
                 const oldTask = { ...data.tasks[index] };
                 data.tasks[index] = { ...data.tasks[index], ...updatedTask, id };
                 const newTask = data.tasks[index];
-                
+
                 // 변경 사항 상세 생성
                 const details = generateTaskChangeDetails(oldTask, newTask);
                 DataManager.tasks.write(data);
                 DataManager.logs.add('수정', id, newTask.taskName, details);
-                
+
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(newTask));
             } else {
@@ -62,7 +62,7 @@ const taskRoutes = (req, res, pathname) => {
         const id = pathname.split('/')[3];
         const data = DataManager.tasks.read();
         const index = data.tasks.findIndex(t => t.id === id);
-        
+
         if (index !== -1) {
             const taskName = data.tasks[index].taskName;
             data.tasks.splice(index, 1);
@@ -85,7 +85,7 @@ function generateTaskChangeDetails(oldTask, newTask) {
     const fieldMap = {
         taskName: '업무명', startDate: '시작 날짜', endDate: '종료 날짜',
         status: '진행 상태', priority: '우선순위', category1: '대분류',
-        category2: '중분류', category3: '소분류', description: '설명', importantMemo: '중요 메모'
+        category2: '중분류', category3: '소분류', description: '메모'
     };
     const priorityMap = { 'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음' };
 
@@ -99,7 +99,13 @@ function generateTaskChangeDetails(oldTask, newTask) {
                 oldVal = priorityMap[oldVal] || oldVal;
                 newVal = priorityMap[newVal] || newVal;
             }
-            
+
+            if (key === 'description') {
+                oldVal = oldVal.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+                newVal = newVal.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
+                if (oldVal === newVal) continue;
+            }
+
             let tag = '';
             if (!oldVal && newVal) tag = '{NEW}';
             else if (oldVal && newVal) tag = '{UPDATE}';
