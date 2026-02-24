@@ -71,6 +71,13 @@ export const DashboardUI = {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: { position: 'right' }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const status = Object.keys(counts)[index];
+                        window.openAllTasksModalWithStatus(status);
+                    }
                 }
             }
         });
@@ -108,6 +115,13 @@ export const DashboardUI = {
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const keys = ['very-high', 'high', 'middle', 'low', 'very-low'];
+                        window.openAllTasksModalWithPriority(keys[index]);
+                    }
                 }
             }
         });
