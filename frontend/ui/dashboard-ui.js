@@ -137,7 +137,7 @@ export const DashboardUI = {
         const createdData = [];
 
         const today = new Date();
-        for (let i = 6; i >= 0; i--) {
+        for (let i = 13; i >= 0; i--) {
             const d = new Date(today);
             d.setDate(today.getDate() - i);
             const dateStr = d.toISOString().split('T')[0];
@@ -164,19 +164,19 @@ export const DashboardUI = {
                         label: '완료된 업무',
                         data: completedData,
                         borderColor: '#4caf50',
-                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        backgroundColor: '#4caf50',
                         borderWidth: 2,
                         tension: 0.3,
-                        fill: true
+                        fill: false
                     },
                     {
                         label: '신규 생성 업무',
                         data: createdData,
                         borderColor: '#ff9800',
-                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                        backgroundColor: '#ff9800',
                         borderWidth: 2,
                         tension: 0.3,
-                        fill: true
+                        fill: false
                     }
                 ]
             },
