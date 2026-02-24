@@ -100,12 +100,6 @@ function generateTaskChangeDetails(oldTask, newTask) {
                 newVal = priorityMap[newVal] || newVal;
             }
 
-            if (key === 'description') {
-                oldVal = oldVal.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
-                newVal = newVal.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
-                if (oldVal === newVal) continue;
-            }
-
             let tag = '';
             if (!oldVal && newVal) tag = '{NEW}';
             else if (oldVal && newVal) tag = '{UPDATE}';
@@ -116,7 +110,7 @@ function generateTaskChangeDetails(oldTask, newTask) {
             else if (tag === '{DELETE}') changes.push(`${tag} [${fieldMap[key]}] ${oldVal} 삭제됨`);
         }
     }
-    return changes.join(', ');
+    return changes.join(' ||| ');
 }
 
 module.exports = taskRoutes;

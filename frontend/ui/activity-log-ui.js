@@ -12,7 +12,10 @@ export const ActivityLogUI = {
             '매우 높음': 'very-high', '높음': 'high', '중간': 'middle', '낮음': 'low', '매우 낮음': 'very-low'
         };
 
-        let formatted = TextUtils.escapeHtml(detail);
+        let formatted = detail;
+        if (!detail.includes('[메모]') && !detail.includes('[설명]')) {
+            formatted = TextUtils.escapeHtml(detail);
+        }
         formatted = formatted.replace(/\{NEW\}/g, '<span class="change-tag new">NEW</span>');
         formatted = formatted.replace(/\{UPDATE\}/g, '<span class="change-tag update">UPDATE</span>');
         formatted = formatted.replace(/\{DELETE\}/g, '<span class="change-tag delete">DELETE</span>');
@@ -48,7 +51,7 @@ export const ActivityLogUI = {
                         <span class="log-action">${log.action}</span>
                     </div>
                     ${log.details ? `<div class="log-details">
-                        ${log.details.split(', ').map(c => `<div>• ${this.formatLogDetail(c)}</div>`).join('')}
+                        ${log.details.split(log.details.includes(' ||| ') ? ' ||| ' : ', ').map(c => `<div>• ${this.formatLogDetail(c)}</div>`).join('')}
                     </div>` : ''}
                 </div>
             </div>
