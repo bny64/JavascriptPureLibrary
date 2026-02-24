@@ -7,82 +7,87 @@
         </div>
 
         <div
-            style="background: #f8f9fa; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 10px;">
-            <!-- 상단 검색바 및 정렬 -->
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
-                <div class="search-type" style="margin-bottom: 0; gap: 10px;">
+            style="background: #f8f9fa; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 8px;">
+            <!-- 1. 단어/선택 검색 + 검색창 한 줄 -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="search-type" style="margin-bottom: 0; gap: 10px; flex-shrink: 0;">
                     <label style="font-size: 13px;"><input type="radio" name="searchType" value="text" checked
                             onchange="toggleSearchType()"> 단어 검색</label>
                     <label style="font-size: 13px;"><input type="radio" name="searchType" value="category"
                             onchange="toggleSearchType()"> 선택 검색</label>
                 </div>
 
-                <div id="textSearchBox" class="search-box" style="margin-bottom: 0; flex: 1; min-width: 200px;">
-                    <input style="padding: 6px 12px; margin-bottom: 0; height: 32px;" type="text" id="textSearchInput"
-                        placeholder="업무명 또는 내용..." onkeyup="searchAllTasks()">
+                <div id="textSearchBox" class="search-box" style="margin-bottom: 0; flex: 1;">
+                    <input
+                        style="padding: 6px 12px; margin-bottom: 0; height: 32px; width: 100%; box-sizing: border-box;"
+                        type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
                 </div>
 
-                <div id="categorySearchBox" class="search-box"
-                    style="display: none; margin-bottom: 0; flex: 1; min-width: 200px; display: flex; gap: 5px;">
+                <!-- 선택검색 콤보박스들 (Gap을 줄임) -->
+                <div id="categorySearchBox"
+                    style="display: none; margin-bottom: 0; flex: 1; display: flex; flex-direction: row; gap: 5px; align-items: center;">
                     <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
                         <option value="">대분류</option>
                     </select>
                     <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
                         <option value="">중분류</option>
                     </select>
                     <select id="searchCategory3" onchange="searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
+                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
                         <option value="">소분류</option>
-                    </select>
-                </div>
-
-                <div class="sort-controls" style="margin-bottom: 0;">
-                    <label for="sortField" style="font-size: 13px;">정렬:</label>
-                    <select id="sortField" onchange="changeAllTasksSort()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
-                        <option value="endDate">종료 날짜</option>
-                        <option value="startDate">시작 날짜</option>
-                        <option value="taskName">업무명</option>
-                        <option value="status">상태</option>
-                    </select>
-                    <select id="sortDirection" onchange="changeAllTasksSort()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px;">
-                        <option value="asc">오름차순</option>
-                        <option value="desc">내림차순</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 하단 필터 -->
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="status-filters" style="margin-bottom: 0; gap: 6px;">
-                    <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체"
-                        style="padding: 4px 10px; font-size: 12px;">상태: 전체</button>
-                    <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기"
-                        style="padding: 4px 10px; font-size: 12px;">대기</button>
-                    <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중"
-                        style="padding: 4px 10px; font-size: 12px;">진행중</button>
-                    <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료"
-                        style="padding: 4px 10px; font-size: 12px;">완료</button>
-                    <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류"
-                        style="padding: 4px 10px; font-size: 12px;">보류</button>
-                </div>
-                <div class="priority-filters" style="margin-bottom: 0; gap: 6px;">
-                    <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체"
-                        style="padding: 4px 10px; font-size: 12px;">우선순위: 전체</button>
-                    <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high"
-                        style="padding: 4px 10px; font-size: 12px;">매우 높음</button>
-                    <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high"
-                        style="padding: 4px 10px; font-size: 12px;">높음</button>
-                    <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle"
-                        style="padding: 4px 10px; font-size: 12px;">중간</button>
-                    <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low"
-                        style="padding: 4px 10px; font-size: 12px;">낮음</button>
-                    <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low"
-                        style="padding: 4px 10px; font-size: 12px;">매우 낮음</button>
-                </div>
+            <!-- 2. 정렬 한 줄 -->
+            <div class="sort-controls" style="margin-bottom: 0; justify-content: flex-start; gap: 10px;">
+                <label for="sortField" style="font-size: 13px; font-weight: 600; min-width: 60px;">정렬 기준:</label>
+                <select id="sortField" onchange="changeAllTasksSort()"
+                    style="padding: 6px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none;">
+                    <option value="endDate">종료 날짜</option>
+                    <option value="startDate">시작 날짜</option>
+                    <option value="taskName">업무명</option>
+                    <option value="status">상태</option>
+                </select>
+                <select id="sortDirection" onchange="changeAllTasksSort()"
+                    style="padding: 6px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none;">
+                    <option value="asc">오름차순</option>
+                    <option value="desc">내림차순</option>
+                </select>
+            </div>
+
+            <!-- 3. 상태 한 줄 -->
+            <div class="status-filters" style="margin-bottom: 0; gap: 6px; align-items: center;">
+                <span style="font-size: 13px; font-weight: 600; min-width: 60px;">상태:</span>
+                <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체"
+                    style="padding: 4px 10px; font-size: 12px;">전체</button>
+                <button class="filter-btn" onclick="filterByStatus('대기')" data-status="대기"
+                    style="padding: 4px 10px; font-size: 12px;">대기</button>
+                <button class="filter-btn" onclick="filterByStatus('진행중')" data-status="진행중"
+                    style="padding: 4px 10px; font-size: 12px;">진행중</button>
+                <button class="filter-btn" onclick="filterByStatus('완료')" data-status="완료"
+                    style="padding: 4px 10px; font-size: 12px;">완료</button>
+                <button class="filter-btn" onclick="filterByStatus('보류')" data-status="보류"
+                    style="padding: 4px 10px; font-size: 12px;">보류</button>
+            </div>
+
+            <!-- 4. 우선순위 한 줄 -->
+            <div class="priority-filters" style="margin-bottom: 0; gap: 6px; align-items: center;">
+                <span style="font-size: 13px; font-weight: 600; min-width: 60px;">우선순위:</span>
+                <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체"
+                    style="padding: 4px 10px; font-size: 12px;">전체</button>
+                <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high"
+                    style="padding: 4px 10px; font-size: 12px;">매우 높음</button>
+                <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high"
+                    style="padding: 4px 10px; font-size: 12px;">높음</button>
+                <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle"
+                    style="padding: 4px 10px; font-size: 12px;">중간</button>
+                <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low"
+                    style="padding: 4px 10px; font-size: 12px;">낮음</button>
+                <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low"
+                    style="padding: 4px 10px; font-size: 12px;">매우 낮음</button>
             </div>
         </div>
     </div>
