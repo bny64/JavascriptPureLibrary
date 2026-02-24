@@ -100,6 +100,13 @@ function generateTaskChangeDetails(oldTask, newTask) {
                 newVal = priorityMap[newVal] || newVal;
             }
 
+            if (key === 'description') {
+                if (!oldVal && newVal) changes.push(`{NEW} [메모] 내용이 등록되었습니다.`);
+                else if (oldVal && newVal) changes.push(`{UPDATE} [메모] 내용이 수정되었습니다.`);
+                else if (oldVal && !newVal) changes.push(`{DELETE} [메모] 내용이 삭제되었습니다.`);
+                continue;
+            }
+
             let tag = '';
             if (!oldVal && newVal) tag = '{NEW}';
             else if (oldVal && newVal) tag = '{UPDATE}';
