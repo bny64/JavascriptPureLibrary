@@ -10,7 +10,7 @@ function initQuill() {
     if (!quillInstance && document.getElementById('description-editor')) {
         quillInstance = new window.Quill('#description-editor', {
             theme: 'snow',
-            placeholder: '업무 설명을 입력하세요 (서식 적용 가능)',
+            placeholder: '메모를 입력하세요 (서식 적용 가능)',
             modules: {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],

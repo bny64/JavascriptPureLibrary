@@ -55,9 +55,7 @@ import {
     resetCategoryForm, editCategoryItem, saveCategory
 } from './modules/category-modal.js';
 
-import {
-    openImportantMemoModal, closeImportantMemoModal, saveImportantMemo
-} from './modules/memo-modal.js';
+
 
 import {
     openAllTasksModal, closeAllTasksModal,
@@ -269,7 +267,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
         { id: 'categoryModal', url: 'html/modals/category.html', wrapperClass: 'modal' },
         { id: 'taskModal', url: 'html/modals/task.html', wrapperClass: 'modal' },
-        { id: 'importantMemoModal', url: 'html/modals/important-memo.html', wrapperClass: 'modal' },
         { id: 'notificationSettingsModal', url: 'html/modals/notification-settings.html', wrapperClass: 'modal' }
     ]);
 
@@ -310,7 +307,6 @@ window.onclick = function (event) {
     if (event.target === document.getElementById('taskModal')) closeTaskModal();
     if (event.target === document.getElementById('categoryModal')) closeCategoryModal();
     if (event.target === document.getElementById('allTasksModal')) closeAllTasksModal();
-    if (event.target === document.getElementById('importantMemoModal')) closeImportantMemoModal();
     if (event.target === document.getElementById('notificationSettingsModal')) closeNotificationSettingsModal();
 
     // 글로벌 검색 결과 닫기
@@ -366,8 +362,6 @@ Object.assign(window, {
     // 카테고리 모달
     openCategoryModal, closeCategoryModal, resetCategoryForm, editCategoryItem, saveCategory,
 
-    // 메모 모달
-    openImportantMemoModal, closeImportantMemoModal, saveImportantMemo,
 
     // 전체 업무 모달
     openAllTasksModal, closeAllTasksModal,

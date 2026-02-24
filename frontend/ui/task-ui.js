@@ -16,12 +16,12 @@ export const TaskUI = {
         header.appendChild(DomUtils.createElement('span', `task-status status-${task.status}`, task.status));
         header.appendChild(DomUtils.createElement('span', `task-priority priority-${task.priority}`, PRIORITY_LABELS[task.priority] || '중간'));
 
-        if (task.importantMemo && task.importantMemo.trim()) {
+        if (task.description && task.description.trim() && task.description.trim() !== '<p><br></p>') {
             const memoIcon = DomUtils.createElement('span', 'task-memo-icon', '📌');
-            memoIcon.title = '중요 메모 있음';
+            memoIcon.title = '메모 있음';
             memoIcon.onclick = (e) => {
                 e.stopPropagation();
-                window.openImportantMemoModal(task.id, task.importantMemo);
+                window.openTaskModal(task);
             };
             header.appendChild(memoIcon);
         }
@@ -33,9 +33,9 @@ export const TaskUI = {
         if (task.category3) catText += ` > ${task.category3}`;
         category.textContent = catText;
 
-        // 설명
+        // 메모(구 설명)
         const description = DomUtils.createElement('div', 'task-description');
-        description.innerHTML = task.description || '설명 없음';
+        description.innerHTML = task.description || '메모 없음';
 
         taskDiv.appendChild(header);
         taskDiv.appendChild(category);
@@ -44,8 +44,7 @@ export const TaskUI = {
         // 액션 버튼
         const actions = DomUtils.createElement('div', 'task-actions');
 
-        const memoBtn = DomUtils.createElement('button', 'btn-memo', '메모');
-        memoBtn.onclick = (e) => { e.stopPropagation(); window.openImportantMemoModal(task.id, task.importantMemo); };
+        // 메모 기능 버튼 제거됨
 
         const editBtn = DomUtils.createElement('button', 'btn-edit', '수정');
         editBtn.onclick = (e) => { e.stopPropagation(); window.openTaskModal(task); };
@@ -56,7 +55,6 @@ export const TaskUI = {
         const deleteBtn = DomUtils.createElement('button', 'btn-delete', '삭제');
         deleteBtn.onclick = (e) => { e.stopPropagation(); window.deleteTask(task.id); };
 
-        actions.appendChild(memoBtn);
         actions.appendChild(editBtn);
         actions.appendChild(copyBtn);
         actions.appendChild(deleteBtn);
