@@ -60,9 +60,9 @@
       "taskName": "차세대 시스템 요구사항 정의",
       "startDate": "2026-01-15",
       "endDate": "2026-02-28",
-      "status": "진행중",
-      "priority": "middle",
-      "description": "",
+      "status": "보류",
+      "priority": "high",
+      "description": "<p>차세대 시스템 요구사항 정의</p>",
       "createdAt": "2026-01-15T09:30:00.000Z"
     },
     {
