@@ -28,6 +28,13 @@ export const KanbanUI = {
                 );
             }
 
+            // 종료 날짜 기준 내림차순 정렬 (최신 날짜 혹은 나중 날짜가 위로)
+            filtered.sort((a, b) => {
+                const dateA = a.endDate ? new Date(a.endDate).getTime() : 0;
+                const dateB = b.endDate ? new Date(b.endDate).getTime() : 0;
+                return dateB - dateA;
+            });
+
             if (countEl) countEl.textContent = filtered.length;
             container.innerHTML = '';
             filtered.forEach(task => container.appendChild(this._createCard(task)));
