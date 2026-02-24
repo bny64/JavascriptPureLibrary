@@ -662,6 +662,19 @@
       "description": "<p><strong>Test Bold Description</strong></p>",
       "id": "1771932740979",
       "createdAt": "2026-02-24T11:32:20.980Z"
+    },
+    {
+      "category1": "운영/인프라",
+      "category2": "서버 관리",
+      "category3": "정기 점검",
+      "taskName": "클라우드 인프라 비용 절감 최적화 (복사본)",
+      "startDate": "2026-01-31",
+      "endDate": "2026-02-25",
+      "status": "진행중",
+      "priority": "middle",
+      "description": "<p><strong style=\"color: rgb(161, 0, 0);\">미사용 자원 제거 및 예약 인스턴스 검토</strong></p>",
+      "id": "1771932966923",
+      "createdAt": "2026-02-24T11:36:06.923Z"
     }
   ]
 }

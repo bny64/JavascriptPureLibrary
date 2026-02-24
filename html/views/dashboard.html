@@ -4,13 +4,13 @@
         <!-- 요약 카드가 여기에 렌더링됩니다 -->
     </div>
     <div class="dashboard-charts-grid">
-        <div class="dashboard-card">
+        <div class="dashboard-card" style="position: relative; height: 300px;">
             <h3>📊 상태별 분포</h3>
-            <div id="statusChart" class="chart-container"></div>
+            <canvas id="statusChartCanvas"></canvas>
         </div>
-        <div class="dashboard-card">
+        <div class="dashboard-card" style="position: relative; height: 300px;">
             <h3>🔥 우선순위 현황</h3>
-            <div id="priorityChart" class="chart-container"></div>
+            <canvas id="priorityChartCanvas"></canvas>
         </div>
     </div>
     <div class="dashboard-card full-width">

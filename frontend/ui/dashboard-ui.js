@@ -2,6 +2,8 @@
 
 import { TextUtils } from '../utils/dom.js';
 
+let chartInstances = {};
+
 export const DashboardUI = {
     render(tasks) {
         this.renderSummary(tasks);
@@ -41,49 +43,74 @@ export const DashboardUI = {
     },
 
     renderStatusChart(tasks) {
-        const container = document.getElementById('statusChart');
-        if (!container) return;
+        const canvas = document.getElementById('statusChartCanvas');
+        if (!canvas) return;
+
         const counts = {
             '대기': tasks.filter(t => t.status === '대기').length,
             '진행중': tasks.filter(t => t.status === '진행중').length,
             '완료': tasks.filter(t => t.status === '완료').length,
             '보류': tasks.filter(t => t.status === '보류').length
         };
-        const colors = { '대기': '#ffc107', '진행중': '#2196f3', '완료': '#4caf50', '보류': '#9e9e9e' };
-        this._renderBarChart(container, counts, colors, tasks.length, 'status');
+        const colors = ['#ffc107', '#2196f3', '#4caf50', '#9e9e9e'];
+
+        if (chartInstances.status) chartInstances.status.destroy();
+
+        chartInstances.status = new window.Chart(canvas, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(counts),
+                datasets: [{
+                    data: Object.values(counts),
+                    backgroundColor: colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' }
+                }
+            }
+        });
     },
 
     renderPriorityChart(tasks) {
-        const container = document.getElementById('priorityChart');
-        if (!container) return;
-        const labels = { 'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음' };
-        const counts = {
-            'very-high': tasks.filter(t => t.priority === 'very-high').length,
-            'high': tasks.filter(t => t.priority === 'high').length,
-            'middle': tasks.filter(t => t.priority === 'middle' || !t.priority).length,
-            'low': tasks.filter(t => t.priority === 'low').length,
-            'very-low': tasks.filter(t => t.priority === 'very-low').length
-        };
-        const colors = { 'very-high': '#e53935', 'high': '#fb8c00', 'middle': '#3f51b5', 'low': '#4caf50', 'very-low': '#607d8b' };
-        this._renderBarChart(container, counts, colors, tasks.length, 'priority', labels);
-    },
+        const canvas = document.getElementById('priorityChartCanvas');
+        if (!canvas) return;
 
-    _renderBarChart(container, counts, colors, total, type, labels = null) {
-        container.innerHTML = Object.keys(counts).map(key => {
-            const count = counts[key];
-            const percent = total > 0 ? Math.round((count / total) * 100) : 0;
-            const label = labels ? labels[key] : key;
-            const onclick = type === 'status'
-                ? `onclick="window.openAllTasksModalWithStatus('${key}')"`
-                : `onclick="window.openAllTasksModalWithPriority('${key}')"`;
-            return `<div class="chart-bar-item cursor-pointer" ${onclick}>
-                <div class="chart-bar-label">${label}</div>
-                <div class="chart-bar-wrapper">
-                    <div class="chart-bar-fill" style="width:${percent}%;background-color:${colors[key] || '#ddd'}"></div>
-                </div>
-                <div class="chart-bar-value">${count}</div>
-            </div>`;
-        }).join('');
+        const labels = ['매우 높음', '높음', '중간', '낮음', '매우 낮음'];
+        const counts = [
+            tasks.filter(t => t.priority === 'very-high').length,
+            tasks.filter(t => t.priority === 'high').length,
+            tasks.filter(t => t.priority === 'middle' || !t.priority).length,
+            tasks.filter(t => t.priority === 'low').length,
+            tasks.filter(t => t.priority === 'very-low').length
+        ];
+        const colors = ['#e53935', '#fb8c00', '#3f51b5', '#4caf50', '#607d8b'];
+
+        if (chartInstances.priority) chartInstances.priority.destroy();
+
+        chartInstances.priority = new window.Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '업무 수',
+                    data: counts,
+                    backgroundColor: colors,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
     },
 
     renderCategoryProgress(tasks) {

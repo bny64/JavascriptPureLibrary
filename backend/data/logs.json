@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1771932966924odp54",
+      "taskId": "1771932966923",
+      "taskName": "클라우드 인프라 비용 절감 최적화 (복사본)",
+      "action": "등록",
+      "details": "",
+      "timestamp": "2026-02-24T11:36:06.924Z"
+    },
+    {
       "id": "1771932740986hqiwf",
       "taskId": "1771932740979",
       "taskName": "Quill Editor Test",
