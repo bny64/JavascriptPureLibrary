@@ -34,7 +34,8 @@ export const TaskUI = {
         category.textContent = catText;
 
         // 설명
-        const description = DomUtils.createElement('div', 'task-description', task.description || '설명 없음');
+        const description = DomUtils.createElement('div', 'task-description');
+        description.innerHTML = task.description || '설명 없음';
 
         taskDiv.appendChild(header);
         taskDiv.appendChild(category);

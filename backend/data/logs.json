@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1771932740986hqiwf",
+      "taskId": "1771932740979",
+      "taskName": "Quill Editor Test",
+      "action": "등록",
+      "details": "",
+      "timestamp": "2026-02-24T11:32:20.986Z"
+    },
+    {
       "id": "1771731751575qmysz",
       "taskId": "t10",
       "taskName": "1분기 부가세 신고 준비",

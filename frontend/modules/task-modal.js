@@ -4,11 +4,37 @@ import { AppState } from '../state/app-state.js';
 import { ArrayUtils, DomUtils } from '../utils/dom.js';
 import { KoreanTime } from '../utils/korean-time.js';
 
+let quillInstance = null;
+
+function initQuill() {
+    if (!quillInstance && document.getElementById('description-editor')) {
+        quillInstance = new window.Quill('#description-editor', {
+            theme: 'snow',
+            placeholder: '업무 설명을 입력하세요 (서식 적용 가능)',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'header': [1, 2, 3, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['clean']
+                ]
+            }
+        });
+        quillInstance.on('text-change', function () {
+            const html = quillInstance.root.innerHTML;
+            document.getElementById('description').value = html === '<p><br></p>' ? '' : html;
+        });
+    }
+}
+
 export function openTaskModal(task = null) {
     const modal = document.getElementById('taskModal');
     const modalTitle = document.getElementById('modalTitle');
 
     populateCategoryDropdowns();
+    initQuill();
 
     if (task) {
         modalTitle.textContent = task.id ? '업무 수정' : '새 업무 추가';
@@ -30,6 +56,9 @@ export function openTaskModal(task = null) {
         document.getElementById('status').value = task.status;
         document.getElementById('priority').value = task.priority || 'middle';
         document.getElementById('description').value = task.description || '';
+        if (quillInstance) {
+            quillInstance.root.innerHTML = task.description || '';
+        }
     } else {
         modalTitle.textContent = '새 업무 추가';
         document.getElementById('taskId').value = '';
@@ -38,6 +67,10 @@ export function openTaskModal(task = null) {
         document.getElementById('endDate').value = '';
         document.getElementById('status').value = '대기';
         document.getElementById('priority').value = 'middle';
+        document.getElementById('description').value = '';
+        if (quillInstance) {
+            quillInstance.setContents([]);
+        }
     }
 
     modal.style.display = 'block';
@@ -142,6 +175,9 @@ export async function saveTask(event) {
         document.getElementById('endDate').value = today;
         document.getElementById('status').value = '대기';
         document.getElementById('description').value = '';
+        if (quillInstance) {
+            quillInstance.setContents([]);
+        }
         document.getElementById('category1').value = savedCategory1;
         updateSubCategories();
         document.getElementById('category2').value = savedCategory2;

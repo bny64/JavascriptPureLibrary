@@ -649,6 +649,19 @@
       "description": "",
       "id": "1771636186259",
       "createdAt": "2026-02-21T01:09:46.259Z"
+    },
+    {
+      "category1": "IT/개발",
+      "category2": "웹 개발",
+      "category3": "프론트엔드",
+      "taskName": "Quill Editor Test",
+      "startDate": "202602-02-04",
+      "endDate": "202602-02-04",
+      "status": "대기",
+      "priority": "middle",
+      "description": "<p><strong>Test Bold Description</strong></p>",
+      "id": "1771932740979",
+      "createdAt": "2026-02-24T11:32:20.980Z"
     }
   ]
 }

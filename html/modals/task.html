@@ -5,15 +5,21 @@
         <input type="hidden" id="taskId">
         <div class="form-group">
             <label>대분류</label>
-            <select id="category1" required onchange="updateSubCategories()"><option value="">선택하세요</option></select>
+            <select id="category1" required onchange="updateSubCategories()">
+                <option value="">선택하세요</option>
+            </select>
         </div>
         <div class="form-group">
             <label>중분류</label>
-            <select id="category2" onchange="updateDetailCategories()"><option value="">선택하세요</option></select>
+            <select id="category2" onchange="updateDetailCategories()">
+                <option value="">선택하세요</option>
+            </select>
         </div>
         <div class="form-group">
             <label>소분류</label>
-            <select id="category3"><option value="">선택하세요</option></select>
+            <select id="category3">
+                <option value="">선택하세요</option>
+            </select>
         </div>
         <div class="form-group">
             <label>업무명</label>
@@ -48,7 +54,8 @@
         </div>
         <div class="form-group">
             <label>설명</label>
-            <textarea id="description" rows="4" placeholder="업무 설명을 입력하세요"></textarea>
+            <div id="description-editor" style="height: 150px; background: white; margin-bottom: 20px;"></div>
+            <input type="hidden" id="description">
         </div>
         <div class="modal-buttons">
             <button type="submit" class="btn-save">저장</button>
