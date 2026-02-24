@@ -4,18 +4,25 @@
         <!-- 요약 카드가 여기에 렌더링됩니다 -->
     </div>
     <div class="dashboard-charts-grid">
-        <div class="dashboard-card" style="position: relative; height: 300px;">
+        <div class="dashboard-card" style="height: 380px; display: flex; flex-direction: column;">
             <h3>📊 상태별 분포</h3>
-            <canvas id="statusChartCanvas"></canvas>
+            <div style="position: relative; flex-grow: 1;">
+                <canvas id="statusChartCanvas"></canvas>
+            </div>
         </div>
-        <div class="dashboard-card" style="position: relative; height: 300px;">
+        <div class="dashboard-card" style="height: 380px; display: flex; flex-direction: column;">
             <h3>🔥 우선순위 현황</h3>
-            <canvas id="priorityChartCanvas"></canvas>
+            <div style="position: relative; flex-grow: 1;">
+                <canvas id="priorityChartCanvas"></canvas>
+            </div>
         </div>
     </div>
-    <div class="dashboard-card full-width" style="position: relative; height: 350px; margin-bottom: 20px;">
+    <div class="dashboard-card full-width"
+        style="height: 400px; margin-bottom: 20px; display: flex; flex-direction: column;">
         <h3>📈 주간 업무 처리량 트렌드 (최근 14일)</h3>
-        <canvas id="trendChartCanvas"></canvas>
+        <div style="position: relative; flex-grow: 1;">
+            <canvas id="trendChartCanvas"></canvas>
+        </div>
     </div>
     <div class="dashboard-card full-width">
         <h3>📁 카테고리별 진행률</h3>
