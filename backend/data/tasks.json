@@ -675,6 +675,19 @@
       "description": "<p><strong style=\"color: rgb(161, 0, 0);\">미사용 자원 제거 및 예약 인스턴스 검토</strong></p>",
       "id": "1771932966923",
       "createdAt": "2026-02-24T11:36:06.923Z"
+    },
+    {
+      "category1": "IT/프로젝트",
+      "category2": "기획/설계",
+      "category3": "요구사항 분석",
+      "taskName": "요구사항 상세 분석",
+      "startDate": "",
+      "endDate": "",
+      "status": "대기",
+      "priority": "middle",
+      "description": "<p>상세 분석</p>",
+      "id": "1771938350803",
+      "createdAt": "2026-02-24T13:05:50.803Z"
     }
   ]
 }
