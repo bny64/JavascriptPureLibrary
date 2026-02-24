@@ -1,6 +1,22 @@
 {
   "logs": [
     {
+      "id": "1771937698653p6v17",
+      "taskId": "t4",
+      "taskName": "상반기 신입사원 면접",
+      "action": "수정",
+      "details": "{UPDATE} [설명] 1차 기술 면접 진행 중 → <p><em>1차 기술 면접 진행 중</em></p>",
+      "timestamp": "2026-02-24T12:54:58.653Z"
+    },
+    {
+      "id": "17719376492388zklr",
+      "taskId": "t9",
+      "taskName": "LLM 모델 도입 타당성 검토",
+      "action": "수정",
+      "details": "{UPDATE} [설명] <p><s>PoC 진행 및 비용 분석</s></p> → <h2><s>PoC 진행 및 비용 분석</s></h2>",
+      "timestamp": "2026-02-24T12:54:09.238Z"
+    },
+    {
       "id": "1771936880384mgv93",
       "taskId": "t9",
       "taskName": "LLM 모델 도입 타당성 검토",

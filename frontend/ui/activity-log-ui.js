@@ -12,7 +12,22 @@ export const ActivityLogUI = {
             '매우 높음': 'very-high', '높음': 'high', '중간': 'middle', '낮음': 'low', '매우 낮음': 'very-low'
         };
 
-        let formatted = TextUtils.escapeHtml(detail);
+        let formatted = detail;
+        // Old logs with [설명] or [메모] generated with raw HTML
+        if (detail.includes('[설명]') || detail.includes('[메모]')) {
+            if (detail.includes('<')) {
+                // If it contains HTML, replace brackets specifically but allow standard text to pass through loosely or render it directly as text to avoid breaking layout.
+                formatted = TextUtils.escapeHtml(detail);
+
+                // For old logs, strip out the inner raw HTML so it doesn't clutter the UI if it's too long
+                formatted = formatted.replace(/&lt;[^&]*&gt;/gm, '');
+            } else {
+                formatted = TextUtils.escapeHtml(detail);
+            }
+        } else {
+            formatted = TextUtils.escapeHtml(detail);
+        }
+
         formatted = formatted.replace(/\{NEW\}/g, '<span class="change-tag new">NEW</span>');
         formatted = formatted.replace(/\{UPDATE\}/g, '<span class="change-tag update">UPDATE</span>');
         formatted = formatted.replace(/\{DELETE\}/g, '<span class="change-tag delete">DELETE</span>');
