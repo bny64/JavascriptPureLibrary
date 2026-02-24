@@ -27,15 +27,15 @@
                 <div id="categorySearchBox"
                     style="display: none; margin-bottom: 0; flex: 1; display: flex; flex-direction: row; gap: 5px; align-items: center;">
                     <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
+                        style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">대분류</option>
                     </select>
                     <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
+                        style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">중분류</option>
                     </select>
                     <select id="searchCategory3" onchange="searchAllTasks()"
-                        style="padding: 6px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0;">
+                        style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">소분류</option>
                     </select>
                 </div>
@@ -45,14 +45,14 @@
             <div class="sort-controls" style="margin-bottom: 0; justify-content: flex-start; gap: 10px;">
                 <label for="sortField" style="font-size: 13px; font-weight: 600; min-width: 60px;">정렬 기준:</label>
                 <select id="sortField" onchange="changeAllTasksSort()"
-                    style="padding: 6px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none;">
+                    style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                     <option value="endDate">종료 날짜</option>
                     <option value="startDate">시작 날짜</option>
                     <option value="taskName">업무명</option>
                     <option value="status">상태</option>
                 </select>
                 <select id="sortDirection" onchange="changeAllTasksSort()"
-                    style="padding: 6px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none;">
+                    style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                     <option value="asc">오름차순</option>
                     <option value="desc">내림차순</option>
                 </select>
