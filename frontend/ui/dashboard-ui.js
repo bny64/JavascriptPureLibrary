@@ -9,6 +9,7 @@ export const DashboardUI = {
         this.renderSummary(tasks);
         this.renderStatusChart(tasks);
         this.renderPriorityChart(tasks);
+        this.renderTrendChart(tasks);
         this.renderCategoryProgress(tasks);
     },
 
@@ -122,6 +123,71 @@ export const DashboardUI = {
                         const keys = ['very-high', 'high', 'middle', 'low', 'very-low'];
                         window.openAllTasksModalWithPriority(keys[index]);
                     }
+                }
+            }
+        });
+    },
+
+    renderTrendChart(tasks) {
+        const canvas = document.getElementById('trendChartCanvas');
+        if (!canvas) return;
+
+        const labels = [];
+        const completedData = [];
+        const createdData = [];
+
+        const today = new Date();
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(today.getDate() - i);
+            const dateStr = d.toISOString().split('T')[0];
+            const displayStr = `${d.getMonth() + 1}/${d.getDate()}`;
+            labels.push(displayStr);
+
+            // 완료된 업무 (완료 상태이면서 종료일이 해당 일자인 경우)
+            const completed = tasks.filter(t => t.status === '완료' && t.endDate === dateStr).length;
+            completedData.push(completed);
+
+            // 신규 생성 업무 (생성일시가 해당 일자인 경우)
+            const created = tasks.filter(t => t.createdAt && t.createdAt.startsWith(dateStr)).length;
+            createdData.push(created);
+        }
+
+        if (chartInstances.trend) chartInstances.trend.destroy();
+
+        chartInstances.trend = new window.Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '완료된 업무',
+                        data: completedData,
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: '신규 생성 업무',
+                        data: createdData,
+                        borderColor: '#ff9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
                 }
             }
         });
