@@ -25,6 +25,7 @@ import { CategoryUI } from './ui/category-ui.js';
 import { DashboardUI } from './ui/dashboard-ui.js';
 import { KanbanUI } from './ui/kanban-ui.js';
 import { ActivityLogUI } from './ui/activity-log-ui.js';
+import { MemoUI } from './ui/memo-ui.js';
 
 import { injectComponents } from './utils/html-loader.js';
 
@@ -300,6 +301,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadTasks();
     await loadHolidays();
 
+    // 메모 이벤트 리스너
+    document.getElementById('openMemoBtn')?.addEventListener('click', () => MemoUI.toggleDrawer());
+    document.getElementById('closeMemoBtn')?.addEventListener('click', () => MemoUI.toggleDrawer());
+    document.getElementById('addMemoBtn')?.addEventListener('click', () => MemoUI.addMemo());
+
     renderCalendar();
     updateSelectedDateTitle();
     initNotifications();
@@ -402,6 +408,9 @@ Object.assign(window, {
 
     // 글로벌 검색
     handleGlobalSearch,
+
+    // 메모
+    deleteMemo: (id) => MemoUI.deleteMemo(id),
 
     // 유틸
     getWeekNumber

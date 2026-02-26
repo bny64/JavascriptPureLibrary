@@ -5,6 +5,7 @@ const url = require('url');
 const taskRoutes = require('./backend/routes/taskRoutes');
 const categoryRoutes = require('./backend/routes/categoryRoutes');
 const logRoutes = require('./backend/routes/logRoutes');
+const memoRoutes = require('./backend/routes/memoRoutes');
 const staticRoutes = require('./backend/routes/staticRoutes');
 
 const PORT = 3000;
@@ -30,6 +31,7 @@ const server = http.createServer((req, res) => {
     if (taskRoutes(req, res, pathname)) return;
     if (categoryRoutes(req, res, pathname)) return;
     if (logRoutes(req, res, pathname)) return;
+    if (memoRoutes(req, res, pathname)) return;
 
     // 2. 정적 파일 라우터
     if (staticRoutes(req, res, pathname)) return;

@@ -8,7 +8,8 @@ const FILES = {
     CATEGORIES: path.join(BASE_DATA_PATH, 'categories.json'),
     LOGS: path.join(BASE_DATA_PATH, 'logs.json'),
     HOLIDAYS: path.join(BASE_DATA_PATH, 'holidays.json'),
-    ARCHIVE: path.join(BASE_DATA_PATH, 'archive.json')
+    ARCHIVE: path.join(BASE_DATA_PATH, 'archive.json'),
+    MEMOS: path.join(BASE_DATA_PATH, 'memos.json')
 };
 
 // 파일 초기화 로직
@@ -31,6 +32,9 @@ function initFiles() {
     }
     if (!fs.existsSync(FILES.ARCHIVE)) {
         fs.writeFileSync(FILES.ARCHIVE, JSON.stringify({ archive: [] }, null, 2));
+    }
+    if (!fs.existsSync(FILES.MEMOS)) {
+        fs.writeFileSync(FILES.MEMOS, JSON.stringify({ memos: [] }, null, 2));
     }
 }
 
@@ -100,6 +104,12 @@ const DataManager = {
     archive: {
         read: () => readJSON(FILES.ARCHIVE, { archive: [] }),
         write: (data) => writeJSON(FILES.ARCHIVE, data)
+    },
+
+    // 메모 관련
+    memos: {
+        read: () => readJSON(FILES.MEMOS, { memos: [] }),
+        write: (data) => writeJSON(FILES.MEMOS, data)
     }
 };
 

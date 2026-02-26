@@ -63,9 +63,25 @@
                 </div>
                 <button id="notificationSettingsBtn" class="btn-notification-settings">⚙️ 알림 설정</button>
                 <button class="btn-category" onclick="openCategoryModal()">📁 분류 관리</button>
+                <button class="btn-memo" id="openMemoBtn">📝 메모</button>
                 <button class="btn-add" onclick="openTaskModal()">+ 새 업무 추가</button>
             </div>
         </header>
+
+        <!-- 메모 드로어 (Drawer) -->
+        <div id="memoDrawer" class="memo-drawer">
+            <div class="memo-drawer-header">
+                <h3>📝 전역 메모</h3>
+                <button id="closeMemoBtn" class="btn-close">&times;</button>
+            </div>
+            <div class="memo-input-container">
+                <textarea id="memoInput" placeholder="중요한 내용을 기록하세요..."></textarea>
+                <button id="addMemoBtn" class="btn-add-memo">메모 추가</button>
+            </div>
+            <div id="memoList" class="memo-list">
+                <!-- 메모 목록이 여기에 렌더링됩니다 -->
+            </div>
+        </div>
 
         <!-- 뷰 컨테이너 (내용은 동적으로 로드됨) -->
         <div id="dashboard-view" class="view-container" style="display: none;"></div>

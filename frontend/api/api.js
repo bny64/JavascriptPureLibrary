@@ -49,5 +49,20 @@ export const API = {
 
     holidays: {
         getAll: () => request('/api/holidays').catch(e => { console.error(e); return {}; })
+    },
+
+    memos: {
+        getAll: () => request('/api/memos').catch(e => { console.error(e); return []; }),
+        create: (data) => request('/api/memos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }),
+        update: (id, data) => request(`/api/memos/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }),
+        delete: (id) => request(`/api/memos/${id}`, { method: 'DELETE' })
     }
 };
