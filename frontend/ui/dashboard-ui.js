@@ -500,7 +500,15 @@ export const DashboardUI = {
 
         titleEl.textContent = `📅 ${dateStr} 업무`;
 
-        const dayTasks = tasks.filter(t => t.endDate === dateStr && t.status === 'completed');
+        let dayTasks = tasks.filter(t => t.endDate === dateStr && t.status === 'completed');
+
+        // 우선순위 순으로 정렬
+        const priorityOrder = { 'very-high': 1, 'high': 2, 'middle': 3, 'low': 4, 'very-low': 5 };
+        dayTasks.sort((a, b) => {
+            const pA = priorityOrder[a.priority] || (a.priority === undefined || !a.priority ? 3 : 99);
+            const pB = priorityOrder[b.priority] || (b.priority === undefined || !b.priority ? 3 : 99);
+            return pA - pB;
+        });
 
         if (dayTasks.length === 0) {
             listEl.innerHTML = '<p style="color: #999; font-size: 12px; margin: 0;">해당 날짜에 완료된<br>업무가 없습니다.</p>';
