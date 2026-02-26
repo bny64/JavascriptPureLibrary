@@ -17,17 +17,19 @@ export const DashboardUI = {
         const container = document.getElementById('dashboardSummary');
         if (!container) return;
 
+        const statusLabels = { 'pending': '대기', 'in-progress': '진행중', 'completed': '완료', 'on-hold': '보류' };
+
         const total = tasks.length;
-        const completed = tasks.filter(t => t.status === '완료').length;
-        const inProgress = tasks.filter(t => t.status === '진행중').length;
-        const pending = tasks.filter(t => t.status === '대기').length;
+        const completed = tasks.filter(t => t.status === 'completed').length;
+        const inProgress = tasks.filter(t => t.status === 'in-progress').length;
+        const pending = tasks.filter(t => t.status === 'pending').length;
         const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
         const stats = [
             { label: '전체 업무', value: total, icon: '📋', status: '전체' },
-            { label: '대기 업무', value: pending, icon: '🟡', status: '대기' },
-            { label: '진행 중', value: inProgress, icon: '🔵', status: '진행중' },
-            { label: '완료 업무', value: completed, icon: '✅', status: '완료' },
+            { label: '대기 업무', value: pending, icon: '🟡', status: 'pending' },
+            { label: '진행 중', value: inProgress, icon: '🔵', status: 'in-progress' },
+            { label: '완료 업무', value: completed, icon: '✅', status: 'completed' },
             { label: '전체 진행률', value: `${progressPercent}%`, icon: '📈', status: null }
         ];
 
@@ -47,11 +49,18 @@ export const DashboardUI = {
         const canvas = document.getElementById('statusChartCanvas');
         if (!canvas) return;
 
+        const statusMap = {
+            'pending': '대기',
+            'in-progress': '진행중',
+            'completed': '완료',
+            'on-hold': '보류'
+        };
+
         const counts = {
-            '대기': tasks.filter(t => t.status === '대기').length,
-            '진행중': tasks.filter(t => t.status === '진행중').length,
-            '완료': tasks.filter(t => t.status === '완료').length,
-            '보류': tasks.filter(t => t.status === '보류').length
+            'pending': tasks.filter(t => t.status === 'pending').length,
+            'in-progress': tasks.filter(t => t.status === 'in-progress').length,
+            'completed': tasks.filter(t => t.status === 'completed').length,
+            'on-hold': tasks.filter(t => t.status === 'on-hold').length
         };
         const colors = ['#ffc107', '#2196f3', '#4caf50', '#9e9e9e'];
 
@@ -60,7 +69,7 @@ export const DashboardUI = {
         chartInstances.status = new window.Chart(canvas, {
             type: 'doughnut',
             data: {
-                labels: Object.keys(counts),
+                labels: Object.keys(counts).map(k => statusMap[k] || k),
                 datasets: [{
                     data: Object.values(counts),
                     backgroundColor: colors,
@@ -145,7 +154,7 @@ export const DashboardUI = {
             labels.push(displayStr);
 
             // 완료된 업무 (완료 상태이면서 종료일이 해당 일자인 경우)
-            const completed = tasks.filter(t => t.status === '완료' && t.endDate === dateStr).length;
+            const completed = tasks.filter(t => t.status === 'completed' && t.endDate === dateStr).length;
             completedData.push(completed);
 
             // 신규 생성 업무 (생성일시가 해당 일자인 경우)
@@ -202,7 +211,7 @@ export const DashboardUI = {
             const cat = task.category1 || '미분류';
             if (!catStats[cat]) catStats[cat] = { total: 0, completed: 0 };
             catStats[cat].total++;
-            if (task.status === '완료') catStats[cat].completed++;
+            if (task.status === 'completed') catStats[cat].completed++;
         });
 
         container.innerHTML = Object.keys(catStats).sort().map(cat => {

@@ -65,7 +65,7 @@ export function openTaskModal(task = null) {
         document.getElementById('taskForm').reset();
         document.getElementById('startDate').value = '';
         document.getElementById('endDate').value = '';
-        document.getElementById('status').value = '대기';
+        document.getElementById('status').value = 'pending';
         document.getElementById('priority').value = 'middle';
         document.getElementById('description').value = '';
         if (quillInstance) {
@@ -173,7 +173,7 @@ export async function saveTask(event) {
         document.getElementById('taskName').value = '';
         document.getElementById('startDate').value = today;
         document.getElementById('endDate').value = today;
-        document.getElementById('status').value = '대기';
+        document.getElementById('status').value = 'pending';
         document.getElementById('description').value = '';
         if (quillInstance) {
             quillInstance.setContents([]);

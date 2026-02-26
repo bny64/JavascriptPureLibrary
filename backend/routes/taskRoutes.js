@@ -88,6 +88,7 @@ function generateTaskChangeDetails(oldTask, newTask) {
         category2: '중분류', category3: '소분류', description: '메모'
     };
     const priorityMap = { 'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음' };
+    const statusMap = { 'pending': '대기', 'in-progress': '진행중', 'completed': '완료', 'on-hold': '보류' };
 
     const changes = [];
     for (const key in fieldMap) {
@@ -98,6 +99,10 @@ function generateTaskChangeDetails(oldTask, newTask) {
             if (key === 'priority') {
                 oldVal = priorityMap[oldVal] || oldVal;
                 newVal = priorityMap[newVal] || newVal;
+            }
+            if (key === 'status') {
+                oldVal = statusMap[oldVal] || oldVal;
+                newVal = statusMap[newVal] || newVal;
             }
 
             if (key === 'description') {

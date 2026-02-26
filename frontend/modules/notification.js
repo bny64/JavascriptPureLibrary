@@ -9,7 +9,7 @@ export function getTasksEndingSoon() {
     today.setHours(0, 0, 0, 0);
 
     return AppState.tasks.filter(task => {
-        if (task.status === '완료') return false;
+        if (task.status === 'completed') return false;
         if (!AppState.notificationStatuses.includes(task.status)) return false;
         if (!task.endDate) return false;
 

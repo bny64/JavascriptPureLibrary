@@ -7,8 +7,10 @@ export const ActivityLogUI = {
     formatLogDetail(detail) {
         if (!detail) return '';
 
-        const statuses = ['대기', '진행중', '완료', '보류'];
-        const priorities = {
+        const statusMap = {
+            '대기': 'pending', '진행중': 'in-progress', '완료': 'completed', '보류': 'on-hold'
+        };
+        const priorityMap = {
             '매우 높음': 'very-high', '높음': 'high', '중간': 'middle', '낮음': 'low', '매우 낮음': 'very-low'
         };
 
@@ -18,14 +20,17 @@ export const ActivityLogUI = {
         formatted = formatted.replace(/\{UPDATE\}/g, '<span class="change-tag update">UPDATE</span>');
         formatted = formatted.replace(/\{DELETE\}/g, '<span class="change-tag delete">DELETE</span>');
 
-        statuses.forEach(status => {
-            formatted = formatted.replace(new RegExp(status, 'g'),
-                `<span class="log-detail-badge status-${status}">${status}</span>`);
-        });
+        // 상태와 우선순위를 한 번에 처리하여 중첩 태그 방지
+        const allLabels = [...Object.keys(statusMap), ...Object.keys(priorityMap)].sort((a, b) => b.length - a.length);
+        const pattern = new RegExp(allLabels.join('|'), 'g');
 
-        Object.keys(priorities).forEach(label => {
-            formatted = formatted.replace(new RegExp(label, 'g'),
-                `<span class="log-detail-badge priority-${priorities[label]}">${label}</span>`);
+        formatted = formatted.replace(pattern, (match) => {
+            if (statusMap[match]) {
+                return `<span class="log-detail-badge status-${statusMap[match]}">${match}</span>`;
+            } else if (priorityMap[match]) {
+                return `<span class="log-detail-badge priority-${priorityMap[match]}">${match}</span>`;
+            }
+            return match;
         });
 
         return formatted;

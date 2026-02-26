@@ -1,6 +1,38 @@
 {
   "logs": [
     {
+      "id": "1772072098152jsqip",
+      "taskId": "t4",
+      "taskName": "상반기 신입사원 면접",
+      "action": "수정",
+      "details": "{UPDATE} [우선순위] 매우 낮음 → 낮음",
+      "timestamp": "2026-02-26T02:14:58.152Z"
+    },
+    {
+      "id": "1772072093932ljxio",
+      "taskId": "t4",
+      "taskName": "상반기 신입사원 면접",
+      "action": "수정",
+      "details": "{UPDATE} [우선순위] 높음 → 매우 낮음",
+      "timestamp": "2026-02-26T02:14:53.932Z"
+    },
+    {
+      "id": "1772071777773hlfce",
+      "taskId": "1771932740979",
+      "taskName": "Quill Editor Test",
+      "action": "수정",
+      "details": "{UPDATE} [진행 상태] pending → completed",
+      "timestamp": "2026-02-26T02:09:37.773Z"
+    },
+    {
+      "id": "1772071190971k04mz",
+      "taskId": "t17",
+      "taskName": "외부 해킹 시도 모니터링 강화",
+      "action": "수정",
+      "details": "{UPDATE} [우선순위] 매우 높음 → 높음 ||| {UPDATE} [메모] 내용이 수정되었습니다.",
+      "timestamp": "2026-02-26T01:59:50.971Z"
+    },
+    {
       "id": "1771939857857v6mwo",
       "taskId": "t9",
       "taskName": "LLM 모델 도입 타당성 검토",

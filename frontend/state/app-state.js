@@ -20,7 +20,7 @@ export const AppState = {
     // 알림 설정
     notificationDaysBefore: StorageUtils.get('notificationDaysBefore', 7),
     notificationPriorities: StorageUtils.get('notificationPriorities', ['very-high', 'high', 'middle']),
-    notificationStatuses: StorageUtils.get('notificationStatuses', ['대기', '진행중', '보류']),
+    notificationStatuses: StorageUtils.get('notificationStatuses', ['pending', 'in-progress', 'on-hold']),
     notificationCategory1: StorageUtils.get('notificationCategory1', '전체'),
     notificationCategory2: StorageUtils.get('notificationCategory2', '전체'),
     notificationCategory3: StorageUtils.get('notificationCategory3', '전체'),
@@ -32,7 +32,7 @@ export const AppState = {
     currentSearchCategory2: '',
     currentSearchCategory3: '',
     // 칸반 검색어
-    kanbanSearchTerms: { '대기': '', '진행중': '', '완료': '', '보류': '' },
+    kanbanSearchTerms: { 'pending': '', 'in-progress': '', 'completed': '', 'on-hold': '' },
     // 기타
     holidays: {},
     notifications: [],

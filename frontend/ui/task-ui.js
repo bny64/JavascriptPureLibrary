@@ -6,6 +6,10 @@ const PRIORITY_LABELS = {
     'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음'
 };
 
+const STATUS_LABELS = {
+    'pending': '대기', 'in-progress': '진행중', 'completed': '완료', 'on-hold': '보류'
+};
+
 export const TaskUI = {
     createCard(task) {
         const taskDiv = DomUtils.createElement('div', `task-item status-${task.status}`);
@@ -13,7 +17,7 @@ export const TaskUI = {
         // 헤더
         const header = DomUtils.createElement('div', 'task-header');
         header.appendChild(DomUtils.createElement('div', 'task-title', task.taskName));
-        header.appendChild(DomUtils.createElement('span', `task-status status-${task.status}`, task.status));
+        header.appendChild(DomUtils.createElement('span', `task-status status-${task.status}`, STATUS_LABELS[task.status] || task.status));
         header.appendChild(DomUtils.createElement('span', `task-priority priority-${task.priority}`, PRIORITY_LABELS[task.priority] || '중간'));
 
         if (task.description && task.description.trim() && task.description.trim() !== '<p><br></p>') {
@@ -67,23 +71,27 @@ export const TaskUI = {
         const target = document.getElementById(targetElementId);
         if (!target) return;
 
-        const counts = { '전체': tasks.length, '대기': 0, '진행중': 0, '완료': 0, '보류': 0 };
+        const counts = { '전체': tasks.length, 'pending': 0, 'in-progress': 0, 'completed': 0, 'on-hold': 0 };
         tasks.forEach(t => { if (counts.hasOwnProperty(t.status)) counts[t.status]++; });
 
+        const order = ['전체', 'pending', 'in-progress', 'completed', 'on-hold'];
+
         target.innerHTML = '<div class="status-summary-item-wrapper">' +
-            Object.keys(counts).map(status => `
+            order.map(status => {
+                const label = status === '전체' ? '전체' : STATUS_LABELS[status];
+                return `
                 <div class="status-summary-item" data-status="${status}" onclick="window.openAllTasksModalWithStatus('${status}')">
-                    <span class="status-summary-label status-${status}">${status}</span>
+                    <span class="status-summary-label status-${status}">${label}</span>
                     <span class="status-summary-count status-${status}">${counts[status]}</span>
                 </div>
-            `).join('') + '</div>';
+            `}).join('') + '</div>';
     },
 
     renderPrioritySummary(tasks, targetElementId) {
         const target = document.getElementById(targetElementId);
         if (!target) return;
 
-        const unfinished = tasks.filter(t => t.status !== '완료');
+        const unfinished = tasks.filter(t => t.status !== 'completed');
         const order = ['very-high', 'high', 'middle', 'low', 'very-low'];
         const counts = { 'very-high': 0, 'high': 0, 'middle': 0, 'low': 0, 'very-low': 0 };
         unfinished.forEach(t => { const p = t.priority || 'middle'; if (counts.hasOwnProperty(p)) counts[p]++; });
@@ -105,6 +113,6 @@ export const TaskUI = {
 
     renderUnfinishedTasksSummary(tasks) {
         const el = document.getElementById('unfinishedTaskCount');
-        if (el) el.textContent = tasks.filter(t => t.status !== '완료').length;
+        if (el) el.textContent = tasks.filter(t => t.status !== 'completed').length;
     }
 };

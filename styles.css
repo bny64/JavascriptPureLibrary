@@ -499,19 +499,19 @@ header h1 {
   margin-right: 4px;
 }
 
-.task-dot.status-대기 {
+.task-dot.status-pending {
   background: #ffc107;
 }
 
-.task-dot.status-진행중 {
+.task-dot.status-in-progress {
   background: #2196f3;
 }
 
-.task-dot.status-완료 {
+.task-dot.status-completed {
   background: #4caf50;
 }
 
-.task-dot.status-보류 {
+.task-dot.status-on-hold {
   background: #9e9e9e;
 }
 
@@ -600,19 +600,19 @@ header h1 {
   background: #33333333;
 }
 
-.status-summary-item[data-status="대기"] {
+.status-summary-item[data-status="pending"] {
   background: #ffc10733;
 }
 
-.status-summary-item[data-status="진행중"] {
+.status-summary-item[data-status="in-progress"] {
   background: #2196f333;
 }
 
-.status-summary-item[data-status="완료"] {
+.status-summary-item[data-status="completed"] {
   background: #4caf5033;
 }
 
-.status-summary-item[data-status="보류"] {
+.status-summary-item[data-status="on-hold"] {
   background: #9e9e9e33;
 }
 
@@ -621,23 +621,23 @@ header h1 {
   color: #333;
 }
 
-.status-summary-label.status-대기,
-.status-summary-count.status-대기 {
+.status-summary-label.status-pending,
+.status-summary-count.status-pending {
   color: #ffc107;
 }
 
-.status-summary-label.status-진행중,
-.status-summary-count.status-진행중 {
+.status-summary-label.status-in-progress,
+.status-summary-count.status-in-progress {
   color: #2196f3;
 }
 
-.status-summary-label.status-완료,
-.status-summary-count.status-완료 {
+.status-summary-label.status-completed,
+.status-summary-count.status-completed {
   color: #4caf50;
 }
 
-.status-summary-label.status-보류,
-.status-summary-count.status-보류 {
+.status-summary-label.status-on-hold,
+.status-summary-count.status-on-hold {
   color: #9e9e9e;
 }
 
@@ -907,19 +907,19 @@ h3#selectedDateTitle {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.task-item.status-대기 {
+.task-item.status-pending {
   border-left-color: #ffc107;
 }
 
-.task-item.status-진행중 {
+.task-item.status-in-progress {
   border-left-color: #2196f3;
 }
 
-.task-item.status-완료 {
+.task-item.status-completed {
   border-left-color: #4caf50;
 }
 
-.task-item.status-보류 {
+.task-item.status-on-hold {
   border-left-color: #9e9e9e;
 }
 
@@ -965,19 +965,19 @@ h3#selectedDateTitle {
   /* Added cursor pointer */
 }
 
-.task-status.status-대기 {
+.task-status.status-pending {
   background: #ffc107;
 }
 
-.task-status.status-진행중 {
+.task-status.status-in-progress {
   background: #2196f3;
 }
 
-.task-status.status-완료 {
+.task-status.status-completed {
   background: #4caf50;
 }
 
-.task-status.status-보류 {
+.task-status.status-on-hold {
   background: #9e9e9e;
 }
 
@@ -1874,19 +1874,19 @@ h3#selectedDateTitle {
   font-size: 12px;
 }
 
-.kanban-column-header.status-대기 {
+.kanban-column-header.status-pending {
   background: #ffc107;
 }
 
-.kanban-column-header.status-진행중 {
+.kanban-column-header.status-in-progress {
   background: #2196f3;
 }
 
-.kanban-column-header.status-완료 {
+.kanban-column-header.status-completed {
   background: #4caf50;
 }
 
-.kanban-column-header.status-보류 {
+.kanban-column-header.status-on-hold {
   background: #9e9e9e;
 }
 
@@ -2540,19 +2540,19 @@ h3#selectedDateTitle {
   margin: 0 2px;
 }
 
-.log-detail-badge.status-대기 {
+.log-detail-badge.status-pending {
   background-color: #ffc107;
 }
 
-.log-detail-badge.status-진행중 {
+.log-detail-badge.status-in-progress {
   background-color: #2196f3;
 }
 
-.log-detail-badge.status-완료 {
+.log-detail-badge.status-completed {
   background-color: #4caf50;
 }
 
-.log-detail-badge.status-보류 {
+.log-detail-badge.status-on-hold {
   background-color: #9e9e9e;
 }
 

@@ -228,12 +228,13 @@ function handleGlobalSearch(event) {
     }
 
     const priorityLabels = { 'very-high': '매우 높음', 'high': '높음', 'middle': '중간', 'low': '낮음', 'very-low': '매우 낮음' };
+    const statusLabels = { 'pending': '대기', 'in-progress': '진행중', 'completed': '완료', 'on-hold': '보류' };
     matches.forEach(task => {
         const item = DomUtils.createElement('div', 'search-result-item');
         item.innerHTML = `
             <div class="search-result-title">${TextUtils.escapeHtml(task.taskName)}</div>
             <div class="search-result-meta">
-                <span>${TextUtils.escapeHtml(task.category1)} > ${task.status}</span>
+                <span>${TextUtils.escapeHtml(task.category1)} > ${statusLabels[task.status] || task.status}</span>
                 <span>${priorityLabels[task.priority] || '중간'} | ${task.endDate || ''}</span>
             </div>
         `;

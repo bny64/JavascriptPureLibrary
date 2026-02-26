@@ -13,7 +13,7 @@ const PRIORITY_COLORS = {
 
 export const KanbanUI = {
     render(tasks) {
-        ['대기', '진행중', '완료', '보류'].forEach(status => {
+        ['pending', 'in-progress', 'completed', 'on-hold'].forEach(status => {
             const container = document.getElementById(`kanban-${status}`);
             const countEl = document.querySelector(`.kanban-column-header.status-${status} .count`);
             if (!container) return;
