@@ -12,6 +12,7 @@ export const DashboardUI = {
         this.renderTrendChart(tasks);
         this.renderMonthlyAchievementChart(tasks);
         this.renderCategoryDistributionChart(tasks);
+        this.renderCriticalTasks(tasks);
         this.renderCategoryProgress(tasks);
     },
 
@@ -220,6 +221,56 @@ export const DashboardUI = {
                 plugins: { legend: { position: 'bottom' } }
             }
         });
+    },
+
+    renderCriticalTasks(tasks) {
+        const section = document.getElementById('criticalTasksSection');
+        const listContainer = document.getElementById('criticalTaskList');
+        const countBadge = document.getElementById('criticalTaskCount');
+        if (!section || !listContainer) return;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStr = today.toISOString().split('T')[0];
+
+        // 연체 업무: 종료일이 지났는데 완료되지 않은 업무
+        // 오늘 마감 업무: 종료일이 오늘인 완료되지 않은 업무
+        const critical = tasks.filter(t => {
+            if (t.status === 'completed' || !t.endDate) return false;
+            const endDate = new Date(t.endDate);
+            endDate.setHours(0, 0, 0, 0);
+            return endDate <= today;
+        });
+
+        if (critical.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        section.style.display = 'block';
+        countBadge.textContent = critical.length;
+
+        // 정렬: 날짜순 (오래된 연체 업무가 위로)
+        critical.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+
+        listContainer.innerHTML = critical.map(task => {
+            const isOverdue = task.endDate < todayStr;
+            const badgeClass = isOverdue ? 'badge-overdue' : 'badge-today';
+            const badgeText = isOverdue ? '연체' : '오늘 마감';
+
+            return `
+                <div class="critical-task-item" onclick='window.openTaskModal(${JSON.stringify(task).replace(/'/g, "\\'")})'>
+                    <div class="critical-task-info">
+                        <div class="critical-task-title">${TextUtils.escapeHtml(task.taskName)}</div>
+                        <div class="critical-task-meta">
+                            <span>📅 마감일: ${task.endDate}</span> | 
+                            <span>📁 ${task.category1 || '미분류'}</span>
+                        </div>
+                    </div>
+                    <div class="critical-task-badge ${badgeClass}">${badgeText}</div>
+                </div>
+            `;
+        }).join('');
     },
 
     renderTrendChart(tasks) {

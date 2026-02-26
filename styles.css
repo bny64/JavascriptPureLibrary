@@ -1815,6 +1815,64 @@ h3#selectedDateTitle {
   font-weight: 500;
 }
 
+/* 긴급 / 연체 업무 스타일 */
+.critical-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.critical-task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background: #fff5f5;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.critical-task-item:hover {
+  background: #ffebee;
+  transform: translateX(5px);
+}
+
+.critical-task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.critical-task-title {
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+}
+
+.critical-task-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.critical-task-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.badge-overdue {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.badge-today {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
 .dashboard-charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
