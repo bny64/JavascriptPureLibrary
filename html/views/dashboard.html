@@ -49,10 +49,11 @@
                 <span>More</span>
             </div>
         </div>
-        <div class="heatmap-container" style="display: flex; gap: 20px; align-items: flex-start;">
-            <div class="heatmap-wrapper" style="position: relative; flex: 1; min-width: 0;">
+        <div class="heatmap-container"
+            style="display: flex; gap: 20px; align-items: flex-start; justify-content: flex-start;">
+            <div class="heatmap-wrapper" style="position: relative; width: fit-content; min-width: 0;">
                 <div id="heatmapMonths" class="heatmap-months"
-                    style="display: flex; font-size: 11px; color: #666; margin-bottom: 5px; margin-left: 30px;">
+                    style="display: flex; font-size: 11px; color: #666; margin-bottom: 5px; margin-left: 28px;">
                     <!-- 월 레이블이 여기에 렌더링됩니다 -->
                 </div>
                 <div style="display: flex;">
@@ -60,20 +61,19 @@
                         style="display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: #999; margin-right: 5px; padding: 2px 0;">
                         <span>Sun</span><span>Tue</span><span>Thu</span><span>Sat</span>
                     </div>
-                    <div id="activityHeatmap" class="activity-heatmap" style="overflow-x: auto; padding-bottom: 10px;">
+                    <div id="activityHeatmap" class="activity-heatmap" style="overflow-x: auto; padding-bottom: 5px;">
                         <!-- 히트맵이 여기에 렌더링됩니다 -->
                     </div>
                 </div>
             </div>
-            <div id="heatmapSideSection" class="heatmap-side-section"
-                style="width: 300px; display: flex; flex-direction: column; gap: 10px; border-left: 1px solid #eee; padding-left: 20px;">
+            <div id="heatmapSideSection" class="heatmap-side-section">
                 <div class="side-list-header"
                     style="font-size: 13px; font-weight: bold; color: #333; margin-bottom: 5px;"
                     id="heatmapSelectedDateTitle">
                     날짜를 선택해 주세요
                 </div>
                 <div id="heatmapSideList" class="heatmap-side-list"
-                    style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                    style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                     <p style="color: #999; font-size: 12px; margin: 0;">히트맵의 칸을 클릭하면<br>해당 일의 업무가 표시됩니다.</p>
                 </div>
             </div>

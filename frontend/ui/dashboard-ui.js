@@ -462,8 +462,8 @@ export const DashboardUI = {
             const weekIdx = Math.floor(i / 7);
 
             if (month !== lastMonth && current.getDay() === 0) {
-                const offset = weekIdx * 17;
-                monthLabelsHtml += `<span style="position: absolute; left: ${offset + 30}px;">${monthNames[month]}</span>`;
+                const offset = weekIdx * 15; // 12px(cell) + 3px(gap) = 15px
+                monthLabelsHtml += `<span style="position: absolute; left: ${offset + 28}px;">${monthNames[month]}</span>`;
                 lastMonth = month;
             }
 
@@ -486,13 +486,9 @@ export const DashboardUI = {
         heatmap.style.gridAutoFlow = 'column';
         heatmap.innerHTML = heatmapHtml;
 
-        // 글로벌 함수 등록 (날짜 클릭 처리용)
         window.selectHeatmapDate = (cell, dateStr) => {
-            // 셀 강조 처리
             document.querySelectorAll('.heatmap-cell').forEach(c => c.classList.remove('active'));
             cell.classList.add('active');
-
-            // 우측 리스트 갱신
             this.renderHeatmapSideList(tasks, dateStr);
         };
     },

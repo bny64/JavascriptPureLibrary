@@ -1939,18 +1939,20 @@ h3#selectedDateTitle {
 /* 히트맵 스타일 */
 .activity-heatmap {
   display: grid;
-  grid-template-columns: repeat(53, 14px);
-  grid-template-rows: repeat(7, 14px);
+  grid-template-columns: repeat(53, 12px);
+  grid-template-rows: repeat(7, 12px);
   gap: 3px;
-  width: max-content;
+  width: fit-content;
+  justify-content: start;
 }
 
 .heatmap-cell {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 2px;
   background: #ebedf0;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .heatmap-cell:hover {
@@ -1976,6 +1978,18 @@ h3#selectedDateTitle {
 .heatmap-cell.active {
   outline: 2px solid #2196f3;
   outline-offset: 1px;
+}
+
+.heatmap-side-section {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+  height: 145px;
 }
 
 .heatmap-side-item {
