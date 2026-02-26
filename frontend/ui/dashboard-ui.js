@@ -15,8 +15,22 @@ export const DashboardUI = {
         this.renderLeadTimeChart(tasks);
         this.renderCriticalTasks(tasks);
         this.renderBottleneckTasks(tasks);
+        this.updateAlertsGridVisibility();
         this.renderActivityHeatmap(tasks);
         this.renderCategoryProgress(tasks);
+    },
+
+    updateAlertsGridVisibility() {
+        const critical = document.getElementById('criticalTasksSection');
+        const bottleneck = document.getElementById('bottleneckSection');
+        const grid = document.querySelector('.dashboard-alerts-grid');
+        if (!grid || !critical || !bottleneck) return;
+
+        if (critical.style.display === 'none' && bottleneck.style.display === 'none') {
+            grid.style.display = 'none';
+        } else {
+            grid.style.display = 'grid';
+        }
     },
 
     renderSummary(tasks) {

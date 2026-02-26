@@ -1816,10 +1816,20 @@ h3#selectedDateTitle {
 }
 
 /* 긴급 / 연체 업무 스타일 */
+.dashboard-alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
 .critical-task-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
 }
 
 .critical-task-item {
@@ -1878,6 +1888,9 @@ h3#selectedDateTitle {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
 }
 
 .bottleneck-item {
