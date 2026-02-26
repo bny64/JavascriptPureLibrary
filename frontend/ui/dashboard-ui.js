@@ -13,6 +13,7 @@ export const DashboardUI = {
         this.renderMonthlyAchievementChart(tasks);
         this.renderCategoryDistributionChart(tasks);
         this.renderLeadTimeChart(tasks);
+        this.renderDayOfWeekChart(tasks);
         this.renderCriticalTasks(tasks);
         this.renderBottleneckTasks(tasks);
         this.updateAlertsGridVisibility();
@@ -293,6 +294,51 @@ export const DashboardUI = {
         });
     },
 
+    renderDayOfWeekChart(tasks) {
+        const canvas = document.getElementById('dayOfWeekChartCanvas');
+        if (!canvas) return;
+
+        const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+        const dayCounts = [0, 0, 0, 0, 0, 0, 0];
+
+        const ninetyDaysAgo = new Date();
+        ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
+        tasks.filter(t => t.status === 'completed' && t.endDate).forEach(t => {
+            const date = new Date(t.endDate);
+            if (date >= ninetyDaysAgo) {
+                dayCounts[date.getDay()]++;
+            }
+        });
+
+        if (chartInstances.dayOfWeek) chartInstances.dayOfWeek.destroy();
+
+        chartInstances.dayOfWeek = new window.Chart(canvas, {
+            type: 'radar',
+            data: {
+                labels: dayNames,
+                datasets: [{
+                    label: '요일별 완료 업무 수',
+                    data: dayCounts,
+                    backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                    borderColor: '#ff9800',
+                    pointBackgroundColor: '#ff9800',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1, display: false }
+                    }
+                }
+            }
+        });
+    },
+
     renderCriticalTasks(tasks) {
         const section = document.getElementById('criticalTasksSection');
         const listContainer = document.getElementById('criticalTaskList');
@@ -415,9 +461,7 @@ export const DashboardUI = {
             const month = current.getMonth();
             const weekIdx = Math.floor(i / 7);
 
-            // 월 레이블 처리 (해당 월의 첫 번째 주 일요일인 경우)
             if (month !== lastMonth && current.getDay() === 0) {
-                // 대략적인 위치 계산: 1주가 약 17px(14px+3px)
                 const offset = weekIdx * 17;
                 monthLabelsHtml += `<span style="position: absolute; left: ${offset + 30}px;">${monthNames[month]}</span>`;
                 lastMonth = month;
