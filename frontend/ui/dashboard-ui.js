@@ -473,10 +473,10 @@ export const DashboardUI = {
             if (count > 4) level = 3;
             if (count > 6) level = 4;
 
-            const onclick = count > 0 ? `onclick="window.openAllTasksModalWithDate('${dateStr}')"` : '';
-            const cursor = count > 0 ? 'pointer' : 'default';
-
-            heatmapHtml += `<div class="heatmap-cell level-${level}" title="${dateStr}: ${count}개 완료" style="cursor: ${cursor}" ${onclick}></div>`;
+            heatmapHtml += `<div class="heatmap-cell level-${level}" 
+                                 data-date="${dateStr}"
+                                 title="${dateStr}: ${count}개 완료" 
+                                 onclick="window.selectHeatmapDate(this, '${dateStr}')"></div>`;
             current.setDate(current.getDate() + 1);
         }
 
@@ -485,6 +485,38 @@ export const DashboardUI = {
         monthsEl.innerHTML = monthLabelsHtml;
         heatmap.style.gridAutoFlow = 'column';
         heatmap.innerHTML = heatmapHtml;
+
+        // 글로벌 함수 등록 (날짜 클릭 처리용)
+        window.selectHeatmapDate = (cell, dateStr) => {
+            // 셀 강조 처리
+            document.querySelectorAll('.heatmap-cell').forEach(c => c.classList.remove('active'));
+            cell.classList.add('active');
+
+            // 우측 리스트 갱신
+            this.renderHeatmapSideList(tasks, dateStr);
+        };
+    },
+
+    renderHeatmapSideList(tasks, dateStr) {
+        const titleEl = document.getElementById('heatmapSelectedDateTitle');
+        const listEl = document.getElementById('heatmapSideList');
+        if (!titleEl || !listEl) return;
+
+        titleEl.textContent = `📅 ${dateStr} 업무`;
+
+        const dayTasks = tasks.filter(t => t.endDate === dateStr && t.status === 'completed');
+
+        if (dayTasks.length === 0) {
+            listEl.innerHTML = '<p style="color: #999; font-size: 12px; margin: 0;">해당 날짜에 완료된<br>업무가 없습니다.</p>';
+            return;
+        }
+
+        listEl.innerHTML = dayTasks.map(task => `
+            <div class="heatmap-side-item status-${task.status}" onclick="window.openTaskModalById('${task.id}')" title="보려면 클릭">
+                <div class="heatmap-side-item-title">${TextUtils.escapeHtml(task.taskName)}</div>
+                <div class="heatmap-side-item-cat">${task.category1 || '미분류'} > ${task.category2 || '-'}</div>
+            </div>
+        `).join('');
     },
 
     renderTrendChart(tasks) {

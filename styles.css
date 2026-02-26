@@ -1973,6 +1973,46 @@ h3#selectedDateTitle {
   background: #216e39;
 }
 
+.heatmap-cell.active {
+  outline: 2px solid #2196f3;
+  outline-offset: 1px;
+}
+
+.heatmap-side-item {
+  padding: 8px 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #ccc;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.heatmap-side-item:hover {
+  background: #e9ecef;
+}
+
+.heatmap-side-item.status-completed {
+  border-left-color: #4caf50;
+}
+
+.heatmap-side-item.status-in-progress {
+  border-left-color: #2196f3;
+}
+
+.heatmap-side-item-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.heatmap-side-item-cat {
+  font-size: 10px;
+  color: #777;
+}
+
 .dashboard-charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
