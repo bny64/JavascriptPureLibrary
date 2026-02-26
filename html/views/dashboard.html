@@ -17,6 +17,20 @@
             <!-- 긴급 업무들이 여기에 렌더링됩니다 -->
         </div>
     </div>
+
+    <!-- 병목 업무 리포트 -->
+    <div id="bottleneckSection" class="dashboard-card bottleneck-section"
+        style="display: none; margin-bottom: 25px; border-left: 5px solid #ff9800;">
+        <div class="bottleneck-header"
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #e65100;">🐢 진척 지연 업무 (병목 현상)</h3>
+            <span class="bottleneck-count-badge" id="bottleneckCount"
+                style="background: #ff9800; color: white; padding: 2px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">0</span>
+        </div>
+        <div id="bottleneckList" class="bottleneck-list">
+            <!-- 지연 업무들이 여기에 렌더링됩니다 -->
+        </div>
+    </div>
     <div class="dashboard-charts-grid">
         <div class="dashboard-card" style="height: 420px; display: flex; flex-direction: column;">
             <h3>📊 상태별 분포</h3>

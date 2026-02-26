@@ -13,6 +13,7 @@ export const DashboardUI = {
         this.renderMonthlyAchievementChart(tasks);
         this.renderCategoryDistributionChart(tasks);
         this.renderCriticalTasks(tasks);
+        this.renderBottleneckTasks(tasks);
         this.renderCategoryProgress(tasks);
     },
 
@@ -259,7 +260,7 @@ export const DashboardUI = {
             const badgeText = isOverdue ? '연체' : '오늘 마감';
 
             return `
-                <div class="critical-task-item" onclick='window.openTaskModal(${JSON.stringify(task).replace(/'/g, "\\'")})'>
+                <div class="critical-task-item" onclick="window.openTaskModalById('${task.id}')">
                     <div class="critical-task-info">
                         <div class="critical-task-title">${TextUtils.escapeHtml(task.taskName)}</div>
                         <div class="critical-task-meta">
@@ -268,6 +269,52 @@ export const DashboardUI = {
                         </div>
                     </div>
                     <div class="critical-task-badge ${badgeClass}">${badgeText}</div>
+                </div>
+            `;
+        }).join('');
+    },
+
+    renderBottleneckTasks(tasks) {
+        const section = document.getElementById('bottleneckSection');
+        const listContainer = document.getElementById('bottleneckList');
+        const countBadge = document.getElementById('bottleneckCount');
+        if (!section || !listContainer) return;
+
+        const today = new Date();
+        const bottleneckThreshold = 14;
+
+        const bottleneckTasks = tasks.filter(t => {
+            if (t.status === 'completed' || !t.createdAt) return false;
+            const createdAt = new Date(t.createdAt);
+            const diffDays = Math.floor((today - createdAt) / (1000 * 60 * 60 * 24));
+            return diffDays >= bottleneckThreshold;
+        });
+
+        if (bottleneckTasks.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        section.style.display = 'block';
+        countBadge.textContent = bottleneckTasks.length;
+
+        bottleneckTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        listContainer.innerHTML = bottleneckTasks.map(task => {
+            const createdAt = new Date(task.createdAt);
+            const diffDays = Math.floor((today - createdAt) / (1000 * 60 * 60 * 24));
+            const statusLabel = { 'pending': '대기', 'in-progress': '진행중', 'on-hold': '보류' }[task.status] || task.status;
+
+            return `
+                <div class="bottleneck-item" onclick="window.openTaskModalById('${task.id}')">
+                    <div class="bottleneck-info">
+                        <div class="bottleneck-title">${TextUtils.escapeHtml(task.taskName)}</div>
+                        <div class="bottleneck-meta">
+                            <span>상태: <strong>${statusLabel}</strong></span> | 
+                            <span>생성일: ${task.createdAt.split('T')[0]}</span>
+                        </div>
+                    </div>
+                    <div class="bottleneck-days-warning">${diffDays}일째 정체 중</div>
                 </div>
             `;
         }).join('');
@@ -289,11 +336,9 @@ export const DashboardUI = {
             const displayStr = `${d.getMonth() + 1}/${d.getDate()}`;
             labels.push(displayStr);
 
-            // 완료된 업무 (완료 상태이면서 종료일이 해당 일자인 경우)
             const completed = tasks.filter(t => t.status === 'completed' && t.endDate === dateStr).length;
             completedData.push(completed);
 
-            // 신규 생성 업무 (생성일시가 해당 일자인 경우)
             const created = tasks.filter(t => t.createdAt && t.createdAt.startsWith(dateStr)).length;
             createdData.push(created);
         }
@@ -353,7 +398,7 @@ export const DashboardUI = {
         container.innerHTML = Object.keys(catStats).sort().map(cat => {
             const stats = catStats[cat];
             const percent = Math.round((stats.completed / stats.total) * 100);
-            const escapedCat = cat.replace(/'/g, "\\'"); // 따옴표 이스케이프
+            const escapedCat = cat.replace(/'/g, "\\'");
             return `<div class="cat-progress-item cursor-pointer" onclick="window.openAllTasksModalWithCategory('${escapedCat}')" title="클릭하여 '${escapedCat}' 업무 목록 보기">
                 <div class="cat-progress-header">
                     <span class="cat-name">${TextUtils.escapeHtml(cat)}</span>

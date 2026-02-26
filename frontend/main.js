@@ -136,6 +136,11 @@ async function deleteTask(id) {
     await loadTasks();
 }
 
+function openTaskModalById(id) {
+    const task = AppState.tasks.find(t => t.id === id);
+    if (task) openTaskModal(task);
+}
+
 async function archiveOldTasks() {
     if (!confirm('완료된 지 30일이 지난 업무들을 별도 보관소로 이동하시겠습니까?\n이동된 업무는 현재 목록에서 제외되며 통계에는 포함되지 않습니다.')) return;
     try {
@@ -373,7 +378,7 @@ Object.assign(window, {
     populateNotificationDetailCategories, saveNotificationSettings,
 
     // 업무 모달
-    openTaskModal, closeTaskModal,
+    openTaskModal, closeTaskModal, openTaskModalById,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories, saveTask,
     addSubtask, toggleSubtask, deleteSubtask,
 

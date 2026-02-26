@@ -1873,6 +1873,56 @@ h3#selectedDateTitle {
   color: #ef6c00;
 }
 
+/* 병목 업무 스타일 */
+.bottleneck-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bottleneck-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  background: #fff9f2;
+  border: 1px solid #ffe0b2;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.bottleneck-item:hover {
+  background: #fff3e0;
+  transform: translateX(5px);
+}
+
+.bottleneck-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bottleneck-title {
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+}
+
+.bottleneck-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.bottleneck-days-warning {
+  font-size: 11px;
+  background: #fff3e0;
+  color: #e65100;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
 .dashboard-charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
