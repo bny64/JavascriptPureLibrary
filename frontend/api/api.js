@@ -20,7 +20,12 @@ export const API = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         }),
-        delete: (id) => request(`/api/tasks/${id}`, { method: 'DELETE' })
+        delete: (id) => request(`/api/tasks/${id}`, { method: 'DELETE' }),
+        archive: () => request('/api/tasks/archive', { method: 'POST' })
+    },
+
+    archive: {
+        getAll: () => request('/api/archive').catch(e => { console.error(e); return []; })
     },
 
     categories: {

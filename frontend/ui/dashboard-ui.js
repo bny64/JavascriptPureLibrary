@@ -10,6 +10,8 @@ export const DashboardUI = {
         this.renderStatusChart(tasks);
         this.renderPriorityChart(tasks);
         this.renderTrendChart(tasks);
+        this.renderMonthlyAchievementChart(tasks);
+        this.renderCategoryDistributionChart(tasks);
         this.renderCategoryProgress(tasks);
     },
 
@@ -133,6 +135,89 @@ export const DashboardUI = {
                         window.openAllTasksModalWithPriority(keys[index]);
                     }
                 }
+            }
+        });
+    },
+
+    renderMonthlyAchievementChart(tasks) {
+        const canvas = document.getElementById('monthlyAchievementChartCanvas');
+        if (!canvas) return;
+
+        const months = [];
+        const achievementRates = [];
+        const today = new Date();
+
+        for (let i = 5; i >= 0; i--) {
+            const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            const year = d.getFullYear();
+            const month = d.getMonth() + 1;
+            const monthStr = `${year}-${month.toString().padStart(2, '0')}`;
+            months.push(`${month}월`);
+
+            const monthTasks = tasks.filter(t => t.endDate && t.endDate.startsWith(monthStr));
+            const total = monthTasks.length;
+            const completed = monthTasks.filter(t => t.status === 'completed').length;
+            const rate = total > 0 ? Math.round((completed / total) * 100) : 0;
+            achievementRates.push(rate);
+        }
+
+        if (chartInstances.monthly) chartInstances.monthly.destroy();
+
+        chartInstances.monthly = new window.Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: '업무 달성도 (%)',
+                    data: achievementRates,
+                    borderColor: '#673ab7',
+                    backgroundColor: 'rgba(103, 58, 183, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, max: 100 } }
+            }
+        });
+    },
+
+    renderCategoryDistributionChart(tasks) {
+        const canvas = document.getElementById('categoryDistributionChartCanvas');
+        if (!canvas) return;
+
+        const catCounts = {};
+        tasks.forEach(t => {
+            const cat = t.category1 || '미분류';
+            catCounts[cat] = (catCounts[cat] || 0) + 1;
+        });
+
+        const sortedCats = Object.entries(catCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+
+        const labels = sortedCats.map(c => c[0]);
+        const counts = sortedCats.map(c => c[1]);
+        const colors = ['#009688', '#3f51b5', '#ff9800', '#f44336', '#9c27b0'];
+
+        if (chartInstances.distribution) chartInstances.distribution.destroy();
+
+        chartInstances.distribution = new window.Chart(canvas, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: colors,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
             }
         });
     },

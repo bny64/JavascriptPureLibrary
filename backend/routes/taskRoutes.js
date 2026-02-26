@@ -77,6 +77,50 @@ const taskRoutes = (req, res, pathname) => {
         return true;
     }
 
+    // 아카이브 목록 가져오기
+    if (pathname === '/api/archive' && req.method === 'GET') {
+        const data = DataManager.archive.read();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data.archive));
+        return true;
+    }
+
+    // 업무 아카이빙 (30일 이상 지난 완료 업무)
+    if (pathname === '/api/tasks/archive' && req.method === 'POST') {
+        const taskData = DataManager.tasks.read();
+        const archiveData = DataManager.archive.read();
+        const today = new Date();
+        const threshold = 30; // 30일
+
+        const toArchive = [];
+        const remaining = [];
+
+        taskData.tasks.forEach(task => {
+            if (task.status === 'completed' && task.endDate) {
+                const endDate = new Date(task.endDate);
+                const diffDays = Math.ceil((today - endDate) / (1000 * 60 * 60 * 24));
+                if (diffDays >= threshold) {
+                    toArchive.push(task);
+                } else {
+                    remaining.push(task);
+                }
+            } else {
+                remaining.push(task);
+            }
+        });
+
+        if (toArchive.length > 0) {
+            archiveData.archive = [...archiveData.archive, ...toArchive];
+            DataManager.archive.write(archiveData);
+            DataManager.tasks.write({ tasks: remaining });
+            DataManager.logs.add('보관', 'system', `${toArchive.length}건의 업무가 보관되었습니다.`);
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ count: toArchive.length }));
+        return true;
+    }
+
     return false; // 매칭되는 라우트 없음
 };
 

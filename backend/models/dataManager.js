@@ -7,7 +7,8 @@ const FILES = {
     TASKS: path.join(BASE_DATA_PATH, 'tasks.json'),
     CATEGORIES: path.join(BASE_DATA_PATH, 'categories.json'),
     LOGS: path.join(BASE_DATA_PATH, 'logs.json'),
-    HOLIDAYS: path.join(BASE_DATA_PATH, 'holidays.json')
+    HOLIDAYS: path.join(BASE_DATA_PATH, 'holidays.json'),
+    ARCHIVE: path.join(BASE_DATA_PATH, 'archive.json')
 };
 
 // 파일 초기화 로직
@@ -27,6 +28,9 @@ function initFiles() {
     }
     if (!fs.existsSync(FILES.HOLIDAYS)) {
         fs.writeFileSync(FILES.HOLIDAYS, JSON.stringify({}, null, 2));
+    }
+    if (!fs.existsSync(FILES.ARCHIVE)) {
+        fs.writeFileSync(FILES.ARCHIVE, JSON.stringify({ archive: [] }, null, 2));
     }
 }
 
@@ -90,6 +94,12 @@ const DataManager = {
     // 휴일 관련
     holidays: {
         read: () => readJSON(FILES.HOLIDAYS, {})
+    },
+
+    // 아카이브 관련
+    archive: {
+        read: () => readJSON(FILES.ARCHIVE, { archive: [] }),
+        write: (data) => writeJSON(FILES.ARCHIVE, data)
     }
 };
 
