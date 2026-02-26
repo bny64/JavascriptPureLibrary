@@ -1923,6 +1923,43 @@ h3#selectedDateTitle {
   font-weight: bold;
 }
 
+/* 히트맵 스타일 */
+.activity-heatmap {
+  display: grid;
+  grid-template-columns: repeat(53, 14px);
+  grid-template-rows: repeat(7, 14px);
+  gap: 3px;
+  width: max-content;
+}
+
+.heatmap-cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #ebedf0;
+  cursor: pointer;
+}
+
+.heatmap-cell:hover {
+  outline: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.heatmap-cell.level-1 {
+  background: #9be9a8;
+}
+
+.heatmap-cell.level-2 {
+  background: #40c463;
+}
+
+.heatmap-cell.level-3 {
+  background: #30a14e;
+}
+
+.heatmap-cell.level-4 {
+  background: #216e39;
+}
+
 .dashboard-charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

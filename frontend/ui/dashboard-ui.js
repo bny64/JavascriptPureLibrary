@@ -14,6 +14,7 @@ export const DashboardUI = {
         this.renderCategoryDistributionChart(tasks);
         this.renderCriticalTasks(tasks);
         this.renderBottleneckTasks(tasks);
+        this.renderActivityHeatmap(tasks);
         this.renderCategoryProgress(tasks);
     },
 
@@ -318,6 +319,51 @@ export const DashboardUI = {
                 </div>
             `;
         }).join('');
+    },
+
+    renderActivityHeatmap(tasks) {
+        const container = document.getElementById('activityHeatmap');
+        if (!container) return;
+
+        // 최근 371일 (53주 * 7일) 데이터 준비
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // 시작일 계산 (오늘을 포함하는 주를 포함하여 53주 전 일요일)
+        const start = new Date(today);
+        start.setDate(today.getDate() - (52 * 7) - today.getDay());
+
+        const dailyCounts = {};
+        tasks.filter(t => t.status === 'completed' && t.endDate).forEach(t => {
+            dailyCounts[t.endDate] = (dailyCounts[t.endDate] || 0) + 1;
+        });
+
+        let html = '';
+        const current = new Date(start);
+
+        // 7행(요일) x 53열(주) 구조로 그리기 위해 요일별로 데이터 생성
+        // 하지만 CSS Grid(grid-template-rows: repeat(7, ...))를 사용하므로
+        // grid-auto-flow: column을 쓰거나 순서대로 배치해야 함.
+        // 여기서는 요일별로(Sun-Sat) 순서대로 배치 (Sunday is row 1, etc.)
+
+        // 53주 * 7일 = 371개 셀 생성
+        for (let i = 0; i < 371; i++) {
+            const dateStr = current.toISOString().split('T')[0];
+            const count = dailyCounts[dateStr] || 0;
+            let level = 0;
+            if (count > 0) level = 1;
+            if (count > 2) level = 2;
+            if (count > 4) level = 3;
+            if (count > 6) level = 4;
+
+            const displayDate = `${current.getMonth() + 1}/${current.getDate()}`;
+            html += `<div class="heatmap-cell level-${level}" title="${dateStr}: ${count}개 완료"></div>`;
+
+            current.setDate(current.getDate() + 1);
+        }
+
+        container.style.gridAutoFlow = 'column'; // 열 방순으로 자동 배치
+        container.innerHTML = html;
     },
 
     renderTrendChart(tasks) {
