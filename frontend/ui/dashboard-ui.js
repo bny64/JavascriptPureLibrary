@@ -387,11 +387,13 @@ export const DashboardUI = {
     },
 
     renderActivityHeatmap(tasks) {
-        const container = document.getElementById('activityHeatmap');
-        if (!container) return;
+        const heatmap = document.getElementById('activityHeatmap');
+        const monthsEl = document.getElementById('heatmapMonths');
+        if (!heatmap || !monthsEl) return;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+
         const start = new Date(today);
         start.setDate(today.getDate() - (52 * 7) - today.getDay());
 
@@ -400,24 +402,45 @@ export const DashboardUI = {
             dailyCounts[t.endDate] = (dailyCounts[t.endDate] || 0) + 1;
         });
 
-        let html = '';
+        let heatmapHtml = '';
+        let monthLabelsHtml = '';
         const current = new Date(start);
+
+        let lastMonth = -1;
+        const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 
         for (let i = 0; i < 371; i++) {
             const dateStr = current.toISOString().split('T')[0];
             const count = dailyCounts[dateStr] || 0;
+            const month = current.getMonth();
+            const weekIdx = Math.floor(i / 7);
+
+            // 월 레이블 처리 (해당 월의 첫 번째 주 일요일인 경우)
+            if (month !== lastMonth && current.getDay() === 0) {
+                // 대략적인 위치 계산: 1주가 약 17px(14px+3px)
+                const offset = weekIdx * 17;
+                monthLabelsHtml += `<span style="position: absolute; left: ${offset + 30}px;">${monthNames[month]}</span>`;
+                lastMonth = month;
+            }
+
             let level = 0;
             if (count > 0) level = 1;
             if (count > 2) level = 2;
             if (count > 4) level = 3;
             if (count > 6) level = 4;
 
-            html += `<div class="heatmap-cell level-${level}" title="${dateStr}: ${count}개 완료"></div>`;
+            const onclick = count > 0 ? `onclick="window.openAllTasksModalWithDate('${dateStr}')"` : '';
+            const cursor = count > 0 ? 'pointer' : 'default';
+
+            heatmapHtml += `<div class="heatmap-cell level-${level}" title="${dateStr}: ${count}개 완료" style="cursor: ${cursor}" ${onclick}></div>`;
             current.setDate(current.getDate() + 1);
         }
 
-        container.style.gridAutoFlow = 'column';
-        container.innerHTML = html;
+        monthsEl.style.position = 'relative';
+        monthsEl.style.height = '15px';
+        monthsEl.innerHTML = monthLabelsHtml;
+        heatmap.style.gridAutoFlow = 'column';
+        heatmap.innerHTML = heatmapHtml;
     },
 
     renderTrendChart(tasks) {

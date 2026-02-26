@@ -4,12 +4,13 @@ import { AppState } from '../state/app-state.js';
 import { ArrayUtils, DomUtils } from '../utils/dom.js';
 import { TaskUI } from '../ui/task-ui.js';
 
-export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체', category1 = null) {
+export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체', category1 = null, dateToFilter = null) {
     const modal = document.getElementById('allTasksModal');
-    
+
     // 상태 초기화
     AppState.currentStatusFilter = statusToFilter;
     AppState.currentPriorityFilter = priorityToFilter;
+    AppState.currentDateFilter = dateToFilter;
     AppState.currentPage = 1;
     AppState.sortField = 'endDate';
     AppState.sortDirection = 'desc';
@@ -19,11 +20,11 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
 
     // 검색 필드 UI 초기화
     document.getElementById('textSearchInput').value = '';
-    
+
     // 정렬 컨트롤 UI 초기화
     document.getElementById('sortField').value = 'endDate';
     document.getElementById('sortDirection').value = 'desc';
-    
+
     populateSearchCategories();
     updateSearchCategory2();
 
@@ -59,6 +60,10 @@ export function openAllTasksModalWithPriority(priority) {
     openAllTasksModal('전체', priority);
 }
 
+export function openAllTasksModalWithDate(date) {
+    openAllTasksModal('전체', '전체', null, date);
+}
+
 export function activateFilterButtons() {
     document.querySelectorAll('#allTasksModal .status-filters .filter-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-status') === AppState.currentStatusFilter);
@@ -72,7 +77,7 @@ export function toggleSearchType(runSearch = true) {
     AppState.currentSearchType = document.querySelector('input[name="searchType"]:checked')?.value || 'text';
     document.getElementById('textSearchBox').style.display = AppState.currentSearchType === 'text' ? 'block' : 'none';
     document.getElementById('categorySearchBox').style.display = AppState.currentSearchType !== 'text' ? 'block' : 'none';
-    
+
     // 카테고리 필드 값 상태에 반영
     AppState.currentSearchCategory1 = document.getElementById('searchCategory1').value;
     AppState.currentSearchCategory2 = document.getElementById('searchCategory2').value;
@@ -142,6 +147,9 @@ export function renderAllTasks() {
     }
     if (AppState.currentPriorityFilter !== '전체') {
         filtered = filtered.filter(t => t.priority === AppState.currentPriorityFilter);
+    }
+    if (AppState.currentDateFilter) {
+        filtered = filtered.filter(t => t.endDate === AppState.currentDateFilter);
     }
 
     if (AppState.currentSearchType === 'text') {

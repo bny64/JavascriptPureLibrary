@@ -60,6 +60,7 @@ import {
 import {
     openAllTasksModal, closeAllTasksModal,
     openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory,
+    openAllTasksModalWithDate,
     toggleSearchType, populateSearchCategories, updateSearchCategory2, updateSearchCategory3,
     searchAllTasks, renderAllTasks, updatePaginationControls,
     previousPage, nextPage, filterByStatus, filterByPriority,
@@ -388,7 +389,7 @@ Object.assign(window, {
 
     // 전체 업무 모달
     openAllTasksModal, closeAllTasksModal,
-    openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory,
+    openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory, openAllTasksModalWithDate,
     toggleSearchType, populateSearchCategories, updateSearchCategory2, updateSearchCategory3,
     searchAllTasks, renderAllTasks, updatePaginationControls,
     previousPage, nextPage, filterByStatus, filterByPriority, changeAllTasksSort,

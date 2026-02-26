@@ -49,8 +49,20 @@
                 <span>More</span>
             </div>
         </div>
-        <div id="activityHeatmap" class="activity-heatmap" style="overflow-x: auto; padding-bottom: 10px;">
-            <!-- 히트맵이 여기에 렌더링됩니다 -->
+        <div class="heatmap-wrapper" style="position: relative; margin-top: 10px;">
+            <div id="heatmapMonths" class="heatmap-months"
+                style="display: flex; font-size: 11px; color: #666; margin-bottom: 5px; margin-left: 30px;">
+                <!-- 월 레이블이 여기에 렌더링됩니다 -->
+            </div>
+            <div style="display: flex;">
+                <div class="heatmap-weekdays"
+                    style="display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: #999; margin-right: 5px; padding: 2px 0;">
+                    <span>Sun</span><span>Tue</span><span>Thu</span><span>Sat</span>
+                </div>
+                <div id="activityHeatmap" class="activity-heatmap" style="overflow-x: auto; padding-bottom: 10px;">
+                    <!-- 히트맵이 여기에 렌더링됩니다 -->
+                </div>
+            </div>
         </div>
     </div>
     <div class="dashboard-charts-grid">
