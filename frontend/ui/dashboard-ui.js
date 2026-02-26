@@ -12,6 +12,7 @@ export const DashboardUI = {
         this.renderTrendChart(tasks);
         this.renderMonthlyAchievementChart(tasks);
         this.renderCategoryDistributionChart(tasks);
+        this.renderLeadTimeChart(tasks);
         this.renderCriticalTasks(tasks);
         this.renderBottleneckTasks(tasks);
         this.renderActivityHeatmap(tasks);
@@ -225,6 +226,59 @@ export const DashboardUI = {
         });
     },
 
+    renderLeadTimeChart(tasks) {
+        const canvas = document.getElementById('leadTimeChartCanvas');
+        if (!canvas) return;
+
+        const catLeadTimes = {};
+        tasks.filter(t => t.status === 'completed' && t.createdAt && t.endDate).forEach(t => {
+            const cat = t.category1 || '미분류';
+            const start = new Date(t.createdAt);
+            const end = new Date(t.endDate);
+            const diffDays = Math.max(0, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+
+            if (!catLeadTimes[cat]) catLeadTimes[cat] = { totalDays: 0, count: 0 };
+            catLeadTimes[cat].totalDays += diffDays;
+            catLeadTimes[cat].count++;
+        });
+
+        const sortedAvgLeadTimes = Object.entries(catLeadTimes)
+            .map(([cat, stats]) => ({
+                category: cat,
+                avgDays: Math.round((stats.totalDays / stats.count) * 10) / 10
+            }))
+            .sort((a, b) => b.avgDays - a.avgDays)
+            .slice(0, 10);
+
+        const labels = sortedAvgLeadTimes.map(i => i.category);
+        const data = sortedAvgLeadTimes.map(i => i.avgDays);
+
+        if (chartInstances.leadTime) chartInstances.leadTime.destroy();
+
+        chartInstances.leadTime = new window.Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '평균 소요 시간 (일)',
+                    data: data,
+                    backgroundColor: '#03a9f4',
+                }]
+            },
+            options: {
+                indexAxis: 'y', // 가로 막대 차트
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { beginAtZero: true, title: { display: true, text: '일수' } }
+                }
+            }
+        });
+    },
+
     renderCriticalTasks(tasks) {
         const section = document.getElementById('criticalTasksSection');
         const listContainer = document.getElementById('criticalTaskList');
@@ -235,8 +289,6 @@ export const DashboardUI = {
         today.setHours(0, 0, 0, 0);
         const todayStr = today.toISOString().split('T')[0];
 
-        // 연체 업무: 종료일이 지났는데 완료되지 않은 업무
-        // 오늘 마감 업무: 종료일이 오늘인 완료되지 않은 업무
         const critical = tasks.filter(t => {
             if (t.status === 'completed' || !t.endDate) return false;
             const endDate = new Date(t.endDate);
@@ -252,7 +304,6 @@ export const DashboardUI = {
         section.style.display = 'block';
         countBadge.textContent = critical.length;
 
-        // 정렬: 날짜순 (오래된 연체 업무가 위로)
         critical.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
 
         listContainer.innerHTML = critical.map(task => {
@@ -325,11 +376,8 @@ export const DashboardUI = {
         const container = document.getElementById('activityHeatmap');
         if (!container) return;
 
-        // 최근 371일 (53주 * 7일) 데이터 준비
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-
-        // 시작일 계산 (오늘을 포함하는 주를 포함하여 53주 전 일요일)
         const start = new Date(today);
         start.setDate(today.getDate() - (52 * 7) - today.getDay());
 
@@ -341,12 +389,6 @@ export const DashboardUI = {
         let html = '';
         const current = new Date(start);
 
-        // 7행(요일) x 53열(주) 구조로 그리기 위해 요일별로 데이터 생성
-        // 하지만 CSS Grid(grid-template-rows: repeat(7, ...))를 사용하므로
-        // grid-auto-flow: column을 쓰거나 순서대로 배치해야 함.
-        // 여기서는 요일별로(Sun-Sat) 순서대로 배치 (Sunday is row 1, etc.)
-
-        // 53주 * 7일 = 371개 셀 생성
         for (let i = 0; i < 371; i++) {
             const dateStr = current.toISOString().split('T')[0];
             const count = dailyCounts[dateStr] || 0;
@@ -356,13 +398,11 @@ export const DashboardUI = {
             if (count > 4) level = 3;
             if (count > 6) level = 4;
 
-            const displayDate = `${current.getMonth() + 1}/${current.getDate()}`;
             html += `<div class="heatmap-cell level-${level}" title="${dateStr}: ${count}개 완료"></div>`;
-
             current.setDate(current.getDate() + 1);
         }
 
-        container.style.gridAutoFlow = 'column'; // 열 방순으로 자동 배치
+        container.style.gridAutoFlow = 'column';
         container.innerHTML = html;
     },
 
