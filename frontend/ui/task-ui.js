@@ -45,6 +45,10 @@ export const TaskUI = {
         taskDiv.appendChild(category);
         taskDiv.appendChild(description);
 
+        // 체크리스트 진행률
+        const checklistProgress = this._createChecklistProgress(task.subtasks);
+        if (checklistProgress) taskDiv.appendChild(checklistProgress);
+
         // 액션 버튼
         const actions = DomUtils.createElement('div', 'task-actions');
 
@@ -65,6 +69,26 @@ export const TaskUI = {
         taskDiv.appendChild(actions);
 
         return taskDiv;
+    },
+
+    _createChecklistProgress(subtasks) {
+        if (!subtasks || subtasks.length === 0) return null;
+
+        const total = subtasks.length;
+        const completed = subtasks.filter(s => s.completed).length;
+        const percent = Math.round((completed / total) * 100);
+
+        const container = DomUtils.createElement('div', 'task-checklist-progress');
+        container.innerHTML = `
+            <div class="task-checklist-header">
+                <span>체크리스트</span>
+                <span>${completed}/${total} (${percent}%)</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: ${percent}%"></div>
+            </div>
+        `;
+        return container;
     },
 
     renderStatusSummary(tasks, targetElementId) {

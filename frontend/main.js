@@ -47,7 +47,7 @@ import {
 import {
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
-    saveTask, copyTask
+    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask
 } from './modules/task-modal.js';
 
 import {
@@ -359,6 +359,7 @@ Object.assign(window, {
     // 업무 모달
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories, saveTask,
+    addSubtask, toggleSubtask, deleteSubtask,
 
     // 카테고리 모달
     openCategoryModal, closeCategoryModal, resetCategoryForm, editCategoryItem, saveCategory,

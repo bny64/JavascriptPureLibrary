@@ -59,9 +59,26 @@ export const KanbanUI = {
         const priorityClass = `priority-${task.priority || 'middle'}`;
         card.style.borderLeftColor = PRIORITY_COLORS[task.priority] || '#3f51b5';
 
+        let checklistHtml = '';
+        if (task.subtasks && task.subtasks.length > 0) {
+            const total = task.subtasks.length;
+            const completed = task.subtasks.filter(s => s.completed).length;
+            const percent = Math.round((completed / total) * 100);
+            checklistHtml = `
+                <div class="task-checklist-progress" style="margin-top: 5px;">
+                    <div class="task-checklist-header" style="font-size: 10px; margin-bottom: 2px;">
+                        <span>체크리스트 ${completed}/${total}</span>
+                        <span>${percent}%</span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div>
+                </div>
+            `;
+        }
+
         card.innerHTML = `
             <div class="kanban-card-title">${TextUtils.escapeHtml(task.taskName)}</div>
             <div class="task-category" style="margin-bottom:8px;">${TextUtils.escapeHtml(task.category1 || '미분류')}</div>
+            ${checklistHtml}
             <div class="kanban-card-meta">
                 <span class="task-priority ${priorityClass}">${priorityText}</span>
                 <span class="task-date">${task.endDate || ''}</span>

@@ -122,6 +122,25 @@ function generateTaskChangeDetails(oldTask, newTask) {
             else if (tag === '{DELETE}') changes.push(`${tag} [${fieldMap[key]}] ${oldVal} 삭제됨`);
         }
     }
+
+    // 체크리스트 변경 감지
+    const oldSub = JSON.stringify(oldTask.subtasks || []);
+    const newSub = JSON.stringify(newTask.subtasks || []);
+    if (oldSub !== newSub) {
+        const oldS = oldTask.subtasks || [];
+        const newS = newTask.subtasks || [];
+        const oldDone = oldS.filter(s => s.completed).length;
+        const newDone = newS.filter(s => s.completed).length;
+
+        if (oldS.length !== newS.length) {
+            changes.push(`{UPDATE} [체크리스트] 항목 개수 변경 (${oldS.length}개 → ${newS.length}개)`);
+        } else if (oldDone !== newDone) {
+            changes.push(`{UPDATE} [체크리스트] 진행률 변경 (${oldDone}/${oldS.length} → ${newDone}/${newS.length})`);
+        } else {
+            changes.push(`{UPDATE} [체크리스트] 내용 수정됨`);
+        }
+    }
+
     return changes.join(' ||| ');
 }
 

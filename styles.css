@@ -1128,7 +1128,128 @@ h3#selectedDateTitle {
 }
 
 .task-modal-content {
-  max-width: 650px;
+  max-width: 750px;
+}
+
+/* 체크리스트(하위 업무) 스타일 */
+.subtask-container {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.subtask-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.subtask-input-group input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.btn-add-subtask {
+  background: #11998e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.btn-add-subtask:hover {
+  background: #0e8577;
+}
+
+.subtask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.subtask-item.completed {
+  opacity: 0.6;
+}
+
+.subtask-item.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.subtask-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #11998e;
+}
+
+.subtask-item span {
+  flex-grow: 1;
+  font-size: 13px;
+  color: #333;
+}
+
+.btn-delete-subtask {
+  background: none;
+  border: none;
+  color: #f44336;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 5px;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.btn-delete-subtask:hover {
+  opacity: 1;
+}
+
+/* 업무 카드 내 체크리스트 진행률 */
+.task-checklist-progress {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-checklist-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: #eee;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #11998e;
+  transition: width 0.3s ease;
 }
 
 .category-modal-content {

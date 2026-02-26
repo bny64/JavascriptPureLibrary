@@ -1,10 +1,55 @@
 // modules/task-modal.js - 업무 모달 관련 기능
 
 import { AppState } from '../state/app-state.js';
-import { ArrayUtils, DomUtils } from '../utils/dom.js';
+import { ArrayUtils, DomUtils, TextUtils } from '../utils/dom.js';
 import { KoreanTime } from '../utils/korean-time.js';
 
 let quillInstance = null;
+let localSubtasks = [];
+
+export function addSubtask() {
+    const input = document.getElementById('newSubtaskTitle');
+    const title = input.value.trim();
+    if (!title) return;
+
+    localSubtasks.push({
+        id: Date.now().toString(),
+        title: title,
+        completed: false
+    });
+
+    input.value = '';
+    renderSubtasks();
+}
+
+export function toggleSubtask(id) {
+    const subtask = localSubtasks.find(s => s.id === id);
+    if (subtask) {
+        subtask.completed = !subtask.completed;
+        renderSubtasks();
+    }
+}
+
+export function deleteSubtask(id) {
+    localSubtasks = localSubtasks.filter(s => s.id !== id);
+    renderSubtasks();
+}
+
+function renderSubtasks() {
+    const list = document.getElementById('subtaskList');
+    if (!list) return;
+
+    list.innerHTML = localSubtasks.map(s => `
+        <div class="subtask-item ${s.completed ? 'completed' : ''}">
+            <input type="checkbox" ${s.completed ? 'checked' : ''} onchange="toggleSubtask('${s.id}')">
+            <span onclick="toggleSubtask('${s.id}')">${TextUtils.escapeHtml(s.title)}</span>
+            <button type="button" class="btn-delete-subtask" onclick="deleteSubtask('${s.id}')">&times;</button>
+        </div>
+    `).join('');
+}
+
+// DomUtils에 escapeHtml이 없을 경우를 대비해 TextUtils.escapeHtml 사용 권장
+// 하지만 task-modal.js에서 DomUtils만 임포트하고 있으므로 확인 필요
 
 function initQuill() {
     if (!quillInstance && document.getElementById('description-editor')) {
@@ -59,6 +104,9 @@ export function openTaskModal(task = null) {
         if (quillInstance) {
             quillInstance.root.innerHTML = task.description || '';
         }
+
+        localSubtasks = task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [];
+        renderSubtasks();
     } else {
         modalTitle.textContent = '새 업무 추가';
         document.getElementById('taskId').value = '';
@@ -71,6 +119,9 @@ export function openTaskModal(task = null) {
         if (quillInstance) {
             quillInstance.setContents([]);
         }
+
+        localSubtasks = [];
+        renderSubtasks();
     }
 
     modal.style.display = 'block';
@@ -143,6 +194,7 @@ export async function saveTask(event) {
         status: document.getElementById('status').value,
         priority: document.getElementById('priority').value,
         description: document.getElementById('description').value,
+        subtasks: localSubtasks,
     };
 
     if (taskData.startDate && taskData.endDate) {

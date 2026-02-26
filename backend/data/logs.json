@@ -1,6 +1,22 @@
 {
   "logs": [
     {
+      "id": "17720778788541v8vc",
+      "taskId": "t11",
+      "taskName": "로그인 페이지 소셜 인증 추가",
+      "action": "수정",
+      "details": "{UPDATE} [메모] 내용이 수정되었습니다.",
+      "timestamp": "2026-02-26T03:51:18.854Z"
+    },
+    {
+      "id": "1772072611117mv4xl",
+      "taskId": "t9",
+      "taskName": "LLM 모델 도입 타당성 검토",
+      "action": "수정",
+      "details": "",
+      "timestamp": "2026-02-26T02:23:31.117Z"
+    },
+    {
       "id": "1772072098152jsqip",
       "taskId": "t4",
       "taskName": "상반기 신입사원 면접",

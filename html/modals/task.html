@@ -53,6 +53,19 @@
             </select>
         </div>
         <div class="form-group">
+            <label>체크리스트 (하위 업무)</label>
+            <div id="subtask-container" class="subtask-container">
+                <div class="subtask-input-group">
+                    <input type="text" id="newSubtaskTitle" placeholder="항목 입력 후 '추가' 클릭"
+                        onkeydown="if(event.key === 'Enter') { event.preventDefault(); addSubtask(); }">
+                    <button type="button" class="btn-add-subtask" onclick="addSubtask()">추가</button>
+                </div>
+                <div id="subtaskList" class="subtask-list">
+                    <!-- 하위 업무 항목들이 여기에 추가됩니다 -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label>메모</label>
             <div id="description-editor" style="height: 150px; background: white; margin-bottom: 20px;"></div>
             <input type="hidden" id="description">

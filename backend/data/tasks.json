@@ -115,7 +115,8 @@
       "status": "in-progress",
       "priority": "middle",
       "description": "<p>PoC 진행 및 비용 분석</p>",
-      "createdAt": "2026-02-01T13:00:00.000Z"
+      "createdAt": "2026-02-01T13:00:00.000Z",
+      "subtasks": []
     },
     {
       "id": "t10",
@@ -140,8 +141,9 @@
       "endDate": "2026-02-19",
       "status": "in-progress",
       "priority": "middle",
-      "description": "카카오, 네이버 연동 작업",
-      "createdAt": "2026-02-12T10:00:00.000Z"
+      "description": "<p>카카오, 네이버 연동 작업</p>",
+      "createdAt": "2026-02-12T10:00:00.000Z",
+      "subtasks": []
     },
     {
       "id": "t12",
