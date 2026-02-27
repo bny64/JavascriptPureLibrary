@@ -99,12 +99,12 @@ export function initGanttChart(forceRefresh = false) {
         ganttEl.addEventListener('mousedown', (e) => {
             window.__ganttMouseDownX = e.clientX;
             window.__ganttIsDragging = false;
-        });
+        }, { passive: true });
         ganttEl.addEventListener('mousemove', (e) => {
             if (window.__ganttMouseDownX !== undefined && Math.abs(e.clientX - window.__ganttMouseDownX) > 3) {
                 window.__ganttIsDragging = true;
             }
-        });
+        }, { passive: true });
         window.addEventListener('mouseup', () => {
             // 클릭 컴포넌트 이벤트가 처리될 수 있도록 약간의 지연 후 초기화
             setTimeout(() => {

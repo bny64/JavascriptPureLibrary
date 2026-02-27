@@ -1,5 +1,28 @@
 // main.js - 메인 진입점 (ES Module)
 
+/**
+ * Passive Event Listener Patch
+ * Chrome에서 발생하는 [Violation] 'touchstart', 'touchmove', 'wheel' 등 경고 해결
+ * 특히 외부 라이브러리(Gantt 등)에서 발생하는 논패시브 이벤트 리스너 경고를 방지합니다.
+ */
+(function () {
+    if (typeof EventTarget !== 'undefined') {
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function (type, listener, options) {
+            if (['touchstart', 'touchmove', 'wheel', 'mousewheel'].includes(type)) {
+                if (typeof options === 'undefined') {
+                    options = { passive: true };
+                } else if (typeof options === 'boolean') {
+                    options = { capture: options, passive: true };
+                } else if (typeof options === 'object' && options !== null && typeof options.passive === 'undefined') {
+                    options.passive = true;
+                }
+            }
+            return originalAddEventListener.call(this, type, listener, options);
+        };
+    }
+})();
+
 // ──────────────────────────────────────────────
 // 유틸리티
 // ──────────────────────────────────────────────
