@@ -1,0 +1,101 @@
+<div class="dashboard-container search-view-container"
+  style="height: calc(100vh - 120px); display: flex; flex-direction: column; gap: 0; padding-bottom: 0; overflow: hidden;">
+  <h2 class="dashboard-title" style="margin-bottom: 15px; flex-shrink: 0;">🔍 상세 업무 검색</h2>
+
+  <!-- 필터 설정 (고정) -->
+  <div class="dashboard-card" style="margin-bottom: 15px; flex-shrink: 0; padding: 15px;">
+    <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px;">필터 설정</h3>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+      <div style="flex: 1; min-width: 200px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">검색어</label>
+        <input type="text" id="advSearchInput" placeholder="업무명, 상세 내용..."
+          style="width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="flex: 1; min-width: 120px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">상태</label>
+        <select id="advSearchStatus"
+          style="width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;">
+          <option value="">전체 상태</option>
+          <option value="pending">대기</option>
+          <option value="in-progress">진행중</option>
+          <option value="completed">완료</option>
+          <option value="on-hold">보류</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 120px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">우선순위</label>
+        <select id="advSearchPriority"
+          style="width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;">
+          <option value="">전체 우선순위</option>
+          <option value="very-high">매우 높음</option>
+          <option value="high">높음</option>
+          <option value="middle">보통</option>
+          <option value="low">낮음</option>
+          <option value="very-low">매우 낮음</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 150px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">카테고리</label>
+        <select id="advSearchCategory"
+          style="width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;">
+          <option value="">전체 카테고리</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 150px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">정렬 기준</label>
+        <select id="advSearchSort"
+          style="width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;">
+          <option value="latest">최신순 (시작일)</option>
+          <option value="oldest">오래된순 (시작일)</option>
+          <option value="endDate">마감임박순</option>
+          <option value="priority">우선순위순</option>
+          <option value="name">이름순</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 280px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">업무 기간</label>
+        <div style="display: flex; gap: 5px; align-items: center;">
+          <input type="date" id="advSearchStartDate"
+            style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px;">
+          <span>~</span>
+          <input type="date" id="advSearchEndDate"
+            style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px;">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button id="advSearchBtn"
+          style="padding: 8px 16px; background: #2196f3; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">검색</button>
+        <button id="advSearchResetBtn"
+          style="padding: 8px 16px; background: #e0e0e0; color: #333; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">초기화</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 결과 영역 (스크롤 가능) -->
+  <div class="dashboard-card full-width"
+    style="flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 15px; margin-bottom: 0;">
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; flex-shrink: 0;">
+      <h3 style="margin: 0; border: none; padding: 0; font-size: 16px;">검색 결과 <span id="advSearchResultCount"
+          style="font-size: 13px; font-weight: normal; color: #666;">(0건)</span></h3>
+    </div>
+
+    <div id="advSearchResultsContainer" style="flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 12px;">
+      <div style="text-align: center; color: #888; padding: 30px;">
+        <p>필터를 설정하고 <b>[검색]</b> 버튼을 눌러주세요.</p>
+      </div>
+    </div>
+
+    <!-- 페이징 컨트롤 (하단 고정) -->
+    <div id="advSearchPagination"
+      style="display: flex; justify-content: center; align-items: center; gap: 15px; padding-top: 10px; border-top: 1px solid #eee; flex-shrink: 0;">
+      <!-- JavaScript에서 생성됨 -->
+    </div>
+  </div>
+</div>

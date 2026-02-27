@@ -4,6 +4,7 @@ import { StorageUtils } from '../utils/dom.js';
 import { TaskUI } from '../ui/task-ui.js';
 import { DashboardUI } from '../ui/dashboard-ui.js';
 import { KanbanUI } from '../ui/kanban-ui.js';
+import { SearchUI } from '../ui/search-ui.js';
 
 import { initGanttChart } from './gantt.js';
 import { renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle } from './calendar-controller.js';
@@ -15,6 +16,7 @@ export async function switchView(viewName) {
         'calendar': { id: 'calendar-view', url: 'html/views/calendar.html', linkId: 'sidebarCalendarLink' },
         'gantt': { id: 'gantt-chart-view', url: 'html/views/gantt.html', linkId: 'sidebarGanttLink' },
         'kanban': { id: 'kanban-view', url: 'html/views/kanban.html', linkId: 'sidebarKanbanLink' },
+        'search': { id: 'search-view', url: 'html/views/search.html', linkId: 'sidebarSearchLink' },
         'activityLog': { id: 'activity-log-view', url: 'html/views/activity-log.html', linkId: 'sidebarActivityLogLink' }
     };
 
@@ -76,6 +78,9 @@ export async function switchView(viewName) {
                 }
             }
             KanbanUI.render(AppState.tasks);
+            break;
+        case 'search':
+            await SearchUI.render();
             break;
         case 'activityLog':
             loadLogs();

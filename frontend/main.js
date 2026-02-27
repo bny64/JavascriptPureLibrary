@@ -24,6 +24,7 @@ import { TaskUI } from './ui/task-ui.js';
 import { CategoryUI } from './ui/category-ui.js';
 import { DashboardUI } from './ui/dashboard-ui.js';
 import { KanbanUI } from './ui/kanban-ui.js';
+import { SearchUI } from './ui/search-ui.js';
 import { ActivityLogUI } from './ui/activity-log-ui.js';
 import { MemoUI } from './ui/memo-ui.js';
 
@@ -114,6 +115,7 @@ async function loadTasks() {
     if (document.getElementById('gantt-chart-view')?.style.display === 'block') initGanttChart();
     if (document.getElementById('dashboard-view')?.style.display === 'block') DashboardUI.render(AppState.tasks);
     if (document.getElementById('kanban-view')?.style.display === 'block') KanbanUI.render(AppState.tasks);
+    if (document.getElementById('search-view')?.style.display === 'block') SearchUI.performSearch();
     if (document.getElementById('activity-log-view')?.style.display === 'block') loadLogs();
     if (document.getElementById('allTasksModal')?.style.display === 'block') renderAllTasks();
 
@@ -321,6 +323,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'sidebarCalendarLink': 'calendar',
         'sidebarGanttLink': 'gantt',
         'sidebarKanbanLink': 'kanban',
+        'sidebarSearchLink': 'search',
         'sidebarActivityLogLink': 'activityLog'
     };
     Object.entries(viewLinks).forEach(([id, view]) => {

@@ -205,10 +205,11 @@
       "taskName": "검색 엔진 엘라스틱서치 교체",
       "startDate": "2026-03-01",
       "endDate": "2026-03-20",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "middle",
-      "description": "기존 DB 검색에서 전문 검색 엔진으로 교체",
-      "createdAt": "2026-02-18T16:00:00.000Z"
+      "description": "<p>기존 DB 검색에서 전문 검색 엔진으로 교체</p>",
+      "createdAt": "2026-02-18T16:00:00.000Z",
+      "subtasks": []
     },
     {
       "id": "t17",
