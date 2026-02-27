@@ -2487,6 +2487,18 @@ h3#selectedDateTitle {
   margin-bottom: 20px;
 }
 
+.kanban-tabs .tab-btn {
+  background: transparent;
+  color: #666;
+  white-space: nowrap;
+}
+
+.kanban-tabs .tab-btn.active {
+  background: white !important;
+  color: #11998e !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .kanban-board {
   display: flex;
   gap: 20px;
@@ -2505,6 +2517,25 @@ h3#selectedDateTitle {
   max-height: 100%;
 }
 
+.kanban-board.mode-priority {
+  gap: 10px;
+}
+
+.kanban-board.mode-priority .kanban-column {
+  min-width: 0;
+  flex: 1;
+}
+
+.kanban-board.mode-priority .kanban-column-header {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.kanban-board.mode-priority .kanban-search-input {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
 .kanban-column-header {
   padding: 15px 20px;
   font-weight: 700;
@@ -2518,6 +2549,11 @@ h3#selectedDateTitle {
   /* 검색창 포함을 위해 */
   gap: 10px;
   /* 제목과 검색창 사이 간격 */
+  white-space: nowrap;
+}
+
+.kanban-column-header span:not(.count) {
+  flex-shrink: 0;
 }
 
 .kanban-column-header .count {

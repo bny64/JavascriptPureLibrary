@@ -32,6 +32,7 @@ export const AppState = {
     currentSearchCategory2: '',
     currentSearchCategory3: '',
     // 칸반 검색어
+    kanbanGroupBy: 'status', // 'status' or 'priority'
     kanbanSearchTerms: { 'pending': '', 'in-progress': '', 'completed': '', 'on-hold': '' },
     // 기타
     holidays: {},

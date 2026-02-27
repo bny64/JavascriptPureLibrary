@@ -1,33 +1,14 @@
 <div class="kanban-container">
-    <h2 class="kanban-title">업무 칸반 보드</h2>
-    <div class="kanban-board">
-        <div class="kanban-column" data-status="pending" ondragover="allowDrop(event)" ondrop="dropTask(event)">
-            <div class="kanban-column-header status-pending">
-                대기 <span class="count">0</span>
-                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('pending', this.value)">
-            </div>
-            <div class="kanban-tasks" id="kanban-pending"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 class="kanban-title" style="margin-bottom: 0;">업무 칸반 보드</h2>
+        <div class="kanban-tabs" style="display: flex; gap: 5px; background: #eee; padding: 4px; border-radius: 8px;">
+            <button class="tab-btn active" onclick="KanbanUI.setGroupBy('status')" data-group="status"
+                style="padding: 6px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s;">상태별</button>
+            <button class="tab-btn" onclick="KanbanUI.setGroupBy('priority')" data-group="priority"
+                style="padding: 6px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s;">우선순위별</button>
         </div>
-        <div class="kanban-column" data-status="in-progress" ondragover="allowDrop(event)" ondrop="dropTask(event)">
-            <div class="kanban-column-header status-in-progress">
-                진행중 <span class="count">0</span>
-                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('in-progress', this.value)">
-            </div>
-            <div class="kanban-tasks" id="kanban-in-progress"></div>
-        </div>
-        <div class="kanban-column" data-status="completed" ondragover="allowDrop(event)" ondrop="dropTask(event)">
-            <div class="kanban-column-header status-completed">
-                완료 <span class="count">0</span>
-                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('completed', this.value)">
-            </div>
-            <div class="kanban-tasks" id="kanban-completed"></div>
-        </div>
-        <div class="kanban-column" data-status="on-hold" ondragover="allowDrop(event)" ondrop="dropTask(event)">
-            <div class="kanban-column-header status-on-hold">
-                보류 <span class="count">0</span>
-                <input type="text" class="kanban-search-input" placeholder="검색" onkeyup="filterKanbanColumn('on-hold', this.value)">
-            </div>
-            <div class="kanban-tasks" id="kanban-on-hold"></div>
-        </div>
+    </div>
+    <div class="kanban-board" id="kanban-board-container">
+        <!-- JavaScript에서 동적으로 생성됨 -->
     </div>
 </div>
