@@ -65,9 +65,7 @@ export const DashboardAlerts = {
       item.addEventListener('click', async () => {
         const taskId = item.getAttribute('data-task-id');
         const { openTaskModalById } = await import('../../main.js');
-        // Assuming openTaskModalById is exported or we can just import the modal module
-        // It's cleaner to import from main or openTaskModal. Actually openTaskModalById is global or in main.js. Let's use the global window.openTaskModalById for simplicity or import it properly if we can.
-        if (window.openTaskModalById) window.openTaskModalById(taskId);
+        openTaskModalById(taskId);
       });
     });
   },
@@ -118,8 +116,10 @@ export const DashboardAlerts = {
     }).join('');
 
     listContainer.querySelectorAll('.bottleneck-item').forEach(item => {
-      item.addEventListener('click', () => {
-        if (window.openTaskModalById) window.openTaskModalById(item.getAttribute('data-task-id'));
+      item.addEventListener('click', async () => {
+        const taskId = item.getAttribute('data-task-id');
+        const { openTaskModalById } = await import('../../main.js');
+        openTaskModalById(taskId);
       });
     });
   }

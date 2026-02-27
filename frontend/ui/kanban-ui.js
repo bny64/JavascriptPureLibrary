@@ -31,9 +31,6 @@ export const KanbanUI = {
         const boardContainer = document.getElementById('kanban-board-container');
         if (!boardContainer) return;
 
-        // 인라인 이벤트 핸들러를 위해 전역 등록
-        window.KanbanUI = this;
-
         const mode = AppState.kanbanGroupBy || 'status';
         const config = mode === 'status' ? STATUS_CONFIG : PRIORITY_CONFIG;
 
@@ -63,8 +60,14 @@ export const KanbanUI = {
         col.setAttribute('data-mode', mode);
 
         // 드롭 이벤트 설정
-        col.ondragover = (ev) => window.allowDrop(ev);
-        col.ondrop = (ev) => this._handleDrop(ev, group.id, mode);
+        col.addEventListener('dragover', (ev) => {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        });
+        col.addEventListener('dragleave', (ev) => {
+            ev.currentTarget.classList.remove('drag-over');
+        });
+        col.addEventListener('drop', (ev) => this._handleDrop(ev, group.id, mode));
 
         const searchTerm = (AppState.kanbanSearchTerms[group.id] || '').toLowerCase();
         let filtered = tasks.filter(t => (mode === 'status' ? t.status : t.priority) === group.id);
@@ -141,12 +144,13 @@ export const KanbanUI = {
 
         if (mode === 'status') {
             if (task.status !== groupId) {
-                // global의 updateTask 함수 이용 (main.js에 정의됨)
-                await window.updateTask(taskId, { status: groupId });
+                const { TaskService } = await import('../services/task-service.js');
+                await TaskService.updateTask(taskId, { status: groupId });
             }
         } else {
             if (task.priority !== groupId) {
-                await window.updateTask(taskId, { priority: groupId });
+                const { TaskService } = await import('../services/task-service.js');
+                await TaskService.updateTask(taskId, { priority: groupId });
             }
         }
     },
@@ -218,7 +222,10 @@ export const KanbanUI = {
             </div>
         `;
 
-        card.addEventListener('click', () => window.openTaskModal(task));
+        card.addEventListener('click', async () => {
+            const { openTaskModal } = await import('../modules/task-modal.js');
+            openTaskModal(task);
+        });
         return card;
     }
 };

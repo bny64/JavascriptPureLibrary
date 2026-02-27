@@ -7,9 +7,6 @@ export const SearchUI = {
   filteredTasks: [],
 
   async render() {
-    // 인라인 이벤트 핸들러(onclick)를 위해 전역 등록
-    window.SearchUI = this;
-
     await this.populateCategories();
     this.bindEvents();
     // 초기화 상태 세팅
@@ -228,7 +225,7 @@ export const SearchUI = {
       item.addEventListener('click', async () => {
         const taskId = item.getAttribute('data-task-id');
         const { openTaskModalById } = await import('../../main.js');
-        if (window.openTaskModalById) window.openTaskModalById(taskId);
+        openTaskModalById(taskId);
       });
     });
 

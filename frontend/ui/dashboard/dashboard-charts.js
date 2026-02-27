@@ -42,11 +42,12 @@ export const DashboardCharts = {
         plugins: {
           legend: { position: 'right' }
         },
-        onClick: (event, elements) => {
+        onClick: async (event, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
             const status = Object.keys(counts)[index];
-            window.openAllTasksModalWithStatus(status);
+            const { openAllTasksModalWithStatus } = await import('../../modules/all-tasks-modal.js');
+            openAllTasksModalWithStatus(status);
           }
         }
       }
@@ -86,11 +87,12 @@ export const DashboardCharts = {
         scales: {
           y: { beginAtZero: true, ticks: { stepSize: 1 } }
         },
-        onClick: (event, elements) => {
+        onClick: async (event, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
             const keys = ['very-high', 'high', 'middle', 'low', 'very-low'];
-            window.openAllTasksModalWithPriority(keys[index]);
+            const { openAllTasksModalWithPriority } = await import('../../modules/all-tasks-modal.js');
+            openAllTasksModalWithPriority(keys[index]);
           }
         }
       }
@@ -398,9 +400,8 @@ export const DashboardCharts = {
     container.querySelectorAll('.cat-progress-item').forEach(item => {
       item.addEventListener('click', async () => {
         const cat = item.getAttribute('data-category');
-        if (window.openAllTasksModalWithCategory) {
-          window.openAllTasksModalWithCategory(cat);
-        }
+        const { openAllTasksModalWithCategory } = await import('../../modules/all-tasks-modal.js');
+        openAllTasksModalWithCategory(cat);
       });
     });
   }

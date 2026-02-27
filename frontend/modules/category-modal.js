@@ -1,11 +1,12 @@
 // modules/category-modal.js - 카테고리 모달 관련 기능
 
 import { DomUtils } from '../utils/dom.js';
+import { CategoryService } from '../services/category-service.js';
 
 export function openCategoryModal() {
     const modal = document.getElementById('categoryModal');
     resetCategoryForm();
-    window.loadCategories();
+    CategoryService.loadCategories();
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
     DomUtils.scrollToTop(modal.querySelector('.modal-content'));
@@ -39,9 +40,9 @@ export async function saveCategory(event) {
     };
 
     if (categoryId) {
-        await window.updateCategory(categoryId, categoryData);
+        await CategoryService.updateCategory(categoryId, categoryData);
     } else {
-        await window.createCategory(categoryData);
+        await CategoryService.createCategory(categoryData);
     }
 
     resetCategoryForm();

@@ -3,6 +3,7 @@
 import { AppState } from '../state/app-state.js';
 import { StorageUtils } from '../utils/dom.js';
 import { API } from '../api/api.js';
+import { openTaskModal } from './task-modal.js';
 
 const monthNamesKo = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
 const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -129,8 +130,8 @@ export function initGanttChart(forceRefresh = false) {
 
             // 드래그(이동/길이 조절)로 판별된 경우 클릭 이벤트(팝업 오픈) 무시
             if (window.__ganttIsDragging) return;
-
-            window.openTaskModal(AppState.tasks.find(t => t.id === task.id));
+            const taskObj = AppState.tasks.find(t => t.id === task.id);
+            if (taskObj) openTaskModal(taskObj);
         },
         on_date_change: async (task, start, end) => {
             if (task.id.startsWith('dummy_')) {

@@ -98,7 +98,7 @@ export const DashboardHeatmap = {
       item.addEventListener('click', async () => {
         const taskId = item.getAttribute('data-task-id');
         const { openTaskModalById } = await import('../../main.js');
-        if (window.openTaskModalById) window.openTaskModalById(taskId);
+        openTaskModalById(taskId);
       });
     });
   }

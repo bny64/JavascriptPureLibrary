@@ -34,11 +34,10 @@ export const DashboardSummary = {
     }).join('');
 
     container.querySelectorAll('.summary-card.cursor-pointer').forEach(card => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', async () => {
         const status = card.getAttribute('data-status');
-        if (window.openAllTasksModalWithStatus) {
-          window.openAllTasksModalWithStatus(status);
-        }
+        const { openAllTasksModalWithStatus } = await import('../../modules/all-tasks-modal.js');
+        openAllTasksModalWithStatus(status);
       });
     });
   }

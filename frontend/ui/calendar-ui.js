@@ -98,7 +98,10 @@ export const CalendarUI = {
             dayDiv.appendChild(tasksDiv);
         }
 
-        dayDiv.addEventListener('click', () => window.selectDate(new Date(date)));
+        dayDiv.addEventListener('click', async () => {
+            const { selectDate } = await import('../modules/calendar-controller.js');
+            selectDate(new Date(date));
+        });
 
         // 드래그 앤 드롭 이벤트
         dayDiv.ondragover = (e) => {
@@ -116,7 +119,8 @@ export const CalendarUI = {
             const taskId = e.dataTransfer.getData('text/plain');
             if (taskId) {
                 const targetDateStr = KoreanTime.formatDate(date); // YYYY-MM-DD
-                await window.updateTask(taskId, {
+                const { TaskService } = await import('../services/task-service.js');
+                await TaskService.updateTask(taskId, {
                     startDate: targetDateStr,
                     endDate: targetDateStr
                 });

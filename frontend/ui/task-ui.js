@@ -34,10 +34,11 @@ export const TaskUI = {
         if (task.description && task.description.trim() && task.description.trim() !== '<p><br></p>') {
             const memoIcon = DomUtils.createElement('span', 'task-memo-icon', '📌');
             memoIcon.title = '메모 있음';
-            memoIcon.onclick = (e) => {
+            memoIcon.addEventListener('click', async (e) => {
                 e.stopPropagation();
-                window.openTaskModal(task);
-            };
+                const { openTaskModal } = await import('../modules/task-modal.js');
+                openTaskModal(task);
+            });
             header.appendChild(memoIcon);
         }
 
@@ -63,16 +64,26 @@ export const TaskUI = {
         // 액션 버튼
         const actions = DomUtils.createElement('div', 'task-actions');
 
-        // 메모 기능 버튼 제거됨
-
         const editBtn = DomUtils.createElement('button', 'btn-edit', '수정');
-        editBtn.onclick = (e) => { e.stopPropagation(); window.openTaskModal(task); };
+        editBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const { openTaskModal } = await import('../modules/task-modal.js');
+            openTaskModal(task);
+        });
 
         const copyBtn = DomUtils.createElement('button', 'btn-copy', '복사');
-        copyBtn.onclick = (e) => { e.stopPropagation(); window.copyTask(task); };
+        copyBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const { copyTask } = await import('../modules/task-modal.js');
+            copyTask(task);
+        });
 
         const deleteBtn = DomUtils.createElement('button', 'btn-delete', '삭제');
-        deleteBtn.onclick = (e) => { e.stopPropagation(); window.deleteTask(task.id); };
+        deleteBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const { TaskService } = await import('../services/task-service.js');
+            TaskService.deleteTask(task.id);
+        });
 
         actions.appendChild(editBtn);
         actions.appendChild(copyBtn);

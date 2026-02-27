@@ -5,6 +5,7 @@ import { DashboardSummary } from './dashboard/dashboard-summary.js';
 import { DashboardAlerts } from './dashboard/dashboard-alerts.js';
 import { DashboardHeatmap } from './dashboard/dashboard-heatmap.js';
 import { DashboardCharts } from './dashboard/dashboard-charts.js';
+import { MemoUI } from './memo-ui.js';
 
 export const DashboardUI = {
     render(tasks) {
@@ -23,11 +24,9 @@ export const DashboardUI = {
         DashboardCharts.renderCategoryProgress(tasks);
 
         // 전역 메모(스티커) 렌더링 호출
-        if (window.MemoUI) {
-            window.MemoUI.render().then(() => {
-                this.bindEvents();
-            }).catch(err => console.error("Memo render failed:", err));
-        }
+        MemoUI.render().then(() => {
+            this.bindEvents();
+        }).catch(err => console.error("Memo render failed:", err));
 
         // 초기 바인딩 시도
         this.bindEvents();
@@ -44,19 +43,7 @@ export const DashboardUI = {
                 e.preventDefault();
                 e.stopPropagation();
 
-                if (window.toggleMemoDrawer) {
-                    window.toggleMemoDrawer();
-                } else if (window.MemoUI && typeof window.MemoUI.toggleDrawer === 'function') {
-                    window.MemoUI.toggleDrawer();
-                } else {
-                    const drawer = document.getElementById('memoDrawer');
-                    if (drawer) {
-                        drawer.classList.toggle('open');
-                        if (drawer.classList.contains('open') && window.MemoUI) {
-                            window.MemoUI.render();
-                        }
-                    }
-                }
+                MemoUI.toggleDrawer();
             };
         }
 

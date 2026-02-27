@@ -54,8 +54,13 @@ import { MemoUI } from './ui/memo-ui.js';
 import { injectComponents } from './utils/html-loader.js';
 
 // ──────────────────────────────────────────────
-// 기능 모듈
+// 서비스 및 데이터 계층
 // ──────────────────────────────────────────────
+import { EventBus } from './utils/event-bus.js';
+import { TaskService } from './services/task-service.js';
+import { CategoryService } from './services/category-service.js';
+
+// 기능 모듈
 import {
     initGanttChart, filterGanttByStatus, filterGanttByPriority,
     activateGanttFilterButtons, postProcessGanttHeaders,
@@ -80,8 +85,6 @@ import {
     resetCategoryForm, editCategoryItem, saveCategory
 } from './modules/category-modal.js';
 
-
-
 import {
     openAllTasksModal, closeAllTasksModal,
     openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory,
@@ -105,6 +108,33 @@ import {
     loadLogs, filterLogs, handleLogClick
 } from './modules/activity-log-controller.js';
 
+// Re-export for other modules
+export {
+    initGanttChart, filterGanttByStatus, filterGanttByPriority,
+    activateGanttFilterButtons, postProcessGanttHeaders,
+    transformTasksForGantt, setGanttMinWidth,
+    getTasksEndingSoon, renderNotifications, toggleNotificationDropdown, initNotifications,
+    openNotificationSettingsModal, closeNotificationSettingsModal,
+    populateNotificationCategories, populateNotificationSubCategories,
+    populateNotificationDetailCategories, saveNotificationSettings,
+    openTaskModal, closeTaskModal,
+    populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
+    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask,
+    openCategoryModal, closeCategoryModal,
+    resetCategoryForm, editCategoryItem, saveCategory,
+    openAllTasksModal, closeAllTasksModal,
+    openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory,
+    openAllTasksModalWithDate,
+    toggleSearchType, populateSearchCategories, updateSearchCategory2, updateSearchCategory3,
+    searchAllTasks, renderAllTasks, updatePaginationControls,
+    previousPage, nextPage, filterByStatus, filterByPriority,
+    changeAllTasksSort, activateFilterButtons,
+    switchView, loadView,
+    renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle,
+    selectDate, previousMonth, nextMonth, filterSelectedDateTasksByStatus,
+    loadLogs, filterLogs, handleLogClick
+};
+
 
 // ══════════════════════════════════════════════
 // 테마 관리
@@ -122,22 +152,20 @@ function changeTheme(theme) {
 
 
 // ══════════════════════════════════════════════
-// 데이터 로드 함수
+// 이벤트 구독 및 UI 갱신 (Pub/Sub)
 // ══════════════════════════════════════════════
-async function loadTasks() {
-    AppState.tasks = await API.tasks.getAll();
-
+EventBus.subscribe('tasks-updated', (tasks) => {
     // 요소가 있을 때만 요약 렌더링
-    if (document.getElementById('statusSummary')) TaskUI.renderStatusSummary(AppState.tasks, 'statusSummary');
-    if (document.getElementById('prioritySummary')) TaskUI.renderPrioritySummary(AppState.tasks, 'prioritySummary');
-    if (document.getElementById('unfinishedTaskCount')) TaskUI.renderUnfinishedTasksSummary(AppState.tasks);
+    if (document.getElementById('statusSummary')) TaskUI.renderStatusSummary(tasks, 'statusSummary');
+    if (document.getElementById('prioritySummary')) TaskUI.renderPrioritySummary(tasks, 'prioritySummary');
+    if (document.getElementById('unfinishedTaskCount')) TaskUI.renderUnfinishedTasksSummary(tasks);
 
     renderCalendar();
     renderTasksForSelectedDate();
 
     if (document.getElementById('gantt-chart-view')?.style.display === 'block') initGanttChart();
-    if (document.getElementById('dashboard-view')?.style.display === 'block') DashboardUI.render(AppState.tasks);
-    if (document.getElementById('kanban-view')?.style.display === 'block') KanbanUI.render(AppState.tasks);
+    if (document.getElementById('dashboard-view')?.style.display === 'block') DashboardUI.render(tasks);
+    if (document.getElementById('kanban-view')?.style.display === 'block') KanbanUI.render(tasks);
     if (document.getElementById('search-view')?.style.display === 'block') SearchUI.performSearch();
     if (document.getElementById('activity-log-view')?.style.display === 'block') loadLogs();
     if (document.getElementById('allTasksModal')?.style.display === 'block') renderAllTasks();
@@ -145,67 +173,54 @@ async function loadTasks() {
     // 알림 갱신
     AppState.notifications = getTasksEndingSoon();
     renderNotifications(AppState.notifications);
+});
+
+EventBus.subscribe('categories-updated', (categories) => {
+    CategoryUI.renderTree(categories);
+});
+
+async function loadTasks() {
+    return TaskService.loadTasks();
 }
 
 async function createTask(task) {
-    await API.tasks.create(task);
-    await loadTasks();
+    return TaskService.createTask(task);
 }
 
 async function updateTask(id, updates) {
-    await API.tasks.update(id, updates);
-    await loadTasks();
+    return TaskService.updateTask(id, updates);
 }
 
 async function deleteTask(id) {
-    if (!confirm('정말로 이 업무를 삭제하시겠습니까?')) return;
-    await API.tasks.delete(id);
-    await loadTasks();
+    return TaskService.deleteTask(id);
 }
 
-function openTaskModalById(id) {
+export function openTaskModalById(id) {
     const task = AppState.tasks.find(t => t.id === id);
     if (task) openTaskModal(task);
 }
 
 async function archiveOldTasks() {
-    if (!confirm('완료된 지 30일이 지난 업무들을 별도 보관소로 이동하시겠습니까?\n이동된 업무는 현재 목록에서 제외되며 통계에는 포함되지 않습니다.')) return;
-    try {
-        const result = await API.tasks.archive();
-        if (result.count > 0) {
-            alert(`${result.count}건의 업무가 보관되었습니다.`);
-            await loadTasks();
-        } else {
-            alert('보관할 업무가 없습니다 (최근 30일 이내 완료된 업무만 있거나 완료 업무가 없습니다).');
-        }
-    } catch (error) {
-        console.error('Error archiving tasks:', error);
-        alert('업무 보관 중 오류가 발생했습니다.');
-    }
+    return TaskService.archiveOldTasks();
 }
 
 async function loadCategories() {
-    AppState.categories = await API.categories.getAll();
-    CategoryUI.renderTree(AppState.categories);
+    return CategoryService.loadCategories();
 }
 
 async function createCategory(category) {
-    await API.categories.create(category);
-    await loadCategories();
+    return CategoryService.createCategory(category);
 }
 
 async function updateCategory(id, updates) {
-    await API.categories.update(id, updates);
-    await loadCategories();
+    return CategoryService.updateCategory(id, updates);
 }
 
 async function deleteCategory(id) {
-    if (!confirm('정말로 이 분류를 삭제하시겠습니까?')) return;
-    await API.categories.delete(id);
-    await loadCategories();
+    return CategoryService.deleteCategory(id);
 }
 
-async function copyCategory(category) {
+export async function copyCategory(category) {
     const path = [category.mainCategory, category.subCategory, category.detailCategory].filter(Boolean).join(' > ');
     if (!confirm(`'${path}' 분류를 복사하시겠습니까?`)) return;
 
@@ -407,9 +422,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // ══════════════════════════════════════════════
-// 전역 모달 닫기 (배경 클릭)
+// 전역 클릭 이벤트 핸들러
 // ══════════════════════════════════════════════
-window.onclick = function (event) {
+window.addEventListener('click', (event) => {
     if (event.target === document.getElementById('taskModal')) closeTaskModal();
     if (event.target === document.getElementById('categoryModal')) closeCategoryModal();
     if (event.target === document.getElementById('allTasksModal')) closeAllTasksModal();
@@ -437,69 +452,11 @@ window.onclick = function (event) {
         !openMemoBtn?.contains(event.target)) {
         MemoUI.toggleDrawer();
     }
-};
-
-
-// ══════════════════════════════════════════════
-// window 전역 함수 등록 (HTML inline 이벤트 지원)
-// ══════════════════════════════════════════════
-Object.assign(window, {
-    // 테마
-    loadTheme, changeTheme,
-
-    // 뷰 전환
-    switchView, loadView,
-
-    // 데이터
-    loadTasks, createTask, updateTask, deleteTask, archiveOldTasks, copyTask,
-    loadCategories, createCategory, updateCategory, deleteCategory, copyCategory,
-    loadHolidays,
-
-    // 캘린더
-    renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle,
-    selectDate, previousMonth, nextMonth, filterSelectedDateTasksByStatus,
-
-    // 간트
-    initGanttChart, filterGanttByStatus, filterGanttByPriority,
-    activateGanttFilterButtons, postProcessGanttHeaders,
-    transformTasksForGantt, setGanttMinWidth,
-
-    // 알림
-    getTasksEndingSoon, renderNotifications, toggleNotificationDropdown, initNotifications,
-    openNotificationSettingsModal, closeNotificationSettingsModal,
-    populateNotificationCategories, populateNotificationSubCategories,
-    populateNotificationDetailCategories, saveNotificationSettings,
-
-    // 업무 모달
-    openTaskModal, closeTaskModal, openTaskModalById,
-    populateCategoryDropdowns, updateSubCategories, updateDetailCategories, saveTask,
-    addSubtask, toggleSubtask, deleteSubtask,
-
-    // 카테고리 모달
-    openCategoryModal, closeCategoryModal, resetCategoryForm, editCategoryItem, saveCategory,
-
-
-    // 전체 업무 모달
-    openAllTasksModal, closeAllTasksModal,
-    openAllTasksModalWithStatus, openAllTasksModalWithPriority, openAllTasksModalWithCategory, openAllTasksModalWithDate,
-    toggleSearchType, populateSearchCategories, updateSearchCategory2, updateSearchCategory3,
-    searchAllTasks, renderAllTasks, updatePaginationControls,
-    previousPage, nextPage, filterByStatus, filterByPriority, changeAllTasksSort,
-
-    // 활동 로그
-    loadLogs, filterLogs, handleLogClick,
-
-    // 칸반
-    allowDrop, dropTask, filterKanbanColumn,
-
-    // 글로벌 검색
-    handleGlobalSearch,
-
-    // 메모
-    MemoUI,
-    deleteMemo: (id) => MemoUI.deleteMemo(id),
-    toggleMemoDrawer: () => MemoUI.toggleDrawer(),
-
-    // 유틸
-    getWeekNumber
 });
+
+
+// ══════════════════════════════════════════════
+// 전역 유틸리티 (필요 시 전역 유지)
+// ══════════════════════════════════════════════
+window.getWeekNumber = getWeekNumber;
+

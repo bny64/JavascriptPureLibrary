@@ -3,6 +3,7 @@
 import { AppState } from '../state/app-state.js';
 import { ArrayUtils, DomUtils, TextUtils } from '../utils/dom.js';
 import { KoreanTime } from '../utils/korean-time.js';
+import { TaskService } from '../services/task-service.js';
 
 let quillInstance = null;
 let localSubtasks = [];
@@ -213,7 +214,7 @@ export async function saveTask(event) {
 
     if (taskId) {
         try {
-            await window.updateTask(taskId, taskData);
+            await TaskService.updateTask(taskId, taskData);
             closeTaskModal();
         } catch (error) {
             console.error('Error updating task:', error);
@@ -221,7 +222,7 @@ export async function saveTask(event) {
         }
     } else {
         try {
-            await window.createTask(taskData);
+            await TaskService.createTask(taskData);
             closeTaskModal();
         } catch (error) {
             console.error('Error creating task:', error);

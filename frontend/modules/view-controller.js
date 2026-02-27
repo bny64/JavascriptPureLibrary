@@ -9,6 +9,8 @@ import { SearchUI } from '../ui/search-ui.js';
 import { initGanttChart } from './gantt.js';
 import { renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle } from './calendar-controller.js';
 import { loadLogs } from './activity-log-controller.js';
+import { openAllTasksModal } from './all-tasks-modal.js';
+import { TaskService } from '../services/task-service.js';
 
 export async function switchView(viewName) {
     const views = {
@@ -107,7 +109,7 @@ function bindViewEvents(viewName, container) {
             m.nextMonth();
         });
         container.querySelector('#openAllTasksBtn')?.addEventListener('click', () => {
-            if (window.openAllTasksModal) window.openAllTasksModal();
+            openAllTasksModal();
         });
         container.querySelectorAll('#selectedDateStatusFilters .filter-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
@@ -133,7 +135,7 @@ function bindViewEvents(viewName, container) {
         });
     } else if (viewName === 'dashboard') {
         container.querySelector('#archiveOldTasksBtn')?.addEventListener('click', () => {
-            if (window.archiveOldTasks) window.archiveOldTasks();
+            TaskService.archiveOldTasks();
         });
     } else if (viewName === 'activityLog') {
         container.querySelectorAll('.log-filters .filter-btn').forEach(btn => {

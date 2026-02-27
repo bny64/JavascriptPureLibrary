@@ -3,6 +3,9 @@
 import { AppState } from '../state/app-state.js';
 import { ArrayUtils, StorageUtils, DomUtils } from '../utils/dom.js';
 import { KoreanTime } from '../utils/korean-time.js';
+import { TaskService } from '../services/task-service.js';
+import { selectDate } from './calendar-controller.js';
+import { openTaskModal } from './task-modal.js';
 
 export function getTasksEndingSoon() {
     const today = KoreanTime.now();
@@ -54,8 +57,8 @@ export function renderNotifications(notifications) {
         const li = document.createElement('li');
         li.innerHTML = `<span class="task-name">${task.taskName}</span><span class="end-date">(${task.endDate} 종료)</span>`;
         li.onclick = () => {
-            window.selectDate(task.endDate);
-            window.openTaskModal(task);
+            selectDate(task.endDate);
+            openTaskModal(task);
             toggleNotificationDropdown();
         };
         notificationList.appendChild(li);
@@ -161,7 +164,7 @@ export async function saveNotificationSettings(event) {
     StorageUtils.set('notificationCategory2', AppState.notificationCategory2);
     StorageUtils.set('notificationCategory3', AppState.notificationCategory3);
 
-    await window.loadTasks();
+    await TaskService.loadTasks();
     closeNotificationSettingsModal();
     alert('알림 설정이 저장되었습니다.');
 }
