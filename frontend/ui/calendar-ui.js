@@ -7,7 +7,7 @@ export const CalendarUI = {
     render(tasks, currentDate, selectedDate, holidays) {
         const calendar = document.getElementById('calendar');
         const currentMonthEl = document.getElementById('currentMonth');
-        
+
         if (!calendar || !currentMonthEl) return;
 
         const year = currentDate.getFullYear();
@@ -69,13 +69,22 @@ export const CalendarUI = {
             dayDiv.title = holidays[year][monthDay];
         }
 
-        dayDiv.appendChild(DomUtils.createElement('div', 'day-number', date.getDate()));
+        const dayNumber = DomUtils.createElement('div', 'day-number', date.getDate());
+        const dayTasks = this.getTasksForDate(date, tasks);
+        if (dayTasks.length > 0) {
+            const countLabel = DomUtils.createElement('span', 'day-count', ` (${dayTasks.length})`);
+            countLabel.style.fontSize = '12px';
+            countLabel.style.fontWeight = 'normal';
+            countLabel.style.marginLeft = '4px';
+            countLabel.style.color = '#777';
+            dayNumber.appendChild(countLabel);
+        }
+        dayDiv.appendChild(dayNumber);
 
         if (dayDiv.classList.contains('holiday')) {
             dayDiv.appendChild(DomUtils.createElement('div', 'holiday-name', holidays[year][monthDay]));
         }
 
-        const dayTasks = this.getTasksForDate(date, tasks);
         if (dayTasks.length > 0) {
             const tasksDiv = DomUtils.createElement('div', 'day-tasks');
             dayTasks.slice(0, 3).forEach(task => {
@@ -90,6 +99,30 @@ export const CalendarUI = {
         }
 
         dayDiv.addEventListener('click', () => window.selectDate(new Date(date)));
+
+        // 드래그 앤 드롭 이벤트
+        dayDiv.ondragover = (e) => {
+            e.preventDefault();
+            dayDiv.classList.add('drag-over');
+        };
+
+        dayDiv.ondragleave = () => {
+            dayDiv.classList.remove('drag-over');
+        };
+
+        dayDiv.ondrop = async (e) => {
+            e.preventDefault();
+            dayDiv.classList.remove('drag-over');
+            const taskId = e.dataTransfer.getData('text/plain');
+            if (taskId) {
+                const targetDateStr = KoreanTime.formatDate(date); // YYYY-MM-DD
+                await window.updateTask(taskId, {
+                    startDate: targetDateStr,
+                    endDate: targetDateStr
+                });
+            }
+        };
+
         return dayDiv;
     },
 

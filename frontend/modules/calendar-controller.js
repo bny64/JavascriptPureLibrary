@@ -57,7 +57,8 @@ export function updateSelectedDateTitle() {
     if (!title) return;
 
     const d = AppState.selectedDate;
-    title.textContent = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일의 업무`;
+    const count = CalendarUI.getTasksForDate(d, AppState.tasks).length;
+    title.textContent = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일의 업무 (${count}건)`;
 }
 
 export function selectDate(date) {

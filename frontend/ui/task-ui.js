@@ -13,6 +13,17 @@ const STATUS_LABELS = {
 export const TaskUI = {
     createCard(task) {
         const taskDiv = DomUtils.createElement('div', `task-item status-${task.status}`);
+        taskDiv.setAttribute('draggable', 'true');
+        taskDiv.dataset.id = task.id;
+
+        taskDiv.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', task.id);
+            taskDiv.classList.add('dragging');
+        });
+
+        taskDiv.addEventListener('dragend', () => {
+            taskDiv.classList.remove('dragging');
+        });
 
         // 헤더
         const header = DomUtils.createElement('div', 'task-header');

@@ -747,6 +747,12 @@ header h1 {
   border-color: #0e8577;
 }
 
+.calendar-day.drag-over {
+  background: #e0f7f4 !important;
+  border: 2px dashed #11998e !important;
+  transform: scale(0.98);
+}
+
 .day-number {
   font-size: 18px;
   font-weight: 600;
@@ -1141,8 +1147,8 @@ h3#selectedDateTitle {
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  padding: 0 30px;
-  /* Match tasks-section padding */
+  padding: 0 30px 10px 30px;
+  /* Match tasks-section padding and add bottom padding */
 }
 
 .selected-date-status-filters .filter-btn {
