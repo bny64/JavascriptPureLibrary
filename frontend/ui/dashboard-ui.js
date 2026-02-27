@@ -19,6 +19,49 @@ export const DashboardUI = {
         this.updateAlertsGridVisibility();
         this.renderActivityHeatmap(tasks);
         this.renderCategoryProgress(tasks);
+
+        // 전역 메모(스티커) 렌더링 호출
+        if (window.MemoUI) {
+            window.MemoUI.render().then(() => {
+                // 렌더링이 완료된 후 버튼 이벤트를 다시 한 번 바인딩
+                this.bindEvents();
+            }).catch(err => console.error("Memo render failed:", err));
+        }
+
+        // 초기 바인딩 시도
+        this.bindEvents();
+    },
+
+    bindEvents() {
+        // 대시보드 뷰 내에서 버튼을 찾기 위해 명시적으로 검색
+        const dashboardView = document.getElementById('dashboard-view');
+        if (!dashboardView) return;
+
+        const manageBtn = dashboardView.querySelector('.btn-memo');
+        if (manageBtn) {
+            // 기존 이벤트 제거 후 새롭게 할당
+            manageBtn.onclick = null;
+            manageBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (window.toggleMemoDrawer) {
+                    window.toggleMemoDrawer();
+                } else if (window.MemoUI && typeof window.MemoUI.toggleDrawer === 'function') {
+                    window.MemoUI.toggleDrawer();
+                } else {
+                    // 최후의 수단: 직접 DOM 조작
+                    const drawer = document.getElementById('memoDrawer');
+                    if (drawer) {
+                        drawer.classList.toggle('open');
+                        // 드로어가 열릴 때 렌더링도 함께 실행
+                        if (drawer.classList.contains('open') && window.MemoUI) {
+                            window.MemoUI.render();
+                        }
+                    }
+                }
+            };
+        }
     },
 
     updateAlertsGridVisibility() {

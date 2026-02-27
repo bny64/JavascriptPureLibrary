@@ -481,7 +481,14 @@
       "status": "pending",
       "priority": "middle",
       "description": "<blockquote>Chart.js vs Highcharts 비교</blockquote>",
-      "createdAt": "2026-02-18T17:30:00.000Z"
+      "createdAt": "2026-02-18T17:30:00.000Z",
+      "subtasks": [
+        {
+          "id": "1772153427048",
+          "title": "체크 리스트",
+          "completed": true
+        }
+      ]
     },
     {
       "id": "t39",

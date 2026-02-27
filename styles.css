@@ -254,6 +254,148 @@ header {
   /* 연한 노란색 (메모지 느낌) */
 }
 
+/* 스티커 월 (Dashboard) 스타일 */
+.dashboard-sticky-wall {
+  background: #fdfdfd;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+  border: 1px dashed #ccc;
+}
+
+.quick-memo-input {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-memo-input textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.btn-memo-primary {
+  align-self: flex-end;
+  background: #00796b;
+  /* 확실한 청록색 */
+  color: white;
+  border: 2px solid #004d40;
+  padding: 10px 25px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-memo-primary:hover {
+  background: #004d40;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-note-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sticky-note {
+  width: 200px;
+  min-height: 180px;
+  padding: 15px;
+  background: var(--memo-bg);
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid #fbc02d;
+}
+
+/* 스티커 기울기 효과 */
+.sticky-note:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+
+.sticky-note:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.sticky-note:hover {
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.sticky-note-content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  height: 120px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* 파스텔 색상들 */
+.sticky-note.color-1 {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}
+
+.sticky-note.color-2 {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+.sticky-note.color-3 {
+  background: #fce4ec;
+  border-left-color: #e91e63;
+}
+
+.sticky-note.color-4 {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+}
+
+.sticky-note.color-5 {
+  background: #f3e5f5;
+  border-left-color: #9c27b0;
+}
+
+.sticky-note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #888;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 5px;
+  margin-top: 10px;
+}
+
+.btn-memo-delete-sticker {
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
 /* 메모 드로어 스타일 */
 .memo-drawer {
   position: fixed;
@@ -291,8 +433,17 @@ header {
   background: none;
   border: none;
   color: white;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
   cursor: pointer;
+  line-height: 1;
+  padding: 0 5px;
+  transition: transform 0.2s ease, color 0.2s;
+}
+
+.memo-drawer-header .btn-close:hover {
+  color: #ff5252;
+  transform: rotate(90deg);
 }
 
 .memo-input-container {
@@ -305,20 +456,29 @@ header {
 
 .memo-input-container textarea {
   width: 100%;
-  height: 80px;
-  padding: 10px;
+  height: 200px;
+  /* 세로 크기 확장 */
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   resize: none;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .btn-add-memo {
-  background: var(--primary-color);
+  background: #00796b;
   color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
+  border: 2px solid #004d40;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add-memo:hover {
+  background: #004d40;
 }
 
 .memo-list {

@@ -4,6 +4,18 @@
         <!-- 요약 카드가 여기에 렌더링됩니다 -->
     </div>
 
+    <!-- 전역 스티커 메모 섹션 -->
+    <section id="dashboardStickyWall" class="dashboard-sticky-wall" style="margin-bottom: 25px; display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; display: flex; align-items: center; gap: 8px;">📌 스티커 메모</h3>
+            <button class="btn-memo">+ 메모 추가/관리</button>
+        </div>
+
+        <div id="stickyNoteContainer" class="sticky-note-container">
+            <!-- 스티커들이 여기에 렌더링됩니다 -->
+        </div>
+    </section>
+
     <div class="dashboard-alerts-grid">
         <!-- 긴급 / 연체 업무 리포트 -->
         <div id="criticalTasksSection" class="dashboard-card critical-alert-section"

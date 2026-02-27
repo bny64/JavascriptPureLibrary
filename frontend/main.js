@@ -351,6 +351,15 @@ window.onclick = function (event) {
     if (dropdown?.classList.contains('show') && !dropdown.contains(event.target) && !btn.contains(event.target)) {
         toggleNotificationDropdown();
     }
+
+    // 메모 드로어 닫기 (외부 클릭 시)
+    const memoDrawer = document.getElementById('memoDrawer');
+    const openMemoBtn = document.getElementById('openMemoBtn');
+    if (memoDrawer?.classList.contains('open') &&
+        !memoDrawer.contains(event.target) &&
+        !openMemoBtn?.contains(event.target)) {
+        MemoUI.toggleDrawer();
+    }
 };
 
 
@@ -410,7 +419,9 @@ Object.assign(window, {
     handleGlobalSearch,
 
     // 메모
+    MemoUI,
     deleteMemo: (id) => MemoUI.deleteMemo(id),
+    toggleMemoDrawer: () => MemoUI.toggleDrawer(),
 
     // 유틸
     getWeekNumber
