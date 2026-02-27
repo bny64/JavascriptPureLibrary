@@ -331,6 +331,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('closeMemoBtn')?.addEventListener('click', () => MemoUI.toggleDrawer());
     document.getElementById('addMemoBtn')?.addEventListener('click', () => MemoUI.addMemo());
 
+    // 공통 헤더 이벤트 리스너 바인딩 (인라인 제거)
+    document.getElementById('themeSelect')?.addEventListener('change', (e) => changeTheme(e.target.value));
+    document.getElementById('globalSearchInput')?.addEventListener('keyup', handleGlobalSearch);
+    document.getElementById('openCategoryModalBtn')?.addEventListener('click', () => openCategoryModal());
+    document.getElementById('openTaskModalBtn')?.addEventListener('click', () => openTaskModal());
+
     renderCalendar();
     updateSelectedDateTitle();
     initNotifications();

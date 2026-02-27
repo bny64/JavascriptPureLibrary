@@ -37,13 +37,12 @@
         <header>
             <div class="header-left">
                 <div class="global-search-container">
-                    <input type="text" id="globalSearchInput" placeholder="🔍 업무 제목, 내용 검색..."
-                        onkeyup="handleGlobalSearch(event)">
+                    <input type="text" id="globalSearchInput" placeholder="🔍 업무 제목, 내용 검색...">
                     <div id="globalSearchResults" class="global-search-results"></div>
                 </div>
                 <div class="theme-selector">
                     <label>테마:</label>
-                    <select id="themeSelect" onchange="changeTheme(this.value)">
+                    <select id="themeSelect">
                         <option value="green">녹색</option>
                         <option value="blue">파란색</option>
                         <option value="purple">보라색</option>
@@ -71,9 +70,9 @@
                     </div>
                 </div>
                 <button id="notificationSettingsBtn" class="btn-notification-settings">⚙️ 알림 설정</button>
-                <button class="btn-category" onclick="openCategoryModal()">📁 분류 관리</button>
+                <button class="btn-category" id="openCategoryModalBtn">📁 분류 관리</button>
                 <button class="btn-memo" id="openMemoBtn">📝 메모</button>
-                <button class="btn-add" onclick="openTaskModal()">+ 새 업무 추가</button>
+                <button class="btn-add" id="openTaskModalBtn">+ 새 업무 추가</button>
             </div>
         </header>
 
