@@ -77,7 +77,7 @@ import {
 import {
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
-    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask
+    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask, deleteTaskInModal
 } from './modules/task-modal.js';
 
 import {
@@ -119,7 +119,7 @@ export {
     populateNotificationDetailCategories, saveNotificationSettings,
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
-    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask,
+    saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask, deleteTaskInModal,
     openCategoryModal, closeCategoryModal,
     resetCategoryForm, editCategoryItem, saveCategory,
     openAllTasksModal, closeAllTasksModal,
@@ -162,6 +162,7 @@ EventBus.subscribe('tasks-updated', (tasks) => {
 
     renderCalendar();
     renderTasksForSelectedDate();
+    updateSelectedDateTitle();
 
     if (document.getElementById('gantt-chart-view')?.style.display === 'block') initGanttChart();
     if (document.getElementById('dashboard-view')?.style.display === 'block') DashboardUI.render(tasks);
@@ -333,6 +334,7 @@ function bindModalEvents() {
     document.getElementById('category1')?.addEventListener('change', updateSubCategories);
     document.getElementById('category2')?.addEventListener('change', updateDetailCategories);
     document.querySelector('#taskModal .btn-add-subtask')?.addEventListener('click', addSubtask);
+    document.querySelector('#taskModal .btn-delete')?.addEventListener('click', deleteTaskInModal);
 
     // 2. Notification Settings Modal
     document.querySelector('#notificationSettingsModal .close')?.addEventListener('click', closeNotificationSettingsModal);

@@ -66,19 +66,6 @@
       "createdAt": "2026-01-15T09:30:00.000Z"
     },
     {
-      "id": "t6",
-      "category1": "운영/인프라",
-      "category2": "보안 관리",
-      "category3": "취약점 스캔",
-      "taskName": "사내 망 보안 점검",
-      "startDate": "2026-02-14",
-      "endDate": "2026-02-14",
-      "status": "completed",
-      "priority": "very-high",
-      "description": "전사 PC 보안 업데이트 확인",
-      "createdAt": "2026-02-04T16:00:00.000Z"
-    },
-    {
       "id": "t7",
       "category1": "고객/지원",
       "category2": "기술 지원",
@@ -205,7 +192,7 @@
       "taskName": "검색 엔진 엘라스틱서치 교체",
       "startDate": "2026-03-01",
       "endDate": "2026-03-20",
-      "status": "completed",
+      "status": "on-hold",
       "priority": "middle",
       "description": "<p>기존 DB 검색에서 전문 검색 엔진으로 교체</p>",
       "createdAt": "2026-02-18T16:00:00.000Z",
@@ -314,19 +301,6 @@
       "priority": "high",
       "description": "오래된 로그 압축 및 백업",
       "createdAt": "2026-02-18T08:30:00.000Z"
-    },
-    {
-      "id": "t25",
-      "category1": "경영/지원",
-      "category2": "인사관리",
-      "category3": "채용",
-      "taskName": "팀별 성과 지표 가이드 배포",
-      "startDate": "2026-02-05",
-      "endDate": "2026-02-10",
-      "status": "completed",
-      "priority": "middle",
-      "description": "KPI 설정 가이드 전파",
-      "createdAt": "2026-02-05T10:00:00.000Z"
     },
     {
       "id": "t26",
@@ -470,26 +444,6 @@
       "priority": "high",
       "description": "공통 인증 및 전송 규격 정의",
       "createdAt": "2026-02-18T13:00:00.000Z"
-    },
-    {
-      "id": "t38",
-      "category1": "IT/개발",
-      "category2": "웹 개발",
-      "category3": "프론트엔드",
-      "taskName": "데이터 시각화 차트 라이브러리 도입",
-      "startDate": "2026-03-05",
-      "endDate": "2026-03-15",
-      "status": "pending",
-      "priority": "middle",
-      "description": "<blockquote>Chart.js vs Highcharts 비교</blockquote>",
-      "createdAt": "2026-02-18T17:30:00.000Z",
-      "subtasks": [
-        {
-          "id": "1772153427048",
-          "title": "체크 리스트",
-          "completed": true
-        }
-      ]
     },
     {
       "id": "t39",
@@ -659,19 +613,6 @@
       "description": "",
       "id": "1771636186259",
       "createdAt": "2026-02-21T01:09:46.259Z"
-    },
-    {
-      "category1": "IT/개발",
-      "category2": "웹 개발",
-      "category3": "프론트엔드",
-      "taskName": "Quill Editor Test",
-      "startDate": "2026-02-04",
-      "endDate": "2026-02-04",
-      "status": "completed",
-      "priority": "middle",
-      "description": "<p><strong>Test Bold Description</strong></p>",
-      "id": "1771932740979",
-      "createdAt": "2026-02-24T11:32:20.980Z"
     },
     {
       "category1": "운영/인프라",

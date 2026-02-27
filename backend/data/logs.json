@@ -1,6 +1,46 @@
 {
   "logs": [
     {
+      "id": "1772178629963zyaso",
+      "taskId": "t6",
+      "taskName": "사내 망 보안 점검",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-27T07:50:29.963Z"
+    },
+    {
+      "id": "1772178620439naaya",
+      "taskId": "t16",
+      "taskName": "검색 엔진 엘라스틱서치 교체",
+      "action": "수정",
+      "details": "{UPDATE} [진행 상태] 완료 → 보류",
+      "timestamp": "2026-02-27T07:50:20.439Z"
+    },
+    {
+      "id": "1772178602882jtyqi",
+      "taskId": "t38",
+      "taskName": "데이터 시각화 차트 라이브러리 도입",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-27T07:50:02.882Z"
+    },
+    {
+      "id": "1772178533249jf5au",
+      "taskId": "t25",
+      "taskName": "팀별 성과 지표 가이드 배포",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-27T07:48:53.249Z"
+    },
+    {
+      "id": "1772178450638hs6z7",
+      "taskId": "1771932740979",
+      "taskName": "Quill Editor Test",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-27T07:47:30.639Z"
+    },
+    {
       "id": "1772177888791nplkx",
       "taskId": "t5",
       "taskName": "차세대 시스템 요구사항 정의",

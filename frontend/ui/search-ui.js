@@ -80,22 +80,7 @@ export const SearchUI = {
       }
     });
 
-    const container = document.getElementById('advSearchResultsContainer');
-    const countLabel = document.getElementById('advSearchResultCount');
-    const pagination = document.getElementById('advSearchPagination');
-
-    if (container) {
-      container.innerHTML = '<div style="text-align: center; color: #888; padding: 30px;"><p>필터를 설정하고 <b>[검색]</b> 버튼을 누르세요.</p></div>';
-    }
-    if (countLabel) {
-      countLabel.textContent = '(0건)';
-    }
-    if (pagination) {
-      pagination.innerHTML = '';
-    }
-
-    this.currentPage = 1;
-    this.filteredTasks = [];
+    this.performSearch();
   },
 
   performSearch() {
@@ -224,7 +209,7 @@ export const SearchUI = {
     container.querySelectorAll('.search-result-item').forEach(item => {
       item.addEventListener('click', async () => {
         const taskId = item.getAttribute('data-task-id');
-        const { openTaskModalById } = await import('../../main.js');
+        const { openTaskModalById } = await import('../main.js');
         openTaskModalById(taskId);
       });
     });

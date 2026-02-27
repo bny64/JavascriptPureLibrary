@@ -132,6 +132,11 @@ export function openTaskModal(task = null) {
         renderSubtasks();
     }
 
+    const deleteBtn = modal.querySelector('.btn-delete');
+    if (deleteBtn) {
+        deleteBtn.style.display = task && task.id ? 'inline-block' : 'none';
+    }
+
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
     DomUtils.scrollToTop(modal.querySelector('.modal-content'));
@@ -249,4 +254,17 @@ export async function saveTask(event) {
 
 export function copyTask(task) {
     openTaskModal({ ...task, id: '', taskName: task.taskName + ' (복사본)', createdAt: undefined });
+}
+
+export async function deleteTaskInModal() {
+    const taskId = document.getElementById('taskId').value;
+    if (!taskId) return;
+
+    try {
+        await TaskService.deleteTask(taskId);
+        closeTaskModal();
+    } catch (error) {
+        console.error('Error deleting task in modal:', error);
+        alert('업무 삭제 중 오류가 발생했습니다.');
+    }
 }
