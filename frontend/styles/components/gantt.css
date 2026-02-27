@@ -1,0 +1,204 @@
+/* Gantt Chart View */
+.gantt-chart-container {
+  padding: 20px 30px;
+  height: calc(100vh - 100px);
+  /* Fill remaining viewport height */
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  /* Important: container should not scroll, only target */
+}
+
+.gantt-chart-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+#gantt-target {
+  flex-grow: 1;
+  overflow: auto;
+  /* Always show scrollbars here if needed */
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  min-height: 0;
+}
+
+/* Ensure the library container fills the target and shows its scrollbars */
+#gantt-target .gantt-container {
+  height: 100%;
+  width: 100%;
+  overflow: visible;
+  /* Let the #gantt-target handle the scrolling */
+  border: none;
+}
+
+/* Frappe Gantt Customizations (Overrides) */
+:root {
+  --g-arrow-color: #1f2937;
+  --g-bar-color: #f8f9fa;
+  /* Lighter bar color */
+  --g-bar-border: #e0e0e0;
+  /* Subtle border */
+  --g-progress-color: #38ef7d;
+  /* Green progress color */
+  --g-tick-color-thick: #f0f0f0;
+  /* Lighter grid lines */
+  --g-tick-color: #f7f7f7;
+  --g-actions-background: #f3f3f3;
+  --g-border-color: #ebeff2;
+  --g-text-muted: #7c7c7c;
+  --g-text-light: #fff;
+  --g-text-dark: #171717;
+  --g-today-highlight: #c0c0c0;
+  /* Subtle grey for today line */
+}
+
+.gantt-container {
+  min-height: auto;
+  /* Removed fixed 60vh */
+  max-height: none;
+  /* Removed fixed 60vh */
+  border: 1px solid #e0e0e0;
+  box-shadow: none;
+  /* Remove default shadow */
+  border-radius: 8px;
+  background-color: white;
+  /* Ensure white background */
+}
+
+.gantt-container .popup-wrapper {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+}
+
+/* 간트 내부 팝업(툴팁)은 사용하지 않으므로 숨김 (클릭 시 전용 모달 사용) */
+.popup-wrapper {
+  display: none !important;
+}
+
+.gantt-bar {
+  fill: var(--g-bar-color);
+  stroke: var(--g-bar-border);
+  stroke-width: 1px;
+  rx: 3px;
+  /* Slightly rounded corners */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.gantt-bar-progress {
+  fill: var(--g-progress-color);
+  rx: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+.gantt-bar-handle {
+  fill: #2196f3;
+  /* 핸들을 더 명확한 파란색으로 변경 (테마 조화) */
+  width: 8px !important;
+  /* 핸들 영역 확장 */
+  cursor: ew-resize;
+  opacity: 0.8;
+}
+
+.gantt-bar-handle:hover {
+  opacity: 1;
+  fill: #1976d2;
+}
+
+/* 진행률 조절 핸들은 보이지 않고 드래그를 방해하지 않도록 완전히 비활성화 */
+.handle.progress {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.gantt-bar:hover {
+  fill: #e3f2fd;
+  stroke: #2196f3;
+}
+
+.gantt-bar-label {
+  fill: var(--g-text-dark);
+  font-size: 12px;
+  font-weight: 500;
+  pointer-events: none;
+  /* 레이블이 드래그 방해하지 않도록 */
+}
+
+.grid-row,
+.grid-header {
+  fill: none;
+  /* Remove background fill for rows if any */
+}
+
+.grid-line {
+  stroke: var(--g-tick-color);
+  stroke-width: 1px;
+}
+
+.grid-line-vertical {
+  stroke: var(--g-tick-color-thick);
+  stroke-width: 1px;
+}
+
+/* Style for date headers */
+.lower-text,
+.upper-text {
+  fill: var(--g-text-muted);
+  font-size: 11px;
+  font-weight: normal;
+}
+
+.upper-text {
+  /* Month headers */
+  font-size: 13px;
+  font-weight: 500;
+  fill: var(--g-text-dark);
+}
+
+.gantt-container .lower-text.gantt-weekend-text,
+.gantt-container .lower-text.gantt-holiday-text,
+.gantt-container .upper-text.gantt-weekend-text,
+.gantt-container .upper-text.gantt-holiday-text {
+  fill: #e53935 !important;
+  /* Make weekends/holidays red in Gantt */
+}
+
+/* Adjust today marker */
+.gantt-container .grid-header .today-highlight-marker {
+  fill: var(--g-today-highlight);
+  opacity: 0.8;
+}
+
+/* Ensure Gantt headers are not floating */
+.gantt .upper-text,
+.gantt .lower-text {
+  pointer-events: none;
+  /* Prevent interference */
+}
+
+/* Disable floating month labels (overriding frappe-gantt default sticky behavior) */
+.gantt-container .current-upper {
+  display: none !important;
+}
+
+.gantt .bar-wrapper.gantt-priority-very-high .bar {
+  fill: #e5393533;
+}
+
+.gantt .bar-wrapper.gantt-priority-high .bar {
+  fill: #fb8c0033;
+}
+
+.gantt .bar-wrapper.gantt-priority-middle .bar {
+  fill: #3f51b533;
+}
+
+.gantt .bar-wrapper.gantt-priority-low .bar {
+  fill: #4caf5033;
+}
+

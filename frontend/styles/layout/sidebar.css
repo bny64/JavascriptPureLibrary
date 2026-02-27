@@ -1,0 +1,82 @@
+/* Sidebar Styles */
+.sidebar {
+  width: 200px;
+  /* Fixed width for the sidebar */
+  flex-shrink: 0;
+  /* Prevent sidebar from shrinking */
+  background-color: #2c3e50;
+  /* Darker background for sidebar */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  height: 100vh;
+  /* Full viewport height */
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.sidebar-header h2 {
+  font-size: 24px;
+  color: white;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  /* Allow menu to take up available space */
+}
+
+.sidebar-menu li a {
+  display: block;
+  padding: 12px 20px;
+  color: #ecf0f1;
+  /* Lighter text for menu items */
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+  border-left: 5px solid transparent;
+  /* For active indicator */
+}
+
+.sidebar-menu li a:hover {
+  background-color: #34495e;
+  /* Slightly lighter on hover */
+  color: white;
+}
+
+.sidebar-menu li a.active {
+  background-color: #1abc9c;
+  /* Accent color for active item */
+  color: white;
+  border-left-color: #2ecc71;
+  /* Highlight active item */
+  font-weight: 700;
+}
+
+header {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* Reduced gap to accommodate search bar */
+}
+
+/* Global Search Styles */

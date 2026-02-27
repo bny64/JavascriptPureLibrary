@@ -1,0 +1,256 @@
+/* Activity Log Styles */
+.activity-log-container {
+  padding: 30px;
+  background-color: #f0f2f5;
+  min-height: 100%;
+}
+
+.activity-log-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.log-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.log-filters .filter-btn[data-action="등록"].active {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.log-filters .filter-btn[data-action="수정"].active {
+  background-color: #2196f3;
+  border-color: #2196f3;
+  color: white;
+}
+
+.log-filters .filter-btn[data-action="삭제"].active {
+  background-color: #f44336;
+  border-color: #f44336;
+  color: white;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #ddd;
+  top: 0;
+  bottom: 0;
+  left: 31px;
+  margin-left: -2px;
+  border-radius: 2px;
+}
+
+.timeline-item {
+  padding: 10px 30px;
+  position: relative;
+  background-color: inherit;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 21px;
+  background-color: white;
+  border: 4px solid #11998e;
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+  transition: all 0.3s;
+}
+
+.timeline-item.action-등록::after {
+  border-color: #4caf50;
+}
+
+.timeline-item.action-수정::after {
+  border-color: #2196f3;
+}
+
+.timeline-item.action-삭제::after {
+  border-color: #f44336;
+}
+
+.timeline-content {
+  padding: 15px 25px;
+  background-color: white;
+  position: relative;
+  border-radius: 12px;
+  margin-left: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s;
+  border-left: 5px solid #11998e;
+}
+
+.timeline-content:hover {
+  transform: translateX(5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-item.action-등록 .timeline-content {
+  border-left-color: #4caf50;
+}
+
+.timeline-item.action-수정 .timeline-content {
+  border-left-color: #2196f3;
+}
+
+.timeline-item.action-삭제 .timeline-content {
+  border-left-color: #f44336;
+}
+
+.log-time {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.log-action {
+  font-weight: 700;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+}
+
+.action-등록 .log-action {
+  background-color: #4caf50;
+}
+
+.action-수정 .log-action {
+  background-color: #2196f3;
+}
+
+.action-삭제 .log-action {
+  background-color: #f44336;
+}
+
+.log-task-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+.log-details {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.log-detail-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  margin: 0 2px;
+}
+
+.log-detail-badge.status-pending {
+  background-color: #ffc107;
+}
+
+.log-detail-badge.status-in-progress {
+  background-color: #2196f3;
+}
+
+.log-detail-badge.status-completed {
+  background-color: #4caf50;
+}
+
+.log-detail-badge.status-on-hold {
+  background-color: #9e9e9e;
+}
+
+.log-detail-badge.priority-very-high {
+  background-color: #e53935;
+}
+
+.log-detail-badge.priority-high {
+  background-color: #fb8c00;
+}
+
+.log-detail-badge.priority-middle {
+  background-color: #3f51b5;
+}
+
+.log-detail-badge.priority-low {
+  background-color: #4caf50;
+}
+
+.log-detail-badge.priority-very-low {
+  background-color: #607d8b;
+}
+
+/* Status Badges for Changes */
+.change-tag {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 800;
+  color: white;
+  margin-right: 5px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.change-tag.new {
+  background-color: #2ecc71;
+}
+
+.change-tag.update {
+  background-color: #3498db;
+}
+
+.change-tag.delete {
+  background-color: #e74c3c;
+}
+
+@media (max-width: 600px) {
+  .timeline::after {
+    left: 21px;
+  }
+
+  .timeline-item::after {
+    left: 11px;
+  }
+
+  .timeline-content {
+    margin-left: 20px;
+    padding: 10px 15px;
+  }
+}
+
+/* Hide dummy tasks used for padding */
+.gantt .bar-wrapper.gantt-dummy-task {
+  display: none !important;
+}

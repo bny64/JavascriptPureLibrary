@@ -1,0 +1,1255 @@
+.global-search-container {
+  position: relative;
+  width: 250px;
+  transition: width 0.3s;
+  /* Smooth container expansion */
+}
+
+.global-search-container:focus-within {
+  width: 400px;
+  /* Expand container itself to push other elements */
+}
+
+#globalSearchInput {
+  width: 100%;
+  padding: 8px 15px;
+  padding-left: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+#globalSearchInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#globalSearchInput:focus {
+  outline: none;
+  background: white;
+  color: #333;
+  /* width: 350px; */
+  /* Removed: container will handle expansion */
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#globalSearchInput:focus::placeholder {
+  color: #999;
+}
+
+.global-search-results {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  min-width: 350px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  display: none;
+  /* Hidden by default */
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #f0f7f4;
+}
+
+.search-result-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.search-result-meta {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-result-empty {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Custom Properties for Memo Drawer */
+:root {
+  --gray-light: #f4f4f4;
+  --gray-mid: #999;
+  --gray-dark: #333;
+  --memo-bg: #fff9c4;
+  /* 연한 노란색 (메모지 느낌) */
+}
+
+/* 스티커 월 (Dashboard) 스타일 */
+.dashboard-sticky-wall {
+  background: #fdfdfd;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+  border: 1px dashed #ccc;
+}
+
+.quick-memo-input {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-memo-input textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.btn-memo-primary {
+  align-self: flex-end;
+  background: #00796b;
+  /* 확실한 청록색 */
+  color: white;
+  border: 2px solid #004d40;
+  padding: 10px 25px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-memo-primary:hover {
+  background: #004d40;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-note-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sticky-note {
+  width: 200px;
+  min-height: 180px;
+  padding: 15px;
+  background: var(--memo-bg);
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid #fbc02d;
+}
+
+/* 스티커 기울기 효과 */
+.sticky-note:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+
+.sticky-note:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.sticky-note:hover {
+  transform: scale(1.05) rotate(0deg) !important;
+  box-shadow: 5px 8px 15px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.sticky-note-content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  height: 120px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* 파스텔 색상들 */
+.sticky-note.color-1 {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}
+
+.sticky-note.color-2 {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+.sticky-note.color-3 {
+  background: #fce4ec;
+  border-left-color: #e91e63;
+}
+
+.sticky-note.color-4 {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+}
+
+.sticky-note.color-5 {
+  background: #f3e5f5;
+  border-left-color: #9c27b0;
+}
+
+.sticky-note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #888;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 5px;
+  margin-top: 10px;
+}
+
+.btn-memo-delete-sticker {
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* 메모 드로어 스타일 */
+.memo-drawer {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  /* 초기 상태 (숨겨짐) */
+  width: 350px;
+  height: 100%;
+  background: white;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.memo-drawer.open {
+  right: 0;
+}
+
+.memo-drawer-header {
+  padding: 20px;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.memo-drawer-header h3 {
+  margin: 0;
+}
+
+.memo-drawer-header .btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 5px;
+  transition: transform 0.2s ease, color 0.2s;
+}
+
+.memo-drawer-header .btn-close:hover {
+  color: #ff5252;
+  transform: rotate(90deg);
+}
+
+.memo-input-container {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.memo-input-container textarea {
+  width: 100%;
+  height: 200px;
+  /* 세로 크기 확장 */
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.btn-add-memo {
+  background: #00796b;
+  color: white;
+  border: 2px solid #004d40;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add-memo:hover {
+  background: #004d40;
+}
+
+.memo-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.memo-item {
+  background: var(--memo-bg);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  position: relative;
+  border-left: 4px solid var(--secondary-color);
+  transition: transform 0.2s;
+}
+
+.memo-item:hover {
+  transform: translateY(-2px);
+}
+
+.memo-content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.memo-meta {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-delete-memo {
+  background: none;
+  border: none;
+  color: #ff5252;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-memo {
+  background: #FFD54F;
+  color: #333;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-memo:hover {
+  background: #FFC107;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.theme-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-selector label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-selector select {
+  padding: 8px 12px;
+  border: 2px solid white;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.theme-selector select:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.theme-selector select option {
+  background: white;
+  color: #333;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-add,
+.btn-category {
+  background: white;
+  color: #11998e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add:hover,
+.btn-category:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-notification-settings {
+  background: white;
+  color: #11998e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-notification-settings:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+  display: flex;
+  height: calc(100vh - 180px);
+  min-height: 600px;
+}
+
+/* 캘린더 섹션 (75%) */
+.calendar-section {
+  flex: 0 0 75%;
+  padding: 30px;
+  border-right: 2px solid #e0e0e0;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.calendar-header h2 {
+  font-size: 24px;
+  color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+.calendar-header button {
+  background: #11998e;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.calendar-header button:hover {
+  background: #0e8577;
+  transform: scale(1.1);
+}
+
+.btn-all-tasks {
+  background: #11998e !important;
+  color: white !important;
+  border: none;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: auto !important;
+  height: auto !important;
+}
+
+.btn-all-tasks:hover {
+  background: #0e8577 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  height: calc(100% - 80px);
+  grid-auto-rows: minmax(100px,
+      1fr);
+  /* Ensures a minimum height and equal distribution */
+}
+
+.calendar-day {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  /* Allow item to shrink below content size */
+}
+
+.calendar-day:hover {
+  background: #e0f7f4;
+  border-color: #11998e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(17, 153, 142, 0.2);
+}
+
+.calendar-day.header {
+  background: #11998e;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  cursor: default;
+  border: none;
+}
+
+.calendar-day.header:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.calendar-day.other-month {
+  opacity: 0.3;
+}
+
+.calendar-day.today {
+  background: #fff3cd;
+  border-color: #ffc107;
+}
+
+.calendar-day.selected {
+  background: #11998e;
+  color: white;
+  border-color: #0e8577;
+}
+
+.calendar-day.drag-over {
+  background: #e0f7f4 !important;
+  border: 2px dashed #11998e !important;
+  transform: scale(0.98);
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.day-tasks {
+  font-size: 11px;
+  color: #666;
+  overflow: hidden;
+}
+
+.calendar-day.selected .day-tasks {
+  color: white;
+}
+
+.calendar-day.holiday {
+  background-color: #ffebee;
+  /* Light red for holidays */
+  color: #d32f2f;
+  /* Darker red text */
+  font-weight: 700;
+}
+
+.calendar-day.weekend {
+  background-color: #e3f2fd;
+  /* Light blue for weekends */
+  color: #1976d2;
+  /* Blue text */
+}
+
+.holiday-name {
+  font-size: 11px;
+  /* Increased font size */
+  color: #d32f2f;
+  margin-top: 2px;
+  text-align: center;
+  line-height: 1.2;
+  white-space: normal;
+  /* Allow text to wrap */
+}
+
+.task-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.task-dot.status-pending {
+  background: #ffc107;
+}
+
+.task-dot.status-in-progress {
+  background: #2196f3;
+}
+
+.task-dot.status-completed {
+  background: #4caf50;
+}
+
+.task-dot.status-on-hold {
+  background: #9e9e9e;
+}
+
+/* 오른쪽 섹션 (25%) */
+.right-section {
+  flex: 0 0 25%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* Add this line */
+}
+
+/* New sticky-header-container rule */
+.sticky-header-container {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  /* Ensures no content from below shows through */
+}
+
+/* 오늘 업무 상태 요약 */
+.status-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  /* margin-bottom: 20px; */
+  /* Removed to eliminate gap */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* Removed position: sticky; */
+  /* Removed top: 0; */
+  /* Removed z-index: 100; */
+  background: white;
+  /* Ensure solid background when sticky */
+  /* Removed padding-top: 30px; */
+  /* Match section padding for top alignment */
+  /* Removed margin-top: -30px; */
+  /* Counteract added padding to stick to true top */
+  padding-bottom: 10px;
+  /* Maintain space below */
+  /* Removed transform: translateZ(0); */
+  /* No longer necessary */
+}
+
+.status-summary-item-wrapper {
+  gap: 5px;
+  display: flex;
+  justify-content: space-between;
+  /* Distribute items evenly with space between them */
+}
+
+.status-summary-item {
+  display: flex;
+  flex: 1;
+  /* Allow items to grow and shrink, taking equal space */
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0px;
+  /* Reduced horizontal padding */
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* Added for smooth hover transition */
+  /* min-width removed to allow shrinking */
+}
+
+.status-summary-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.status-summary-count {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.status-summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-summary-item[data-status="전체"] {
+  background: #33333333;
+}
+
+.status-summary-item[data-status="pending"] {
+  background: #ffc10733;
+}
+
+.status-summary-item[data-status="in-progress"] {
+  background: #2196f333;
+}
+
+.status-summary-item[data-status="completed"] {
+  background: #4caf5033;
+}
+
+.status-summary-item[data-status="on-hold"] {
+  background: #9e9e9e33;
+}
+
+.status-summary-label.status-전체,
+.status-summary-count.status-전체 {
+  color: #333;
+}
+
+.status-summary-label.status-pending,
+.status-summary-count.status-pending {
+  color: #ffc107;
+}
+
+.status-summary-label.status-in-progress,
+.status-summary-count.status-in-progress {
+  color: #2196f3;
+}
+
+.status-summary-label.status-completed,
+.status-summary-count.status-completed {
+  color: #4caf50;
+}
+
+.status-summary-label.status-on-hold,
+.status-summary-count.status-on-hold {
+  color: #9e9e9e;
+}
+
+/* 미완료 업무 요약 스타일 */
+.unfinished-tasks-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  display: flex;
+  /* Make it a flex container */
+  justify-content: space-between;
+  /* Space between label and count */
+  align-items: center;
+  /* Vertically align items */
+}
+
+.unfinished-tasks-summary .unfinished-tasks-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.unfinished-tasks-summary .unfinished-tasks-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d84315;
+  /* A prominent color for unfinished tasks */
+}
+
+/* 오늘 업무 우선순위 요약 */
+.priority-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  /* Removed margin-bottom: 20px; to eliminate gap */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* Removed position: sticky; */
+  /* Removed top: 87px; */
+  /* New sticky height of status-summary (15px + 52px content + 20px padding-bottom) */
+  /* Removed z-index: 99; */
+  /* Lower than status-summary's 100 */
+  background: white;
+  /* Ensure solid background when sticky */
+  /* Removed transform: translateZ(0); */
+  /* No longer necessary */
+}
+
+/* 미완료 업무 요약 스타일 */
+.unfinished-tasks-summary {
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  /* Spacing below this section */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: white;
+  text-align: center;
+}
+
+.unfinished-tasks-summary h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.unfinished-tasks-summary #unfinishedTaskCount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #d84315;
+  /* A prominent color for unfinished tasks */
+}
+
+.priority-summary-item-wrapper {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.priority-summary-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.priority-summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Very High - Red 계열 */
+.priority-summary-item[data-priority="very-high"] {
+  background: #e5393533;
+}
+
+/* High - Orange 계열 */
+.priority-summary-item[data-priority="high"] {
+  background: #fb8c0033;
+}
+
+/* Middle - Indigo 계열 */
+.priority-summary-item[data-priority="middle"] {
+  background: #3f51b533;
+}
+
+/* Low - Green 계열 */
+.priority-summary-item[data-priority="low"] {
+  background: #4caf5033;
+}
+
+/* Very Low - Blue Grey 계열 */
+.priority-summary-item[data-priority="very-low"] {
+  background: #607d8b33;
+}
+
+/* 전체(General) - 기본 회색 혹은 남색 계열 추천 */
+.priority-summary-item[data-priority="전체"] {
+  background: #33333333;
+}
+
+.priority-summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  /* Changed from 500 to 600 for consistency */
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.priority-summary-count {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Priority specific colors */
+.priority-summary-label.priority-very-high,
+.priority-summary-count.priority-very-high {
+  color: #e53935;
+}
+
+/* Red */
+.priority-summary-label.priority-high,
+.priority-summary-count.priority-high {
+  color: #fb8c00;
+}
+
+/* Orange */
+.priority-summary-label.priority-middle,
+.priority-summary-count.priority-middle {
+  color: #3f51b5;
+}
+
+/* Indigo */
+.priority-summary-label.priority-low,
+.priority-summary-count.priority-low {
+  color: #4caf50;
+}
+
+/* Green */
+.priority-summary-label.priority-very-low,
+.priority-summary-count.priority-very-low {
+  color: #607d8b;
+}
+
+/* Blue Grey */
+
+/* 업무 목록 (100%) */
+.tasks-section {
+  flex: 1;
+  /* Removed padding: 30px; */
+}
+
+.tasks-content-wrapper {
+  padding: 30px;
+  /* Apply the original tasks-section padding here */
+  padding-top: 0;
+  /* No top padding directly below sticky elements */
+}
+
+h3#selectedDateTitle {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 18px;
+  padding-left: 30px;
+  /* Add left padding */
+  padding-top: 15px;
+  /* Add top padding for spacing */
+  padding-bottom: 10px;
+  /* Add bottom padding for spacing */
+  background-color: white;
+  /* Ensure it has a solid background when sticky */
+}
+
+.selected-date-status-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 0 30px 10px 30px;
+  /* Match tasks-section padding and add bottom padding */
+}
+
+.selected-date-status-filters .filter-btn {
+  padding: 6px 12px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.selected-date-status-filters .filter-btn:hover {
+  border-color: #11998e;
+  color: #11998e;
+  transform: translateY(-1px);
+}
+
+.selected-date-status-filters .filter-btn.active {
+  background: #11998e;
+  border-color: #11998e;
+  color: white;
+}
+
+/* Status-specific active colors for selected date filters (reuse from global filters) */
+.selected-date-status-filters .filter-btn[data-status="대기"].active {
+  background: #ffc107;
+  border-color: #ffc107;
+}
+
+.selected-date-status-filters .filter-btn.filter-btn-inprogress.active {
+  background: #2196f3;
+  border-color: #2196f3;
+}
+
+.selected-date-status-filters .filter-btn[data-status="완료"].active {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+.selected-date-status-filters .filter-btn[data-status="보류"].active {
+  background: #9e9e9e;
+  border-color: #9e9e9e;
+}
+
+.task-item {
+  background: #f8f9fa;
+  border-left: 4px solid #11998e;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.task-item:hover {
+  background: #e0f7f4;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-item.status-pending {
+  border-left-color: #ffc107;
+}
+
+.task-item.status-in-progress {
+  border-left-color: #2196f3;
+}
+
+.task-item.status-completed {
+  border-left-color: #4caf50;
+}
+
+.task-item.status-on-hold {
+  border-left-color: #9e9e9e;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* 아이콘과 텍스트가 세로 중앙에 오도록 */
+  margin-bottom: 8px;
+}
+
+.task-memo-icon {
+  font-size: 16px;
+  color: #d84315;
+  /* 강조 색상 */
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.task-memo-icon:hover {
+  transform: scale(1.2);
+}
+
+.task-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  cursor: pointer;
+  /* Added cursor pointer */
+}
+
+.task-status.status-pending {
+  background: #ffc107;
+}
+
+.task-status.status-in-progress {
+  background: #2196f3;
+}
+
+.task-status.status-completed {
+  background: #4caf50;
+}
+
+.task-status.status-on-hold {
+  background: #9e9e9e;
+}
+
+.task-priority {
+  padding: 4px 8px;
+  /* Adjusted padding */
+  border-radius: 10px;
+  /* Adjusted border-radius */
+  font-size: 10px;
+  /* Reduced font size */
+  font-weight: 500;
+  /* Reduced font weight */
+  color: white;
+  white-space: nowrap;
+  margin-inline-start: 4px;
+  /* Space from status, using logical property */
+}
+
+.task-priority.priority-very-high {
+  background: #e53935;
+}
+
+.task-priority.priority-high {
+  background: #fb8c00;
+}
+
+.task-priority.priority-middle {
+  background: #3f51b5;
+}
+
+.task-priority.priority-low {
+  background: #4caf50;
+}
+
+.task-priority.priority-very-low {
+  background: #607d8b;
+}
+
+.task-category {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-description {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.task-memo {
+  font-size: 12px;
+  color: #d84315;
+  background: #fff3e0;
+  padding: 8px 10px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border-left: 3px solid #ff9800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.task-memo strong {
+  color: #d84315;
+  font-weight: 700;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.task-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-edit {
+  background: #2196f3;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #1976d2;
+}
+
+.btn-copy {
+  background: #ff9800;
+  color: white;
+}
+
+.btn-copy:hover {
+  background: #f5c107;
+}
+
+.btn-delete {
+  background: #f44336;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #d32f2f;
+}
+
