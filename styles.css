@@ -2907,10 +2907,9 @@ h3#selectedDateTitle {
   border: 1px solid #ddd;
 }
 
-.gantt-container .today-highlight {
-  stroke: var(--g-today-highlight);
-  stroke-width: 1.5px;
-  opacity: 0.6;
+/* 간트 내부 팝업(툴팁)은 사용하지 않으므로 숨김 (클릭 시 전용 모달 사용) */
+.popup-wrapper {
+  display: none !important;
 }
 
 .gantt-bar {
@@ -2930,21 +2929,36 @@ h3#selectedDateTitle {
 }
 
 .gantt-bar-handle {
-  fill: var(--g-today-highlight);
-  /* Use subtle grey for handles */
-  rx: 2px;
+  fill: #2196f3;
+  /* 핸들을 더 명확한 파란색으로 변경 (테마 조화) */
+  width: 8px !important;
+  /* 핸들 영역 확장 */
+  cursor: ew-resize;
+  opacity: 0.8;
+}
+
+.gantt-bar-handle:hover {
+  opacity: 1;
+  fill: #1976d2;
+}
+
+/* 진행률 조절 핸들은 보이지 않고 드래그를 방해하지 않도록 완전히 비활성화 */
+.handle.progress {
+  display: none !important;
+  pointer-events: none !important;
 }
 
 .gantt-bar:hover {
-  fill: #e0f7f4;
-  /* Hover effect similar to calendar days */
+  fill: #e3f2fd;
+  stroke: #2196f3;
 }
 
 .gantt-bar-label {
   fill: var(--g-text-dark);
   font-size: 12px;
   font-weight: 500;
-  cursor: pointer;
+  pointer-events: none;
+  /* 레이블이 드래그 방해하지 않도록 */
 }
 
 .grid-row,

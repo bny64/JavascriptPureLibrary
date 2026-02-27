@@ -2,6 +2,7 @@
 
 import { AppState } from '../state/app-state.js';
 import { StorageUtils } from '../utils/dom.js';
+import { API } from '../api/api.js';
 
 const monthNamesKo = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
 const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -92,15 +93,96 @@ export function initGanttChart(forceRefresh = false) {
         return;
     }
 
+    // 드래그(날짜 이동)와 단순 클릭을 명확하게 구분하기 위한 마우스 위치 추적
+    if (!ganttEl.hasAttribute('data-drag-bound')) {
+        ganttEl.setAttribute('data-drag-bound', 'true');
+        ganttEl.addEventListener('mousedown', (e) => {
+            window.__ganttMouseDownX = e.clientX;
+            window.__ganttIsDragging = false;
+        });
+        ganttEl.addEventListener('mousemove', (e) => {
+            if (window.__ganttMouseDownX !== undefined && Math.abs(e.clientX - window.__ganttMouseDownX) > 3) {
+                window.__ganttIsDragging = true;
+            }
+        });
+        window.addEventListener('mouseup', () => {
+            // 클릭 컴포넌트 이벤트가 처리될 수 있도록 약간의 지연 후 초기화
+            setTimeout(() => {
+                window.__ganttIsDragging = false;
+                window.__ganttMouseDownX = undefined;
+            }, 100);
+        });
+    }
+
     AppState.gantt = new Gantt(ganttEl, ganttTasks, {
         header_height: 65, column_width: 50, step: 24,
         view_modes: ['Day', 'Week', 'Month'],
         bar_height: 25, padding: 35, bar_corner_radius: 4, arrow_curve: 5,
         view_mode: 'Day', date_format: 'YYYY-MM-DD', language: 'ko',
         infinite_padding: false, today_button: false, auto_move_label: false,
-        readonly: true,
+        readonly: false,
+        readonly_progress: true, // 진행률 조절 핸들 비활성화 (시작 날짜 핸들과 겹침 방지)
+        snap_at: '1d', // 하루 단위로 딱딱 맞게 스냅되도록 설정
+        popup_on: false, // 드래그/리사이즈 후 내부 팝업이 자동으로 뜨는 것 방지 (클릭 시만 모달 오픈)
         on_click: (task) => {
+            if (task.id.startsWith('dummy_')) return;
+
+            // 드래그(이동/길이 조절)로 판별된 경우 클릭 이벤트(팝업 오픈) 무시
+            if (window.__ganttIsDragging) return;
+
             window.openTaskModal(AppState.tasks.find(t => t.id === task.id));
+        },
+        on_date_change: async (task, start, end) => {
+            if (task.id.startsWith('dummy_')) {
+                initGanttChart(true); // 더미 드래그 시 원복
+                return;
+            }
+
+            // 라이브러리에서 전달받은 start, end 날짜 객체를 안전하게 복사하여 포맷팅
+            const newStart = formatDate(new Date(start.getTime()));
+            const newEnd = formatDate(new Date(end.getTime()));
+
+            const currentTask = AppState.tasks.find(t => t.id === task.id);
+            if (!currentTask) return;
+
+            // 이미 동일한 날짜라면 중단
+            if (currentTask.startDate === newStart && currentTask.endDate === newEnd) {
+                return;
+            }
+
+            try {
+                // 1. 서버 데이터 업데이트
+                await API.tasks.update(task.id, {
+                    startDate: newStart,
+                    endDate: newEnd
+                });
+
+                // 2. 전역 상태 동기화
+                currentTask.startDate = newStart;
+                currentTask.endDate = newEnd;
+
+                // 3. 다른 뷰들 백그라운드 갱신 (간트 뷰는 다시 그리지 않음 - 튕김 방지)
+                const dashboardEl = document.getElementById('dashboard-view');
+                if (dashboardEl && dashboardEl.style.display === 'block') {
+                    import('./dashboard-ui.js').then(m => m.DashboardUI.render(AppState.tasks));
+                }
+
+                const calendarEl = document.getElementById('calendar-view');
+                if (calendarEl && calendarEl.style.display === 'block') {
+                    import('./calendar-controller.js').then(m => {
+                        m.renderCalendar();
+                        m.renderTasksForSelectedDate();
+                    });
+                }
+
+                // 드래그 종료 후 라이브러리 내부 팝업이 뜨는 것을 확실히 차단
+                if (AppState.gantt) AppState.gantt.hide_popup();
+
+            } catch (error) {
+                console.error("Gantt date update failed:", error);
+                // 에러 발생 시에만 차트를 강제로 새로고침하여 상태 복구
+                initGanttChart(true);
+            }
         },
         on_view_change: () => postProcessGanttHeaders(),
     });
