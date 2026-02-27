@@ -1331,6 +1331,7 @@ h3#selectedDateTitle {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: normal;
 }
@@ -1347,6 +1348,7 @@ h3#selectedDateTitle {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   white-space: normal;
 }
@@ -2538,6 +2540,10 @@ h3#selectedDateTitle {
   cursor: grab;
   transition: transform 0.2s, box-shadow 0.2s;
   border-left: 4px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* 요소 간 간격 일관화 */
 }
 
 .kanban-card:active {
@@ -2554,10 +2560,26 @@ h3#selectedDateTitle {
 }
 
 .kanban-card .kanban-card-title {
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 15px;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 0;
+  /* gap으로 조절 */
+}
+
+.kanban-card .task-category {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.kanban-card .task-checklist-progress {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  background: #fcfcfc;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #f0f0f0;
 }
 
 .kanban-card .kanban-card-meta {
@@ -2566,6 +2588,9 @@ h3#selectedDateTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed #eee;
 }
 
 .kanban-column.drag-over {

@@ -65,8 +65,8 @@ export const KanbanUI = {
             const completed = task.subtasks.filter(s => s.completed).length;
             const percent = Math.round((completed / total) * 100);
             checklistHtml = `
-                <div class="task-checklist-progress" style="margin-top: 5px;">
-                    <div class="task-checklist-header" style="font-size: 10px; margin-bottom: 2px;">
+                <div class="task-checklist-progress">
+                    <div class="task-checklist-header">
                         <span>체크리스트 ${completed}/${total}</span>
                         <span>${percent}%</span>
                     </div>
@@ -77,7 +77,7 @@ export const KanbanUI = {
 
         card.innerHTML = `
             <div class="kanban-card-title">${TextUtils.escapeHtml(task.taskName)}</div>
-            <div class="task-category" style="margin-bottom:8px;">${TextUtils.escapeHtml(task.category1 || '미분류')}</div>
+            <div class="task-category">${TextUtils.escapeHtml(task.category1 || '미분류')}</div>
             ${checklistHtml}
             <div class="kanban-card-meta">
                 <span class="task-priority ${priorityClass}">${priorityText}</span>
