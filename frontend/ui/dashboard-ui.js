@@ -120,8 +120,10 @@ export const DashboardUI = {
             const cursor = clickable ? 'cursor-pointer' : '';
             return `<div class="summary-card ${cursor}" ${onclick}>
                 <div class="icon">${stat.icon}</div>
-                <div class="value">${stat.value}</div>
-                <div class="label">${stat.label}</div>
+                <div class="content-wrapper">
+                    <div class="value">${stat.value}</div>
+                    <div class="label">${stat.label}</div>
+                </div>
             </div>`;
         }).join('');
     },
@@ -501,7 +503,7 @@ export const DashboardUI = {
         today.setHours(0, 0, 0, 0);
 
         const start = new Date(today);
-        start.setDate(today.getDate() - (52 * 7) - today.getDay());
+        start.setDate(today.getDate() - (26 * 7) - today.getDay());
 
         const dailyCounts = {};
         tasks.filter(t => t.status === 'completed' && t.endDate).forEach(t => {
@@ -515,7 +517,7 @@ export const DashboardUI = {
         let lastMonth = -1;
         const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 
-        for (let i = 0; i < 371; i++) {
+        for (let i = 0; i < 189; i++) { // 27주 (약 6개월) 27*7=189
             const dateStr = current.toISOString().split('T')[0];
             const count = dailyCounts[dateStr] || 0;
             const month = current.getMonth();
@@ -523,7 +525,9 @@ export const DashboardUI = {
 
             if (month !== lastMonth && current.getDay() === 0) {
                 const offset = weekIdx * 15; // 12px(cell) + 3px(gap) = 15px
-                monthLabelsHtml += `<span style="position: absolute; left: ${offset + 28}px;">${monthNames[month]}</span>`;
+                // HTML의 margin-left: 28px와 중복되지 않도록 28px 제거
+                // 또한 이전 월 라벨과 너무 가까우면(최소 4주 간격) 표시하지 않음 (겹침 방지)
+                monthLabelsHtml += `<span style="position: absolute; left: ${offset}px; white-space: nowrap;">${monthNames[month]}</span>`;
                 lastMonth = month;
             }
 

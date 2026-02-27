@@ -1,10 +1,7 @@
 <div class="dashboard-container">
     <h2 class="dashboard-title">업무 현황 대시보드</h2>
-    <div class="dashboard-summary-grid" id="dashboardSummary">
-        <!-- 요약 카드가 여기에 렌더링됩니다 -->
-    </div>
 
-    <!-- 전역 스티커 메모 섹션 -->
+    <!-- 1. 전역 스티커 메모 섹션 (최상단으로 이동) -->
     <section id="dashboardStickyWall" class="dashboard-sticky-wall" style="margin-bottom: 25px; display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3 style="margin: 0; display: flex; align-items: center; gap: 8px;">📌 스티커 메모</h3>
@@ -16,139 +13,151 @@
         </div>
     </section>
 
-    <div class="dashboard-alerts-grid">
-        <!-- 긴급 / 연체 업무 리포트 -->
-        <div id="criticalTasksSection" class="dashboard-card critical-alert-section"
-            style="display: none; border-left: 5px solid #f44336; height: fit-content;">
-            <div class="critical-header"
-                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0; color: #d32f2f;">🚨 집중 관리 업무 (긴급/연체)</h3>
-                <span class="critical-count-badge" id="criticalTaskCount"
-                    style="background: #f44336; color: white; padding: 2px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">0</span>
-            </div>
-            <div id="criticalTaskList" class="critical-task-list">
-                <!-- 긴급 업무들이 여기에 렌더링됩니다 -->
-            </div>
+    <!-- 2. 요약 정보 및 집중/지연 업무 통합 로우 -->
+    <div class="dashboard-top-flex-row">
+        <!-- 요약 카드 (세로 배열) -->
+        <div class="dashboard-summary-grid" id="dashboardSummary">
+            <!-- 요약 카드가 여기에 렌더링됩니다 -->
         </div>
 
-        <!-- 병목 업무 리포트 -->
-        <div id="bottleneckSection" class="dashboard-card bottleneck-section"
-            style="display: none; border-left: 5px solid #ff9800; height: fit-content;">
-            <div class="bottleneck-header"
-                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0; color: #e65100;">🐢 진척 지연 업무 (병목 현상)</h3>
-                <span class="bottleneck-count-badge" id="bottleneckCount"
-                    style="background: #ff9800; color: white; padding: 2px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">0</span>
+        <!-- 긴급 / 병목 리포트 그룹 -->
+        <div class="dashboard-alerts-grid">
+            <!-- 긴급 / 연체 업무 리포트 -->
+            <div id="criticalTasksSection" class="dashboard-card critical-alert-section"
+                style="display: none; border-left: 5px solid #f44336; height: fit-content;">
+                <div class="critical-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0; color: #d32f2f;">🚨 집중 관리 업무</h3>
+                    <span class="critical-count-badge" id="criticalTaskCount"
+                        style="background: #f44336; color: white; padding: 2px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">0</span>
+                </div>
+                <div id="criticalTaskList" class="critical-task-list">
+                    <!-- 긴급 업무들이 여기에 렌더링됩니다 -->
+                </div>
             </div>
-            <div id="bottleneckList" class="bottleneck-list">
-                <!-- 지연 업무들이 여기에 렌더링됩니다 -->
+
+            <!-- 병목 업무 리포트 -->
+            <div id="bottleneckSection" class="dashboard-card bottleneck-section"
+                style="display: none; border-left: 5px solid #ff9800; height: fit-content;">
+                <div class="bottleneck-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0; color: #e65100;">🐢 진척 지연 업무</h3>
+                    <span class="bottleneck-count-badge" id="bottleneckCount"
+                        style="background: #ff9800; color: white; padding: 2px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">0</span>
+                </div>
+                <div id="bottleneckList" class="bottleneck-list">
+                    <!-- 지연 업무들이 여기에 렌더링됩니다 -->
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 업무 활성도 히트맵 -->
-    <div class="dashboard-card full-width" style="margin-bottom: 25px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3>🗓️ 연간 업무 활성도 (처리량 히트맵)</h3>
-            <div class="heatmap-legend"
-                style="display: flex; gap: 5px; align-items: center; font-size: 12px; color: #666;">
-                <span>Less</span>
-                <div style="width: 12px; height: 12px; background: #ebedf0; border-radius: 2px;"></div>
-                <div style="width: 12px; height: 12px; background: #9be9a8; border-radius: 2px;"></div>
-                <div style="width: 12px; height: 12px; background: #40c463; border-radius: 2px;"></div>
-                <div style="width: 12px; height: 12px; background: #30a14e; border-radius: 2px;"></div>
-                <div style="width: 12px; height: 12px; background: #216e39; border-radius: 2px;"></div>
-                <span>More</span>
+    <!-- 3. 업무 활성도 및 트렌드 통합 로우 -->
+    <div class="dashboard-charts-grid" style="margin-bottom: 25px;">
+        <!-- 업무 활성도 히트맵 (최근 6개월) -->
+        <div class="dashboard-card"
+            style="height: 250px; display: flex; flex-direction: column; padding-top: 12px; padding-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">🗓️ 업무 활성도 (최근 6개월)</h3>
+                <div class="heatmap-legend"
+                    style="display: flex; gap: 5px; align-items: center; font-size: 11px; color: #666;">
+                    <div style="width: 10px; height: 10px; background: #ebedf0; border-radius: 2px;"></div>
+                    <div style="width: 10px; height: 10px; background: #9be9a8; border-radius: 2px;"></div>
+                    <div style="width: 10px; height: 10px; background: #216e39; border-radius: 2px;"></div>
+                </div>
+            </div>
+            <div class="heatmap-container"
+                style="display: flex; gap: 20px; align-items: center; justify-content: flex-start; flex-grow: 1;">
+                <div class="heatmap-wrapper" style="position: relative; width: fit-content; min-width: 0;">
+                    <div id="heatmapMonths" class="heatmap-months"
+                        style="position: relative; height: 18px; font-size: 11px; color: #666; margin-bottom: 5px; margin-left: 28px;">
+                        <!-- 월 레이블 -->
+                    </div>
+                    <div style="display: flex;">
+                        <div class="heatmap-weekdays"
+                            style="display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: #999; margin-right: 5px; padding: 2px 0;">
+                            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                        </div>
+                        <div id="activityHeatmap" class="activity-heatmap"
+                            style="overflow-x: auto; padding-bottom: 5px;">
+                            <!-- 히트맵 -->
+                        </div>
+                    </div>
+                </div>
+                <div id="heatmapSideSection" class="heatmap-side-section">
+                    <div class="side-list-header"
+                        style="font-size: 13px; font-weight: bold; color: #333; margin-bottom: 5px;"
+                        id="heatmapSelectedDateTitle">
+                        날짜를 선택해 주세요
+                    </div>
+                    <div id="heatmapSideList" class="heatmap-side-list"
+                        style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                        <p style="color: #999; font-size: 12px; margin: 0;">히트맵의 칸을 클릭하면<br>해당 일의 업무가 표시됩니다.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="heatmap-container"
-            style="display: flex; gap: 20px; align-items: flex-start; justify-content: flex-start;">
-            <div class="heatmap-wrapper" style="position: relative; width: fit-content; min-width: 0;">
-                <div id="heatmapMonths" class="heatmap-months"
-                    style="display: flex; font-size: 11px; color: #666; margin-bottom: 5px; margin-left: 28px;">
-                    <!-- 월 레이블이 여기에 렌더링됩니다 -->
-                </div>
-                <div style="display: flex;">
-                    <div class="heatmap-weekdays"
-                        style="display: flex; flex-direction: column; justify-content: space-between; font-size: 9px; color: #999; margin-right: 5px; padding: 2px 0;">
-                        <span>Sun</span><span>Tue</span><span>Thu</span><span>Sat</span>
-                    </div>
-                    <div id="activityHeatmap" class="activity-heatmap" style="overflow-x: auto; padding-bottom: 5px;">
-                        <!-- 히트맵이 여기에 렌더링됩니다 -->
-                    </div>
+
+        <!-- 업무 처리량 트렌드 -->
+        <div class="dashboard-card"
+            style="height: 250px; display: flex; flex-direction: column; padding-top: 12px; padding-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">📈 업무 처리량 트렌드</h3>
+                <div class="trend-period-selector" id="trendPeriodSelector">
+                    <button class="btn-period active" data-period="7">1주</button>
+                    <button class="btn-period" data-period="30">1개월</button>
+                    <button class="btn-period" data-period="90">3개월</button>
+                    <button class="btn-period" data-period="365">1년</button>
                 </div>
             </div>
-            <div id="heatmapSideSection" class="heatmap-side-section">
-                <div class="side-list-header"
-                    style="font-size: 13px; font-weight: bold; color: #333; margin-bottom: 5px;"
-                    id="heatmapSelectedDateTitle">
-                    날짜를 선택해 주세요
-                </div>
-                <div id="heatmapSideList" class="heatmap-side-list"
-                    style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-                    <p style="color: #999; font-size: 12px; margin: 0;">히트맵의 칸을 클릭하면<br>해당 일의 업무가 표시됩니다.</p>
-                </div>
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
+                <canvas id="trendChartCanvas"></canvas>
             </div>
         </div>
     </div>
     <div class="dashboard-charts-grid">
-        <div class="dashboard-card" style="height: 420px; display: flex; flex-direction: column;">
+        <div class="dashboard-card" style="height: 380px; display: flex; flex-direction: column;">
             <h3>📊 상태별 분포</h3>
-            <div style="position: relative; flex-grow: 1;">
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
                 <canvas id="statusChartCanvas"></canvas>
             </div>
         </div>
-        <div class="dashboard-card" style="height: 420px; display: flex; flex-direction: column;">
+        <div class="dashboard-card" style="height: 380px; display: flex; flex-direction: column;">
             <h3>🔥 우선순위 현황</h3>
-            <div style="position: relative; flex-grow: 1;">
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
                 <canvas id="priorityChartCanvas"></canvas>
             </div>
         </div>
-    </div>
-    <div class="dashboard-card full-width"
-        style="height: 400px; margin-bottom: 20px; display: flex; flex-direction: column;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin: 0;">📈 업무 처리량 트렌드</h3>
-            <div class="trend-period-selector" id="trendPeriodSelector">
-                <button class="btn-period active" data-period="7">1주</button>
-                <button class="btn-period" data-period="30">1개월</button>
-                <button class="btn-period" data-period="90">3개월</button>
-                <button class="btn-period" data-period="180">6개월</button>
-                <button class="btn-period" data-period="365">1년</button>
+        <div class="dashboard-card" style="height: 380px; display: flex; flex-direction: column;">
+            <h3>📊 월간 성과 분석 (최근 6개월)</h3>
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
+                <canvas id="monthlyAchievementChartCanvas"></canvas>
             </div>
         </div>
-        <div style="position: relative; flex-grow: 1;">
-            <canvas id="trendChartCanvas"></canvas>
-        </div>
     </div>
+
     <div class="dashboard-header-actions" style="margin-bottom: 20px; text-align: right;">
         <button class="btn-archive" onclick="archiveOldTasks()"
             style="background: #607d8b; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;">
             📦 30일 경과 업무 보관
         </button>
     </div>
-    <div class="dashboard-charts-grid">
-        <div class="dashboard-card" style="height: 400px; display: flex; flex-direction: column;">
-            <h3>📊 월간 성과 분석 (최근 6개월)</h3>
-            <div style="position: relative; flex-grow: 1;">
-                <canvas id="monthlyAchievementChartCanvas"></canvas>
-            </div>
-        </div>
-        <div class="dashboard-card" style="height: 400px; display: flex; flex-direction: column;">
-            <h3>🏙️ 카테고리별 평균 소요 시간 (완료 업무 기준)</h3>
-            <div style="position: relative; flex-grow: 1;">
+    <div class="dashboard-charts-grid" style="margin-top: 20px;">
+        <div class="dashboard-card" style="height: 350px; display: flex; flex-direction: column;">
+            <h3>🏙️ 카테고리별 평균 소요 시간</h3>
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
                 <canvas id="leadTimeChartCanvas"></canvas>
             </div>
         </div>
-        <div class="dashboard-card" style="height: 400px; display: flex; flex-direction: column;">
+        <div class="dashboard-card" style="height: 350px; display: flex; flex-direction: column;">
             <h3>⏱️ 카테고리별 업무 비중 (Top 5)</h3>
-            <div style="position: relative; flex-grow: 1;">
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
                 <canvas id="categoryDistributionChartCanvas"></canvas>
             </div>
         </div>
-        <div class="dashboard-card" style="height: 400px; display: flex; flex-direction: column;">
+        <div class="dashboard-card" style="height: 350px; display: flex; flex-direction: column;">
             <h3>📅 요일별 성과 분석 (최근 90일)</h3>
-            <div style="position: relative; flex-grow: 1;">
+            <div style="position: relative; flex-grow: 1; min-height: 0;">
                 <canvas id="dayOfWeekChartCanvas"></canvas>
             </div>
         </div>
