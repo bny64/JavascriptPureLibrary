@@ -47,7 +47,7 @@ export const ActivityLogUI = {
 
         container.innerHTML = logs.map(log => `
             <div class="timeline-item action-${log.action}">
-                <div class="timeline-content" onclick="window.handleLogClick('${log.taskId}', '${log.taskName}')">
+                <div class="timeline-content" data-task-id="${log.taskId}" data-task-name="${TextUtils.escapeHtml(log.taskName)}">
                     <span class="log-time">${KoreanTime.toKST(log.timestamp).toLocaleString()}</span>
                     <div class="log-header">
                         <span class="log-task-name">${TextUtils.escapeHtml(log.taskName)}</span>
@@ -59,5 +59,14 @@ export const ActivityLogUI = {
                 </div>
             </div>
         `).join('');
+
+        container.querySelectorAll('.timeline-content').forEach(item => {
+            item.addEventListener('click', async () => {
+                const taskId = item.getAttribute('data-task-id');
+                const taskName = item.getAttribute('data-task-name');
+                const m = await import('../modules/activity-log-controller.js');
+                m.handleLogClick(taskId, taskName);
+            });
+        });
     }
 };

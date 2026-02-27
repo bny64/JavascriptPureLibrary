@@ -20,10 +20,14 @@ export const MemoUI = {
                         <div class="memo-content">${TextUtils.escapeHtml(memo.content)}</div>
                         <div class="memo-meta">
                             <span>${new Date(memo.createdAt).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
-                            <button class="btn-delete-memo" onclick="window.deleteMemo('${memo.id}')">삭제</button>
+                            <button class="btn-delete-memo" data-id="${memo.id}">삭제</button>
                         </div>
                     </div>
                 `).join('');
+
+          listEl.querySelectorAll('.btn-delete-memo').forEach(btn => {
+            btn.addEventListener('click', () => this.deleteMemo(btn.getAttribute('data-id')));
+          });
         }
       }
 
@@ -43,11 +47,15 @@ export const MemoUI = {
                         <div class="sticky-note-content">${TextUtils.escapeHtml(memo.content)}</div>
                         <div class="sticky-note-footer">
                             <span>📅 ${new Date(memo.createdAt).toLocaleDateString()}</span>
-                            <button class="btn-memo-delete-sticker" onclick="window.deleteMemo('${memo.id}')">삭제</button>
+                            <button class="btn-memo-delete-sticker" data-id="${memo.id}">삭제</button>
                         </div>
                     </div>
                   `;
           }).join('');
+
+          wallContainer.querySelectorAll('.btn-memo-delete-sticker').forEach(btn => {
+            btn.addEventListener('click', () => this.deleteMemo(btn.getAttribute('data-id')));
+          });
         }
       }
 

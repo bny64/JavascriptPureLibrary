@@ -384,7 +384,7 @@ export const DashboardCharts = {
       const stats = catStats[cat];
       const percent = Math.round((stats.completed / stats.total) * 100);
       const escapedCat = cat.replace(/'/g, "\\'");
-      return `<div class="cat-progress-item cursor-pointer" onclick="window.openAllTasksModalWithCategory('${escapedCat}')" title="클릭하여 '${escapedCat}' 업무 목록 보기">
+      return `<div class="cat-progress-item cursor-pointer" data-category="${escapedCat}" title="클릭하여 '${escapedCat}' 업무 목록 보기">
                 <div class="cat-progress-header">
                     <span class="cat-name">${TextUtils.escapeHtml(cat)}</span>
                     <span class="cat-percent">${percent}% (${stats.completed}/${stats.total})</span>
@@ -394,5 +394,14 @@ export const DashboardCharts = {
                 </div>
             </div>`;
     }).join('');
+
+    container.querySelectorAll('.cat-progress-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const cat = item.getAttribute('data-category');
+        if (window.openAllTasksModalWithCategory) {
+          window.openAllTasksModalWithCategory(cat);
+        }
+      });
+    });
   }
 };

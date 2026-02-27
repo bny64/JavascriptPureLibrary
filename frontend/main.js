@@ -308,6 +308,50 @@ function getWeekNumber(d) {
 
 
 // ══════════════════════════════════════════════
+// 모달 인라인 이벤트 바인딩
+// ══════════════════════════════════════════════
+function bindModalEvents() {
+    // 1. Task Modal
+    document.querySelector('#taskModal .close')?.addEventListener('click', closeTaskModal);
+    document.querySelector('#taskModal .btn-cancel')?.addEventListener('click', closeTaskModal);
+    document.getElementById('taskForm')?.addEventListener('submit', saveTask);
+    document.getElementById('category1')?.addEventListener('change', updateSubCategories);
+    document.getElementById('category2')?.addEventListener('change', updateDetailCategories);
+    document.querySelector('#taskModal .btn-add-subtask')?.addEventListener('click', addSubtask);
+
+    // 2. Notification Settings Modal
+    document.querySelector('#notificationSettingsModal .close')?.addEventListener('click', closeNotificationSettingsModal);
+    document.querySelector('#notificationSettingsModal .btn-cancel')?.addEventListener('click', closeNotificationSettingsModal);
+    document.getElementById('notificationSettingsForm')?.addEventListener('submit', saveNotificationSettings);
+
+    // 3. Category Modal
+    document.querySelector('#categoryModal .close')?.addEventListener('click', closeCategoryModal);
+    document.querySelector('#categoryModal .btn-cancel')?.addEventListener('click', closeCategoryModal);
+    document.getElementById('categoryForm')?.addEventListener('submit', saveCategory);
+
+    // 4. All Tasks Modal
+    document.querySelector('#allTasksModal .close')?.addEventListener('click', closeAllTasksModal);
+    document.getElementById('textSearchInput')?.addEventListener('keyup', searchAllTasks);
+
+    document.querySelectorAll('input[name="searchType"]').forEach(el => el.addEventListener('change', toggleSearchType));
+
+    document.getElementById('searchCategory1')?.addEventListener('change', () => { updateSearchCategory2(); searchAllTasks(); });
+    document.getElementById('searchCategory2')?.addEventListener('change', () => { updateSearchCategory3(); searchAllTasks(); });
+    document.getElementById('searchCategory3')?.addEventListener('change', searchAllTasks);
+
+    document.getElementById('sortField')?.addEventListener('change', changeAllTasksSort);
+    document.getElementById('sortDirection')?.addEventListener('change', changeAllTasksSort);
+
+    document.getElementById('prevPageBtn')?.addEventListener('click', previousPage);
+    document.getElementById('nextPageBtn')?.addEventListener('click', nextPage);
+
+    document.querySelectorAll('#allTasksModal .status-filters .filter-btn').forEach(btn =>
+        btn.addEventListener('click', (e) => filterByStatus(e.target.getAttribute('data-status'))));
+    document.querySelectorAll('#allTasksModal .priority-filters .filter-btn').forEach(btn =>
+        btn.addEventListener('click', (e) => filterByPriority(e.target.getAttribute('data-priority'))));
+}
+
+// ══════════════════════════════════════════════
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
@@ -318,6 +362,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'taskModal', url: 'html/modals/task.html', wrapperClass: 'modal' },
         { id: 'notificationSettingsModal', url: 'html/modals/notification-settings.html', wrapperClass: 'modal' }
     ]);
+    bindModalEvents();
 
     loadTheme();
     await loadView();

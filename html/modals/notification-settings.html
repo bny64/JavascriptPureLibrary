@@ -1,7 +1,7 @@
 <div class="modal-content notification-settings-modal-content">
-    <span class="close" onclick="closeNotificationSettingsModal()">&times;</span>
+    <span class="close">&times;</span>
     <h2>알림 설정</h2>
-    <form id="notificationSettingsForm" onsubmit="saveNotificationSettings(event)">
+    <form id="notificationSettingsForm">
         <div class="form-group">
             <label for="notificationDaysBefore">종료일 D-Day (며칠 전):</label>
             <input type="number" id="notificationDaysBefore" min="0" value="7">
@@ -27,13 +27,13 @@
         </div>
         <div class="form-group">
             <label for="notificationCategory1">카테고리 (대분류):</label>
-            <select id="notificationCategory1" onchange="populateNotificationSubCategories()">
+            <select id="notificationCategory1">
                 <option value="전체">전체</option>
             </select>
         </div>
         <div class="form-group">
             <label for="notificationCategory2">카테고리 (중분류):</label>
-            <select id="notificationCategory2" onchange="populateNotificationDetailCategories()">
+            <select id="notificationCategory2">
                 <option value="전체">전체</option>
             </select>
         </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="modal-buttons">
             <button type="submit" class="btn-save">저장</button>
-            <button type="button" class="btn-cancel" onclick="closeNotificationSettingsModal()">취소</button>
+            <button type="button" class="btn-cancel">취소</button>
         </div>
     </form>
 </div>

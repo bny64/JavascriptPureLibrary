@@ -1,11 +1,11 @@
 <div class="modal-content category-modal-content">
-    <span class="close" onclick="closeCategoryModal()">&times;</span>
+    <span class="close">&times;</span>
     <h2>분류 관리</h2>
     
     <div class="category-management">
         <div class="category-form">
             <h3>새 분류 추가</h3>
-            <form id="categoryForm" onsubmit="saveCategory(event)">
+            <form id="categoryForm">
                 <input type="hidden" id="categoryId">
                 <div class="form-group">
                     <label>대분류</label>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="modal-buttons">
                     <button type="submit" class="btn-save">저장</button>
-                    <button type="button" class="btn-cancel" onclick="closeCategoryModal()">취소</button>
+                    <button type="button" class="btn-cancel">취소</button>
                 </div>
             </form>
         </div>

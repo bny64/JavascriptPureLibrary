@@ -40,12 +40,19 @@ function renderSubtasks() {
     if (!list) return;
 
     list.innerHTML = localSubtasks.map(s => `
-        <div class="subtask-item ${s.completed ? 'completed' : ''}">
-            <input type="checkbox" ${s.completed ? 'checked' : ''} onchange="toggleSubtask('${s.id}')">
-            <span onclick="toggleSubtask('${s.id}')">${TextUtils.escapeHtml(s.title)}</span>
-            <button type="button" class="btn-delete-subtask" onclick="deleteSubtask('${s.id}')">&times;</button>
+        <div class="subtask-item ${s.completed ? 'completed' : ''}" data-id="${s.id}">
+            <input type="checkbox" class="subtask-checkbox" ${s.completed ? 'checked' : ''}>
+            <span class="subtask-title-text" style="cursor:pointer;">${TextUtils.escapeHtml(s.title)}</span>
+            <button type="button" class="btn-delete-subtask">&times;</button>
         </div>
     `).join('');
+
+    list.querySelectorAll('.subtask-item').forEach(item => {
+        const id = item.getAttribute('data-id');
+        item.querySelector('.subtask-checkbox').addEventListener('change', () => toggleSubtask(id));
+        item.querySelector('.subtask-title-text').addEventListener('click', () => toggleSubtask(id));
+        item.querySelector('.btn-delete-subtask').addEventListener('click', () => deleteSubtask(id));
+    });
 }
 
 // DomUtils에 escapeHtml이 없을 경우를 대비해 TextUtils.escapeHtml 사용 권장

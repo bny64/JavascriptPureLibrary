@@ -2,22 +2,19 @@
     <h2 class="gantt-chart-title">간트 차트</h2>
     <div class="gantt-filters">
         <div class="status-filters">
-            <button class="filter-btn active" onclick="filterGanttByStatus('전체')" data-status="전체">상태: 전체</button>
-            <button class="filter-btn" onclick="filterGanttByStatus('pending')" data-status="pending">대기</button>
-            <button class="filter-btn" onclick="filterGanttByStatus('in-progress')"
-                data-status="in-progress">진행중</button>
-            <button class="filter-btn" onclick="filterGanttByStatus('completed')" data-status="completed">완료</button>
-            <button class="filter-btn" onclick="filterGanttByStatus('on-hold')" data-status="on-hold">보류</button>
+            <button class="filter-btn active" data-status="전체">상태: 전체</button>
+            <button class="filter-btn" data-status="pending">대기</button>
+            <button class="filter-btn" data-status="in-progress">진행중</button>
+            <button class="filter-btn" data-status="completed">완료</button>
+            <button class="filter-btn" data-status="on-hold">보류</button>
         </div>
         <div class="priority-filters">
-            <button class="filter-btn active" onclick="filterGanttByPriority('전체')" data-priority="전체">우선순위: 전체</button>
-            <button class="filter-btn" onclick="filterGanttByPriority('very-high')" data-priority="very-high">매우
-                높음</button>
-            <button class="filter-btn" onclick="filterGanttByPriority('high')" data-priority="high">높음</button>
-            <button class="filter-btn" onclick="filterGanttByPriority('middle')" data-priority="middle">중간</button>
-            <button class="filter-btn" onclick="filterGanttByPriority('low')" data-priority="low">낮음</button>
-            <button class="filter-btn" onclick="filterGanttByPriority('very-low')" data-priority="very-low">매우
-                낮음</button>
+            <button class="filter-btn active" data-priority="전체">우선순위: 전체</button>
+            <button class="filter-btn" data-priority="very-high">매우 높음</button>
+            <button class="filter-btn" data-priority="high">높음</button>
+            <button class="filter-btn" data-priority="middle">중간</button>
+            <button class="filter-btn" data-priority="low">낮음</button>
+            <button class="filter-btn" data-priority="very-low">매우 낮음</button>
         </div>
     </div>
     <div id="gantt-target"></div>

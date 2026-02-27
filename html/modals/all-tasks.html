@@ -3,7 +3,7 @@
         style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h2 style="margin: 0; font-size: 20px;">전체 업무 목록</h2>
-            <span class="close" onclick="closeAllTasksModal()" style="float: none; line-height: 1;">&times;</span>
+            <span class="close" style="float: none; line-height: 1;">&times;</span>
         </div>
 
         <div
@@ -12,29 +12,29 @@
             <div style="display: flex; gap: 15px; align-items: center;">
                 <div class="search-type" style="margin-bottom: 0; gap: 10px; flex-shrink: 0;">
                     <label style="font-size: 13px;"><input type="radio" name="searchType" value="text" checked
-                            onchange="toggleSearchType()"> 단어 검색</label>
+                           > 단어 검색</label>
                     <label style="font-size: 13px;"><input type="radio" name="searchType" value="category"
-                            onchange="toggleSearchType()"> 선택 검색</label>
+                           > 선택 검색</label>
                 </div>
 
                 <div id="textSearchBox" class="search-box" style="margin-bottom: 0; flex: 1;">
                     <input
                         style="padding: 6px 12px; margin-bottom: 0; height: 32px; width: 100%; box-sizing: border-box;"
-                        type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색..." onkeyup="searchAllTasks()">
+                        type="text" id="textSearchInput" placeholder="업무명 또는 내용으로 검색...">
                 </div>
 
                 <!-- 선택검색 콤보박스들 (Gap을 줄임) -->
                 <div id="categorySearchBox"
                     style="display: none; margin-bottom: 0; flex: 1; display: flex; flex-direction: row; gap: 5px; align-items: center;">
-                    <select id="searchCategory1" onchange="updateSearchCategory2(); searchAllTasks()"
+                    <select id="searchCategory1"
                         style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">대분류</option>
                     </select>
-                    <select id="searchCategory2" onchange="updateSearchCategory3(); searchAllTasks()"
+                    <select id="searchCategory2"
                         style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">중분류</option>
                     </select>
-                    <select id="searchCategory3" onchange="searchAllTasks()"
+                    <select id="searchCategory3"
                         style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; flex: 1; width: auto !important; min-width: 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                         <option value="">소분류</option>
                     </select>
@@ -44,14 +44,14 @@
             <!-- 2. 정렬 한 줄 -->
             <div class="sort-controls" style="margin-bottom: 0; justify-content: flex-start; gap: 10px;">
                 <label for="sortField" style="font-size: 13px; font-weight: 600; min-width: 60px;">정렬 기준:</label>
-                <select id="sortField" onchange="changeAllTasksSort()"
+                <select id="sortField"
                     style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                     <option value="endDate">종료 날짜</option>
                     <option value="startDate">시작 날짜</option>
                     <option value="taskName">업무명</option>
                     <option value="status">상태</option>
                 </select>
-                <select id="sortDirection" onchange="changeAllTasksSort()"
+                <select id="sortDirection"
                     style="padding: 6px 12px; margin: 0; height: 32px; font-size: 13px; width: auto; flex: none; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;">
                     <option value="asc">오름차순</option>
                     <option value="desc">내림차순</option>
@@ -61,32 +61,32 @@
             <!-- 3. 상태 한 줄 -->
             <div class="status-filters" style="margin-bottom: 0; gap: 6px; align-items: center;">
                 <span style="font-size: 13px; font-weight: 600; min-width: 60px;">상태:</span>
-                <button class="filter-btn active" onclick="filterByStatus('전체')" data-status="전체"
+                <button class="filter-btn active" data-status="전체"
                     style="padding: 4px 10px; font-size: 12px;">전체</button>
-                <button class="filter-btn" onclick="filterByStatus('pending')" data-status="pending"
+                <button class="filter-btn" data-status="pending"
                     style="padding: 4px 10px; font-size: 12px;">대기</button>
-                <button class="filter-btn" onclick="filterByStatus('in-progress')" data-status="in-progress"
+                <button class="filter-btn" data-status="in-progress"
                     style="padding: 4px 10px; font-size: 12px;">진행중</button>
-                <button class="filter-btn" onclick="filterByStatus('completed')" data-status="completed"
+                <button class="filter-btn" data-status="completed"
                     style="padding: 4px 10px; font-size: 12px;">완료</button>
-                <button class="filter-btn" onclick="filterByStatus('on-hold')" data-status="on-hold"
+                <button class="filter-btn" data-status="on-hold"
                     style="padding: 4px 10px; font-size: 12px;">보류</button>
             </div>
 
             <!-- 4. 우선순위 한 줄 -->
             <div class="priority-filters" style="margin-bottom: 0; gap: 6px; align-items: center;">
                 <span style="font-size: 13px; font-weight: 600; min-width: 60px;">우선순위:</span>
-                <button class="filter-btn active" onclick="filterByPriority('전체')" data-priority="전체"
+                <button class="filter-btn active" data-priority="전체"
                     style="padding: 4px 10px; font-size: 12px;">전체</button>
-                <button class="filter-btn" onclick="filterByPriority('very-high')" data-priority="very-high"
+                <button class="filter-btn" data-priority="very-high"
                     style="padding: 4px 10px; font-size: 12px;">매우 높음</button>
-                <button class="filter-btn" onclick="filterByPriority('high')" data-priority="high"
+                <button class="filter-btn" data-priority="high"
                     style="padding: 4px 10px; font-size: 12px;">높음</button>
-                <button class="filter-btn" onclick="filterByPriority('middle')" data-priority="middle"
+                <button class="filter-btn" data-priority="middle"
                     style="padding: 4px 10px; font-size: 12px;">중간</button>
-                <button class="filter-btn" onclick="filterByPriority('low')" data-priority="low"
+                <button class="filter-btn" data-priority="low"
                     style="padding: 4px 10px; font-size: 12px;">낮음</button>
-                <button class="filter-btn" onclick="filterByPriority('very-low')" data-priority="very-low"
+                <button class="filter-btn" data-priority="very-low"
                     style="padding: 4px 10px; font-size: 12px;">매우 낮음</button>
             </div>
         </div>
@@ -94,9 +94,9 @@
 
     <div class="all-tasks-list-container">
         <div class="pagination-controls">
-            <button onclick="previousPage()" id="prevPageBtn">◀</button>
+            <button id="prevPageBtn">◀</button>
             <span id="pageInfo">1 / 1</span>
-            <button onclick="nextPage()" id="nextPageBtn">▶</button>
+            <button id="nextPageBtn">▶</button>
         </div>
         <div class="all-tasks-list" id="allTasksList"></div>
     </div>

@@ -2,10 +2,10 @@
     <!-- 왼쪽: 캘린더 (75%) -->
     <div class="calendar-section">
         <div class="calendar-header">
-            <button onclick="previousMonth()">◀</button>
+            <button id="prevMonthBtn">◀</button>
             <h2 id="currentMonth"></h2>
-            <button onclick="nextMonth()">▶</button>
-            <button class="btn-all-tasks" onclick="openAllTasksModal()">📋 전체보기</button>
+            <button id="nextMonthBtn">▶</button>
+            <button class="btn-all-tasks" id="openAllTasksBtn">📋 전체보기</button>
         </div>
         <div class="calendar" id="calendar"></div>
     </div>
@@ -22,16 +22,11 @@
                 <div id="prioritySummary" class="priority-summary"></div>
                 <h3 id="selectedDateTitle">선택된 날짜의 업무</h3>
                 <div id="selectedDateStatusFilters" class="selected-date-status-filters">
-                    <button class="filter-btn active" onclick="filterSelectedDateTasksByStatus('전체')"
-                        data-status="전체">상태: 전체</button>
-                    <button class="filter-btn" onclick="filterSelectedDateTasksByStatus('pending')"
-                        data-status="pending">대기</button>
-                    <button class="filter-btn filter-btn-inprogress"
-                        onclick="filterSelectedDateTasksByStatus('in-progress')" data-status="in-progress">진행중</button>
-                    <button class="filter-btn" onclick="filterSelectedDateTasksByStatus('completed')"
-                        data-status="completed">완료</button>
-                    <button class="filter-btn" onclick="filterSelectedDateTasksByStatus('on-hold')"
-                        data-status="on-hold">보류</button>
+                    <button class="filter-btn active" data-status="전체">상태: 전체</button>
+                    <button class="filter-btn" data-status="pending">대기</button>
+                    <button class="filter-btn filter-btn-inprogress" data-status="in-progress">진행중</button>
+                    <button class="filter-btn" data-status="completed">완료</button>
+                    <button class="filter-btn" data-status="on-hold">보류</button>
                 </div>
             </div>
             <div class="tasks-content-wrapper">

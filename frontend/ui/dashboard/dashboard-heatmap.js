@@ -45,8 +45,7 @@ export const DashboardHeatmap = {
 
       heatmapHtml += `<div class="heatmap-cell level-${level}" 
                                  data-date="${dateStr}"
-                                 title="${dateStr}: ${count}개 완료" 
-                                 onclick="window.selectHeatmapDate(this, '${dateStr}')"></div>`;
+                                 title="${dateStr}: ${count}개 완료"></div>`;
       current.setDate(current.getDate() + 1);
     }
 
@@ -56,11 +55,14 @@ export const DashboardHeatmap = {
     heatmap.style.gridAutoFlow = 'column';
     heatmap.innerHTML = heatmapHtml;
 
-    window.selectHeatmapDate = (cell, dateStr) => {
-      document.querySelectorAll('.heatmap-cell').forEach(c => c.classList.remove('active'));
-      cell.classList.add('active');
-      this.renderHeatmapSideList(tasks, dateStr);
-    };
+    heatmap.querySelectorAll('.heatmap-cell').forEach(cell => {
+      cell.addEventListener('click', () => {
+        heatmap.querySelectorAll('.heatmap-cell').forEach(c => c.classList.remove('active'));
+        cell.classList.add('active');
+        const dateStr = cell.getAttribute('data-date');
+        this.renderHeatmapSideList(tasks, dateStr);
+      });
+    });
   },
 
   renderHeatmapSideList(tasks, dateStr) {
@@ -86,10 +88,18 @@ export const DashboardHeatmap = {
     }
 
     listEl.innerHTML = dayTasks.map(task => `
-            <div class="heatmap-side-item status-${task.status}" onclick="window.openTaskModalById('${task.id}')" title="보려면 클릭">
+            <div class="heatmap-side-item status-${task.status}" data-task-id="${task.id}" title="보려면 클릭">
                 <div class="heatmap-side-item-title">${TextUtils.escapeHtml(task.taskName)}</div>
                 <div class="heatmap-side-item-cat">${task.category1 || '미분류'} > ${task.category2 || '-'}</div>
             </div>
         `).join('');
+
+    listEl.querySelectorAll('.heatmap-side-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const taskId = item.getAttribute('data-task-id');
+        const { openTaskModalById } = await import('../../main.js');
+        if (window.openTaskModalById) window.openTaskModalById(taskId);
+      });
+    });
   }
 };

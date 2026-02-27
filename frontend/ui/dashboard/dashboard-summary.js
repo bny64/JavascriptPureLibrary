@@ -22,9 +22,9 @@ export const DashboardSummary = {
 
     container.innerHTML = stats.map(stat => {
       const clickable = stat.status !== null;
-      const onclick = clickable ? `onclick="window.openAllTasksModalWithStatus('${stat.status}')"` : '';
+      const dataAttr = clickable ? `data-status="${stat.status}"` : '';
       const cursor = clickable ? 'cursor-pointer' : '';
-      return `<div class="summary-card ${cursor}" ${onclick}>
+      return `<div class="summary-card ${cursor}" ${dataAttr}>
                 <div class="icon">${stat.icon}</div>
                 <div class="content-wrapper">
                     <div class="value">${stat.value}</div>
@@ -32,5 +32,14 @@ export const DashboardSummary = {
                 </div>
             </div>`;
     }).join('');
+
+    container.querySelectorAll('.summary-card.cursor-pointer').forEach(card => {
+      card.addEventListener('click', () => {
+        const status = card.getAttribute('data-status');
+        if (window.openAllTasksModalWithStatus) {
+          window.openAllTasksModalWithStatus(status);
+        }
+      });
+    });
   }
 };

@@ -48,7 +48,7 @@ export const DashboardAlerts = {
       const badgeText = isOverdue ? '연체' : '오늘 마감';
 
       return `
-                <div class="critical-task-item" onclick="window.openTaskModalById('${task.id}')">
+                <div class="critical-task-item" data-task-id="${task.id}">
                     <div class="critical-task-info">
                         <div class="critical-task-title">${TextUtils.escapeHtml(task.taskName)}</div>
                         <div class="critical-task-meta">
@@ -60,6 +60,16 @@ export const DashboardAlerts = {
                 </div>
             `;
     }).join('');
+
+    listContainer.querySelectorAll('.critical-task-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const taskId = item.getAttribute('data-task-id');
+        const { openTaskModalById } = await import('../../main.js');
+        // Assuming openTaskModalById is exported or we can just import the modal module
+        // It's cleaner to import from main or openTaskModal. Actually openTaskModalById is global or in main.js. Let's use the global window.openTaskModalById for simplicity or import it properly if we can.
+        if (window.openTaskModalById) window.openTaskModalById(taskId);
+      });
+    });
   },
 
   renderBottleneckTasks(tasks) {
@@ -94,7 +104,7 @@ export const DashboardAlerts = {
       const statusLabel = { 'pending': '대기', 'in-progress': '진행중', 'on-hold': '보류' }[task.status] || task.status;
 
       return `
-                <div class="bottleneck-item" onclick="window.openTaskModalById('${task.id}')">
+                <div class="bottleneck-item" data-task-id="${task.id}">
                     <div class="bottleneck-info">
                         <div class="bottleneck-title">${TextUtils.escapeHtml(task.taskName)}</div>
                         <div class="bottleneck-meta">
@@ -106,5 +116,11 @@ export const DashboardAlerts = {
                 </div>
             `;
     }).join('');
+
+    listContainer.querySelectorAll('.bottleneck-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.openTaskModalById) window.openTaskModalById(item.getAttribute('data-task-id'));
+      });
+    });
   }
 };

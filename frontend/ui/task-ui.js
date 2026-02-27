@@ -115,11 +115,19 @@ export const TaskUI = {
             order.map(status => {
                 const label = status === '전체' ? '전체' : STATUS_LABELS[status];
                 return `
-                <div class="status-summary-item" data-status="${status}" onclick="window.openAllTasksModalWithStatus('${status}')">
+                <div class="status-summary-item" data-status="${status}">
                     <span class="status-summary-label status-${status}">${label}</span>
                     <span class="status-summary-count status-${status}">${counts[status]}</span>
                 </div>
             `}).join('') + '</div>';
+
+        target.querySelectorAll('.status-summary-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                const status = item.getAttribute('data-status');
+                const m = await import('../modules/all-tasks-modal.js');
+                m.openAllTasksModalWithStatus(status);
+            });
+        });
     },
 
     renderPrioritySummary(tasks, targetElementId) {
@@ -132,18 +140,26 @@ export const TaskUI = {
         unfinished.forEach(t => { const p = t.priority || 'middle'; if (counts.hasOwnProperty(p)) counts[p]++; });
 
         let html = '<div class="priority-summary-item-wrapper">';
-        html += `<div class="priority-summary-item" data-priority="전체" onclick="window.openAllTasksModalWithPriority('전체')">
+        html += `<div class="priority-summary-item" data-priority="전체">
             <span class="priority-summary-label">전체</span>
             <span class="priority-summary-count">${unfinished.length}</span>
         </div>`;
         order.forEach(key => {
-            html += `<div class="priority-summary-item" data-priority="${key}" onclick="window.openAllTasksModalWithPriority('${key}')">
+            html += `<div class="priority-summary-item" data-priority="${key}">
                 <span class="priority-summary-label priority-${key}">${PRIORITY_LABELS[key]}</span>
                 <span class="priority-summary-count priority-${key}">${counts[key]}</span>
             </div>`;
         });
         html += '</div>';
         target.innerHTML = html;
+
+        target.querySelectorAll('.priority-summary-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                const priority = item.getAttribute('data-priority');
+                const m = await import('../modules/all-tasks-modal.js');
+                m.openAllTasksModalWithPriority(priority);
+            });
+        });
     },
 
     renderUnfinishedTasksSummary(tasks) {

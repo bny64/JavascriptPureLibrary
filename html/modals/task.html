@@ -1,17 +1,17 @@
 <div class="modal-content task-modal-content">
-    <span class="close" onclick="closeTaskModal()">&times;</span>
+    <span class="close">&times;</span>
     <h2 id="modalTitle">새 업무 추가</h2>
-    <form id="taskForm" onsubmit="saveTask(event)">
+    <form id="taskForm">
         <input type="hidden" id="taskId">
         <div class="form-group">
             <label>대분류</label>
-            <select id="category1" required onchange="updateSubCategories()">
+            <select id="category1" required>
                 <option value="">선택하세요</option>
             </select>
         </div>
         <div class="form-group">
             <label>중분류</label>
-            <select id="category2" onchange="updateDetailCategories()">
+            <select id="category2">
                 <option value="">선택하세요</option>
             </select>
         </div>
@@ -58,7 +58,7 @@
                 <div class="subtask-input-group">
                     <input type="text" id="newSubtaskTitle" placeholder="항목 입력 후 '추가' 클릭"
                         onkeydown="if(event.key === 'Enter') { event.preventDefault(); addSubtask(); }">
-                    <button type="button" class="btn-add-subtask" onclick="addSubtask()">추가</button>
+                    <button type="button" class="btn-add-subtask">추가</button>
                 </div>
                 <div id="subtaskList" class="subtask-list">
                     <!-- 하위 업무 항목들이 여기에 추가됩니다 -->
@@ -72,7 +72,7 @@
         </div>
         <div class="modal-buttons">
             <button type="submit" class="btn-save">저장</button>
-            <button type="button" class="btn-cancel" onclick="closeTaskModal()">취소</button>
+            <button type="button" class="btn-cancel">취소</button>
         </div>
     </form>
 </div>

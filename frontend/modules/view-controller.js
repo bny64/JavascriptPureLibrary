@@ -38,6 +38,7 @@ export async function switchView(viewName) {
         try {
             const response = await fetch(target.url);
             viewContainer.innerHTML = await response.text();
+            bindViewEvents(viewName, viewContainer);
         } catch (error) {
             console.error(`Error loading view ${viewName}:`, error);
             viewContainer.innerHTML = `<p style="padding:20px; color:red;">뷰를 로드하는 중 오류가 발생했습니다.</p>`;
@@ -93,4 +94,54 @@ export async function switchView(viewName) {
 export async function loadView() {
     const savedView = StorageUtils.get('currentView', 'calendar');
     await switchView(savedView);
+}
+
+function bindViewEvents(viewName, container) {
+    if (viewName === 'calendar') {
+        container.querySelector('#prevMonthBtn')?.addEventListener('click', async () => {
+            const m = await import('./calendar-controller.js');
+            m.previousMonth();
+        });
+        container.querySelector('#nextMonthBtn')?.addEventListener('click', async () => {
+            const m = await import('./calendar-controller.js');
+            m.nextMonth();
+        });
+        container.querySelector('#openAllTasksBtn')?.addEventListener('click', () => {
+            if (window.openAllTasksModal) window.openAllTasksModal();
+        });
+        container.querySelectorAll('#selectedDateStatusFilters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const status = e.target.getAttribute('data-status');
+                const m = await import('./calendar-controller.js');
+                m.filterSelectedDateTasksByStatus(status);
+            });
+        });
+    } else if (viewName === 'gantt') {
+        container.querySelectorAll('.status-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const status = e.target.getAttribute('data-status');
+                const m = await import('./gantt.js');
+                m.filterGanttByStatus(status);
+            });
+        });
+        container.querySelectorAll('.priority-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const priority = e.target.getAttribute('data-priority');
+                const m = await import('./gantt.js');
+                m.filterGanttByPriority(priority);
+            });
+        });
+    } else if (viewName === 'dashboard') {
+        container.querySelector('#archiveOldTasksBtn')?.addEventListener('click', () => {
+            if (window.archiveOldTasks) window.archiveOldTasks();
+        });
+    } else if (viewName === 'activityLog') {
+        container.querySelectorAll('.log-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const action = e.target.getAttribute('data-action');
+                const m = await import('./activity-log-controller.js');
+                m.filterLogs(action);
+            });
+        });
+    }
 }

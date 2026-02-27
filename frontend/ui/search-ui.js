@@ -205,7 +205,7 @@ export const SearchUI = {
       const progress = t.progress || 0;
 
       return `
-                <div class="search-result-item" onclick="window.openTaskModalById('${t.id}')" style="cursor: pointer; padding: 15px; border: 1px solid #ddd; border-left: 4px solid var(--status-${t.status}, #ccc); border-radius: 8px; background: white; transition: background 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; gap: 8px;">
+                <div class="search-result-item" data-task-id="${t.id}" style="cursor: pointer; padding: 15px; border: 1px solid #ddd; border-left: 4px solid var(--status-${t.status}, #ccc); border-radius: 8px; background: white; transition: background 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; gap: 8px;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                         <span style="font-size: 12px; color: #666; font-weight: 600;">${TextUtils.escapeHtml(catStr)}</span>
                         <div style="display: flex; gap: 8px; font-size: 11px;">
@@ -224,6 +224,14 @@ export const SearchUI = {
             `;
     }).join('');
 
+    container.querySelectorAll('.search-result-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const taskId = item.getAttribute('data-task-id');
+        const { openTaskModalById } = await import('../../main.js');
+        if (window.openTaskModalById) window.openTaskModalById(taskId);
+      });
+    });
+
     this.renderPagination(totalCount);
   },
 
@@ -238,12 +246,15 @@ export const SearchUI = {
     }
 
     let html = `
-      <button onclick="SearchUI.changePage(${this.currentPage - 1})" ${this.currentPage === 1 ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">이전</button>
+      <button id="advSearchPrevBtn" ${this.currentPage === 1 ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">이전</button>
       <span style="font-size: 14px; font-weight: 600; color: #333;">${this.currentPage} / ${totalPages}</span>
-      <button onclick="SearchUI.changePage(${this.currentPage + 1})" ${this.currentPage === totalPages ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">다음</button>
+      <button id="advSearchNextBtn" ${this.currentPage === totalPages ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">다음</button>
     `;
 
     pagination.innerHTML = html;
+
+    pagination.querySelector('#advSearchPrevBtn')?.addEventListener('click', () => this.changePage(this.currentPage - 1));
+    pagination.querySelector('#advSearchNextBtn')?.addEventListener('click', () => this.changePage(this.currentPage + 1));
   },
 
   changePage(page) {

@@ -40,9 +40,10 @@ export const KanbanUI = {
         // 컨테이너 클래스 변경 (레이아웃 조절용)
         boardContainer.className = `kanban-board mode-${mode}`;
 
-        // 탭 상태 업데이트
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        // 탭 상태 업데이트 및 이벤트 바인딩
+        document.querySelectorAll('.kanban-tabs .tab-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-group') === mode);
+            btn.onclick = () => this.setGroupBy(btn.getAttribute('data-group'));
         });
 
         boardContainer.innerHTML = '';
