@@ -40,5 +40,7 @@ export const AppState = {
     currentLogFilter: '전체',
     gantt: null,
     ganttInitialized: false,
-    ganttScrollLeft: 0
+    ganttScrollLeft: 0,
+    // 대시보드 트렌드 기간 (기본 7일)
+    currentTrendDays: 7
 };

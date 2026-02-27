@@ -1,6 +1,7 @@
 // ui/dashboard-ui.js - 대시보드 UI 렌더링
 
 import { TextUtils } from '../utils/dom.js';
+import { AppState } from '../state/app-state.js';
 
 let chartInstances = {};
 
@@ -62,6 +63,22 @@ export const DashboardUI = {
                 }
             };
         }
+
+        // 트렌드 차트 기간 선택 이벤트 바인딩
+        const periodButtons = dashboardView.querySelectorAll('.btn-period');
+        periodButtons.forEach(btn => {
+            btn.onclick = () => {
+                const days = parseInt(btn.dataset.period);
+                AppState.currentTrendDays = days;
+
+                // 버튼 상태 업데이트
+                periodButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // 차트 재렌더링
+                this.renderTrendChart(AppState.tasks);
+            };
+        });
     },
 
     updateAlertsGridVisibility() {
@@ -575,11 +592,28 @@ export const DashboardUI = {
         const createdData = [];
 
         const today = new Date();
-        for (let i = 13; i >= 0; i--) {
+        const days = AppState.currentTrendDays || 7;
+
+        // 버튼 상태 동기화 (render가 직접 호출될 때를 대비)
+        const periodButtons = document.querySelectorAll('.btn-period');
+        periodButtons.forEach(btn => {
+            if (parseInt(btn.dataset.period) === days) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        for (let i = days - 1; i >= 0; i--) {
             const d = new Date(today);
             d.setDate(today.getDate() - i);
             const dateStr = d.toISOString().split('T')[0];
-            const displayStr = `${d.getMonth() + 1}/${d.getDate()}`;
+
+            let displayStr = `${d.getMonth() + 1}/${d.getDate()}`;
+            if (days >= 180) {
+                // 6개월 이상일 경우 월/일 표기에서 '일' 부분이 복잡해질 수 있으므로 간소화
+                displayStr = `${d.getMonth() + 1}/${d.getDate()}`;
+            }
             labels.push(displayStr);
 
             const completed = tasks.filter(t => t.status === 'completed' && t.endDate === dateStr).length;
@@ -600,19 +634,21 @@ export const DashboardUI = {
                         label: '완료된 업무',
                         data: completedData,
                         borderColor: '#4caf50',
-                        backgroundColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
                         borderWidth: 2,
                         tension: 0.3,
-                        fill: false
+                        pointRadius: days > 31 ? 0 : 3, // 데이터가 많으면 포인트 제거
+                        fill: true
                     },
                     {
                         label: '신규 생성 업무',
                         data: createdData,
                         borderColor: '#ff9800',
-                        backgroundColor: '#ff9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
                         borderWidth: 2,
                         tension: 0.3,
-                        fill: false
+                        pointRadius: days > 31 ? 0 : 3,
+                        fill: true
                     }
                 ]
             },
@@ -620,10 +656,27 @@ export const DashboardUI = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'top' }
+                    legend: { position: 'top' },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
                 },
                 scales: {
-                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 0,
+                            autoSkip: true, // 브라우저 창 크기에 맞춰 겹치지 않게 자동 생략 처리
+                            maxTicksLimit: days > 60 ? 12 : 15 // 최대 표시할 라벨 수 제한
+                        },
+                        grid: {
+                            display: false // 장기 데이터 조회 시 수많은 세로 눈금선이 겹쳐서 까맣게 보이는 현상 방지
+                        }
+                    }
                 }
             }
         });

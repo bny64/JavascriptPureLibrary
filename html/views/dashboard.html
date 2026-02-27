@@ -107,7 +107,16 @@
     </div>
     <div class="dashboard-card full-width"
         style="height: 400px; margin-bottom: 20px; display: flex; flex-direction: column;">
-        <h3>📈 주간 업무 처리량 트렌드 (최근 14일)</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0;">📈 업무 처리량 트렌드</h3>
+            <div class="trend-period-selector" id="trendPeriodSelector">
+                <button class="btn-period active" data-period="7">1주</button>
+                <button class="btn-period" data-period="30">1개월</button>
+                <button class="btn-period" data-period="90">3개월</button>
+                <button class="btn-period" data-period="180">6개월</button>
+                <button class="btn-period" data-period="365">1년</button>
+            </div>
+        </div>
         <div style="position: relative; flex-grow: 1;">
             <canvas id="trendChartCanvas"></canvas>
         </div>
