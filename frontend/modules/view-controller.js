@@ -5,6 +5,7 @@ import { TaskUI } from '../ui/task-ui.js';
 import { DashboardUI } from '../ui/dashboard-ui.js';
 import { KanbanUI } from '../ui/kanban-ui.js';
 import { SearchUI } from '../ui/search-ui.js';
+import { ReportUI } from '../ui/report-ui.js';
 
 import { initGanttChart } from './gantt.js';
 import { renderCalendar, renderTasksForSelectedDate, updateSelectedDateTitle } from './calendar-controller.js';
@@ -19,6 +20,7 @@ export async function switchView(viewName) {
         'gantt': { id: 'gantt-chart-view', url: 'html/views/gantt.html', linkId: 'sidebarGanttLink' },
         'kanban': { id: 'kanban-view', url: 'html/views/kanban.html', linkId: 'sidebarKanbanLink' },
         'search': { id: 'search-view', url: 'html/views/search.html', linkId: 'sidebarSearchLink' },
+        'report': { id: 'report-view', url: 'html/views/report.html', linkId: 'sidebarReportLink' },
         'activityLog': { id: 'activity-log-view', url: 'html/views/activity-log.html', linkId: 'sidebarActivityLogLink' }
     };
 
@@ -87,6 +89,9 @@ export async function switchView(viewName) {
             break;
         case 'activityLog':
             loadLogs();
+            break;
+        case 'report':
+            ReportUI.render(AppState.tasks);
             break;
     }
 

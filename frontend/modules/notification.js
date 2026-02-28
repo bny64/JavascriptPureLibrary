@@ -48,10 +48,11 @@ export function renderNotifications(notifications) {
 
     if (notifications.length === 0) {
         notificationList.innerHTML = '<li>알림 없음</li>';
-        notificationCount.textContent = '0';
+        notificationCount.style.display = 'none';
         return;
     }
 
+    notificationCount.style.display = 'flex';
     notificationCount.textContent = notifications.length;
     notifications.forEach(task => {
         const li = document.createElement('li');

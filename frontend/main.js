@@ -48,6 +48,7 @@ import { CategoryUI } from './ui/category-ui.js';
 import { DashboardUI } from './ui/dashboard-ui.js';
 import { KanbanUI } from './ui/kanban-ui.js';
 import { SearchUI } from './ui/search-ui.js';
+import { ReportUI } from './ui/report-ui.js';
 import { ActivityLogUI } from './ui/activity-log-ui.js';
 import { MemoUI } from './ui/memo-ui.js';
 
@@ -169,6 +170,9 @@ EventBus.subscribe('tasks-updated', (tasks) => {
     if (document.getElementById('kanban-view')?.style.display === 'block') KanbanUI.render(tasks);
     if (document.getElementById('search-view')?.style.display === 'block') SearchUI.performSearch();
     if (document.getElementById('activity-log-view')?.style.display === 'block') loadLogs();
+    if (document.getElementById('report-view')?.style.display === 'block') {
+        ReportUI.render(tasks);
+    }
     if (document.getElementById('allTasksModal')?.style.display === 'block') renderAllTasks();
 
     // 알림 갱신
@@ -415,6 +419,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'sidebarGanttLink': 'gantt',
         'sidebarKanbanLink': 'kanban',
         'sidebarSearchLink': 'search',
+        'sidebarReportLink': 'report',
         'sidebarActivityLogLink': 'activityLog'
     };
     Object.entries(viewLinks).forEach(([id, view]) => {
