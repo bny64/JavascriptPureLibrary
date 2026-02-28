@@ -56,8 +56,10 @@
 }
 
 .category-tree-item:hover {
-  background: #e0f7f4;
+  background: white;
+  border-color: var(--primary-hover);
   transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .category-main {
@@ -104,12 +106,23 @@
 }
 
 .btn-cat-edit {
-  background: #2196f3;
+  background: #3f51b5;
+  /* Indigo */
   color: white;
 }
 
 .btn-cat-edit:hover {
-  background: #1976d2;
+  background: #303f9f;
+}
+
+.btn-cat-copy {
+  background: #ffbf00;
+  /* Amber */
+  color: #333;
+}
+
+.btn-cat-copy:hover {
+  background: #ffa000;
 }
 
 .btn-cat-delete {

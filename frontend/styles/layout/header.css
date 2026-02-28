@@ -68,7 +68,8 @@
 }
 
 .search-result-item:hover {
-  background: #f0f7f4;
+  background: #f8fcfb;
+  border-left: 4px solid var(--primary-start);
 }
 
 .search-result-title {
@@ -558,7 +559,7 @@ header h1 {
 }
 
 .calendar-header button:hover {
-  background: #0e8577;
+  background: var(--primary-hover);
   transform: scale(1.1);
 }
 
@@ -577,7 +578,7 @@ header h1 {
 }
 
 .btn-all-tasks:hover {
-  background: #0e8577 !important;
+  background: var(--primary-hover) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -1060,8 +1061,8 @@ h3#selectedDateTitle {
 }
 
 .selected-date-status-filters .filter-btn:hover {
-  border-color: #11998e;
-  color: #11998e;
+  border-color: var(--primary-start);
+  color: var(--primary-start);
   transform: translateY(-1px);
 }
 
@@ -1102,7 +1103,8 @@ h3#selectedDateTitle {
 }
 
 .task-item:hover {
-  background: #e0f7f4;
+  background: white;
+  border-color: var(--primary-start);
   transform: translateX(4px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

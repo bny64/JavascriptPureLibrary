@@ -148,16 +148,14 @@ header {
 .btn-memo-primary,
 .btn-add-memo,
 .btn-save,
-#advSearchBtn,
-.btn-cat-copy {
+#advSearchBtn {
     background: var(--primary-start) !important;
 }
 
 .btn-memo-primary:hover,
 .btn-add-memo:hover,
 .btn-save:hover,
-#advSearchBtn:hover,
-.btn-cat-copy:hover {
+#advSearchBtn:hover {
     background: var(--primary-hover) !important;
 }
 

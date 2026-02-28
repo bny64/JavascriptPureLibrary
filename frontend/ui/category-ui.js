@@ -48,15 +48,15 @@ export const CategoryUI = {
         mainDiv.appendChild(DomUtils.createElement('span', '', mainCat));
         const actions = DomUtils.createElement('div', 'category-actions');
         if (group.main) {
-            actions.appendChild(this._createCatBtn('btn-cat-edit', '수정', async () => {
+            actions.appendChild(this._createCatBtn('btn-cat-edit', '📝 수정', async () => {
                 const { editCategoryItem } = await import('../modules/category-modal.js');
                 editCategoryItem(group.main);
             }));
-            actions.appendChild(this._createCatBtn('btn-cat-copy', '복사', async () => {
+            actions.appendChild(this._createCatBtn('btn-cat-copy', '📋 복사', async () => {
                 const { copyCategory } = await import('../main.js');
                 copyCategory(group.main);
             }));
-            actions.appendChild(this._createCatBtn('btn-cat-delete', '삭제', async () => {
+            actions.appendChild(this._createCatBtn('btn-cat-delete', '🗑️ 삭제', async () => {
                 const { CategoryService } = await import('../services/category-service.js');
                 CategoryService.deleteCategory(group.main.id);
             }));
@@ -71,15 +71,15 @@ export const CategoryUI = {
             subDiv.appendChild(DomUtils.createElement('span', '', `└ ${subKey}`));
             const subActions = DomUtils.createElement('div', 'category-actions');
             if (subGroup.sub) {
-                subActions.appendChild(this._createCatBtn('btn-cat-edit', '수정', async () => {
+                subActions.appendChild(this._createCatBtn('btn-cat-edit', '📝 수정', async () => {
                     const { editCategoryItem } = await import('../modules/category-modal.js');
                     editCategoryItem(subGroup.sub);
                 }));
-                subActions.appendChild(this._createCatBtn('btn-cat-copy', '복사', async () => {
+                subActions.appendChild(this._createCatBtn('btn-cat-copy', '📋 복사', async () => {
                     const { copyCategory } = await import('../main.js');
                     copyCategory(subGroup.sub);
                 }));
-                subActions.appendChild(this._createCatBtn('btn-cat-delete', '삭제', async () => {
+                subActions.appendChild(this._createCatBtn('btn-cat-delete', '🗑️ 삭제', async () => {
                     const { CategoryService } = await import('../services/category-service.js');
                     CategoryService.deleteCategory(subGroup.sub.id);
                 }));
@@ -94,15 +94,15 @@ export const CategoryUI = {
                     const detailDiv = DomUtils.createElement('div', 'category-detail');
                     detailDiv.appendChild(DomUtils.createElement('span', '', `    └ ${detailCat.detailCategory}`));
                     const detailActions = DomUtils.createElement('div', 'category-actions');
-                    detailActions.appendChild(this._createCatBtn('btn-cat-edit', '수정', async () => {
+                    detailActions.appendChild(this._createCatBtn('btn-cat-edit', '📝 수정', async () => {
                         const { editCategoryItem } = await import('../modules/category-modal.js');
                         editCategoryItem(detailCat);
                     }));
-                    detailActions.appendChild(this._createCatBtn('btn-cat-copy', '복사', async () => {
+                    detailActions.appendChild(this._createCatBtn('btn-cat-copy', '📋 복사', async () => {
                         const { copyCategory } = await import('../main.js');
                         copyCategory(detailCat);
                     }));
-                    detailActions.appendChild(this._createCatBtn('btn-cat-delete', '삭제', async () => {
+                    detailActions.appendChild(this._createCatBtn('btn-cat-delete', '🗑️ 삭제', async () => {
                         const { CategoryService } = await import('../services/category-service.js');
                         CategoryService.deleteCategory(detailCat.id);
                     }));

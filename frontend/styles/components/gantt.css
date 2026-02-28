@@ -117,8 +117,8 @@
 }
 
 .gantt-bar:hover {
-  fill: #e3f2fd;
-  stroke: #2196f3;
+  fill: #f8fcfb;
+  stroke: var(--primary-start);
 }
 
 .gantt-bar-label {
@@ -201,4 +201,3 @@
 .gantt .bar-wrapper.gantt-priority-low .bar {
   fill: #4caf5033;
 }
-

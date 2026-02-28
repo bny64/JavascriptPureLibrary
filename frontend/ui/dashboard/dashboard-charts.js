@@ -217,6 +217,11 @@ export const DashboardCharts = {
     const labels = sortedAvgLeadTimes.map(i => i.category);
     const data = sortedAvgLeadTimes.map(i => i.avgDays);
 
+    const colors = [
+      '#03a9f4', '#009688', '#3f51b5', '#ff9800', '#f44336',
+      '#9c27b0', '#4caf50', '#ffc107', '#607d8b', '#795548'
+    ];
+
     if (chartInstances.leadTime) chartInstances.leadTime.destroy();
 
     chartInstances.leadTime = new window.Chart(canvas, {
@@ -226,7 +231,7 @@ export const DashboardCharts = {
         datasets: [{
           label: '평균 소요 시간 (일)',
           data: data,
-          backgroundColor: '#03a9f4',
+          backgroundColor: labels.map((_, i) => colors[i % colors.length]),
         }]
       },
       options: {
@@ -398,17 +403,24 @@ export const DashboardCharts = {
       if (task.status === 'completed') catStats[cat].completed++;
     });
 
-    container.innerHTML = Object.keys(catStats).sort().map(cat => {
+    const colors = [
+      '#009688', '#3f51b5', '#ff9800', '#f44336', '#9c27b0',
+      '#2196f3', '#4caf50', '#ffc107', '#607d8b', '#795548'
+    ];
+
+    container.innerHTML = Object.keys(catStats).sort().map((cat, index) => {
       const stats = catStats[cat];
       const percent = Math.round((stats.completed / stats.total) * 100);
       const escapedCat = cat.replace(/'/g, "\\'");
+      const barColor = colors[index % colors.length];
+
       return `<div class="cat-progress-item cursor-pointer" data-category="${escapedCat}" title="클릭하여 '${escapedCat}' 업무 목록 보기">
                 <div class="cat-progress-header">
                     <span class="cat-name">${TextUtils.escapeHtml(cat)}</span>
                     <span class="cat-percent">${percent}% (${stats.completed}/${stats.total})</span>
                 </div>
                 <div class="chart-bar-wrapper">
-                    <div class="chart-bar-fill" style="width:${percent}%;background-color:#11998e"></div>
+                    <div class="chart-bar-fill" style="width:${percent}%;background-color:${barColor}"></div>
                 </div>
             </div>`;
     }).join('');

@@ -206,7 +206,7 @@
 
 .kanban-column.drag-over {
   background: #dfe3e6;
-  outline: 2px dashed #11998e;
+  outline: 2px dashed var(--primary-start);
 }
 
 .kanban-column.drag-over {

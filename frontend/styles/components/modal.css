@@ -52,7 +52,8 @@
 }
 
 .btn-add-subtask {
-  background: var(--primary-start);
+  background: #455a64;
+  /* Blue Grey */
   color: white;
   border: none;
   border-radius: 6px;
@@ -65,7 +66,7 @@
 }
 
 .btn-add-subtask:hover {
-  background: #0e8577;
+  background: #37474f;
 }
 
 .subtask-list {
