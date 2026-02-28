@@ -93,7 +93,7 @@ import {
     toggleSearchType, populateSearchCategories, updateSearchCategory2, updateSearchCategory3,
     searchAllTasks, renderAllTasks, updatePaginationControls,
     previousPage, nextPage, filterByStatus, filterByPriority,
-    changeAllTasksSort, activateFilterButtons
+    changeAllTasksSort, resetAllFilters, activateFilterButtons
 } from './modules/all-tasks-modal.js';
 
 import {
@@ -369,6 +369,16 @@ function bindModalEvents() {
 
     document.getElementById('sortField')?.addEventListener('change', changeAllTasksSort);
     document.getElementById('sortDirection')?.addEventListener('change', changeAllTasksSort);
+
+    // 날짜 기간 검색 이벤트 바인딩
+    const startDateInput = document.getElementById('searchStartDate');
+    const endDateInput = document.getElementById('searchEndDate');
+
+    startDateInput?.addEventListener('change', searchAllTasks);
+    endDateInput?.addEventListener('change', searchAllTasks);
+    
+    // 전체 필터 초기화 버튼 이벤트 바인딩
+    document.getElementById('allTasksResetBtn')?.addEventListener('click', resetAllFilters);
 
     document.getElementById('prevPageBtn')?.addEventListener('click', previousPage);
     document.getElementById('nextPageBtn')?.addEventListener('click', nextPage);

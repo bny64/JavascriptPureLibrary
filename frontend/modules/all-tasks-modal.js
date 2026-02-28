@@ -20,6 +20,8 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
 
     // 검색 필드 UI 초기화
     document.getElementById('textSearchInput').value = '';
+    document.getElementById('searchStartDate').value = '';
+    document.getElementById('searchEndDate').value = '';
 
     // 정렬 컨트롤 UI 초기화
     document.getElementById('sortField').value = 'endDate';
@@ -158,6 +160,17 @@ export function renderAllTasks() {
         filtered = filtered.filter(t => t.endDate === AppState.currentDateFilter);
     }
 
+    // 업무 기간(시작일/종료일) 필터링 추가
+    const startDate = document.getElementById('searchStartDate')?.value;
+    const endDate = document.getElementById('searchEndDate')?.value;
+
+    if (startDate) {
+        filtered = filtered.filter(t => t.startDate && t.startDate >= startDate);
+    }
+    if (endDate) {
+        filtered = filtered.filter(t => t.endDate && t.endDate <= endDate);
+    }
+
     if (AppState.currentSearchType === 'text') {
         const searchText = (document.getElementById('textSearchInput')?.value || '').toLowerCase();
         if (searchText) {
@@ -239,5 +252,40 @@ export function changeAllTasksSort() {
     AppState.sortField = document.getElementById('sortField').value;
     AppState.sortDirection = document.getElementById('sortDirection').value;
     AppState.currentPage = 1;
+    renderAllTasks();
+}
+
+export function resetAllFilters() {
+    // 상태 초기화
+    AppState.currentStatusFilter = '전체';
+    AppState.currentPriorityFilter = '전체';
+    AppState.currentDateFilter = null;
+    AppState.currentPage = 1;
+    AppState.sortField = 'endDate';
+    AppState.sortDirection = 'desc';
+    AppState.currentSearchCategory1 = '';
+    AppState.currentSearchCategory2 = '';
+    AppState.currentSearchCategory3 = '';
+
+    // UI 초기화
+    document.getElementById('textSearchInput').value = '';
+    document.getElementById('searchStartDate').value = '';
+    document.getElementById('searchEndDate').value = '';
+    document.getElementById('sortField').value = 'endDate';
+    document.getElementById('sortDirection').value = 'desc';
+    
+    // 라디오 버튼 초기화 (단어 검색으로)
+    const textRadio = document.querySelector('input[name="searchType"][value="text"]');
+    if (textRadio) textRadio.checked = true;
+    toggleSearchType(false);
+
+    // 필터 버튼 활성화 상태 업데이트
+    activateFilterButtons();
+    
+    // 카테고리 드롭다운 초기화
+    populateSearchCategories();
+    updateSearchCategory2();
+
+    // 결과 렌더링
     renderAllTasks();
 }

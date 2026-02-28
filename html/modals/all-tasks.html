@@ -41,6 +41,18 @@
                 </div>
             </div>
 
+            <!-- 1-2. 업무 기간 검색 -->
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label style="font-size: 13px; font-weight: 600; min-width: 60px;">업무 기간:</label>
+                <div style="display: flex; gap: 5px; align-items: center; flex: 1;">
+                    <input type="date" id="searchStartDate"
+                        style="flex: 1; padding: 4px 8px; height: 32px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 12px; box-sizing: border-box;">
+                    <span style="font-size: 13px;">~</span>
+                    <input type="date" id="searchEndDate"
+                        style="flex: 1; padding: 4px 8px; height: 32px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 12px; box-sizing: border-box;">
+                </div>
+            </div>
+
             <!-- 2. 정렬 한 줄 -->
             <div class="sort-controls" style="margin-bottom: 0; justify-content: flex-start; gap: 10px;">
                 <label for="sortField" style="font-size: 13px; font-weight: 600; min-width: 60px;">정렬 기준:</label>
@@ -85,6 +97,14 @@
                 <button class="filter-btn" data-priority="very-low" style="padding: 4px 10px; font-size: 12px;">매우
                     낮음</button>
             </div>
+
+            <!-- 5. 전체 초기화 버튼 (하단 이동) -->
+            <div style="display: flex; justify-content: flex-end; padding-top: 5px; border-top: 1px solid #eee;">
+                <button id="allTasksResetBtn"
+                    style="padding: 6px 16px; background: #e0e0e0; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                    🔄 초기화
+                </button>
+            </div>
         </div>
     </div>
 
@@ -96,5 +116,4 @@
         <span id="pageInfo">1 / 1</span>
         <button id="nextPageBtn">▶</button>
     </div>
-</div>
 </div>
