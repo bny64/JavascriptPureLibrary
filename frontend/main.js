@@ -392,7 +392,7 @@ function bindModalEvents() {
 // ══════════════════════════════════════════════
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', async () => {
     // 1. 필수 모달 주입
     await injectComponents('#modal-container', [
         { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
@@ -401,6 +401,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'notificationSettingsModal', url: 'html/modals/notification-settings.html', wrapperClass: 'modal' }
     ]);
     bindModalEvents();
+
+    initSidebarOrder();
+    initSidebarDragAndDrop();
 
     loadTheme();
     await loadView();
@@ -520,4 +523,62 @@ window.addEventListener('keydown', (event) => {
 // 전역 유틸리티 (필요 시 전역 유지)
 // ══════════════════════════════════════════════
 window.getWeekNumber = getWeekNumber;
+
+// ══════════════════════════════════════════════
+// 사이드바 메뉴 드래그 앤 드롭
+// ══════════════════════════════════════════════
+function initSidebarOrder() {
+    const savedOrder = StorageUtils.get('sidebarMenuOrder');
+    if (!savedOrder || !Array.isArray(savedOrder)) return;
+
+    const menu = document.querySelector('.sidebar-menu');
+    const items = Array.from(menu.querySelectorAll('li'));
+    
+    savedOrder.forEach(id => {
+        const item = items.find(li => li.querySelector('a').id === id);
+        if (item) menu.appendChild(item);
+    });
+}
+
+function initSidebarDragAndDrop() {
+    const menu = document.querySelector('.sidebar-menu');
+    const items = menu.querySelectorAll('li');
+
+    items.forEach(item => {
+        item.setAttribute('draggable', 'true');
+
+        item.addEventListener('dragstart', (e) => {
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            items.forEach(li => li.classList.remove('drag-over'));
+            saveSidebarOrder();
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const draggingItem = menu.querySelector('.dragging');
+            const siblings = [...menu.querySelectorAll('li:not(.dragging)')];
+            
+            const nextSibling = siblings.find(sibling => {
+                const rect = sibling.getBoundingClientRect();
+                return e.clientY <= rect.top + rect.height / 2;
+            });
+
+            if (nextSibling) {
+                menu.insertBefore(draggingItem, nextSibling);
+            } else {
+                menu.appendChild(draggingItem);
+            }
+        });
+    });
+}
+
+function saveSidebarOrder() {
+    const ids = Array.from(document.querySelectorAll('.sidebar-menu li a')).map(a => a.id);
+    StorageUtils.set('sidebarMenuOrder', ids);
+}
 

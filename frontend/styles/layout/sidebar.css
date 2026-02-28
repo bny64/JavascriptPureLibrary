@@ -60,6 +60,27 @@
   font-weight: 700;
 }
 
+/* Sidebar Menu Drag and Drop Styles */
+.sidebar-menu li {
+  cursor: grab;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.sidebar-menu li:active {
+  cursor: grabbing;
+}
+
+.sidebar-menu li.dragging {
+  opacity: 0.4;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(0.95);
+}
+
+.sidebar-menu li.drag-over {
+  border-top: 2px solid var(--primary-start);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 header {
   background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
   color: white;
