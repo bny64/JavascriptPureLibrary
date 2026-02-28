@@ -78,8 +78,8 @@ export const ReportUI = {
                     {
                         label: '신규 등록',
                         data: createdData,
-                        borderColor: '#2196f3',
-                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        borderColor: '#ff9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
                         fill: true,
                         tension: 0.4
                     },
@@ -175,12 +175,12 @@ export const ReportUI = {
                 datasets: [{
                     data: data,
                     backgroundColor: [
-                        'rgba(33, 150, 243, 0.7)',
-                        'rgba(76, 175, 80, 0.7)',
-                        'rgba(255, 193, 7, 0.7)',
-                        'rgba(156, 39, 176, 0.7)',
-                        'rgba(244, 67, 54, 0.7)',
-                        'rgba(96, 125, 139, 0.7)'
+                        '#009688',
+                        '#3f51b5',
+                        '#ff9800',
+                        '#f44336',
+                        '#9c27b0',
+                        '#607d8b'
                     ]
                 }]
             },
@@ -226,7 +226,7 @@ export const ReportUI = {
                 datasets: [{
                     label: '평균 완료 소요 일수',
                     data: avgDays,
-                    backgroundColor: '#ff9800'
+                    backgroundColor: ['#e53935', '#fb8c00', '#3f51b5', '#4caf50', '#607d8b']
                 }]
             },
             options: {
@@ -273,7 +273,14 @@ export const ReportUI = {
                 datasets: [{
                     label: '완료 업무 수',
                     data: monthlyCounts,
-                    backgroundColor: 'rgba(103, 58, 183, 0.7)',
+                    backgroundColor: [
+                        'rgba(103, 58, 183, 0.7)',
+                        'rgba(33, 150, 243, 0.7)',
+                        'rgba(0, 150, 136, 0.7)',
+                        'rgba(255, 152, 0, 0.7)',
+                        'rgba(233, 30, 99, 0.7)',
+                        'rgba(156, 39, 176, 0.7)'
+                    ],
                     borderRadius: 6
                 }]
             },
@@ -314,9 +321,16 @@ export const ReportUI = {
                 datasets: [{
                     label: '완료 업무 빈도',
                     data: dayCounts,
-                    backgroundColor: 'rgba(0, 150, 136, 0.6)',
-                    borderColor: 'rgba(0, 150, 136, 1)',
-                    borderWidth: 1
+                    backgroundColor: [
+                        '#e53935', // 일
+                        '#ff9800', // 월
+                        '#fbc02d', // 화
+                        '#4caf50', // 수
+                        '#03a9f4', // 목
+                        '#3f51b5', // 금
+                        '#9c27b0'  // 토
+                    ],
+                    borderWidth: 0
                 }]
             },
             options: {
