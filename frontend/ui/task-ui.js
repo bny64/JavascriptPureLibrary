@@ -11,7 +11,7 @@ const STATUS_LABELS = {
 };
 
 export const TaskUI = {
-    createCard(task, options = { showEdit: true, showCopy: true, showDelete: true }) {
+    createCard(task, options = { showEdit: false, showCopy: true, showDelete: true }) {
         const taskDiv = DomUtils.createElement('div', `task-item status-${task.status}`);
         taskDiv.style.cursor = 'pointer';
         taskDiv.addEventListener('click', async () => {

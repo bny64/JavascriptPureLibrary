@@ -62,8 +62,15 @@
       "endDate": "2026-02-28",
       "status": "pending",
       "priority": "high",
-      "description": "예산 관련 이슈로 잠시 중단",
-      "createdAt": "2026-02-14T07:18:35.000Z"
+      "description": "<p>예산 관련 이슈로 잠시 중단</p>",
+      "createdAt": "2026-02-14T07:18:35.000Z",
+      "subtasks": [
+        {
+          "id": "1772262693413",
+          "title": "체크 리스트 1",
+          "completed": true
+        }
+      ]
     },
     {
       "id": "t6",
