@@ -6,7 +6,7 @@
       "category2": "웹 개발",
       "category3": "프론트엔드",
       "taskName": "메인 페이지 UI 고도화",
-      "startDate": "2026-02-03",
+      "startDate": "2026-02-04",
       "endDate": "2026-02-15",
       "status": "completed",
       "priority": "high",
@@ -34,7 +34,7 @@
       "taskName": "2월 서버 정기 점검",
       "startDate": "2026-02-17",
       "endDate": "2026-02-18",
-      "status": "pending",
+      "status": "completed",
       "priority": "middle",
       "description": "운영 서버 패치 및 리소스 상태 체크",
       "createdAt": "2026-02-15T14:00:00.000Z"
@@ -48,8 +48,8 @@
       "startDate": "2026-02-16",
       "endDate": "2026-02-26",
       "status": "in-progress",
-      "priority": "low",
-      "description": "<p><em>1차 기술 면접 진행 중</em></p>",
+      "priority": "high",
+      "description": "1차 기술 면접 진행 중",
       "createdAt": "2026-02-10T11:00:00.000Z"
     },
     {
@@ -58,12 +58,25 @@
       "category2": "기획/설계",
       "category3": "요구사항 분석",
       "taskName": "차세대 시스템 요구사항 정의",
-      "startDate": "2026-01-16",
-      "endDate": "2026-03-03",
-      "status": "completed",
+      "startDate": "2026-01-15",
+      "endDate": "2026-02-28",
+      "status": "on-hold",
       "priority": "high",
-      "description": "<p>차세대 시스템 요구사항 정의-</p>",
+      "description": "예산 관련 이슈로 잠시 중단",
       "createdAt": "2026-01-15T09:30:00.000Z"
+    },
+    {
+      "id": "t6",
+      "category1": "운영/인프라",
+      "category2": "보안 관리",
+      "category3": "취약점 스캔",
+      "taskName": "사내 망 보안 점검",
+      "startDate": "2026-02-05",
+      "endDate": "2026-02-07",
+      "status": "completed",
+      "priority": "very-high",
+      "description": "전사 PC 보안 업데이트 확인",
+      "createdAt": "2026-02-04T16:00:00.000Z"
     },
     {
       "id": "t7",
@@ -71,8 +84,8 @@
       "category2": "기술 지원",
       "category3": "장애 대응",
       "taskName": "메일 서버 연결 지연 이슈 해결",
-      "startDate": "2026-02-16",
-      "endDate": "2026-02-16",
+      "startDate": "2026-02-17",
+      "endDate": "2026-02-17",
       "status": "completed",
       "priority": "very-high",
       "description": "네트워크 설정 오류 수정 완료",
@@ -101,9 +114,8 @@
       "endDate": "2026-03-27",
       "status": "in-progress",
       "priority": "middle",
-      "description": "<p>PoC 진행 및 비용 분석</p>",
-      "createdAt": "2026-02-01T13:00:00.000Z",
-      "subtasks": []
+      "description": "PoC 진행 및 비용 분석",
+      "createdAt": "2026-02-01T13:00:00.000Z"
     },
     {
       "id": "t10",
@@ -114,7 +126,7 @@
       "startDate": "2026-03-01",
       "endDate": "2026-03-10",
       "status": "pending",
-      "priority": "high",
+      "priority": "middle",
       "description": "영수증 처리 및 증빙 자료 수집",
       "createdAt": "2026-02-18T15:00:00.000Z"
     },
@@ -126,11 +138,10 @@
       "taskName": "로그인 페이지 소셜 인증 추가",
       "startDate": "2026-02-12",
       "endDate": "2026-02-19",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "middle",
-      "description": "<p>카카오, 네이버 연동 작업</p>",
-      "createdAt": "2026-02-12T10:00:00.000Z",
-      "subtasks": []
+      "description": "카카오, 네이버 연동 작업",
+      "createdAt": "2026-02-12T10:00:00.000Z"
     },
     {
       "id": "t12",
@@ -151,10 +162,10 @@
       "category2": "기획/설계",
       "category3": "요구사항 분석",
       "taskName": "모바일 앱 고도화 기획",
-      "startDate": "2026-01-27",
-      "endDate": "2026-02-22",
+      "startDate": "2026-01-29",
+      "endDate": "2026-02-20",
       "status": "completed",
-      "priority": "low",
+      "priority": "very-low",
       "description": "예산 확정 대기 중",
       "createdAt": "2026-02-05T09:00:00.000Z"
     },
@@ -166,7 +177,7 @@
       "taskName": "결제 시스템 간헐적 오류 조사",
       "startDate": "2026-02-18",
       "endDate": "2026-02-19",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "very-high",
       "description": "PG사 로그 확인 중",
       "createdAt": "2026-02-18T09:10:00.000Z"
@@ -194,9 +205,8 @@
       "endDate": "2026-03-20",
       "status": "on-hold",
       "priority": "middle",
-      "description": "<p>기존 DB 검색에서 전문 검색 엔진으로 교체</p>",
-      "createdAt": "2026-02-18T16:00:00.000Z",
-      "subtasks": []
+      "description": "기존 DB 검색에서 전문 검색 엔진으로 교체",
+      "createdAt": "2026-02-18T16:00:00.000Z"
     },
     {
       "id": "t17",
@@ -207,8 +217,8 @@
       "startDate": "2026-02-10",
       "endDate": "2026-02-28",
       "status": "in-progress",
-      "priority": "high",
-      "description": "<p>방화벽 규칙 재설정</p>",
+      "priority": "very-high",
+      "description": "방화벽 규칙 재설정",
       "createdAt": "2026-02-10T09:00:00.000Z"
     },
     {
@@ -219,7 +229,7 @@
       "taskName": "유튜브 숏츠 영상 제작",
       "startDate": "2026-02-15",
       "endDate": "2026-02-20",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "middle",
       "description": "신제품 언박싱 영상 편집",
       "createdAt": "2026-02-15T13:00:00.000Z"
@@ -232,7 +242,7 @@
       "taskName": "법인카드 사용 내역 정리",
       "startDate": "2026-02-25",
       "endDate": "2026-02-28",
-      "status": "pending",
+      "status": "completed",
       "priority": "low",
       "description": "2월분 전표 처리 - 확인필요",
       "createdAt": "2026-02-18T17:00:00.000Z"
@@ -244,7 +254,7 @@
       "category3": "프론트엔드",
       "taskName": "공통 컴포넌트 라이브러리화",
       "startDate": "2026-01-01",
-      "endDate": "2026-02-16",
+      "endDate": "2026-02-15",
       "status": "completed",
       "priority": "middle",
       "description": "버튼, 입력창 등 스타일 가이드 적용",
@@ -272,7 +282,7 @@
       "startDate": "2026-02-14",
       "endDate": "2026-02-16",
       "status": "completed",
-      "priority": "low",
+      "priority": "very-low",
       "description": "v2.0 기준 문서 수정",
       "createdAt": "2026-02-14T09:00:00.000Z"
     },
@@ -284,7 +294,7 @@
       "taskName": "신규 관리자 페이지 와이어프레임",
       "startDate": "2026-02-19",
       "endDate": "2026-02-26",
-      "status": "pending",
+      "status": "in-progress",
       "priority": "middle",
       "description": "피그마 설계 작업",
       "createdAt": "2026-02-18T10:30:00.000Z"
@@ -297,10 +307,23 @@
       "taskName": "로그 수집 서버 용량 부족 해결",
       "startDate": "2026-02-18",
       "endDate": "2026-02-18",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "high",
       "description": "오래된 로그 압축 및 백업",
       "createdAt": "2026-02-18T08:30:00.000Z"
+    },
+    {
+      "id": "t25",
+      "category1": "경영/지원",
+      "category2": "인사관리",
+      "category3": "채용",
+      "taskName": "팀별 성과 지표 가이드 배포",
+      "startDate": "2026-02-05",
+      "endDate": "2026-02-10",
+      "status": "완료",
+      "priority": "middle",
+      "description": "KPI 설정 가이드 전파",
+      "createdAt": "2026-02-05T10:00:00.000Z"
     },
     {
       "id": "t26",
@@ -314,6 +337,19 @@
       "priority": "high",
       "description": "S3 다이렉트 업로드 구현",
       "createdAt": "2026-02-18T14:00:00.000Z"
+    },
+    {
+      "id": "t27",
+      "category1": "디자인",
+      "category2": "UI/UX",
+      "category3": "웹 디자인",
+      "taskName": "메인 대시보드 리뉴얼 디자인",
+      "startDate": "2026-02-22",
+      "endDate": "2026-03-02",
+      "status": "in-progress",
+      "priority": "middle",
+      "description": "다크모드 지원을 위한 컬러 스킴 정의",
+      "createdAt": "2026-02-20T11:00:00.000Z"
     },
     {
       "id": "t28",
@@ -336,7 +372,7 @@
       "taskName": "다국어 지원(영문, 중문) 적용",
       "startDate": "2026-02-10",
       "endDate": "2026-02-28",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "low",
       "description": "i18next 라이브러리 연동",
       "createdAt": "2026-02-10T10:00:00.000Z"
@@ -350,7 +386,7 @@
       "startDate": "2026-02-10",
       "endDate": "2026-02-15",
       "status": "completed",
-      "priority": "middle",
+      "priority": "low",
       "description": "상반기 교육 수요 조사 기반",
       "createdAt": "2026-02-05T11:00:00.000Z"
     },
@@ -362,8 +398,8 @@
       "taskName": "음성 인식 서비스 벤치마킹",
       "startDate": "2026-02-20",
       "endDate": "2026-02-28",
-      "status": "pending",
-      "priority": "low",
+      "status": "on-hold",
+      "priority": "very-low",
       "description": "구글 vs 네이버 API 비교",
       "createdAt": "2026-02-18T16:30:00.000Z"
     },
@@ -374,8 +410,8 @@
       "category3": "장애 대응",
       "taskName": "특정 안드로이드 기기 로딩 문제",
       "startDate": "2026-02-18",
-      "endDate": "2026-02-20",
-      "status": "in-progress",
+      "endDate": "2026-02-21",
+      "status": "completed",
       "priority": "high",
       "description": "갤럭시 S24 특정 모델 재현 확인 중",
       "createdAt": "2026-02-18T11:30:00.000Z"
@@ -401,7 +437,7 @@
       "taskName": "클라우드 인프라 비용 절감 최적화",
       "startDate": "2026-01-31",
       "endDate": "2026-02-25",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "middle",
       "description": "미사용 자원 제거 및 예약 인스턴스 검토",
       "createdAt": "2026-02-01T14:00:00.000Z"
@@ -426,9 +462,9 @@
       "category3": "SNS 운영",
       "taskName": "공식 홈페이지 블로그 포스팅 (주 2회)",
       "startDate": "2026-02-01",
-      "endDate": "2026-03-03",
+      "endDate": "2026-02-28",
       "status": "in-progress",
-      "priority": "low",
+      "priority": "very-low",
       "description": "기술 블로그 및 회사 소식 업데이트",
       "createdAt": "2026-02-01T10:00:00.000Z"
     },
@@ -440,10 +476,23 @@
       "taskName": "파트너사 연동 API 규격서 작성",
       "startDate": "2026-02-17",
       "endDate": "2026-02-19",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "description": "공통 인증 및 전송 규격 정의",
       "createdAt": "2026-02-18T13:00:00.000Z"
+    },
+    {
+      "id": "t38",
+      "category1": "IT/개발",
+      "category2": "웹 개발",
+      "category3": "프론트엔드",
+      "taskName": "데이터 시각화 차트 라이브러리 도입",
+      "startDate": "2026-03-05",
+      "endDate": "2026-03-15",
+      "status": "pending",
+      "priority": "middle",
+      "description": "Chart.js vs Highcharts 비교",
+      "createdAt": "2026-02-18T17:30:00.000Z"
     },
     {
       "id": "t39",
@@ -453,7 +502,7 @@
       "taskName": "개인정보 처리 위탁사 점검",
       "startDate": "2026-02-10",
       "endDate": "2026-02-20",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "high",
       "description": "보안 가이드 준수 여부 확인",
       "createdAt": "2026-02-10T15:00:00.000Z"
@@ -466,7 +515,7 @@
       "taskName": "사무실 임대료 및 공과금 납부",
       "startDate": "2026-02-20",
       "endDate": "2026-02-20",
-      "status": "pending",
+      "status": "completed",
       "priority": "middle",
       "description": "본사 및 지점 통합 정산",
       "createdAt": "2026-02-18T10:00:00.000Z"
@@ -477,10 +526,10 @@
       "category2": "웹 개발",
       "category3": "백엔드",
       "taskName": "이메일 템플릿 엔진 교체",
-      "startDate": "2026-01-27",
-      "endDate": "2026-02-02",
+      "startDate": "2026-02-01",
+      "endDate": "2026-02-05",
       "status": "completed",
-      "priority": "low",
+      "priority": "very-low",
       "description": "Mustache에서 Handlebars로 변경",
       "createdAt": "2026-01-30T09:00:00.000Z"
     },
@@ -506,7 +555,7 @@
       "startDate": "2026-02-25",
       "endDate": "2026-03-05",
       "status": "pending",
-      "priority": "low",
+      "priority": "very-low",
       "description": "시각 장애인 스크린 리더 대응 확인",
       "createdAt": "2026-02-18T14:30:00.000Z"
     },
@@ -519,7 +568,7 @@
       "startDate": "2026-02-18",
       "endDate": "2026-02-18",
       "status": "completed",
-      "priority": "low",
+      "priority": "very-low",
       "description": "정기적인 시스템 자원 초기화",
       "createdAt": "2026-02-18T07:00:00.000Z"
     },
@@ -528,10 +577,10 @@
       "category1": "경영/지원",
       "category2": "인사관리",
       "category3": "채용",
-      "taskName": "신규 입사자 OJT 진행",
+      "taskName": "신규입사자 OJT 진행",
       "startDate": "2026-02-16",
       "endDate": "2026-02-18",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "middle",
       "description": "회사 소개 및 시스템 사용 교육",
       "createdAt": "2026-02-16T09:00:00.000Z"
@@ -544,7 +593,7 @@
       "taskName": "구글 애즈 키워드 경쟁 분석",
       "startDate": "2026-02-10",
       "endDate": "2026-02-21",
-      "status": "in-progress",
+      "status": "completed",
       "priority": "high",
       "description": "경쟁사 광고 전략 파악",
       "createdAt": "2026-02-10T13:00:00.000Z"
@@ -556,8 +605,8 @@
       "category3": "백엔드",
       "taskName": "DB 커넥션 풀 누수 조사",
       "startDate": "2026-02-17",
-      "endDate": "2026-02-18",
-      "status": "in-progress",
+      "endDate": "2026-02-19",
+      "status": "completed",
       "priority": "very-high",
       "description": "특정 서비스 호출 후 커넥션 반환 안됨",
       "createdAt": "2026-02-17T16:00:00.000Z"
@@ -571,7 +620,7 @@
       "startDate": "2026-02-12",
       "endDate": "2026-02-13",
       "status": "completed",
-      "priority": "low",
+      "priority": "very-low",
       "description": "신규 사업 브레인스토밍 정리",
       "createdAt": "2026-02-12T14:00:00.000Z"
     },
@@ -595,50 +644,11 @@
       "category3": "프론트엔드",
       "taskName": "에러 핸들링 공통 모달 구현",
       "startDate": "2026-02-15",
-      "endDate": "2026-02-20",
-      "status": "in-progress",
+      "endDate": "2026-02-24",
+      "status": "completed",
       "priority": "middle",
       "description": "시스템 예외 발생 시 사용자 알림",
       "createdAt": "2026-02-15T10:00:00.000Z"
-    },
-    {
-      "category1": "연구/개발",
-      "category2": "신사업 검토",
-      "category3": "AI 솔루션",
-      "taskName": "제미나이 AI 개발 계획",
-      "startDate": "2026-02-21",
-      "endDate": "2026-02-28",
-      "status": "in-progress",
-      "priority": "high",
-      "description": "",
-      "id": "1771636186259",
-      "createdAt": "2026-02-21T01:09:46.259Z"
-    },
-    {
-      "category1": "운영/인프라",
-      "category2": "서버 관리",
-      "category3": "정기 점검",
-      "taskName": "클라우드 인프라 비용 절감 최적화 (복사본)",
-      "startDate": "2026-01-31",
-      "endDate": "2026-02-25",
-      "status": "in-progress",
-      "priority": "middle",
-      "description": "<p><strong style=\"color: rgb(161, 0, 0);\">미사용 자원 제거 및 예약 인스턴스 검토</strong></p>",
-      "id": "1771932966923",
-      "createdAt": "2026-02-24T11:36:06.923Z"
-    },
-    {
-      "category1": "IT/프로젝트",
-      "category2": "기획/설계",
-      "category3": "요구사항 분석",
-      "taskName": "요구사항 상세 분석",
-      "startDate": "2026-02-23",
-      "endDate": "2026-02-27",
-      "status": "in-progress",
-      "priority": "middle",
-      "description": "<p>상세 분석--</p>",
-      "id": "1771938350803",
-      "createdAt": "2026-02-24T13:05:50.803Z"
     }
   ]
 }

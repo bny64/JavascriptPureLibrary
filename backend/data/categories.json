@@ -14,57 +14,291 @@
     },
     {
       "id": "cat3",
+      "mainCategory": "IT/개발",
+      "subCategory": "모바일 앱",
+      "detailCategory": "iOS"
+    },
+    {
+      "id": "cat4",
+      "mainCategory": "IT/개발",
+      "subCategory": "모바일 앱",
+      "detailCategory": "Android"
+    },
+    {
+      "id": "cat5",
       "mainCategory": "IT/프로젝트",
       "subCategory": "기획/설계",
       "detailCategory": "요구사항 분석"
     },
     {
-      "id": "cat4",
+      "id": "cat6",
+      "mainCategory": "IT/프로젝트",
+      "subCategory": "기획/설계",
+      "detailCategory": "상세 설계"
+    },
+    {
+      "id": "cat7",
+      "mainCategory": "IT/프로젝트",
+      "subCategory": "QA/테스트",
+      "detailCategory": "단위 테스트"
+    },
+    {
+      "id": "cat8",
+      "mainCategory": "IT/프로젝트",
+      "subCategory": "QA/테스트",
+      "detailCategory": "통합 테스트"
+    },
+    {
+      "id": "cat9",
       "mainCategory": "운영/인프라",
       "subCategory": "서버 관리",
       "detailCategory": "정기 점검"
     },
     {
-      "id": "cat5",
+      "id": "cat10",
+      "mainCategory": "운영/인프라",
+      "subCategory": "서버 관리",
+      "detailCategory": "리소스 증설"
+    },
+    {
+      "id": "cat11",
       "mainCategory": "운영/인프라",
       "subCategory": "보안 관리",
       "detailCategory": "취약점 스캔"
     },
     {
-      "id": "cat6",
+      "id": "cat12",
+      "mainCategory": "운영/인프라",
+      "subCategory": "보안 관리",
+      "detailCategory": "방화벽 설정"
+    },
+    {
+      "id": "cat13",
+      "mainCategory": "운영/인프라",
+      "subCategory": "네트워크",
+      "detailCategory": "회선 점검"
+    },
+    {
+      "id": "cat14",
       "mainCategory": "경영/지원",
       "subCategory": "인사관리",
       "detailCategory": "채용"
     },
     {
-      "id": "cat7",
+      "id": "cat15",
+      "mainCategory": "경영/지원",
+      "subCategory": "인사관리",
+      "detailCategory": "근태 관리"
+    },
+    {
+      "id": "cat16",
       "mainCategory": "경영/지원",
       "subCategory": "회계/재무",
       "detailCategory": "분기 정산"
     },
     {
-      "id": "cat8",
+      "id": "cat17",
+      "mainCategory": "경영/지원",
+      "subCategory": "회계/재무",
+      "detailCategory": "세무 신고"
+    },
+    {
+      "id": "cat18",
+      "mainCategory": "경영/지원",
+      "subCategory": "총무",
+      "detailCategory": "비품 구매"
+    },
+    {
+      "id": "cat19",
       "mainCategory": "영업/마케팅",
       "subCategory": "온라인 마케팅",
       "detailCategory": "SNS 운영"
     },
     {
-      "id": "cat9",
+      "id": "cat20",
+      "mainCategory": "영업/마케팅",
+      "subCategory": "온라인 마케팅",
+      "detailCategory": "블로그 포스팅"
+    },
+    {
+      "id": "cat21",
+      "mainCategory": "영업/마케팅",
+      "subCategory": "온라인 마케팅",
+      "detailCategory": "키워드 광고"
+    },
+    {
+      "id": "cat22",
+      "mainCategory": "영업/마케팅",
+      "subCategory": "오프라인 영업",
+      "detailCategory": "방문 상담"
+    },
+    {
+      "id": "cat23",
+      "mainCategory": "영업/마케팅",
+      "subCategory": "오프라인 영업",
+      "detailCategory": "전시회 참가"
+    },
+    {
+      "id": "cat24",
       "mainCategory": "고객/지원",
       "subCategory": "기술 지원",
       "detailCategory": "장애 대응"
     },
     {
-      "id": "cat10",
+      "id": "cat25",
+      "mainCategory": "고객/지원",
+      "subCategory": "기술 지원",
+      "detailCategory": "설치 지원"
+    },
+    {
+      "id": "cat26",
+      "mainCategory": "고객/지원",
+      "subCategory": "CS",
+      "detailCategory": "전화 응대"
+    },
+    {
+      "id": "cat27",
+      "mainCategory": "고객/지원",
+      "subCategory": "CS",
+      "detailCategory": "게시판 답변"
+    },
+    {
+      "id": "cat28",
       "mainCategory": "연구/개발",
       "subCategory": "신사업 검토",
       "detailCategory": "AI 솔루션"
     },
     {
+      "id": "cat29",
       "mainCategory": "연구/개발",
       "subCategory": "신사업 검토",
-      "detailCategory": "LLM 솔루션",
-      "id": "1771667250769"
+      "detailCategory": "LLM 솔루션"
+    },
+    {
+      "id": "cat30",
+      "mainCategory": "연구/개발",
+      "subCategory": "신사업 검토",
+      "detailCategory": "블록체인"
+    },
+    {
+      "id": "cat31",
+      "mainCategory": "디자인",
+      "subCategory": "UI/UX",
+      "detailCategory": "웹 디자인"
+    },
+    {
+      "id": "cat32",
+      "mainCategory": "디자인",
+      "subCategory": "UI/UX",
+      "detailCategory": "앱 디자인"
+    },
+    {
+      "id": "cat33",
+      "mainCategory": "디자인",
+      "subCategory": "브랜딩",
+      "detailCategory": "로고 디자인"
+    },
+    {
+      "id": "cat34",
+      "mainCategory": "디자인",
+      "subCategory": "그래픽",
+      "detailCategory": "포스터/배너"
+    },
+    {
+      "id": "cat35",
+      "mainCategory": "교육/세미나",
+      "subCategory": "사내 교육",
+      "detailCategory": "직무 교육"
+    },
+    {
+      "id": "cat36",
+      "mainCategory": "교육/세미나",
+      "subCategory": "사내 교육",
+      "detailCategory": "소양 교육"
+    },
+    {
+      "id": "cat37",
+      "mainCategory": "교육/세미나",
+      "subCategory": "외부 세미나",
+      "detailCategory": "기술 컨퍼런스"
+    },
+    {
+      "id": "cat38",
+      "mainCategory": "법무/컴플라이언스",
+      "subCategory": "계약 검토",
+      "detailCategory": "NDA"
+    },
+    {
+      "id": "cat39",
+      "mainCategory": "법무/컴플라이언스",
+      "subCategory": "계약 검토",
+      "detailCategory": "업무 협약"
+    },
+    {
+      "id": "cat40",
+      "mainCategory": "법무/컴플라이언스",
+      "subCategory": "개인정보",
+      "detailCategory": "약관 개정"
+    },
+    {
+      "id": "cat41",
+      "mainCategory": "데이터 분석",
+      "subCategory": "로그 분석",
+      "detailCategory": "사용자 행동"
+    },
+    {
+      "id": "cat42",
+      "mainCategory": "데이터 분석",
+      "subCategory": "성능 분석",
+      "detailCategory": "부하 테스트"
+    },
+    {
+      "id": "cat43",
+      "mainCategory": "데이터 분석",
+      "subCategory": "BI",
+      "detailCategory": "리포트 자동화"
+    },
+    {
+      "id": "cat44",
+      "mainCategory": "기타",
+      "subCategory": "개인 업무",
+      "detailCategory": "자기 계발"
+    },
+    {
+      "id": "cat45",
+      "mainCategory": "기타",
+      "subCategory": "기사 스크랩",
+      "detailCategory": "업무 트렌드"
+    },
+    {
+      "id": "cat46",
+      "mainCategory": "기타",
+      "subCategory": "회의",
+      "detailCategory": "주간 회의"
+    },
+    {
+      "id": "cat47",
+      "mainCategory": "기타",
+      "subCategory": "회의",
+      "detailCategory": "정기 미팅"
+    },
+    {
+      "id": "cat48",
+      "mainCategory": "기타",
+      "subCategory": "기타",
+      "detailCategory": "기타"
+    },
+    {
+      "id": "cat49",
+      "mainCategory": "경영/지원",
+      "subCategory": "총무",
+      "detailCategory": "사무실 환경"
+    },
+    {
+      "id": "cat50",
+      "mainCategory": "연구/개발",
+      "subCategory": "프로토타입",
+      "detailCategory": "MVP 개발"
     }
   ]
 }
