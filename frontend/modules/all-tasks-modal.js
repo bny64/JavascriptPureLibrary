@@ -32,9 +32,11 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
 
     // 카테고리 필터가 있으면 '선택 검색' 활성화
     if (category1 || category2) {
-        document.querySelector('input[name="searchType"][value="category"]').checked = true;
+        const catRadio = document.querySelector('input[name="searchType"][value="category"]');
+        if (catRadio) catRadio.checked = true;
     } else {
-        document.querySelector('input[name="searchType"][value="text"]').checked = true;
+        const textRadio = document.querySelector('input[name="searchType"][value="text"]');
+        if (textRadio) textRadio.checked = true;
     }
     toggleSearchType(false);
 
@@ -83,13 +85,15 @@ export function activateFilterButtons() {
 
 export function toggleSearchType(runSearch = true) {
     AppState.currentSearchType = document.querySelector('input[name="searchType"]:checked')?.value || 'text';
-    document.getElementById('textSearchBox').style.display = AppState.currentSearchType === 'text' ? 'block' : 'none';
-    document.getElementById('categorySearchBox').style.display = AppState.currentSearchType !== 'text' ? 'block' : 'none';
+    const textSearchBox = document.getElementById('textSearchBox');
+    const categorySearchBox = document.getElementById('categorySearchBox');
+    if (textSearchBox) textSearchBox.style.display = AppState.currentSearchType === 'text' ? 'block' : 'none';
+    if (categorySearchBox) categorySearchBox.style.display = AppState.currentSearchType !== 'text' ? 'block' : 'none';
 
     // 카테고리 필드 값 상태에 반영
-    AppState.currentSearchCategory1 = document.getElementById('searchCategory1').value;
-    AppState.currentSearchCategory2 = document.getElementById('searchCategory2').value;
-    AppState.currentSearchCategory3 = document.getElementById('searchCategory3').value;
+    AppState.currentSearchCategory1 = document.getElementById('searchCategory1')?.value || '';
+    AppState.currentSearchCategory2 = document.getElementById('searchCategory2')?.value || '';
+    AppState.currentSearchCategory3 = document.getElementById('searchCategory3')?.value || '';
 
     if (runSearch) {
         searchAllTasks();
@@ -97,6 +101,7 @@ export function toggleSearchType(runSearch = true) {
 }
 export function populateSearchCategories() {
     const cat1 = document.getElementById('searchCategory1');
+    if (!cat1) return;
     const mains = ArrayUtils.unique(AppState.categories.map(c => c.mainCategory));
     cat1.innerHTML = '<option value="">전체 대분류</option>';
     mains.forEach(cat => {
@@ -108,9 +113,10 @@ export function populateSearchCategories() {
 }
 
 export function updateSearchCategory2() {
-    const cat1 = document.getElementById('searchCategory1').value;
+    const cat1 = document.getElementById('searchCategory1')?.value;
     const cat2 = document.getElementById('searchCategory2');
     const cat3 = document.getElementById('searchCategory3');
+    if (!cat2 || !cat3) return;
     cat2.innerHTML = '<option value="">전체 중분류</option>';
     cat3.innerHTML = '<option value="">전체 소분류</option>';
     if (!cat1) return;
@@ -126,9 +132,10 @@ export function updateSearchCategory2() {
 }
 
 export function updateSearchCategory3() {
-    const cat1 = document.getElementById('searchCategory1').value;
-    const cat2 = document.getElementById('searchCategory2').value;
+    const cat1 = document.getElementById('searchCategory1')?.value;
+    const cat2 = document.getElementById('searchCategory2')?.value;
     const cat3 = document.getElementById('searchCategory3');
+    if (!cat3) return;
     cat3.innerHTML = '<option value="">전체 소분류</option>';
     if (!cat1 || !cat2) return;
 
@@ -148,6 +155,8 @@ export function searchAllTasks() {
 
 export function renderAllTasks() {
     const allTasksList = document.getElementById('allTasksList');
+    if (!allTasksList) return;
+
     let filtered = AppState.tasks;
 
     if (AppState.currentStatusFilter !== '전체') {
@@ -180,9 +189,9 @@ export function renderAllTasks() {
             );
         }
     } else {
-        const cat1 = document.getElementById('searchCategory1').value;
-        const cat2 = document.getElementById('searchCategory2').value;
-        const cat3 = document.getElementById('searchCategory3').value;
+        const cat1 = document.getElementById('searchCategory1')?.value;
+        const cat2 = document.getElementById('searchCategory2')?.value;
+        const cat3 = document.getElementById('searchCategory3')?.value;
         if (cat1) filtered = filtered.filter(t => t.category1 === cat1);
         if (cat2) filtered = filtered.filter(t => t.category2 === cat2);
         if (cat3) filtered = filtered.filter(t => t.category3 === cat3);
@@ -217,9 +226,14 @@ export function renderAllTasks() {
 }
 
 export function updatePaginationControls(totalPages) {
-    document.getElementById('pageInfo').textContent = `${AppState.currentPage} / ${totalPages}`;
-    document.getElementById('prevPageBtn').disabled = AppState.currentPage === 1;
-    document.getElementById('nextPageBtn').disabled = AppState.currentPage === totalPages;
+    const pageInfo = document.getElementById('pageInfo');
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    if (!pageInfo || !prevBtn || !nextBtn) return;
+
+    pageInfo.textContent = `${AppState.currentPage} / ${totalPages}`;
+    prevBtn.disabled = AppState.currentPage === 1;
+    nextBtn.disabled = AppState.currentPage === totalPages || totalPages === 0;
 }
 
 export function previousPage() {
@@ -249,8 +263,8 @@ export function filterByPriority(priority) {
 }
 
 export function changeAllTasksSort() {
-    AppState.sortField = document.getElementById('sortField').value;
-    AppState.sortDirection = document.getElementById('sortDirection').value;
+    AppState.sortField = document.getElementById('sortField')?.value || 'endDate';
+    AppState.sortDirection = document.getElementById('sortDirection')?.value || 'desc';
     AppState.currentPage = 1;
     renderAllTasks();
 }
@@ -268,11 +282,17 @@ export function resetAllFilters() {
     AppState.currentSearchCategory3 = '';
 
     // UI 초기화
-    document.getElementById('textSearchInput').value = '';
-    document.getElementById('searchStartDate').value = '';
-    document.getElementById('searchEndDate').value = '';
-    document.getElementById('sortField').value = 'endDate';
-    document.getElementById('sortDirection').value = 'desc';
+    const textInput = document.getElementById('textSearchInput');
+    const startDate = document.getElementById('searchStartDate');
+    const endDate = document.getElementById('searchEndDate');
+    const sortF = document.getElementById('sortField');
+    const sortD = document.getElementById('sortDirection');
+
+    if (textInput) textInput.value = '';
+    if (startDate) startDate.value = '';
+    if (endDate) endDate.value = '';
+    if (sortF) sortF.value = 'endDate';
+    if (sortD) sortD.value = 'desc';
     
     // 라디오 버튼 초기화 (단어 검색으로)
     const textRadio = document.querySelector('input[name="searchType"][value="text"]');

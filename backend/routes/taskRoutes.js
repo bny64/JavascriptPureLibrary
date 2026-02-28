@@ -1,11 +1,55 @@
 const DataManager = require('../models/dataManager');
+const url = require('url');
 
 const taskRoutes = (req, res, pathname) => {
-    // 모든 업무 가져오기
+    // 모든 업무 가져오기 (필터링 및 페이지네이션 지원)
     if (pathname === '/api/tasks' && req.method === 'GET') {
-        const data = DataManager.tasks.read();
+        const parsedUrl = url.parse(req.url, true);
+        const query = parsedUrl.query;
+        
+        const status = query.status;
+        const priority = query.priority;
+        const searchTerm = query.searchTerm ? query.searchTerm.toLowerCase() : null;
+        const offset = parseInt(query.offset) || 0;
+        const limit = parseInt(query.limit) || 0;
+
+        let { tasks } = DataManager.tasks.read();
+
+        // 1. 필터링
+        if (status && status !== '전체') {
+            tasks = tasks.filter(t => t.status === status);
+        }
+        if (priority && priority !== '전체') {
+            tasks = tasks.filter(t => t.priority === priority);
+        }
+        if (searchTerm) {
+            tasks = tasks.filter(t => 
+                t.taskName.toLowerCase().includes(searchTerm) || 
+                (t.description && t.description.toLowerCase().includes(searchTerm))
+            );
+        }
+
+        // 2. 정렬 (기본: 종료일 내림차순)
+        tasks.sort((a, b) => {
+            const dateA = a.endDate ? new Date(a.endDate).getTime() : 0;
+            const dateB = b.endDate ? new Date(b.endDate).getTime() : 0;
+            return dateB - dateA;
+        });
+
+        const totalCount = tasks.length;
+
+        // 3. 페이지네이션 (limit이 0보다 클 때만 적용)
+        if (limit > 0) {
+            tasks = tasks.slice(offset, offset + limit);
+        }
+
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(data.tasks));
+        res.end(JSON.stringify({
+            tasks: tasks,
+            totalCount: totalCount,
+            offset: offset,
+            limit: limit
+        }));
         return true;
     }
 
@@ -118,6 +162,57 @@ const taskRoutes = (req, res, pathname) => {
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ count: toArchive.length }));
+        return true;
+    }
+
+    // 보관된 업무 전체 복구
+    if (pathname === '/api/tasks/restore-all' && req.method === 'POST') {
+        const archiveData = DataManager.archive.read();
+        const taskData = DataManager.tasks.read();
+        
+        const count = archiveData.archive.length;
+        if (count > 0) {
+            taskData.tasks = [...taskData.tasks, ...archiveData.archive];
+            archiveData.archive = [];
+            
+            DataManager.archive.write(archiveData);
+            DataManager.tasks.write(taskData);
+            DataManager.logs.add('복구', 'system', `보관함의 모든 업무(${count}건)가 복구되었습니다.`);
+            
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, count }));
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'No tasks to restore' }));
+        }
+        return true;
+    }
+
+    // 보관된 업무 개별 복구
+    if (pathname === '/api/tasks/restore' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            const { id } = JSON.parse(body);
+            const archiveData = DataManager.archive.read();
+            const taskData = DataManager.tasks.read();
+            
+            const index = archiveData.archive.findIndex(t => t.id === id);
+            if (index !== -1) {
+                const task = archiveData.archive.splice(index, 1)[0];
+                taskData.tasks.push(task);
+                
+                DataManager.archive.write(archiveData);
+                DataManager.tasks.write(taskData);
+                DataManager.logs.add('복구', id, task.taskName);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, task }));
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Archived task not found' }));
+            }
+        });
         return true;
     }
 

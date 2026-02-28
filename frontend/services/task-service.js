@@ -6,7 +6,9 @@ import { EventBus } from '../utils/event-bus.js';
 export const TaskService = {
   async loadTasks() {
     try {
-      AppState.tasks = await API.tasks.getAll();
+      const response = await API.tasks.getAll();
+      // 백엔드가 { tasks: [], totalCount: ... } 형태를 반환하므로 배열만 추출
+      AppState.tasks = response.tasks || [];
       EventBus.publish('tasks-updated', AppState.tasks);
       return AppState.tasks;
     } catch (error) {
@@ -32,7 +34,7 @@ export const TaskService = {
   },
 
   async archiveOldTasks() {
-    if (!confirm('완료된 지 30일이 지난 업무들을 별도 보관소로 이동하시겠습니까?\\n이동된 업무는 현재 목록에서 제외되며 통계에는 포함되지 않습니다.')) return;
+    if (!confirm('완료된 지 30일이 지난 업무들을 별도 보관소로 이동하시겠습니까? 이동된 업무는 현재 목록에서 제외되며 통계에는 포함되지 않습니다.')) return;
     try {
       const result = await API.tasks.archive();
       if (result.count > 0) {
@@ -44,6 +46,41 @@ export const TaskService = {
     } catch (error) {
       console.error('Error archiving tasks:', error);
       alert('업무 보관 중 오류가 발생했습니다.');
+    }
+  },
+
+  async restoreTask(id) {
+    try {
+      const result = await API.tasks.restore(id);
+      if (result.success) {
+        return this.loadTasks();
+      }
+    } catch (error) {
+      console.error('Error restoring task:', error);
+      alert('업무 복구 중 오류가 발생했습니다.');
+    }
+  },
+
+  async restoreAllTasks() {
+    if (!confirm('보관함의 모든 업무를 활성 목록으로 복구하시겠습니까?')) return;
+    try {
+      const result = await API.tasks.restoreAll();
+      if (result.success) {
+        alert(`${result.count}건의 업무가 복구되었습니다.`);
+        return this.loadTasks();
+      }
+    } catch (error) {
+      console.error('Error restoring all tasks:', error);
+      alert('전체 업무 복구 중 오류가 발생했습니다.');
+    }
+  },
+
+  async loadArchivedTasks() {
+    try {
+      return await API.archive.getAll();
+    } catch (error) {
+      console.error('Error loading archived tasks:', error);
+      return [];
     }
   }
 };

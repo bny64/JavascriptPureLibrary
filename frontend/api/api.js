@@ -21,7 +21,13 @@ export const API = {
             body: JSON.stringify(data)
         }),
         delete: (id) => request(`/api/tasks/${id}`, { method: 'DELETE' }),
-        archive: () => request('/api/tasks/archive', { method: 'POST' })
+        archive: () => request('/api/tasks/archive', { method: 'POST' }),
+        restore: (id) => request('/api/tasks/restore', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        }),
+        restoreAll: () => request('/api/tasks/restore-all', { method: 'POST' })
     },
 
     archive: {

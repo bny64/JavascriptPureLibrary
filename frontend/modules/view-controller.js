@@ -139,9 +139,7 @@ function bindViewEvents(viewName, container) {
             });
         });
     } else if (viewName === 'dashboard') {
-        container.querySelector('#archiveOldTasksBtn')?.addEventListener('click', () => {
-            TaskService.archiveOldTasks();
-        });
+        DashboardUI.bindEvents();
     } else if (viewName === 'activityLog') {
         container.querySelectorAll('.log-filters .filter-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {

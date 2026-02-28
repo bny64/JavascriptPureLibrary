@@ -2,6 +2,10 @@
 import { TextUtils } from '../../utils/dom.js';
 
 export const DashboardHeatmap = {
+  renderHeatmap(tasks) {
+    this.renderActivityHeatmap(tasks);
+  },
+
   renderActivityHeatmap(tasks) {
     const heatmap = document.getElementById('activityHeatmap');
     const monthsEl = document.getElementById('heatmapMonths');

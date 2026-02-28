@@ -2,6 +2,12 @@
 import { TextUtils } from '../../utils/dom.js';
 
 export const DashboardAlerts = {
+  renderAlerts(tasks) {
+    this.renderCriticalTasks(tasks);
+    this.renderBottleneckTasks(tasks);
+    this.updateAlertsGridVisibility();
+  },
+
   updateAlertsGridVisibility() {
     const critical = document.getElementById('criticalTasksSection');
     const bottleneck = document.getElementById('bottleneckSection');
