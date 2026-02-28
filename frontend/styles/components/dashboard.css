@@ -63,12 +63,13 @@
   flex-direction: row;
   align-items: center;
   gap: 15px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: box-shadow 0.3s, background-color 0.3s;
+  border: 1px solid transparent; /* 미리 투명 테두리 설정 */
 }
 
 .summary-card:hover {
-  transform: translateY(-5px);
-  border: 1px solid var(--primary-start);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-start); /* 크기 변화 없이 색상만 변경 */
 }
 
 .summary-card .icon {
@@ -132,7 +133,7 @@
 
 .critical-task-item:hover {
   background: #ffebee;
-  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .critical-task-info {
@@ -193,7 +194,7 @@
 
 .bottleneck-item:hover {
   background: #fff3e0;
-  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .bottleneck-info {
