@@ -376,7 +376,7 @@ function bindModalEvents() {
 
     startDateInput?.addEventListener('change', searchAllTasks);
     endDateInput?.addEventListener('change', searchAllTasks);
-    
+
     // 전체 필터 초기화 버튼 이벤트 바인딩
     document.getElementById('allTasksResetBtn')?.addEventListener('click', resetAllFilters);
 
@@ -484,13 +484,31 @@ window.addEventListener('click', (event) => {
 // ESC 키로 모달 닫기
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        closeTaskModal();
-        closeCategoryModal();
-        closeAllTasksModal();
-        closeNotificationSettingsModal();
+        // 열려 있는 모달 확인 (최상위에 올 수 있는 것부터 우선순위 배정)
+        const taskModal = document.getElementById('taskModal');
+        const categoryModal = document.getElementById('categoryModal');
+        const notificationSettingsModal = document.getElementById('notificationSettingsModal');
+        const allTasksModal = document.getElementById('allTasksModal');
+        const memoDrawer = document.getElementById('memoDrawer');
+
+        if (taskModal?.style.display === 'block') {
+            closeTaskModal();
+            return;
+        }
+        if (categoryModal?.style.display === 'block') {
+            closeCategoryModal();
+            return;
+        }
+        if (notificationSettingsModal?.style.display === 'block') {
+            closeNotificationSettingsModal();
+            return;
+        }
+        if (allTasksModal?.style.display === 'block') {
+            closeAllTasksModal();
+            return;
+        }
 
         // 메모 드로어가 열려있으면 닫기
-        const memoDrawer = document.getElementById('memoDrawer');
         if (memoDrawer?.classList.contains('open')) {
             MemoUI.toggleDrawer();
         }
