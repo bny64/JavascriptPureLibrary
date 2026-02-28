@@ -21,7 +21,7 @@
 
 .kanban-tabs .tab-btn.active {
   background: white !important;
-  color: #11998e !important;
+  color: var(--primary-start) !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -245,14 +245,14 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: #11998e;
+  accent-color: var(--primary-start);
   /* Checkbox color */
 }
 
 .date-range-filters input[type="date"]:focus {
   outline: none;
-  border-color: #11998e;
-  box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
+  border-color: var(--primary-start);
+  box-shadow: 0 0 0 3px rgba(var(--primary-start), 0.1);
 }
 
 .gantt-filters {
@@ -299,7 +299,7 @@
 
 .btn-notification {
   background: white;
-  color: #11998e;
+  color: var(--primary-start);
   border: none;
   padding: 12px 18px;
   /* Slightly less padding than other buttons */
@@ -440,4 +440,3 @@
 #gantt-chart-view.view-container {
   overflow-y: hidden;
 }
-

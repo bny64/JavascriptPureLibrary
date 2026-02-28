@@ -52,7 +52,7 @@
 }
 
 .btn-add-subtask {
-  background: #11998e;
+  background: var(--primary-start);
   color: white;
   border: none;
   border-radius: 6px;
@@ -97,7 +97,7 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: #11998e;
+  accent-color: var(--primary-start);
 }
 
 .subtask-item span {
@@ -146,7 +146,7 @@
 
 .progress-bar-fill {
   height: 100%;
-  background: #11998e;
+  background: var(--primary-start);
   transition: width 0.3s ease;
 }
 
@@ -244,7 +244,7 @@
 .search-box input:focus,
 .search-box select:focus {
   outline: none;
-  border-color: #11998e;
+  border-color: var(--primary-start);
   box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
 }
 
@@ -278,7 +278,7 @@
 
 .sort-controls select:focus {
   outline: none;
-  border-color: #11998e;
+  border-color: var(--primary-start);
   box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
 }
 
@@ -321,14 +321,14 @@
 }
 
 .filter-btn:hover {
-  border-color: #11998e;
-  color: #11998e;
+  border-color: var(--primary-start);
+  color: var(--primary-start);
   transform: translateY(-2px);
 }
 
 .filter-btn.active {
-  background: #11998e;
-  border-color: #11998e;
+  background: var(--primary-start);
+  border-color: var(--primary-start);
   color: white;
 }
 
@@ -443,7 +443,7 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #11998e;
+  border-color: var(--primary-start);
   box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
 }
 
@@ -466,7 +466,7 @@
 }
 
 .btn-save {
-  background: #11998e;
+  background: var(--primary-start);
   color: white;
 }
 

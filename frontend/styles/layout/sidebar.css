@@ -54,16 +54,14 @@
 }
 
 .sidebar-menu li a.active {
-  background-color: #1abc9c;
-  /* Accent color for active item */
+  background-color: var(--primary-start);
   color: white;
-  border-left-color: #2ecc71;
-  /* Highlight active item */
+  border-left-color: var(--primary-hover);
   font-weight: 700;
 }
 
 header {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
   color: white;
   padding: 30px 40px;
   display: flex;
@@ -79,4 +77,4 @@ header {
   /* Reduced gap to accommodate search bar */
 }
 
-/* Global Search Styles */
+/* Global Search Styles */

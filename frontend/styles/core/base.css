@@ -8,7 +8,7 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
   height: 100vh;
   padding: 0;
   /* Removed padding to allow sidebar to fill to edge */

@@ -177,7 +177,7 @@
     .kpi-value {
         font-size: 32px;
         font-weight: 800;
-        color: var(--primary-color, #2d3436);
+        color: var(--primary-start, #2d3436);
         margin-bottom: 8px;
     }
 
@@ -199,7 +199,7 @@
 
     .kpi-progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light, #74b9ff) 100%);
+        background: linear-gradient(90deg, var(--primary-start) 0%, var(--primary-end, #74b9ff) 100%);
         transition: width 0.5s ease-out;
     }
 
@@ -247,7 +247,8 @@
     }
 
     .btn-refresh:hover {
-        background: #f1f1f1;
+        border-color: var(--primary-start);
+        color: var(--primary-start);
         transform: translateY(-2px);
     }
 </style>

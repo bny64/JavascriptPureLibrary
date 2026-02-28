@@ -32,7 +32,7 @@
 
 .btn-period.active {
   background: white;
-  color: #11998e;
+  color: var(--primary-start);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -82,7 +82,7 @@
 .summary-card .value {
   font-size: 20px;
   font-weight: 700;
-  color: #11998e;
+  color: var(--primary-start);
   margin: 0;
 }
 
@@ -406,6 +406,5 @@
 .cat-percent {
   font-size: 12px;
   font-weight: 700;
-  color: #11998e;
+  color: var(--primary-start);
 }
-

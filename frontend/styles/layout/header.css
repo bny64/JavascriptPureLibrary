@@ -133,10 +133,9 @@
 
 .btn-memo-primary {
   align-self: flex-end;
-  background: #00796b;
-  /* 확실한 청록색 */
+  background: var(--primary-start);
   color: white;
-  border: 2px solid #004d40;
+  border: 2px solid var(--primary-hover);
   padding: 10px 25px;
   border-radius: 6px;
   font-weight: bold;
@@ -314,9 +313,9 @@
 }
 
 .btn-add-memo {
-  background: #00796b;
+  background: var(--primary-start);
   color: white;
-  border: 2px solid #004d40;
+  border: 2px solid var(--primary-hover);
   padding: 10px;
   border-radius: 6px;
   font-weight: bold;
@@ -376,8 +375,8 @@
 }
 
 .btn-memo {
-  background: #FFD54F;
-  color: #333;
+  background: var(--primary-start);
+  color: white;
   border: none;
   padding: 8px 15px;
   border-radius: 4px;
@@ -435,7 +434,7 @@ header h1 {
 .btn-add,
 .btn-category {
   background: white;
-  color: #11998e;
+  color: var(--primary-start);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -453,7 +452,7 @@ header h1 {
 
 .btn-notification-settings {
   background: white;
-  color: #11998e;
+  color: var(--primary-start);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -497,7 +496,7 @@ header h1 {
 }
 
 .calendar-header button {
-  background: #11998e;
+  background: var(--primary-start);
   color: white;
   border: none;
   width: 40px;
@@ -514,7 +513,7 @@ header h1 {
 }
 
 .btn-all-tasks {
-  background: #11998e !important;
+  background: var(--primary-start) !important;
   color: white !important;
   border: none;
   padding: 10px 20px !important;
@@ -560,13 +559,13 @@ header h1 {
 
 .calendar-day:hover {
   background: #e0f7f4;
-  border-color: #11998e;
+  border-color: var(--primary-start);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(17, 153, 142, 0.2);
+  box-shadow: 0 4px 12px rgba(var(--primary-start), 0.2);
 }
 
 .calendar-day.header {
-  background: #11998e;
+  background: var(--primary-start);
   color: white;
   font-weight: 600;
   text-align: center;
@@ -589,14 +588,14 @@ header h1 {
 }
 
 .calendar-day.selected {
-  background: #11998e;
+  background: var(--primary-start);
   color: white;
-  border-color: #0e8577;
+  border-color: var(--primary-hover);
 }
 
 .calendar-day.drag-over {
   background: #e0f7f4 !important;
-  border: 2px dashed #11998e !important;
+  border: 2px dashed var(--primary-start) !important;
   transform: scale(0.98);
 }
 
@@ -1017,8 +1016,8 @@ h3#selectedDateTitle {
 }
 
 .selected-date-status-filters .filter-btn.active {
-  background: #11998e;
-  border-color: #11998e;
+  background: var(--primary-start);
+  border-color: var(--primary-start);
   color: white;
 }
 

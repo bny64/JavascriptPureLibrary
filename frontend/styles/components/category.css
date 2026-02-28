@@ -48,7 +48,7 @@
 
 .category-tree-item {
   background: white;
-  border-left: 4px solid #11998e;
+  border-left: 4px solid var(--primary-start);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 10px;
@@ -140,4 +140,4 @@
   background: #555;
 }
 
-/* 반응형 */
+/* 반응형 */

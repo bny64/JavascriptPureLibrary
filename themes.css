@@ -114,6 +114,19 @@ header {
     border-color: var(--primary-hover);
 }
 
+.sidebar-menu li a.active {
+    background: var(--primary-start);
+    border-left-color: var(--primary-hover);
+}
+
+.kanban-tabs .tab-btn.active {
+    color: var(--primary-start) !important;
+}
+
+.kpi-progress-bar {
+    background: linear-gradient(90deg, var(--primary-start) 0%, var(--primary-end) 100%);
+}
+
 .task-item {
     border-left-color: var(--primary-start);
 }
@@ -130,6 +143,38 @@ header {
 .filter-btn:hover {
     border-color: var(--primary-start);
     color: var(--primary-start);
+}
+
+.btn-memo-primary,
+.btn-add-memo,
+.btn-save,
+#advSearchBtn,
+.btn-cat-copy {
+    background: var(--primary-start) !important;
+}
+
+.btn-memo-primary:hover,
+.btn-add-memo:hover,
+.btn-save:hover,
+#advSearchBtn:hover,
+.btn-cat-copy:hover {
+    background: var(--primary-hover) !important;
+}
+
+.btn-memo {
+    background: var(--primary-start);
+    color: white;
+}
+
+.btn-memo:hover {
+    background: var(--primary-hover);
+}
+
+.btn-add,
+.btn-category,
+.btn-notification,
+.btn-notification-settings {
+    color: var(--primary-start) !important;
 }
 
 .pagination-controls button {
