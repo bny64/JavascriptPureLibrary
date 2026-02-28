@@ -398,29 +398,43 @@ export const DashboardCharts = {
     const catStats = {};
     tasks.forEach(task => {
       const cat = task.category1 || '미분류';
-      if (!catStats[cat]) catStats[cat] = { total: 0, completed: 0 };
+      if (!catStats[cat]) catStats[cat] = { total: 0, completed: 0, pending: 0, inProgress: 0, onHold: 0 };
       catStats[cat].total++;
       if (task.status === 'completed') catStats[cat].completed++;
+      else if (task.status === 'pending') catStats[cat].pending++;
+      else if (task.status === 'in-progress') catStats[cat].inProgress++;
+      else if (task.status === 'on-hold') catStats[cat].onHold++;
     });
 
-    const colors = [
-      '#009688', '#3f51b5', '#ff9800', '#f44336', '#9c27b0',
-      '#2196f3', '#4caf50', '#ffc107', '#607d8b', '#795548'
-    ];
+    const statusColors = {
+      pending: '#ffc107',
+      inProgress: '#2196f3',
+      completed: '#4caf50',
+      onHold: '#9e9e9e'
+    };
 
     container.innerHTML = Object.keys(catStats).sort().map((cat, index) => {
       const stats = catStats[cat];
       const percent = Math.round((stats.completed / stats.total) * 100);
       const escapedCat = cat.replace(/'/g, "\\'");
-      const barColor = colors[index % colors.length];
+
+      // 색상 적용된 상세 카운트 HTML (전체 횟수 및 기호는 #777 색상 적용)
+      const detailedCounts = `
+        <span style="color:#777">${stats.total}</span> <span style="color:#777">(</span>
+        <span style="color:${statusColors.pending}" title="대기">${stats.pending}</span> <span style="color:#777">/</span> 
+        <span style="color:${statusColors.inProgress}" title="진행중">${stats.inProgress}</span> <span style="color:#777">/</span> 
+        <span style="color:${statusColors.completed}" title="완료">${stats.completed}</span> <span style="color:#777">/</span> 
+        <span style="color:${statusColors.onHold}" title="보류">${stats.onHold}</span>
+        <span style="color:#777">)</span>
+      `;
 
       return `<div class="cat-progress-item cursor-pointer" data-category="${escapedCat}" title="클릭하여 '${escapedCat}' 업무 목록 보기">
                 <div class="cat-progress-header">
                     <span class="cat-name">${TextUtils.escapeHtml(cat)}</span>
-                    <span class="cat-percent">${percent}% (${stats.completed}/${stats.total})</span>
+                    <span class="cat-percent">${percent}% <span style="color:#777">|</span> ${detailedCounts}</span>
                 </div>
                 <div class="chart-bar-wrapper">
-                    <div class="chart-bar-fill" style="width:${percent}%;background-color:${barColor}"></div>
+                    <div class="chart-bar-fill" style="width:${percent}%;background-color:#4caf50"></div>
                 </div>
             </div>`;
     }).join('');
