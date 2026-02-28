@@ -547,19 +547,6 @@
       "createdAt": "2026-02-15T11:00:00.000Z"
     },
     {
-      "id": "t43",
-      "category1": "IT/개발",
-      "category2": "웹 개발",
-      "category3": "프론트엔드",
-      "taskName": "웹 접근성(WA) 자가 진단",
-      "startDate": "2026-02-25",
-      "endDate": "2026-03-05",
-      "status": "pending",
-      "priority": "very-low",
-      "description": "시각 장애인 스크린 리더 대응 확인",
-      "createdAt": "2026-02-18T14:30:00.000Z"
-    },
-    {
       "id": "t44",
       "category1": "운영/인프라",
       "category2": "서버 관리",

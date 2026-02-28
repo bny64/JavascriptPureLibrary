@@ -438,43 +438,43 @@ header h1 {
 
 /* 개별 테마 색상 */
 .theme-circle[data-theme="green"] {
-  background: #11998e;
+  background: #8ebd9e;
 }
 
 .theme-circle[data-theme="blue"] {
-  background: #2196f3;
+  background: #a2c2e0;
 }
 
 .theme-circle[data-theme="purple"] {
-  background: #9c27b0;
+  background: #c2afd6;
 }
 
 .theme-circle[data-theme="orange"] {
-  background: #ff6f00;
+  background: #e8c4a1;
 }
 
 .theme-circle[data-theme="pink"] {
-  background: #e91e63;
+  background: #e6b3c2;
 }
 
 .theme-circle[data-theme="teal"] {
-  background: #009688;
+  background: #97cbd4;
 }
 
 .theme-circle[data-theme="red"] {
-  background: #d32f2f;
+  background: #e6a8a8;
 }
 
 .theme-circle[data-theme="indigo"] {
-  background: #3f51b5;
+  background: #a8b0e6;
 }
 
 .theme-circle[data-theme="brown"] {
-  background: #795548;
+  background: #c3b091;
 }
 
 .theme-circle[data-theme="gray"] {
-  background: #607d8b;
+  background: #b2b2b2;
 }
 
 .header-buttons {

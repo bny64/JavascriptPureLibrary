@@ -1,79 +1,79 @@
 /* 테마 시스템 - CSS 변수 기반 */
 
 :root {
-    --primary-start: #11998e;
-    --primary-end: #38ef7d;
-    --primary-hover: #0e8577;
+    --primary-start: #6ead84;
+    --primary-end: #a2cab5;
+    --primary-hover: #5a9370;
 }
 
 /* 녹색 테마 (기본) */
 body.theme-green {
-    --primary-start: #11998e;
-    --primary-end: #38ef7d;
-    --primary-hover: #0e8577;
+    --primary-start: #6ead84;
+    --primary-end: #a2cab5;
+    --primary-hover: #5a9370;
 }
 
 /* 파란색 테마 */
 body.theme-blue {
-    --primary-start: #2196f3;
-    --primary-end: #64b5f6;
-    --primary-hover: #1976d2;
+    --primary-start: #7eb0db;
+    --primary-end: #b6cfde;
+    --primary-hover: #6a94be;
 }
 
 /* 보라색 테마 */
 body.theme-purple {
-    --primary-start: #9c27b0;
-    --primary-end: #ce93d8;
-    --primary-hover: #7b1fa2;
+    --primary-start: #a88ec4;
+    --primary-end: #d2c4e1;
+    --primary-hover: #8f75a8;
 }
 
 /* 주황색 테마 */
 body.theme-orange {
-    --primary-start: #ff6f00;
-    --primary-end: #ffb74d;
-    --primary-hover: #e65100;
+    --primary-start: #dfa771;
+    --primary-end: #eed3ba;
+    --primary-hover: #c18d5d;
 }
 
 /* 분홍색 테마 */
 body.theme-pink {
-    --primary-start: #e91e63;
-    --primary-end: #f48fb1;
-    --primary-hover: #c2185b;
+    --primary-start: #de87a6;
+    --primary-end: #edc6d2;
+    --primary-hover: #bf6e8c;
 }
 
 /* 청록색 테마 */
 body.theme-teal {
-    --primary-start: #009688;
-    --primary-end: #4db6ac;
-    --primary-hover: #00796b;
+    --primary-start: #71b5c0;
+    --primary-end: #afd5e1;
+    --primary-hover: #5b97a2;
 }
 
 /* 빨간색 테마 */
 body.theme-red {
-    --primary-start: #d32f2f;
-    --primary-end: #ef5350;
-    --primary-hover: #c62828;
+    --primary-start: #de7979;
+    --primary-end: #edbebe;
+    --primary-hover: #bf6363;
 }
 
 /* 남색 테마 */
 body.theme-indigo {
-    --primary-start: #3f51b5;
-    --primary-end: #7986cb;
-    --primary-hover: #303f9f;
+    --primary-start: #818ed6;
+    --primary-end: #bec5ed;
+    --primary-hover: #6a76c0;
 }
 
 /* 갈색 테마 */
 body.theme-brown {
-    --primary-start: #795548;
-    --primary-end: #a1887f;
-    --primary-hover: #5d4037;
+    --primary-start: #a99576;
+    --primary-end: #d2cabb;
+    --primary-hover: #8f7d5f;
 }
 
 /* 회색 테마 */
 body.theme-gray {
-    --primary-start: #607d8b;
-    --primary-end: #90a4ae;
-    --primary-hover: #455a64;
+    --primary-start: #969696;
+    --primary-end: #c6c6c6;
+    --primary-hover: #7d7d7d;
 }
 
 /* 테마 적용 */

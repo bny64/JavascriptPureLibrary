@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1772246326281dr113",
+      "taskId": "t43",
+      "taskName": "웹 접근성(WA) 자가 진단",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-28T02:38:46.281Z"
+    },
+    {
       "id": "1772244601385uszdw",
       "taskId": "t28",
       "taskName": "VPN 접속 이력 감사",
