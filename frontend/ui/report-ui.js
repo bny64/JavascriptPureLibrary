@@ -7,7 +7,7 @@ let reportChartInstances = {};
 export const ReportUI = {
     render(tasks) {
         this.calculateKPIs(tasks);
-        this.renderProductivityTrend(tasks);
+        this.renderProductivityTrend(tasks, reportChartInstances.productivityPeriod || 30);
         this.renderStatusDistribution(tasks);
         this.renderCategoryDistribution(tasks);
         this.renderPriorityEfficiency(tasks);
@@ -49,20 +49,35 @@ export const ReportUI = {
         else overdueEl.classList.remove('danger');
     },
 
-    renderProductivityTrend(tasks) {
+    renderProductivityTrend(tasks, days = 30) {
         const canvas = document.getElementById('productivityTrendChart');
         if (!canvas) return;
+
+        reportChartInstances.productivityPeriod = days;
 
         const labels = [];
         const createdData = [];
         const completedData = [];
         const today = new Date();
 
-        for (let i = 29; i >= 0; i--) {
+        let dayCount = days;
+        if (days === 'all') {
+            const firstTaskDate = tasks.length > 0 ? new Date(Math.min(...tasks.map(t => new Date(t.createdAt).getTime()))) : new Date();
+            dayCount = Math.max(1, Math.ceil((today - firstTaskDate) / (1000 * 60 * 60 * 24)));
+        }
+
+        for (let i = dayCount - 1; i >= 0; i--) {
             const d = new Date(today);
             d.setDate(today.getDate() - i);
             const dateStr = d.toISOString().split('T')[0];
-            labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+
+            // 데이터가 많으면 월/일, 적으면 일만 표시 (유연한 레이블)
+            if (dayCount > 100) {
+                if (i % 30 === 0) labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+                else labels.push('');
+            } else {
+                labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+            }
 
             createdData.push(tasks.filter(t => t.createdAt && t.createdAt.startsWith(dateStr)).length);
             completedData.push(tasks.filter(t => t.status === 'completed' && t.endDate === dateStr).length);
@@ -187,7 +202,16 @@ export const ReportUI = {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'right' } },
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    r: {
+                        grid: { display: false },
+                        ticks: { display: false }
+                    }
+                },
                 onClick: async (event, elements) => {
                     if (elements.length > 0) {
                         const index = elements[0].index;
@@ -274,12 +298,12 @@ export const ReportUI = {
                     label: '완료 업무 수',
                     data: monthlyCounts,
                     backgroundColor: [
-                        'rgba(103, 58, 183, 0.7)',
-                        'rgba(33, 150, 243, 0.7)',
-                        'rgba(0, 150, 136, 0.7)',
-                        'rgba(255, 152, 0, 0.7)',
-                        'rgba(233, 30, 99, 0.7)',
-                        'rgba(156, 39, 176, 0.7)'
+                        '#f44336', // Red
+                        '#2196f3', // Blue
+                        '#ff9800', // Orange
+                        '#4caf50', // Green
+                        '#9c27b0', // Purple
+                        '#3f51b5'  // Indigo
                     ],
                     borderRadius: 6
                 }]
@@ -287,7 +311,12 @@ export const ReportUI = {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
             }
         });
     },
@@ -395,6 +424,25 @@ export const ReportUI = {
                 // 최신 데이터 가져오기
                 await TaskService.loadTasks();
                 this.render(AppState.tasks);
+            };
+        }
+
+        // 트렌드 차트 기간 선택 이벤트 바인딩
+        const periodSelector = document.getElementById('trendPeriodSelector');
+        if (periodSelector) {
+            periodSelector.onclick = async (e) => {
+                const btn = e.target.closest('.btn-period');
+                if (!btn) return;
+
+                const days = btn.getAttribute('data-days');
+                const numericDays = days === 'all' ? 'all' : parseInt(days);
+
+                // 버튼 활성화 클래스 처리
+                periodSelector.querySelectorAll('.btn-period').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const { AppState } = await import('../state/app-state.js');
+                this.renderProductivityTrend(AppState.tasks, numericDays);
             };
         }
     }

@@ -27,7 +27,7 @@
         <div class="kpi-card">
             <div class="kpi-label">평근 소요 기간</div>
             <div class="kpi-value" id="kpiAvgLeadTime">0일</div>
-            <div class="kpi-desc">기획부터 완료까지의 기간</div>
+            <div class="kpi-desc">완료까지의 기간</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-label">지연 업무 건수</div>
@@ -40,9 +40,20 @@
     <div class="report-charts-grid">
         <!-- 1. 주간 생산성 트렌드 -->
         <div class="chart-box full-width">
-            <div class="chart-header">
-                <h3 class="chart-title">📈 업무 처리량 트렌드</h3>
-                <p class="chart-desc">신규 등록 업무 대비 완료 업무의 비율 변화</p>
+            <div class="chart-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h3 class="chart-title">📈 업무 처리량 트렌드</h3>
+                    <p class="chart-desc">신규 등록 업무 대비 완료 업무의 비율 변화</p>
+                </div>
+                <div class="chart-period-selector" id="trendPeriodSelector">
+                    <button class="btn-period" data-days="7">1주</button>
+                    <button class="btn-period" data-days="14">2주</button>
+                    <button class="btn-period active" data-days="30">1개월</button>
+                    <button class="btn-period" data-days="90">3개월</button>
+                    <button class="btn-period" data-days="180">6개월</button>
+                    <button class="btn-period" data-days="365">1년</button>
+                    <button class="btn-period" data-days="all">전체</button>
+                </div>
             </div>
             <div class="chart-content">
                 <div class="chart-wrapper" style="height: 350px; position: relative;">
@@ -251,5 +262,38 @@
         border-color: var(--primary-start);
         color: var(--primary-start);
         transform: translateY(-2px);
+    }
+
+    /* 기간 선택 버튼 스타일 */
+    .chart-period-selector {
+        display: flex;
+        background: #f1f3f5;
+        padding: 4px;
+        border-radius: 8px;
+        gap: 2px;
+    }
+
+    .btn-period {
+        padding: 6px 12px;
+        border: none;
+        background: transparent;
+        color: #495057;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .btn-period:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--primary-start);
+    }
+
+    .btn-period.active {
+        background: white;
+        color: var(--primary-start);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 </style>

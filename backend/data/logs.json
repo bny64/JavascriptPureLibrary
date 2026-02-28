@@ -1,6 +1,14 @@
 {
   "logs": [
     {
+      "id": "1772260961495qkv7q",
+      "taskId": "t41",
+      "taskName": "이메일 템플릿 엔진 교체",
+      "action": "삭제",
+      "details": "",
+      "timestamp": "2026-02-28T06:42:41.495Z"
+    },
+    {
       "id": "1772246326281dr113",
       "taskId": "t43",
       "taskName": "웹 접근성(WA) 자가 진단",
