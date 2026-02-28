@@ -142,13 +142,20 @@ export {
 // ══════════════════════════════════════════════
 function loadTheme() {
     const saved = StorageUtils.get('theme', 'green');
-    document.getElementById('themeSelect').value = saved;
     changeTheme(saved);
+}
+
+function updateThemeUI(theme) {
+    const circles = document.querySelectorAll('.theme-circle');
+    circles.forEach(c => {
+        c.classList.toggle('active', c.dataset.theme === theme);
+    });
 }
 
 function changeTheme(theme) {
     document.body.className = `theme-${theme}`;
     StorageUtils.set('theme', theme);
+    updateThemeUI(theme);
 }
 
 
@@ -398,7 +405,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('addMemoBtn')?.addEventListener('click', () => MemoUI.addMemo());
 
     // 공통 헤더 이벤트 리스너 바인딩 (인라인 제거)
-    document.getElementById('themeSelect')?.addEventListener('change', (e) => changeTheme(e.target.value));
+    document.getElementById('themeCircles')?.addEventListener('click', (e) => {
+        const circle = e.target.closest('.theme-circle');
+        if (circle) changeTheme(circle.dataset.theme);
+    });
     document.getElementById('globalSearchInput')?.addEventListener('keyup', handleGlobalSearch);
     document.getElementById('openCategoryModalBtn')?.addEventListener('click', () => openCategoryModal());
     document.getElementById('openTaskModalBtn')?.addEventListener('click', () => openTaskModal());
