@@ -471,6 +471,22 @@ window.addEventListener('click', (event) => {
     }
 });
 
+// ESC 키로 모달 닫기
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeTaskModal();
+        closeCategoryModal();
+        closeAllTasksModal();
+        closeNotificationSettingsModal();
+
+        // 메모 드로어가 열려있으면 닫기
+        const memoDrawer = document.getElementById('memoDrawer');
+        if (memoDrawer?.classList.contains('open')) {
+            MemoUI.toggleDrawer();
+        }
+    }
+});
+
 
 // ══════════════════════════════════════════════
 // 전역 유틸리티 (필요 시 전역 유지)

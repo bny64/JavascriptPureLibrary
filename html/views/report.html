@@ -177,7 +177,7 @@
     .kpi-value {
         font-size: 32px;
         font-weight: 800;
-        color: var(--primary-start, #2d3436);
+        color: #2d3436;
         margin-bottom: 8px;
     }
 
@@ -199,7 +199,7 @@
 
     .kpi-progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, var(--primary-start) 0%, var(--primary-end, #74b9ff) 100%);
+        background: linear-gradient(90deg, #2196f3 0%, #74b9ff 100%);
         transition: width 0.5s ease-out;
     }
 
@@ -214,6 +214,7 @@
         padding: 24px;
         border-radius: 16px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid var(--primary-start);
     }
 
     .chart-box.full-width {
