@@ -1023,22 +1023,22 @@ h3#selectedDateTitle {
 }
 
 /* Status-specific active colors for selected date filters (reuse from global filters) */
-.selected-date-status-filters .filter-btn[data-status="대기"].active {
+.selected-date-status-filters .filter-btn[data-status="pending"].active {
   background: #ffc107;
   border-color: #ffc107;
 }
 
-.selected-date-status-filters .filter-btn.filter-btn-inprogress.active {
+.selected-date-status-filters .filter-btn[data-status="in-progress"].active {
   background: #2196f3;
   border-color: #2196f3;
 }
 
-.selected-date-status-filters .filter-btn[data-status="완료"].active {
+.selected-date-status-filters .filter-btn[data-status="completed"].active {
   background: #4caf50;
   border-color: #4caf50;
 }
 
-.selected-date-status-filters .filter-btn[data-status="보류"].active {
+.selected-date-status-filters .filter-btn[data-status="on-hold"].active {
   background: #9e9e9e;
   border-color: #9e9e9e;
 }
@@ -1252,4 +1252,3 @@ h3#selectedDateTitle {
 .btn-delete:hover {
   background: #d32f2f;
 }
-

@@ -11,10 +11,10 @@
             <!-- 1. 단어/선택 검색 + 검색창 한 줄 -->
             <div style="display: flex; gap: 15px; align-items: center;">
                 <div class="search-type" style="margin-bottom: 0; gap: 10px; flex-shrink: 0;">
-                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="text" checked
-                           > 단어 검색</label>
-                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="category"
-                           > 선택 검색</label>
+                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="text" checked> 단어
+                        검색</label>
+                    <label style="font-size: 13px;"><input type="radio" name="searchType" value="category"> 선택
+                        검색</label>
                 </div>
 
                 <div id="textSearchBox" class="search-box" style="margin-bottom: 0; flex: 1;">
@@ -63,14 +63,12 @@
                 <span style="font-size: 13px; font-weight: 600; min-width: 60px;">상태:</span>
                 <button class="filter-btn active" data-status="전체"
                     style="padding: 4px 10px; font-size: 12px;">전체</button>
-                <button class="filter-btn" data-status="pending"
-                    style="padding: 4px 10px; font-size: 12px;">대기</button>
+                <button class="filter-btn" data-status="pending" style="padding: 4px 10px; font-size: 12px;">대기</button>
                 <button class="filter-btn" data-status="in-progress"
                     style="padding: 4px 10px; font-size: 12px;">진행중</button>
                 <button class="filter-btn" data-status="completed"
                     style="padding: 4px 10px; font-size: 12px;">완료</button>
-                <button class="filter-btn" data-status="on-hold"
-                    style="padding: 4px 10px; font-size: 12px;">보류</button>
+                <button class="filter-btn" data-status="on-hold" style="padding: 4px 10px; font-size: 12px;">보류</button>
             </div>
 
             <!-- 4. 우선순위 한 줄 -->
@@ -78,26 +76,25 @@
                 <span style="font-size: 13px; font-weight: 600; min-width: 60px;">우선순위:</span>
                 <button class="filter-btn active" data-priority="전체"
                     style="padding: 4px 10px; font-size: 12px;">전체</button>
-                <button class="filter-btn" data-priority="very-high"
-                    style="padding: 4px 10px; font-size: 12px;">매우 높음</button>
-                <button class="filter-btn" data-priority="high"
-                    style="padding: 4px 10px; font-size: 12px;">높음</button>
+                <button class="filter-btn" data-priority="very-high" style="padding: 4px 10px; font-size: 12px;">매우
+                    높음</button>
+                <button class="filter-btn" data-priority="high" style="padding: 4px 10px; font-size: 12px;">높음</button>
                 <button class="filter-btn" data-priority="middle"
                     style="padding: 4px 10px; font-size: 12px;">중간</button>
-                <button class="filter-btn" data-priority="low"
-                    style="padding: 4px 10px; font-size: 12px;">낮음</button>
-                <button class="filter-btn" data-priority="very-low"
-                    style="padding: 4px 10px; font-size: 12px;">매우 낮음</button>
+                <button class="filter-btn" data-priority="low" style="padding: 4px 10px; font-size: 12px;">낮음</button>
+                <button class="filter-btn" data-priority="very-low" style="padding: 4px 10px; font-size: 12px;">매우
+                    낮음</button>
             </div>
         </div>
     </div>
 
     <div class="all-tasks-list-container">
-        <div class="pagination-controls">
-            <button id="prevPageBtn">◀</button>
-            <span id="pageInfo">1 / 1</span>
-            <button id="nextPageBtn">▶</button>
-        </div>
         <div class="all-tasks-list" id="allTasksList"></div>
     </div>
+    <div class="pagination-controls">
+        <button id="prevPageBtn">◀</button>
+        <span id="pageInfo">1 / 1</span>
+        <button id="nextPageBtn">▶</button>
+    </div>
+</div>
 </div>

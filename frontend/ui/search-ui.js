@@ -228,9 +228,9 @@ export const SearchUI = {
     }
 
     let html = `
-      <button id="advSearchPrevBtn" ${this.currentPage === 1 ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">이전</button>
-      <span style="font-size: 14px; font-weight: 600; color: #333;">${this.currentPage} / ${totalPages}</span>
-      <button id="advSearchNextBtn" ${this.currentPage === totalPages ? 'disabled' : ''} style="padding: 5px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; cursor: pointer;">다음</button>
+      <button id="advSearchPrevBtn" ${this.currentPage === 1 ? 'disabled' : ''}>◀</button>
+      <span>${this.currentPage} / ${totalPages}</span>
+      <button id="advSearchNextBtn" ${this.currentPage === totalPages ? 'disabled' : ''}>▶</button>
     `;
 
     pagination.innerHTML = html;
