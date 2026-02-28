@@ -139,7 +139,15 @@ export const ReportUI = {
                 plugins: {
                     legend: { position: 'bottom' }
                 },
-                cutout: '65%'
+                cutout: '65%',
+                onClick: async (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const keys = ['pending', 'in-progress', 'completed', 'on-hold'];
+                        const { openAllTasksModalWithStatus } = await import('../modules/all-tasks-modal.js');
+                        openAllTasksModalWithStatus(keys[index]);
+                    }
+                }
             }
         });
     },
@@ -179,7 +187,14 @@ export const ReportUI = {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'right' } }
+                plugins: { legend: { position: 'right' } },
+                onClick: async (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const { openAllTasksModalWithCategory } = await import('../modules/all-tasks-modal.js');
+                        openAllTasksModalWithCategory(labels[index]);
+                    }
+                }
             }
         });
     },
@@ -220,6 +235,14 @@ export const ReportUI = {
                 plugins: { legend: { display: false } },
                 scales: {
                     y: { beginAtZero: true, title: { display: true, text: '일수' } }
+                },
+                onClick: async (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const keys = ['very-high', 'high', 'middle', 'low', 'very-low'];
+                        const { openAllTasksModalWithPriority } = await import('../modules/all-tasks-modal.js');
+                        openAllTasksModalWithPriority(keys[index]);
+                    }
                 }
             }
         });
@@ -337,7 +360,14 @@ export const ReportUI = {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom' } }
+                plugins: { legend: { position: 'bottom' } },
+                onClick: async (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const { openAllTasksModalWithCategory2 } = await import('../modules/all-tasks-modal.js');
+                        openAllTasksModalWithCategory2(labels[index]);
+                    }
+                }
             }
         });
     },

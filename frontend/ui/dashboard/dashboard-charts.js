@@ -177,7 +177,15 @@ export const DashboardCharts = {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { position: 'bottom' } }
+        plugins: { legend: { position: 'bottom' } },
+        onClick: async (event, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            const category = labels[index];
+            const { openAllTasksModalWithCategory } = await import('../../modules/all-tasks-modal.js');
+            openAllTasksModalWithCategory(category === '미분류' ? '' : category);
+          }
+        }
       }
     });
   },
@@ -230,6 +238,14 @@ export const DashboardCharts = {
         },
         scales: {
           x: { beginAtZero: true, title: { display: true, text: '일수' } }
+        },
+        onClick: async (event, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            const category = labels[index];
+            const { openAllTasksModalWithCategory } = await import('../../modules/all-tasks-modal.js');
+            openAllTasksModalWithCategory(category === '미분류' ? '' : category);
+          }
         }
       }
     });

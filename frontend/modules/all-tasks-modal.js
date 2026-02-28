@@ -4,7 +4,7 @@ import { AppState } from '../state/app-state.js';
 import { ArrayUtils, DomUtils } from '../utils/dom.js';
 import { TaskUI } from '../ui/task-ui.js';
 
-export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체', category1 = null, dateToFilter = null) {
+export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체', category1 = null, dateToFilter = null, category2 = null) {
     const modal = document.getElementById('allTasksModal');
 
     // 상태 초기화
@@ -15,7 +15,7 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
     AppState.sortField = 'endDate';
     AppState.sortDirection = 'desc';
     AppState.currentSearchCategory1 = category1 || '';
-    AppState.currentSearchCategory2 = '';
+    AppState.currentSearchCategory2 = category2 || '';
     AppState.currentSearchCategory3 = '';
 
     // 검색 필드 UI 초기화
@@ -29,7 +29,7 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
     updateSearchCategory2();
 
     // 카테고리 필터가 있으면 '선택 검색' 활성화
-    if (category1) {
+    if (category1 || category2) {
         document.querySelector('input[name="searchType"][value="category"]').checked = true;
     } else {
         document.querySelector('input[name="searchType"][value="text"]').checked = true;
@@ -58,6 +58,12 @@ export function openAllTasksModalWithStatus(status) {
 
 export function openAllTasksModalWithPriority(priority) {
     openAllTasksModal('전체', priority);
+}
+
+export function openAllTasksModalWithCategory2(cat2) {
+    const foundCat = AppState.categories.find(c => c.subCategory === cat2);
+    const cat1 = foundCat ? foundCat.mainCategory : '';
+    openAllTasksModal('전체', '전체', cat1, null, cat2);
 }
 
 export function openAllTasksModalWithDate(date) {
