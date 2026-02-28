@@ -44,7 +44,7 @@ export function renderTasksForSelectedDate() {
     });
 
     tasksList.innerHTML = '';
-    tasksForDate.forEach(task => tasksList.appendChild(TaskUI.createCard(task)));
+    tasksForDate.forEach(task => tasksList.appendChild(TaskUI.createCard(task, { showEdit: false, showCopy: true, showDelete: true })));
 }
 
 export function filterSelectedDateTasksByStatus(status) {

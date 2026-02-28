@@ -11,8 +11,13 @@ const STATUS_LABELS = {
 };
 
 export const TaskUI = {
-    createCard(task) {
+    createCard(task, options = { showEdit: true, showCopy: true, showDelete: true }) {
         const taskDiv = DomUtils.createElement('div', `task-item status-${task.status}`);
+        taskDiv.style.cursor = 'pointer';
+        taskDiv.addEventListener('click', async () => {
+            const { openTaskModal } = await import('../modules/task-modal.js');
+            openTaskModal(task);
+        });
         taskDiv.setAttribute('draggable', 'true');
         taskDiv.dataset.id = task.id;
 
@@ -64,31 +69,39 @@ export const TaskUI = {
         // 액션 버튼
         const actions = DomUtils.createElement('div', 'task-actions');
 
-        const editBtn = DomUtils.createElement('button', 'btn-edit', '수정');
-        editBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const { openTaskModal } = await import('../modules/task-modal.js');
-            openTaskModal(task);
-        });
+        if (options.showEdit) {
+            const editBtn = DomUtils.createElement('button', 'btn-edit', '수정');
+            editBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const { openTaskModal } = await import('../modules/task-modal.js');
+                openTaskModal(task);
+            });
+            actions.appendChild(editBtn);
+        }
 
-        const copyBtn = DomUtils.createElement('button', 'btn-copy', '복사');
-        copyBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const { copyTask } = await import('../modules/task-modal.js');
-            copyTask(task);
-        });
+        if (options.showCopy) {
+            const copyBtn = DomUtils.createElement('button', 'btn-copy', '복사');
+            copyBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const { copyTask } = await import('../modules/task-modal.js');
+                copyTask(task);
+            });
+            actions.appendChild(copyBtn);
+        }
 
-        const deleteBtn = DomUtils.createElement('button', 'btn-delete', '삭제');
-        deleteBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const { TaskService } = await import('../services/task-service.js');
-            TaskService.deleteTask(task.id);
-        });
+        if (options.showDelete) {
+            const deleteBtn = DomUtils.createElement('button', 'btn-delete', '삭제');
+            deleteBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const { TaskService } = await import('../services/task-service.js');
+                TaskService.deleteTask(task.id);
+            });
+            actions.appendChild(deleteBtn);
+        }
 
-        actions.appendChild(editBtn);
-        actions.appendChild(copyBtn);
-        actions.appendChild(deleteBtn);
-        taskDiv.appendChild(actions);
+        if (actions.children.length > 0) {
+            taskDiv.appendChild(actions);
+        }
 
         return taskDiv;
     },
