@@ -511,6 +511,12 @@ window.addEventListener('keydown', (event) => {
             return;
         }
 
+        // 알림 드롭다운 닫기
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        if (notificationDropdown?.classList.contains('show')) {
+            toggleNotificationDropdown();
+        }
+
         // 메모 드로어가 열려있으면 닫기
         if (memoDrawer?.classList.contains('open')) {
             MemoUI.toggleDrawer();
