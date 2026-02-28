@@ -161,7 +161,12 @@ export const DashboardCharts = {
 
     const labels = sortedCats.map(c => c[0]);
     const counts = sortedCats.map(c => c[1]);
-    const colors = ['#009688', '#3f51b5', '#ff9800', '#f44336', '#9c27b0'];
+    const baseColors = [
+      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+      '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+      '#607D8B', '#673AB7'
+    ];
+    const backgroundColors = counts.map((_, i) => baseColors[i % baseColors.length]);
 
     if (chartInstances.distribution) chartInstances.distribution.destroy();
 
@@ -171,7 +176,7 @@ export const DashboardCharts = {
         labels: labels,
         datasets: [{
           data: counts,
-          backgroundColor: colors,
+          backgroundColor: backgroundColors,
         }]
       },
       options: {
@@ -217,10 +222,12 @@ export const DashboardCharts = {
     const labels = sortedAvgLeadTimes.map(i => i.category);
     const data = sortedAvgLeadTimes.map(i => i.avgDays);
 
-    const colors = [
-      '#03a9f4', '#009688', '#3f51b5', '#ff9800', '#f44336',
-      '#9c27b0', '#4caf50', '#ffc107', '#607d8b', '#795548'
+    const baseColors = [
+      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+      '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+      '#607D8B', '#673AB7'
     ];
+    const backgroundColors = data.map((_, i) => baseColors[i % baseColors.length]);
 
     if (chartInstances.leadTime) chartInstances.leadTime.destroy();
 
@@ -231,7 +238,7 @@ export const DashboardCharts = {
         datasets: [{
           label: '평균 소요 시간 (일)',
           data: data,
-          backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+          backgroundColor: backgroundColors,
         }]
       },
       options: {
@@ -413,10 +420,17 @@ export const DashboardCharts = {
       onHold: '#9e9e9e'
     };
 
+    const baseColors = [
+      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+      '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+      '#607D8B', '#673AB7'
+    ];
+
     container.innerHTML = Object.keys(catStats).sort().map((cat, index) => {
       const stats = catStats[cat];
       const percent = Math.round((stats.completed / stats.total) * 100);
       const escapedCat = cat.replace(/'/g, "\\'");
+      const barColor = baseColors[index % baseColors.length];
 
       // 색상 적용된 상세 카운트 HTML (전체 횟수 및 기호는 #777 색상 적용)
       const detailedCounts = `
@@ -434,7 +448,7 @@ export const DashboardCharts = {
                     <span class="cat-percent">${percent}% <span style="color:#777">|</span> ${detailedCounts}</span>
                 </div>
                 <div class="chart-bar-wrapper">
-                    <div class="chart-bar-fill" style="width:${percent}%;background-color:#4caf50"></div>
+                    <div class="chart-bar-fill" style="width:${percent}%;background-color:${barColor}"></div>
                 </div>
             </div>`;
     }).join('');

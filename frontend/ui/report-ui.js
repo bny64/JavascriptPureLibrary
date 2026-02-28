@@ -177,11 +177,19 @@ export const ReportUI = {
             catCounts[cat] = (catCounts[cat] || 0) + 1;
         });
 
-        const sorted = Object.entries(catCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+        const sorted = Object.entries(catCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
         const labels = sorted.map(s => s[0]);
         const data = sorted.map(s => s[1]);
 
         if (reportChartInstances.category) reportChartInstances.category.destroy();
+
+        const baseColors = [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+            '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+            '#607D8B', '#673AB7'
+        ];
+        // 데이터 개수에 맞춰 색상 배열 생성
+        const backgroundColors = data.map((_, i) => baseColors[i % baseColors.length]);
 
         reportChartInstances.category = new window.Chart(canvas, {
             type: 'polarArea',
@@ -189,14 +197,7 @@ export const ReportUI = {
                 labels: labels,
                 datasets: [{
                     data: data,
-                    backgroundColor: [
-                        '#009688',
-                        '#3f51b5',
-                        '#ff9800',
-                        '#f44336',
-                        '#9c27b0',
-                        '#607d8b'
-                    ]
+                    backgroundColor: backgroundColors
                 }]
             },
             options: {
@@ -298,12 +299,9 @@ export const ReportUI = {
                     label: '완료 업무 수',
                     data: monthlyCounts,
                     backgroundColor: [
-                        '#f44336', // Red
-                        '#2196f3', // Blue
-                        '#ff9800', // Orange
-                        '#4caf50', // Green
-                        '#9c27b0', // Purple
-                        '#3f51b5'  // Indigo
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                        '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+                        '#607D8B', '#673AB7'
                     ],
                     borderRadius: 6
                 }]
@@ -351,13 +349,9 @@ export const ReportUI = {
                     label: '완료 업무 빈도',
                     data: dayCounts,
                     backgroundColor: [
-                        '#e53935', // 일
-                        '#ff9800', // 월
-                        '#fbc02d', // 화
-                        '#4caf50', // 수
-                        '#03a9f4', // 목
-                        '#3f51b5', // 금
-                        '#9c27b0'  // 토
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                        '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+                        '#607D8B', '#673AB7'
                     ],
                     borderWidth: 0
                 }]
@@ -383,11 +377,18 @@ export const ReportUI = {
             subCatCounts[sub] = (subCatCounts[sub] || 0) + 1;
         });
 
-        const sorted = Object.entries(subCatCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        const sorted = Object.entries(subCatCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
         const labels = sorted.map(s => s[0]);
         const data = sorted.map(s => s[1]);
 
         if (reportChartInstances.subCategory) reportChartInstances.subCategory.destroy();
+
+        const baseColors = [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+            '#FF9F40', '#8BC34A', '#E91E63', '#00BCD4', '#FF5722',
+            '#607D8B', '#673AB7'
+        ];
+        const backgroundColors = data.map((_, i) => baseColors[i % baseColors.length]);
 
         reportChartInstances.subCategory = new window.Chart(canvas, {
             type: 'pie',
@@ -395,9 +396,7 @@ export const ReportUI = {
                 labels: labels,
                 datasets: [{
                     data: data,
-                    backgroundColor: [
-                        '#1abc9c', '#3498db', '#9b59b6', '#34495e', '#f1c40f'
-                    ]
+                    backgroundColor: backgroundColors
                 }]
             },
             options: {
@@ -428,7 +427,7 @@ export const ReportUI = {
         }
 
         // 트렌드 차트 기간 선택 이벤트 바인딩
-        const periodSelector = document.getElementById('trendPeriodSelector');
+        const periodSelector = document.getElementById('reportTrendPeriodSelector');
         if (periodSelector) {
             periodSelector.onclick = async (e) => {
                 const btn = e.target.closest('.btn-period');
