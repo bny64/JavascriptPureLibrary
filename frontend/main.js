@@ -345,6 +345,12 @@ function bindModalEvents() {
     document.getElementById('category1')?.addEventListener('change', updateSubCategories);
     document.getElementById('category2')?.addEventListener('change', updateDetailCategories);
     document.querySelector('#taskModal .btn-add-subtask')?.addEventListener('click', addSubtask);
+    document.getElementById('newSubtaskTitle')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addSubtask();
+        }
+    });
     document.querySelector('#taskModal .btn-delete')?.addEventListener('click', deleteTaskInModal);
 
     // 2. Notification Settings Modal
@@ -392,7 +398,7 @@ function bindModalEvents() {
 // ══════════════════════════════════════════════
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 1. 필수 모달 주입
     await injectComponents('#modal-container', [
         { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
@@ -539,7 +545,7 @@ function initSidebarOrder() {
 
     const menu = document.querySelector('.sidebar-menu');
     const items = Array.from(menu.querySelectorAll('li'));
-    
+
     savedOrder.forEach(id => {
         const item = items.find(li => li.querySelector('a').id === id);
         if (item) menu.appendChild(item);
@@ -568,7 +574,7 @@ function initSidebarDragAndDrop() {
             e.preventDefault();
             const draggingItem = menu.querySelector('.dragging');
             const siblings = [...menu.querySelectorAll('li:not(.dragging)')];
-            
+
             const nextSibling = siblings.find(sibling => {
                 const rect = sibling.getBoundingClientRect();
                 return e.clientY <= rect.top + rect.height / 2;
