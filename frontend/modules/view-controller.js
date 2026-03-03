@@ -71,6 +71,8 @@ export async function switchView(viewName) {
             break;
         case 'dashboard':
             DashboardUI.render(AppState.tasks);
+            // 대시보드 스티커 메모 렌더링
+            import('../ui/memo-ui.js').then(({ MemoUI }) => MemoUI.render());
             break;
         case 'kanban':
             // 검색어 초기화 및 렌더링
@@ -140,6 +142,11 @@ function bindViewEvents(viewName, container) {
         });
     } else if (viewName === 'dashboard') {
         DashboardUI.bindEvents();
+        // 대시보드는 동적으로 로드되므로 로드 이후 바인딩
+        container.querySelector('.btn-memo')?.addEventListener('click', async () => {
+            const { MemoUI } = await import('../ui/memo-ui.js');
+            MemoUI.toggleDrawer();
+        });
     } else if (viewName === 'activityLog') {
         container.querySelectorAll('.log-filters .filter-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
