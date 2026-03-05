@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue + Vee-Validate (Input Component + useField)</title>
+    <!-- Vue 3 & Vee-Validate 4 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vee-validate@4.12.6/dist/vee-validate.js"></script>
+    <script src="./CustomInput.js"></script>
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f0f2f5;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-row {
+            border: 1px solid #eef0f2;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #fafbfc;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .field-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* 공통 input 스타일 */
+        .custom-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .custom-input.is-invalid {
+            border-color: #e53e3e;
+            background-color: #fff5f5;
+        }
+
+        .error-msg {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .btn-add {
+            background-color: #4f46e5;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-remove {
+            background-color: #fed7d7;
+            color: #c53030;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 28px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn-submit:hover {
+            background-color: #059669;
+        }
+
+        .btn-reset {
+            background-color: #fff;
+            color: #4a5568;
+            border: 1px solid #cbd5e0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-reset:hover {
+            background-color: #f8fafc;
+        }
+
+        .btn-clear {
+            background-color: #fff;
+            color: #4f46e5;
+            border: 1px solid #4f46e5;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-clear:hover {
+            background-color: #f5f3ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="form-container">
+        <h2>
+            상품 설정 (Input Component 분리)
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-clear" @click="clearValues">값 지우기</button>
+                <button type="button" class="btn-reset" @click="resetAll">전체 삭제</button>
+                <button type="button" class="btn-add" @click="addProduct">+ 상품 추가</button>
+            </div>
+        </h2>
+
+        <form @submit="onSubmit">
+            <div v-for="(field, index) in fields" :key="field.key" class="product-row">
+                <!-- 분리된 Input 컴포넌트 사용 (날짜) -->
+                <div class="field-group">
+                    <label>세팅 날짜</label>
+                    <custom-input type="date" :name="`products[${index}].date`" v-model="field.value.date"
+                        :rules="dateRule"></custom-input>
+                </div>
+
+                <!-- 분리된 Input 컴포넌트 사용 (상품명) -->
+                <div class="field-group">
+                    <label>상품 정보</label>
+                    <custom-input type="text" :name="`products[${index}].name`" v-model="field.value.name"
+                        :rules="nameRule" placeholder="내용을 입력하세요"></custom-input>
+                </div>
+
+                <button type="button" class="btn-remove" @click="removeProduct(index)">삭제</button>
+            </div>
+
+            <button type="submit" class="btn-submit">전체 검증 및 저장</button>
+        </form>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        const { useForm, useFieldArray } = VeeValidate;
+
+        const app = createApp({
+            components: {
+                CustomInput
+            },
+            setup() {
+                // 1. useForm 초기화 (Yup 없이 사용)
+                // resetForm을 가져와서 전체 초기화 시 사용합니다.
+                const { handleSubmit, resetForm } = useForm({
+                    initialValues: {
+                        products: []
+                    }
+                });
+
+                // 2. useFieldArray (배열 데이터 관리)
+                const { fields, push, remove } = useFieldArray('products');
+
+                // push 할 때 필요한 초기 데이터 구조를 넣어줍니다.
+                const addProduct = () => push({ date: '', name: '' });
+                const removeProduct = (idx) => remove(idx);
+
+                // 전체 삭제 함수 (행 자체를 모두 제거)
+                const resetAll = () => {
+                    if (confirm('모든 상품 행을 삭제하시겠습니까?')) {
+                        // 명시적으로 빈 배열로 리셋하여 폼을 초기화합니다.
+                        resetForm({
+                            values: {
+                                products: []
+                            }
+                        });
+                    }
+                };
+
+                // 입력값만 초기화 함수 (행은 유지하고 에러는 제거)
+                const clearValues = () => {
+                    if (confirm('현재 입력된 모든 값을 지우시겠습니까?')) {
+                        // 현재 생성된 행의 개수만큼 빈 데이터 배열을 만듭니다.
+                        const clearedValues = fields.value.map(() => ({ date: '', name: '' }));
+
+                        // resetForm에 새로운 값을 전달하면 값은 바뀌면서 에러/터치 상태는 초기화됩니다.
+                        resetForm({
+                            values: {
+                                products: clearedValues
+                            }
+                        });
+                    }
+                };
+
+                // [1번 방식] 부모 컴포넌트에서 에러 메시지 커스터마이징
+                const dateRule = (val) => {
+                    if (!val) return '⚠️ 날짜를 반드시 선택해 주세요!';
+                    return true;
+                };
+
+                const nameRule = (val) => {
+                    if (!val || String(val).trim() === '') return '❌ 상품 이름을 입력하지 않았습니다. 확인해 주세요.';
+                    if (val.length < 2) return '상품명은 최소 2글자 이상이어야 합니다.';
+                    return true;
+                };
+
+                // 제출 핸들러
+                const onSubmit = handleSubmit((formValues) => {
+                    console.log('최종 데이터:', formValues);
+                    alert('검증 성공!');
+                });
+
+                return {
+                    fields,
+                    addProduct,
+                    removeProduct,
+                    resetAll,
+                    clearValues,
+                    dateRule,
+                    nameRule,
+                    onSubmit
+                };
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
