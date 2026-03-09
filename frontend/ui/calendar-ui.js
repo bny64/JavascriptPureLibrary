@@ -121,7 +121,6 @@ export const CalendarUI = {
                 const targetDateStr = KoreanTime.formatDate(date); // YYYY-MM-DD
                 const { TaskService } = await import('../services/task-service.js');
                 await TaskService.updateTask(taskId, {
-                    startDate: targetDateStr,
                     endDate: targetDateStr
                 });
             }
