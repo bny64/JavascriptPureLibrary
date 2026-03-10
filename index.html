@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="frontend/styles/components/kanban.css">
     <link rel="stylesheet" href="frontend/styles/components/gantt.css">
     <link rel="stylesheet" href="frontend/styles/components/activity-log.css">
+    <link rel="stylesheet" href="frontend/styles/effects/mouse-effect.css">
     <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="lib/frappe-gantt.css">
     <link rel="stylesheet" href="lib/quill.snow.css">
@@ -55,6 +56,15 @@
                         <div class="theme-circle" data-theme="brown" title="갈색"></div>
                         <div class="theme-circle" data-theme="gray" title="회색"></div>
                     </div>
+                </div>
+                <div class="effect-selector">
+                    <label>효과:</label>
+                    <select id="mouseEffectSelect">
+                        <option value="star">🌟 별</option>
+                        <option value="heart">❤️ 하트</option>
+                        <option value="bubble">🫧 버블</option>
+                        <option value="off">끄기</option>
+                    </select>
                 </div>
             </div>
             <div class="header-buttons">

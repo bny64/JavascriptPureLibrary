@@ -53,6 +53,7 @@ import { ActivityLogUI } from './ui/activity-log-ui.js';
 import { MemoUI } from './ui/memo-ui.js';
 
 import { injectComponents } from './utils/html-loader.js';
+import { MouseEffect } from './utils/effects/mouse-effect.js';
 
 // ──────────────────────────────────────────────
 // 서비스 및 데이터 계층
@@ -399,6 +400,9 @@ function bindModalEvents() {
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
+    // 0. 마우스 디자인 효과 초기화
+    MouseEffect.init();
+
     // 1. 필수 모달 주입
     await injectComponents('#modal-container', [
         { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
@@ -431,6 +435,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('globalSearchInput')?.addEventListener('keyup', handleGlobalSearch);
     document.getElementById('openCategoryModalBtn')?.addEventListener('click', () => openCategoryModal());
     document.getElementById('openTaskModalBtn')?.addEventListener('click', () => openTaskModal());
+
+    // 마우스 이펙트 설정 바인딩
+    const effectSelect = document.getElementById('mouseEffectSelect');
+    if (effectSelect) {
+        effectSelect.value = MouseEffect.currentMode;
+        effectSelect.addEventListener('change', (e) => {
+            MouseEffect.setMode(e.target.value);
+        });
+    }
 
     renderCalendar();
     updateSelectedDateTitle();

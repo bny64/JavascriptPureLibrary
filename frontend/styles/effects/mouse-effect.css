@@ -1,0 +1,116 @@
+/* frontend/styles/effects/mouse-effect.css */
+
+:root {
+  --effect-color: #FFD700;
+  /* 기본 이펙트 색상 (골드) */
+}
+
+/* 이펙트용 컨테이너 */
+#mouse-tracker-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* 입자 조각 공통 */
+.mouse-fragment {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  will-change: transform, opacity;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mouse-fragment.star {
+  color: var(--effect-color);
+}
+
+.mouse-fragment.heart {
+  color: #ff6b6b;
+}
+
+.mouse-fragment.bubble {
+  border: 2px solid var(--effect-color);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 헤더 내 이펙트 셀렉터 스타일 */
+.effect-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 10px;
+}
+
+.effect-selector select {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.effect-selector select:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.effect-selector select option {
+  background: white;
+  color: #333;
+}
+
+/* 테마별 색상 대응 */
+body.theme-green {
+  --effect-color: #4caf50;
+}
+
+body.theme-blue {
+  --effect-color: #2196f3;
+}
+
+body.theme-purple {
+  --effect-color: #9c27b0;
+}
+
+body.theme-orange {
+  --effect-color: #ff9800;
+}
+
+body.theme-pink {
+  --effect-color: #e91e63;
+}
+
+body.theme-teal {
+  --effect-color: #11998e;
+}
+
+body.theme-red {
+  --effect-color: #f44336;
+}
+
+body.theme-indigo {
+  --effect-color: #3f51b5;
+}
+
+body.theme-brown {
+  --effect-color: #795548;
+}
+
+body.theme-gray {
+  --effect-color: #607d8b;
+}
