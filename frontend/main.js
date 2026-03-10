@@ -154,9 +154,43 @@ function updateThemeUI(theme) {
 }
 
 function changeTheme(theme) {
-    document.body.className = `theme-${theme}`;
+    const currentWallpaper = StorageUtils.get('wallpaper', 'none');
+    if (currentWallpaper === 'none') {
+        document.body.style.backgroundImage = 'none';
+        document.body.className = `theme-${theme}`;
+    } else {
+        document.body.className = `theme-${theme} has-wallpaper`;
+    }
     StorageUtils.set('theme', theme);
     updateThemeUI(theme);
+}
+
+// ══════════════════════════════════════════════
+// 배경화면 관리
+// ══════════════════════════════════════════════
+function loadWallpaper() {
+    const saved = StorageUtils.get('wallpaper', 'none');
+    applyWallpaper(saved);
+}
+
+function applyWallpaper(wallpaper) {
+    const body = document.body;
+    const theme = StorageUtils.get('theme', 'green');
+
+    if (wallpaper === 'none') {
+        body.classList.remove('has-wallpaper');
+        body.style.backgroundImage = ''; // CSS linear-gradient가 적용됨
+    } else {
+        body.classList.add('has-wallpaper');
+        const url = `frontend/assets/backgrounds/${wallpaper}.png`;
+        body.style.backgroundImage = `url('${url}')`;
+    }
+
+    body.className = `theme-${theme}${wallpaper !== 'none' ? ' has-wallpaper' : ''}`;
+    StorageUtils.set('wallpaper', wallpaper);
+
+    const select = document.getElementById('wallpaperSelect');
+    if (select) select.value = wallpaper;
 }
 
 
@@ -416,6 +450,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSidebarDragAndDrop();
 
     loadTheme();
+    loadWallpaper();
     await loadView();
 
     await loadCategories();
@@ -442,6 +477,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         effectSelect.value = MouseEffect.currentMode;
         effectSelect.addEventListener('change', (e) => {
             MouseEffect.setMode(e.target.value);
+        });
+    }
+
+    // 배경화면 설정 바인딩
+    const wallpaperSelect = document.getElementById('wallpaperSelect');
+    if (wallpaperSelect) {
+        wallpaperSelect.addEventListener('change', (e) => {
+            applyWallpaper(e.target.value);
         });
     }
 
