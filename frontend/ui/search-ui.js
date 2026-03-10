@@ -1,5 +1,5 @@
 import { AppState } from '../state/app-state.js';
-import { TextUtils } from '../utils/dom.js';
+import { DomUtils, TextUtils } from '../utils/dom.js';
 
 export const SearchUI = {
   currentPage: 1,
@@ -215,6 +215,9 @@ export const SearchUI = {
     });
 
     this.renderPagination(totalCount);
+
+    // 결과 렌더링 후 화면 상단으로 이동
+    DomUtils.scrollToTop(document.getElementById('search-view'));
   },
 
   renderPagination(totalCount) {

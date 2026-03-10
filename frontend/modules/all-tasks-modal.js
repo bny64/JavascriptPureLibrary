@@ -45,7 +45,7 @@ export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = 
 
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
-    DomUtils.scrollToTop(modal.querySelector('.modal-content'));
+    DomUtils.scrollToTop(modal.querySelector('.all-tasks-list-container'));
 }
 
 export function openAllTasksModalWithCategory(category1) {
@@ -223,6 +223,12 @@ export function renderAllTasks() {
     allTasksList.innerHTML = '';
     pageTasks.forEach(task => allTasksList.appendChild(TaskUI.createCard(task)));
     updatePaginationControls(totalPages);
+
+    // 검색/필터/페이징 결과 렌더링 후 모달 스크롤 상단 이동
+    const modal = document.getElementById('allTasksModal');
+    if (modal) {
+        DomUtils.scrollToTop(modal.querySelector('.all-tasks-list-container'));
+    }
 }
 
 export function updatePaginationControls(totalPages) {
@@ -293,7 +299,7 @@ export function resetAllFilters() {
     if (endDate) endDate.value = '';
     if (sortF) sortF.value = 'endDate';
     if (sortD) sortD.value = 'desc';
-    
+
     // 라디오 버튼 초기화 (단어 검색으로)
     const textRadio = document.querySelector('input[name="searchType"][value="text"]');
     if (textRadio) textRadio.checked = true;
@@ -301,7 +307,7 @@ export function resetAllFilters() {
 
     // 필터 버튼 활성화 상태 업데이트
     activateFilterButtons();
-    
+
     // 카테고리 드롭다운 초기화
     populateSearchCategories();
     updateSearchCategory2();
