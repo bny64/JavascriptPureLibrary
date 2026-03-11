@@ -208,7 +208,7 @@ body {
 /* ── List ── */
 .list-header {
   display: grid;
-  grid-template-columns: 36px 1fr 1fr 40px;
+  grid-template-columns: 40px 1.2fr 2fr 1.8fr 44px;
   gap: 12px;
   padding: 9px 16px;
   background: var(--surface2);
@@ -223,7 +223,7 @@ body {
 
 .product-row {
   display: grid;
-  grid-template-columns: 36px 1fr 1fr 40px;
+  grid-template-columns: 40px 1.2fr 2fr 1.8fr 44px;
   gap: 12px;
   padding: 10px 16px;
   background: var(--surface);
@@ -294,6 +294,26 @@ body {
   outline: none;
   transition: border-color 0.16s, box-shadow 0.16s;
   color-scheme: dark;
+}
+
+.custom-input.has-suffix {
+  padding-right: 32px;
+  /* 단위가 들어갈 공간 확보 */
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-suffix {
+  position: absolute;
+  right: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  pointer-events: none;
+  font-family: 'Sora', sans-serif;
 }
 
 .custom-input::placeholder {

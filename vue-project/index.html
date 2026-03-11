@@ -56,28 +56,28 @@
             <!-- Product list -->
             <div v-if="products.length > 0">
                 <div class="list-header">
-                    <div style="flex: 0 0 40px">#</div>
-                    <div style="flex: 1">날짜</div>
-                    <div style="flex: 2">상품명</div>
-                    <div style="flex: 1.5">가격</div>
-                    <div style="flex: 0 0 40px"></div>
+                    <div>#</div>
+                    <div>날짜</div>
+                    <div>상품명</div>
+                    <div>가격</div>
+                    <div></div>
                 </div>
                 <transition-group name="row" tag="div">
                     <div class="product-row" v-for="(product, index) in products" :key="product.id">
-                        <div class="row-num" style="flex: 0 0 40px">{{ index + 1 }}</div>
-                        <div style="flex: 1">
+                        <div class="row-num">{{ index + 1 }}</div>
+                        <div>
                             <custom-input :name="'date_' + product.id" type="date" :rules="validateDate"
                                 v-model="product.date" placeholder="날짜 선택" />
                         </div>
-                        <div style="flex: 2">
+                        <div>
                             <custom-input :name="'name_' + product.id" type="text" :rules="validateName"
                                 v-model="product.name" placeholder="상품명 입력" />
                         </div>
-                        <div style="flex: 1.5">
+                        <div>
                             <custom-input :name="'price_' + product.id" type="number" :rules="validatePrice"
-                                v-model="product.price" placeholder="가격 입력" :is-price="true" />
+                                v-model="product.price" placeholder="가격 입력" :is-price="true" suffix="원" />
                         </div>
-                        <div class="row-del" style="flex: 0 0 40px">
+                        <div class="row-del">
                             <button class="btn-icon" @click="removeProduct(product.id)" title="삭제">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.5">

@@ -11,19 +11,23 @@ const CustomInput = {
         type: { type: String, default: 'text' },
         rules: { type: Function, default: null },
         placeholder: { type: String, default: '' },
-        isPrice: { type: Boolean, default: false }
+        isPrice: { type: Boolean, default: false },
+        suffix: { type: String, default: '' }
     },
     emits: ['update:modelValue'],
     template: `
         <div class="custom-input-wrapper">
-            <input
-                :type="computedType"
-                :value="displayValue"
-                :class="['custom-input', { 'is-invalid': errorMessage }]"
-                @input="handleInput"
-                @blur="onBlur"
-                :placeholder="placeholder"
-            />
+            <div class="input-group">
+                <input
+                    :type="computedType"
+                    :value="displayValue"
+                    :class="['custom-input', { 'is-invalid': errorMessage, 'has-suffix': suffix }]"
+                    @input="handleInput"
+                    @blur="onBlur"
+                    :placeholder="placeholder"
+                />
+                <span v-if="suffix" class="input-suffix">{{ suffix }}</span>
+            </div>
             <span v-if="errorMessage" class="error-msg">{{ errorMessage }}</span>
         </div>
     `,
@@ -36,8 +40,7 @@ const CustomInput = {
             () => props.name,
             props.rules,
             {
-                initialValue: props.modelValue ?? '',
-                validateOnValueUpdate: false, // 입력 시에는 검증하지 않음
+                // validateOnValueUpdate: false, // 입력 시에는 검증하지 않음
                 syncVModel: true
             }
         );
@@ -60,7 +63,7 @@ const CustomInput = {
             if (props.isPrice) {
                 const rawValue = val.replace(/[^\d]/g, '');
                 const numValue = rawValue === '' ? '' : Number(rawValue);
-                handleChange(numValue, false); // 값은 업데이트하되 검증은 실행하지 않음
+                // handleChange(numValue, false); // 값은 업데이트하되 검증은 실행하지 않음
                 emit('update:modelValue', numValue);
             } else {
                 handleChange(val, false);
