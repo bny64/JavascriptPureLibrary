@@ -1,26 +1,46 @@
+/**
+ * CustomInput
+ * - VeeValidate useField 기반 입력 컴포넌트
+ * - blur 시에만 유효성 검증
+ * - 에러/값 초기화는 부모의 useForm > resetForm() 으로 처리
+ */
 const CustomInput = {
-    props: ['modelValue', 'name', 'type', 'rules', 'placeholder', 'isPrice'],
+    props: {
+        modelValue: { default: '' },
+        name: { type: String, required: true },
+        type: { type: String, default: 'text' },
+        rules: { type: Function, default: null },
+        placeholder: { type: String, default: '' },
+        isPrice: { type: Boolean, default: false }
+    },
+    emits: ['update:modelValue'],
     template: `
-        <div>
-            <input 
+        <div class="custom-input-wrapper">
+            <input
                 :type="computedType"
                 :value="displayValue"
-                @input="handleInput"
                 :class="['custom-input', { 'is-invalid': errorMessage }]"
-                @blur="onCustomBlur"
+                @input="handleInput"
+                @blur="onBlur"
                 :placeholder="placeholder"
-            >
+            />
             <span v-if="errorMessage" class="error-msg">{{ errorMessage }}</span>
         </div>
     `,
-    setup(props) {
+    setup(props, { emit }) {
         const { useField } = VeeValidate;
         const { computed } = Vue;
 
         // useField를 사용하여 상위 useForm 컨텍스트에 필드를 등록합니다.
-        const { value, errorMessage, validate } = useField(() => props.name, props.rules, {
-            syncVModel: true
-        });
+        const { value, errorMessage, validate, handleBlur, handleChange } = useField(
+            () => props.name,
+            props.rules,
+            {
+                initialValue: props.modelValue ?? '',
+                validateOnValueUpdate: false, // 입력 시에는 검증하지 않음
+                syncVModel: true
+            }
+        );
 
         // 가격 타입일 경우 콤마 표시를 위해 text 타입으로 처리
         const computedType = computed(() => props.isPrice ? 'text' : props.type);
@@ -39,24 +59,21 @@ const CustomInput = {
             let val = event.target.value;
             if (props.isPrice) {
                 const rawValue = val.replace(/[^\d]/g, '');
-                value.value = rawValue === '' ? '' : Number(rawValue);
+                const numValue = rawValue === '' ? '' : Number(rawValue);
+                handleChange(numValue, false); // 값은 업데이트하되 검증은 실행하지 않음
+                emit('update:modelValue', numValue);
             } else {
-                value.value = val;
+                handleChange(val, false);
+                emit('update:modelValue', val);
             }
         };
 
-        // 사용자가 아무것도 입력하지 않고 단순히 포커스만 잃었을 때도
-        // 강제로 검증을 실행하여 에러 메시지를 노출합니다.
-        const onCustomBlur = async (event) => {
-            const target = event.relatedTarget;
-            if (target && (
-                target.classList.contains('btn-remove') ||
-                target.classList.contains('btn-reset') ||
-                target.classList.contains('btn-clear')
-            )) {
-                return;
+        // 포커스를 잃었을 때 검증 실행
+        const onBlur = async (event) => {
+            handleBlur(event);
+            if (props.rules) {
+                await validate();
             }
-            await validate();
         };
 
         return {
@@ -65,7 +82,7 @@ const CustomInput = {
             computedType,
             displayValue,
             handleInput,
-            onCustomBlur
+            onBlur
         };
     }
 };

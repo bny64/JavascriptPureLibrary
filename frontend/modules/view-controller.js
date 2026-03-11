@@ -1,6 +1,5 @@
-// view-controller.js
 import { AppState } from '../state/app-state.js';
-import { StorageUtils } from '../utils/dom.js';
+import { DomUtils, StorageUtils } from '../utils/dom.js';
 import { TaskUI } from '../ui/task-ui.js';
 import { DashboardUI } from '../ui/dashboard-ui.js';
 import { KanbanUI } from '../ui/kanban-ui.js';
@@ -51,6 +50,10 @@ export async function switchView(viewName) {
 
     // 표시 및 활성화
     viewContainer.style.display = 'block';
+
+    // 뷰 전환 시 해당 컨테이너 스크롤 최상단 이동
+    DomUtils.scrollToTop(viewContainer);
+
     const link = document.getElementById(target.linkId);
     if (link) link.classList.add('active');
 

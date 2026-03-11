@@ -1,6 +1,6 @@
 // ui/activity-log-ui.js - 활동 로그 UI 렌더링
 
-import { TextUtils } from '../utils/dom.js';
+import { DomUtils, TextUtils } from '../utils/dom.js';
 import { KoreanTime } from '../utils/korean-time.js';
 
 export const ActivityLogUI = {
@@ -68,5 +68,8 @@ export const ActivityLogUI = {
                 m.handleLogClick(taskId, taskName);
             });
         });
+
+        // 결과 렌더링 후 화면 상단으로 이동
+        DomUtils.scrollToTop(document.getElementById('activity-log-view'));
     }
 };

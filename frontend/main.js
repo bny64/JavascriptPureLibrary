@@ -53,6 +53,7 @@ import { ActivityLogUI } from './ui/activity-log-ui.js';
 import { MemoUI } from './ui/memo-ui.js';
 
 import { injectComponents } from './utils/html-loader.js';
+import { MouseEffect } from './utils/effects/mouse-effect.js';
 
 // ──────────────────────────────────────────────
 // 서비스 및 데이터 계층
@@ -153,9 +154,90 @@ function updateThemeUI(theme) {
 }
 
 function changeTheme(theme) {
-    document.body.className = `theme-${theme}`;
+    const currentWallpaper = StorageUtils.get('wallpaper', 'none');
+    if (currentWallpaper === 'none') {
+        document.body.style.backgroundImage = 'none';
+        document.body.className = `theme-${theme}`;
+    } else {
+        document.body.className = `theme-${theme} has-wallpaper`;
+    }
     StorageUtils.set('theme', theme);
     updateThemeUI(theme);
+}
+
+// ══════════════════════════════════════════════
+// 배경화면 관리
+// ══════════════════════════════════════════════
+function loadWallpaper() {
+    const saved = StorageUtils.get('wallpaper', 'none');
+    applyWallpaper(saved);
+}
+
+function applyWallpaper(wallpaper) {
+    const body = document.body;
+    const theme = StorageUtils.get('theme', 'green');
+
+    if (wallpaper === 'none') {
+        body.classList.remove('has-wallpaper');
+        body.style.backgroundImage = ''; // CSS linear-gradient가 적용됨
+    } else {
+        body.classList.add('has-wallpaper');
+        const url = `frontend/assets/backgrounds/${wallpaper}.png`;
+        body.style.backgroundImage = `url('${url}')`;
+    }
+
+    body.className = `theme-${theme}${wallpaper !== 'none' ? ' has-wallpaper' : ''}`;
+    StorageUtils.set('wallpaper', wallpaper);
+
+    // 배경 적용 시 UI 동기화
+    updateWallpaperUI(wallpaper);
+
+    // 배경 적용 시 투명도도 함께 적용
+    const savedOpacity = StorageUtils.get('wallpaperOpacity', '0.7');
+    applyWallpaperOpacity(savedOpacity);
+}
+
+function changeWallpaper(wallpaper) {
+    applyWallpaper(wallpaper);
+}
+
+function updateWallpaperUI(wallpaper) {
+    const circles = document.querySelectorAll('.wallpaper-circle');
+    circles.forEach(c => {
+        c.classList.toggle('active', c.dataset.wallpaper === wallpaper);
+    });
+}
+
+function applyWallpaperOpacity(opacity) {
+    const root = document.documentElement;
+    const val = parseFloat(opacity);
+    // 컨테이너 투명도 (기본 0.7 기준 비례)
+    root.style.setProperty('--ui-opacity', val);
+    // 카드/패널 투명도 (컨테이너보다 약간 더 투명하게, 기본 0.6 기준 비례)
+    root.style.setProperty('--ui-card-opacity', val - 0.1 > 0 ? val - 0.1 : 0);
+    StorageUtils.set('wallpaperOpacity', opacity);
+
+    const range = document.getElementById('wallpaperOpacityRange');
+    if (range) range.value = opacity;
+}
+
+function loadWallpaperOpacity() {
+    const saved = StorageUtils.get('wallpaperOpacity', '0.7');
+    applyWallpaperOpacity(saved);
+}
+
+function applyEffectOpacity(opacity) {
+    MouseEffect.setOpacity(opacity);
+    const range = document.getElementById('effectOpacityRange');
+    if (range) range.value = opacity;
+    
+    // 이펙트 아이콘 UI도 현재 모드에 맞춰 동기화
+    updateEffectUI(MouseEffect.currentMode);
+}
+
+function loadEffectOpacity() {
+    const saved = StorageUtils.get('mouseEffectOpacity', '1.0');
+    applyEffectOpacity(saved);
 }
 
 
@@ -399,6 +481,9 @@ function bindModalEvents() {
 // DOMContentLoaded 초기화
 // ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
+    // 0. 마우스 디자인 효과 초기화
+    MouseEffect.init();
+
     // 1. 필수 모달 주입
     await injectComponents('#modal-container', [
         { id: 'allTasksModal', url: 'html/modals/all-tasks.html', wrapperClass: 'modal' },
@@ -412,6 +497,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSidebarDragAndDrop();
 
     loadTheme();
+    loadWallpaper();
     await loadView();
 
     await loadCategories();
@@ -431,6 +517,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('globalSearchInput')?.addEventListener('keyup', handleGlobalSearch);
     document.getElementById('openCategoryModalBtn')?.addEventListener('click', () => openCategoryModal());
     document.getElementById('openTaskModalBtn')?.addEventListener('click', () => openTaskModal());
+
+    // 마우스 이펙트 설정 바인딩
+    const effectSelect = document.getElementById('mouseEffectSelect');
+    if (effectSelect) {
+        effectSelect.value = MouseEffect.currentMode;
+        effectSelect.addEventListener('change', (e) => {
+            MouseEffect.setMode(e.target.value);
+        });
+    }
+
+    // 배경화면 아이콘 클릭 이벤트
+    document.getElementById('wallpaperCircles')?.addEventListener('click', (e) => {
+        const circle = e.target.closest('.wallpaper-circle');
+        if (circle) changeWallpaper(circle.dataset.wallpaper);
+    });
+
+    // --- 추가: 투명도 슬라이더 바인딩 ---
+    loadWallpaperOpacity();
+    loadEffectOpacity();
+
+    // 초기 UI 상태 동기화 (저장된 값 반영)
+    updateEffectUI(MouseEffect.currentMode);
+    updateWallpaperUI(StorageUtils.get('wallpaper', 'none'));
+
+    // 효과 아이콘 클릭 이벤트
+    document.getElementById('effectCircles')?.addEventListener('click', (e) => {
+        const circle = e.target.closest('.effect-circle');
+        if (circle) changeEffect(circle.dataset.effect);
+    });
+
+    const wallpaperOpacityRange = document.getElementById('wallpaperOpacityRange');
+    if (wallpaperOpacityRange) {
+        wallpaperOpacityRange.addEventListener('input', (e) => {
+            applyWallpaperOpacity(e.target.value);
+        });
+    }
+
+    const effectOpacityRange = document.getElementById('effectOpacityRange');
+    if (effectOpacityRange) {
+        effectOpacityRange.addEventListener('input', (e) => {
+            applyEffectOpacity(e.target.value);
+        });
+    }
 
     renderCalendar();
     updateSelectedDateTitle();
@@ -455,6 +584,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById(id)?.addEventListener('click', (e) => { e.preventDefault(); switchView(view); });
     });
 });
+
+function changeEffect(mode) {
+    MouseEffect.setMode(mode);
+    updateEffectUI(mode);
+}
+
+function updateEffectUI(mode) {
+    const circles = document.querySelectorAll('.effect-circle');
+    circles.forEach(c => {
+        c.classList.toggle('active', c.dataset.effect === mode);
+    });
+}
 
 
 // ══════════════════════════════════════════════

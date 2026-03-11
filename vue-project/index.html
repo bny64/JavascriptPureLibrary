@@ -2,279 +2,226 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Vue + Vee-Validate (Input Component + useField)</title>
-    <!-- Vue 3 & Vee-Validate 4 CDN -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상품 관리</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/vee-validate@4.12.6/dist/vee-validate.js"></script>
     <script src="./CustomInput.js"></script>
-    <style>
-        body {
-            font-family: 'Pretendard', sans-serif;
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            background: #f0f2f5;
-        }
-
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            margin-top: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .product-row {
-            border: 1px solid #eef0f2;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            background: #fafbfc;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .field-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* 공통 input 스타일 */
-        .custom-input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .custom-input.is-invalid {
-            border-color: #e53e3e;
-            background-color: #fff5f5;
-        }
-
-        .error-msg {
-            color: #e53e3e;
-            font-size: 12px;
-            margin-top: 6px;
-            display: block;
-        }
-
-        .btn-add {
-            background-color: #4f46e5;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .btn-remove {
-            background-color: #fed7d7;
-            color: #c53030;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 28px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            background-color: #10b981;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .btn-submit:hover {
-            background-color: #059669;
-        }
-
-        .btn-reset {
-            background-color: #fff;
-            color: #4a5568;
-            border: 1px solid #cbd5e0;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .btn-reset:hover {
-            background-color: #f8fafc;
-        }
-
-        .btn-clear {
-            background-color: #fff;
-            color: #4f46e5;
-            border: 1px solid #4f46e5;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .btn-clear:hover {
-            background-color: #f5f3ff;
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-    <div id="app" class="form-container">
-        <h2>
-            상품 설정 (Input Component 분리)
-            <div style="display: flex; gap: 8px;">
-                <button type="button" class="btn-clear" @click="clearValues">값 지우기</button>
-                <button type="button" class="btn-reset" @click="resetAll">전체 삭제</button>
-                <button type="button" class="btn-add" @click="addProduct">+ 상품 추가</button>
-            </div>
-        </h2>
+    <div id="app">
+        <div class="page-wrap">
 
-        <form @submit="onSubmit">
-            <div v-for="(field, index) in fields" :key="field.key" class="product-row">
-                <!-- 분리된 Input 컴포넌트 사용 (날짜) -->
-                <div class="field-group">
-                    <label>세팅 날짜</label>
-                    <custom-input type="date" :name="`products[${index}].date`" v-model="field.value.date"
-                        :rules="dateRule"></custom-input>
-                </div>
-
-                <!-- 분리된 Input 컴포넌트 사용 (상품명) -->
-                <div class="field-group">
-                    <label>상품 정보</label>
-                    <custom-input type="text" :name="`products[${index}].name`" v-model="field.value.name"
-                        :rules="nameRule" placeholder="내용을 입력하세요"></custom-input>
-                </div>
-
-                <!-- 분리된 Input 컴포넌트 사용 (가격) -->
-                <div class="field-group">
-                    <label>가격</label>
-                    <custom-input type="number" :name="`products[${index}].price`" v-model="field.value.price"
-                        :rules="priceRule" placeholder="가격을 입력하세요" is-price="true"></custom-input>
-                </div>
-                <button type="button" class="btn-remove" @click="removeProduct(index)">삭제</button>
+            <!-- Header -->
+            <div class="header">
+                <h1>상품 관리</h1>
+                <p>product.registry / v1.1</p>
             </div>
 
-            <button type="submit" class="btn-submit">전체 검증 및 저장</button>
-        </form>
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <span class="badge">{{ products.length }}</span>
+                <span style="font-size:13px; color:var(--muted)">개 상품</span>
+                <div class="toolbar-right">
+                    <div class="count-wrap">
+                        <label>추가 수량</label>
+                        <input class="count-input" type="number" v-model.number="addCount" min="1" max="20" />
+                    </div>
+                    <button class="btn btn-primary btn-sm" @click="addProducts">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        상품 추가
+                    </button>
+                    <button class="btn btn-ghost btn-sm" @click="showResetPopup = true"
+                        :disabled="products.length === 0">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="1 4 1 10 7 10" />
+                            <path d="M3.51 15a9 9 0 1 0 .49-3.28" />
+                        </svg>
+                        전체 초기화
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product list -->
+            <div v-if="products.length > 0">
+                <div class="list-header">
+                    <div style="flex: 0 0 40px">#</div>
+                    <div style="flex: 1">날짜</div>
+                    <div style="flex: 2">상품명</div>
+                    <div style="flex: 1.5">가격</div>
+                    <div style="flex: 0 0 40px"></div>
+                </div>
+                <transition-group name="row" tag="div">
+                    <div class="product-row" v-for="(product, index) in products" :key="product.id">
+                        <div class="row-num" style="flex: 0 0 40px">{{ index + 1 }}</div>
+                        <div style="flex: 1">
+                            <custom-input :name="'date_' + product.id" type="date" :rules="validateDate"
+                                v-model="product.date" placeholder="날짜 선택" />
+                        </div>
+                        <div style="flex: 2">
+                            <custom-input :name="'name_' + product.id" type="text" :rules="validateName"
+                                v-model="product.name" placeholder="상품명 입력" />
+                        </div>
+                        <div style="flex: 1.5">
+                            <custom-input :name="'price_' + product.id" type="number" :rules="validatePrice"
+                                v-model="product.price" placeholder="가격 입력" :is-price="true" />
+                        </div>
+                        <div class="row-del" style="flex: 0 0 40px">
+                            <button class="btn-icon" @click="removeProduct(product.id)" title="삭제">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </transition-group>
+            </div>
+
+            <!-- Empty state -->
+            <div v-else class="empty-state">
+                <div class="icon">📦</div>
+                <p>추가된 상품이 없습니다. 상품 추가 버튼을 눌러주세요.</p>
+            </div>
+
+            <!-- Submit -->
+            <div class="submit-area" v-if="products.length > 0">
+                <button class="btn-submit" @click="onSubmit">저장하기</button>
+            </div>
+        </div>
+
+        <!-- Reset Popup -->
+        <div class="overlay" v-if="showResetPopup" @click.self="showResetPopup = false">
+            <div class="popup">
+                <h3>⚙️ 초기화 옵션</h3>
+                <p>어떤 방식으로 초기화하시겠습니까?</p>
+                <div class="popup-actions">
+                    <button class="btn btn-danger" @click="resetAll">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6" />
+                            <path d="M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                        전체 삭제 (행 포함)
+                    </button>
+                    <button class="btn btn-success" @click="resetValues">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="1 4 1 10 7 10" />
+                            <path d="M3.51 15a9 9 0 1 0 .49-3.28" />
+                        </svg>
+                        입력값만 초기화
+                    </button>
+                </div>
+                <div class="popup-cancel">
+                    <button @click="showResetPopup = false">취소</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" v-if="toastVisible">✓ 저장되었습니다!</div>
     </div>
 
     <script>
-        const { createApp } = Vue;
-        const { useForm, useFieldArray } = VeeValidate;
+        const { useForm, useField } = VeeValidate;
+        const { createApp, ref } = Vue;
 
-        const app = createApp({
-            components: {
-                CustomInput
-            },
+        let uid = 1;
+        const makeProduct = () => ({ id: uid++, date: '', name: '', price: '' });
+
+        createApp({
+            components: { CustomInput },
             setup() {
-                // 1. useForm 초기화 (Yup 없이 사용)
-                // resetForm을 가져와서 전체 초기화 시 사용합니다.
-                const { handleSubmit, resetForm } = useForm({
-                    initialValues: {
-                        products: []
-                    }
-                });
+                const { validate: validateForm, resetForm } = useForm();
 
-                // 2. useFieldArray (배열 데이터 관리)
-                const { fields, push, remove } = useFieldArray('products');
+                const products = ref([makeProduct()]);
+                const addCount = ref(1);
+                const showResetPopup = ref(false);
+                const toastVisible = ref(false);
 
-                // push 할 때 필요한 초기 데이터 구조를 넣어줍니다.
-                const addProduct = () => push({ date: '', name: '', price: '' });
-                const removeProduct = (idx) => remove(idx);
+                const validateDate = (val) => {
+                    if (!val) return '날짜를 입력해주세요.';
+                    return true;
+                };
 
-                // 전체 삭제 함수 (행 자체를 모두 제거)
+                const validateName = (val) => {
+                    if (!val || !val.trim()) return '상품명을 입력해주세요.';
+                    if (val.trim().length < 2) return '상품명은 2자 이상이어야 합니다.';
+                    return true;
+                };
+
+                const validatePrice = (val) => {
+                    if (val === undefined || val === null || val === '') return '가격을 입력해주세요.';
+                    if (isNaN(val) || Number(val) < 0) return '올바른 가격을 입력해주세요.';
+                    return true;
+                };
+
+                const addProducts = () => {
+                    const count = Math.max(1, Math.min(20, addCount.value || 1));
+                    for (let i = 0; i < count; i++) products.value.push(makeProduct());
+                };
+
+                const removeProduct = (id) => {
+                    products.value = products.value.filter(p => p.id !== id);
+                };
+
                 const resetAll = () => {
-                    if (confirm('모든 상품 행을 삭제하시겠습니까?')) {
-                        // 명시적으로 빈 배열로 리셋하여 폼을 초기화합니다.
-                        resetForm({
-                            values: {
-                                products: []
-                            }
-                        });
+                    products.value = [];
+                    showResetPopup.value = false;
+                };
+
+                const resetValues = () => {
+                    // products 데이터 초기화
+                    products.value.forEach(p => {
+                        p.date = '';
+                        p.name = '';
+                        p.price = '';
+                    });
+
+                    // 현재 등록된 모든 필드의 빈 값을 values로 구성해서 resetForm에 전달
+                    const emptyValues = {};
+                    products.value.forEach(p => {
+                        emptyValues['date_' + p.id] = '';
+                        emptyValues['name_' + p.id] = '';
+                        emptyValues['price_' + p.id] = '';
+                    });
+                    resetForm({ values: emptyValues });
+
+                    showResetPopup.value = false;
+                };
+
+                const onSubmit = async () => {
+                    const result = await validateForm();
+                    if (result.valid) {
+                        console.log('제출 데이터:', JSON.parse(JSON.stringify(products.value)));
+                        toastVisible.value = true;
+                        setTimeout(() => { toastVisible.value = false; }, 2500);
                     }
                 };
-
-                // 입력값만 초기화 함수 (행은 유지하고 에러는 제거)
-                const clearValues = () => {
-                    if (confirm('현재 입력된 모든 값을 지우시겠습니까?')) {
-                        // 현재 생성된 행의 개수만큼 빈 데이터 배열을 만듭니다.
-                        const clearedValues = fields.value.map(() => ({ date: '', name: '', price: '' }));
-
-                        // resetForm에 새로운 값을 전달하면 값은 바뀌면서 에러/터치 상태는 초기화됩니다.
-                        resetForm({
-                            values: {
-                                products: clearedValues
-                            }
-                        });
-                    }
-                };
-
-                // [1번 방식] 부모 컴포넌트에서 에러 메시지 커스터마이징
-                const dateRule = (val) => {
-                    if (!val) return '⚠️ 날짜를 반드시 선택해 주세요!';
-                    return true;
-                };
-
-                const nameRule = (val) => {
-                    if (!val || String(val).trim() === '') return '❌ 상품 이름을 입력하지 않았습니다. 확인해 주세요.';
-                    if (val.length < 2) return '상품명은 최소 2글자 이상이어야 합니다.';
-                    return true;
-                };
-
-                const priceRule = (val) => {
-                    if (val === undefined || val === null || val === '') return '💰 가격을 입력해 주세요.';
-                    if (isNaN(val) || Number(val) < 0) return '올바른 가격을 입력해 주세요.';
-                    return true;
-                };
-
-                // 제출 핸들러
-                const onSubmit = handleSubmit((formValues) => {
-                    console.log('최종 데이터:', formValues);
-                    alert('검증 성공!');
-                });
 
                 return {
-                    fields,
-                    addProduct,
-                    removeProduct,
-                    resetAll,
-                    clearValues,
-                    dateRule,
-                    nameRule,
-                    priceRule,
-                    onSubmit
+                    products, addCount, showResetPopup, toastVisible,
+                    validateDate, validateName, validatePrice,
+                    addProducts, removeProduct, resetAll, resetValues, onSubmit
                 };
             }
-        });
-
-        app.mount('#app');
+        }).mount('#app');
     </script>
 </body>
 
