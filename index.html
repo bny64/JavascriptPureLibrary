@@ -57,25 +57,30 @@
                         <div class="theme-circle" data-theme="gray" title="회색"></div>
                     </div>
                 </div>
-                <div class="effect-selector">
-                    <label>효과:</label>
-                    <select id="mouseEffectSelect">
-                        <option value="star">🌟 별</option>
-                        <option value="heart">❤️ 하트</option>
-                        <option value="bubble">🫧 버블</option>
-                        <option value="off">끄기</option>
-                    </select>
+                <div class="selector-group">
+                    <div class="selector-item">
+                        <label>효과:</label>
+                        <div id="effectCircles" class="theme-circles">
+                            <div class="theme-circle effect-circle" data-effect="star" title="별">🌟</div>
+                            <div class="theme-circle effect-circle" data-effect="heart" title="하트">❤️</div>
+                            <div class="theme-circle effect-circle" data-effect="bubble" title="버블">🫧</div>
+                            <div class="theme-circle effect-circle" data-effect="off" title="끄기">🚫</div>
+                        </div>
+                    </div>
+                    <input type="range" id="effectOpacityRange" min="0" max="1" step="0.1" value="1" title="효과 투명도">
                 </div>
-                <div class="wallpaper-selector"
-                    style="display: flex; align-items: center; gap: 8px; margin-right: 10px;">
-                    <label style="font-size: 13px; font-weight: 600; color: white;">배경:</label>
-                    <select id="wallpaperSelect"
-                        style="padding: 6px 10px; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.15); color: white; font-size: 13px; font-weight: 600; cursor: pointer; outline: none;">
-                        <option value="none" style="background: white; color: #333;">기본</option>
-                        <option value="space" style="background: white; color: #333;">🌌 우주</option>
-                        <option value="forest" style="background: white; color: #333;">🌲 숲</option>
-                        <option value="sea" style="background: white; color: #333;">🌊 바다</option>
-                    </select>
+                <div class="selector-group wallpaper-group">
+                    <div class="selector-item">
+                        <label>배경:</label>
+                        <div id="wallpaperCircles" class="theme-circles">
+                            <div class="theme-circle wallpaper-circle" data-wallpaper="space" title="우주">🌌</div>
+                            <div class="theme-circle wallpaper-circle" data-wallpaper="forest" title="숲">🌲</div>
+                            <div class="theme-circle wallpaper-circle" data-wallpaper="sea" title="바다">🌊</div>
+                            <div class="theme-circle wallpaper-circle" data-wallpaper="none" title="기본">🚫</div>
+                        </div>
+                    </div>
+                    <input type="range" id="wallpaperOpacityRange" min="0" max="1" step="0.1" value="0.7"
+                        title="UI 투명도">
                 </div>
             </div>
             <div class="header-buttons">

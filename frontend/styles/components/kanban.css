@@ -301,17 +301,18 @@
   background: white;
   color: var(--primary-start);
   border: none;
-  padding: 12px 18px;
-  /* Slightly less padding than other buttons */
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
   position: relative;
-  /* For positioning the count badge */
-  margin-right: 12px;
-  /* Space from other buttons */
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .btn-notification:hover {

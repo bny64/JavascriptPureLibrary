@@ -22,7 +22,7 @@ body {
 
 /* Transparency Effect for Main Container when Wallpaper is active */
 body.has-wallpaper .container {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, var(--ui-opacity, 0.7));
   /* 불투명도를 0.7로 조정 (조금 더 투명하게) */
   backdrop-filter: none;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -81,7 +81,7 @@ body.has-wallpaper .timeline-content,
 body.has-wallpaper .kpi-card,
 body.has-wallpaper .chart-box,
 body.has-wallpaper .task-item {
-  background-color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgba(255, 255, 255, var(--ui-card-opacity, 0.6)) !important;
   backdrop-filter: blur(5px);
 }
 

@@ -1,13 +1,14 @@
 .global-search-container {
   position: relative;
-  width: 250px;
+  width: 170px;
+  /* Reduced to provide more space for other tools */
   transition: width 0.3s;
   /* Smooth container expansion */
 }
 
 .global-search-container:focus-within {
-  width: 400px;
-  /* Expand container itself to push other elements */
+  width: 260px;
+  /* More compact expansion */
 }
 
 #globalSearchInput {
@@ -376,14 +377,20 @@
 }
 
 .btn-memo {
-  background: var(--primary-start);
-  color: white;
+  background: white;
+  color: var(--primary-start);
   border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  margin-right: 10px;
+  transition: all 0.3s;
+  white-space: nowrap;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-memo:hover {
@@ -398,13 +405,18 @@ header h1 {
 .theme-selector {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
-.theme-selector label {
-  font-size: 14px;
-  font-weight: 600;
+.theme-selector label,
+.selector-item label,
+.selector-group label {
+  font-size: 13px;
+  font-weight: 700;
   color: white;
+  white-space: nowrap;
+  margin: 0;
 }
 
 .theme-circles {
@@ -414,26 +426,98 @@ header h1 {
 }
 
 .theme-circle {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Opacity slider alignment */
+#effectOpacityRange,
+#wallpaperOpacityRange {
+  margin-top: 0;
+  height: 20px;
+}
+
+.selector-group {
+  display: flex;
+  flex-direction: row;
+  /* One-line layout */
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.wallpaper-group {
+  margin-right: 0;
+}
+
+.selector-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selector-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+}
+
+.selector-group input[type="range"] {
+  width: 70px !important;
+  /* Compact slider for one-line layout */
+  margin-left: 8px;
+  cursor: pointer;
+  accent-color: rgba(255, 255, 255, 0.9);
+  height: 6px;
+  border-radius: 3px;
 }
 
 .theme-circle:hover {
-  transform: scale(1.3);
+  transform: scale(1.2);
   border-color: white;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .theme-circle.active {
-  transform: scale(1.3);
+  transform: scale(1.2);
   border-color: white;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   border-width: 3px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Specific background styles for wallpaper circles */
+.wallpaper-circle[data-wallpaper="none"] {
+  background: #eee;
+  color: #333;
+}
+
+.wallpaper-circle[data-wallpaper="space"] {
+  background: #1a1a2e;
+}
+
+.wallpaper-circle[data-wallpaper="forest"] {
+  background: #2d5a27;
+}
+
+.wallpaper-circle[data-wallpaper="sea"] {
+  background: #1e5f74;
 }
 
 /* 개별 테마 색상 */
@@ -480,6 +564,8 @@ header h1 {
 .header-buttons {
   display: flex;
   gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .btn-add,
@@ -487,12 +573,17 @@ header h1 {
   background: white;
   color: var(--primary-start);
   border: none;
-  padding: 12px 24px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+  white-space: nowrap;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-add:hover,
@@ -505,12 +596,17 @@ header h1 {
   background: white;
   color: var(--primary-start);
   border: none;
-  padding: 12px 24px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+  white-space: nowrap;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-notification-settings:hover {
@@ -520,7 +616,7 @@ header h1 {
 
 .main-content {
   display: flex;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 100px);
   min-height: 600px;
 }
 

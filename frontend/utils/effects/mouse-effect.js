@@ -6,6 +6,7 @@ export const MouseEffect = {
   lastCreateTime: 0,
   createInterval: 50,
   currentMode: 'star', // 기본값
+  opacity: 1.0, // 추가: 효과 투명도
 
   effects: {
     star: ['★', '☆', '✧', '✨', '⭐'],
@@ -16,8 +17,9 @@ export const MouseEffect = {
   init() {
     if (this.container) return;
 
-    // 저장된 이펙트 모드 불러오기
+    // 저장된 이펙트 모드 및 투명도 불러오기
     this.currentMode = StorageUtils.get('mouseEffectMode', 'star');
+    this.opacity = parseFloat(StorageUtils.get('mouseEffectOpacity', '1.0'));
 
     this.container = document.createElement('div');
     this.container.id = 'mouse-tracker-container';
@@ -30,12 +32,15 @@ export const MouseEffect = {
   setMode(mode) {
     this.currentMode = mode;
     StorageUtils.set('mouseEffectMode', mode);
-    // 이펙트 뷰어 초기화 (기존 입자들 삭제 원할 시)
-    // this.container.innerHTML = '';
+  },
+
+  setOpacity(val) {
+    this.opacity = parseFloat(val);
+    StorageUtils.set('mouseEffectOpacity', val);
   },
 
   handleMouseMove(e) {
-    if (this.currentMode === 'off') return;
+    if (this.currentMode === 'off' || this.opacity <= 0) return;
 
     const currentTime = Date.now();
     if (currentTime - this.lastCreateTime > this.createInterval) {
@@ -45,7 +50,7 @@ export const MouseEffect = {
   },
 
   burstFragments(e) {
-    if (this.currentMode === 'off') return;
+    if (this.currentMode === 'off' || this.opacity <= 0) return;
 
     for (let i = 0; i < 8; i++) {
       this.createFragment(e.clientX, e.clientY, true);
@@ -83,7 +88,7 @@ export const MouseEffect = {
 
     let posX = x;
     let posY = y;
-    let opacity = 1;
+    let currentOpacity = this.opacity; // 초기 투명도는 설정값 따름
     let scale = 1;
 
     const startTime = Date.now();
@@ -101,12 +106,13 @@ export const MouseEffect = {
       posX += velocityX;
       posY += velocityY + (progress * 4); // 중력
 
-      opacity = 1 - progress;
+      // progress에 따른 소멸 효과와 전역 opacity 결합
+      currentOpacity = (1 - progress) * this.opacity;
       scale = 1 - (progress * 0.3);
 
       const rotStr = this.currentMode === 'bubble' ? '' : `rotate(${rotation * progress}deg)`;
       fragment.style.transform = `translate3d(${posX - x}px, ${posY - y}px, 0) ${rotStr} scale(${scale})`;
-      fragment.style.opacity = opacity;
+      fragment.style.opacity = currentOpacity;
 
       requestAnimationFrame(animate);
     };

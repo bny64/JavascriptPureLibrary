@@ -84,18 +84,30 @@
 header {
   background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
   color: white;
-  padding: 30px 40px;
+  padding: 0 20px;
+  /* Reduced for more horizontal space */
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: background 0.3s ease;
+  height: 100px;
+  min-height: 100px;
+  flex-shrink: 0;
+  /* Removal of overflow: hidden to prevent clipping of notification badges etc. */
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
-  /* Reduced gap to accommodate search bar */
+  gap: 15px;
+  /* Tighter gap to preserve space for right buttons */
+}
+
+.selector-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Global Search Styles */
