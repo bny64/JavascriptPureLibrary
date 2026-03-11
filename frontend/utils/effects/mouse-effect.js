@@ -7,26 +7,86 @@ export const MouseEffect = {
   createInterval: 50,
   currentMode: 'star', // 기본값
   opacity: 1.0, // 추가: 효과 투명도
+  currentCursor: 'circle', // 기본 커서 디자인
+  cursorSize: 10, // 기본 커서 크기
 
   effects: {
     star: ['★', '☆', '✧', '✨', '⭐'],
     heart: ['❤️', '💖', '💘', '💝', '💕'],
-    bubble: ['', '', '', ''] // 버블은 텍스트 없이 CSS 테두리로 표현
+    petal: ['🌸', '🍃', '🌿', '🌱', '🌼'] // 버블 대신 꽃잎 효과 추가
   },
 
   init() {
     if (this.container) return;
 
-    // 저장된 이펙트 모드 및 투명도 불러오기
+    // 저장된 설정 불러오기
     this.currentMode = StorageUtils.get('mouseEffectMode', 'star');
     this.opacity = parseFloat(StorageUtils.get('mouseEffectOpacity', '1.0'));
+    this.currentCursor = StorageUtils.get('mouseCursorStyle', 'circle');
+    this.cursorSize = parseInt(StorageUtils.get('mouseCursorSize', '10'));
 
     this.container = document.createElement('div');
     this.container.id = 'mouse-tracker-container';
     document.body.appendChild(this.container);
 
-    window.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-    window.addEventListener('mousedown', (e) => this.burstFragments(e));
+    // 프리미엄 커스텀 커서 생성
+    this.pointer = document.createElement('div');
+    this.pointer.id = 'custom-mouse-pointer';
+    this.pointer.className = this.currentCursor;
+    this.updatePointerSize();
+    document.body.appendChild(this.pointer);
+
+    window.addEventListener('mousemove', (e) => {
+      this.handleMouseMove(e);
+      this.updateCustomPointer(e);
+    });
+
+    window.addEventListener('mousedown', (e) => {
+      this.burstFragments(e);
+      this.pointer.classList.add('click');
+    });
+
+    window.addEventListener('mouseup', () => {
+      this.pointer.classList.remove('click');
+    });
+
+    // 버튼이나 링크 위에 마우스가 올라갔을 때의 호버 처리
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('button, a, input[type="range"], .theme-circle, .calendar-day')) {
+        this.pointer.classList.add('hover');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('button, a, input[type="range"], .theme-circle, .calendar-day')) {
+        this.pointer.classList.remove('hover');
+      }
+    });
+  },
+
+  setCursorStyle(style) {
+    if (!this.pointer) return;
+    this.pointer.className = style;
+    this.currentCursor = style;
+    StorageUtils.set('mouseCursorStyle', style);
+  },
+
+  setCursorSize(size) {
+    this.cursorSize = parseInt(size);
+    this.updatePointerSize();
+    StorageUtils.set('mouseCursorSize', size);
+  },
+
+  updatePointerSize() {
+    if (!this.pointer) return;
+    this.pointer.style.width = `${this.cursorSize}px`;
+    this.pointer.style.height = `${this.cursorSize}px`;
+  },
+
+  updateCustomPointer(e) {
+    if (!this.pointer) return;
+    this.pointer.style.left = `${e.clientX}px`;
+    this.pointer.style.top = `${e.clientY}px`;
   },
 
   setMode(mode) {
@@ -74,10 +134,6 @@ export const MouseEffect = {
     // 랜덤 속성
     const size = Math.random() * 15 + 10;
     fragment.style.fontSize = `${size}px`;
-    if (this.currentMode === 'bubble') {
-      fragment.style.width = `${size}px`;
-      fragment.style.height = `${size}px`;
-    }
 
     this.container.appendChild(fragment);
 
@@ -110,7 +166,7 @@ export const MouseEffect = {
       currentOpacity = (1 - progress) * this.opacity;
       scale = 1 - (progress * 0.3);
 
-      const rotStr = this.currentMode === 'bubble' ? '' : `rotate(${rotation * progress}deg)`;
+      const rotStr = `rotate(${rotation * progress}deg)`;
       fragment.style.transform = `translate3d(${posX - x}px, ${posY - y}px, 0) ${rotStr} scale(${scale})`;
       fragment.style.opacity = currentOpacity;
 

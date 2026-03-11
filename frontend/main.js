@@ -166,71 +166,38 @@ function changeTheme(theme) {
 }
 
 // ══════════════════════════════════════════════
-// 배경화면 관리
+// 커서 관리
 // ══════════════════════════════════════════════
-function loadWallpaper() {
-    const saved = StorageUtils.get('wallpaper', 'none');
-    applyWallpaper(saved);
+function loadCursorSettings() {
+    const savedStyle = StorageUtils.get('mouseCursorStyle', 'circle');
+    const savedSize = StorageUtils.get('mouseCursorSize', '10');
+    changeCursorStyle(savedStyle);
+    changeCursorSize(savedSize);
 }
 
-function applyWallpaper(wallpaper) {
-    const body = document.body;
-    const theme = StorageUtils.get('theme', 'green');
-
-    if (wallpaper === 'none') {
-        body.classList.remove('has-wallpaper');
-        body.style.backgroundImage = ''; // CSS linear-gradient가 적용됨
-    } else {
-        body.classList.add('has-wallpaper');
-        const url = `frontend/assets/backgrounds/${wallpaper}.png`;
-        body.style.backgroundImage = `url('${url}')`;
-    }
-
-    body.className = `theme-${theme}${wallpaper !== 'none' ? ' has-wallpaper' : ''}`;
-    StorageUtils.set('wallpaper', wallpaper);
-
-    // 배경 적용 시 UI 동기화
-    updateWallpaperUI(wallpaper);
-
-    // 배경 적용 시 투명도도 함께 적용
-    const savedOpacity = StorageUtils.get('wallpaperOpacity', '0.7');
-    applyWallpaperOpacity(savedOpacity);
+function changeCursorStyle(style) {
+    MouseEffect.setCursorStyle(style);
+    updateCursorUI(style);
 }
 
-function changeWallpaper(wallpaper) {
-    applyWallpaper(wallpaper);
-}
-
-function updateWallpaperUI(wallpaper) {
-    const circles = document.querySelectorAll('.wallpaper-circle');
+function updateCursorUI(style) {
+    const circles = document.querySelectorAll('.cursor-circle');
     circles.forEach(c => {
-        c.classList.toggle('active', c.dataset.wallpaper === wallpaper);
+        c.classList.toggle('active', c.dataset.cursor === style);
     });
 }
 
-function applyWallpaperOpacity(opacity) {
-    const root = document.documentElement;
-    const val = parseFloat(opacity);
-    // 컨테이너 투명도 (기본 0.7 기준 비례)
-    root.style.setProperty('--ui-opacity', val);
-    // 카드/패널 투명도 (컨테이너보다 약간 더 투명하게, 기본 0.6 기준 비례)
-    root.style.setProperty('--ui-card-opacity', val - 0.1 > 0 ? val - 0.1 : 0);
-    StorageUtils.set('wallpaperOpacity', opacity);
-
-    const range = document.getElementById('wallpaperOpacityRange');
-    if (range) range.value = opacity;
-}
-
-function loadWallpaperOpacity() {
-    const saved = StorageUtils.get('wallpaperOpacity', '0.7');
-    applyWallpaperOpacity(saved);
+function changeCursorSize(size) {
+    MouseEffect.setCursorSize(size);
+    const range = document.getElementById('cursorSizeRange');
+    if (range) range.value = size;
 }
 
 function applyEffectOpacity(opacity) {
     MouseEffect.setOpacity(opacity);
     const range = document.getElementById('effectOpacityRange');
     if (range) range.value = opacity;
-    
+
     // 이펙트 아이콘 UI도 현재 모드에 맞춰 동기화
     updateEffectUI(MouseEffect.currentMode);
 }
@@ -497,7 +464,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSidebarDragAndDrop();
 
     loadTheme();
-    loadWallpaper();
+    loadCursorSettings();
     await loadView();
 
     await loadCategories();
@@ -527,19 +494,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 배경화면 아이콘 클릭 이벤트
-    document.getElementById('wallpaperCircles')?.addEventListener('click', (e) => {
-        const circle = e.target.closest('.wallpaper-circle');
-        if (circle) changeWallpaper(circle.dataset.wallpaper);
+    // 커서 디자인 아이콘 클릭 이벤트
+    document.getElementById('cursorCircles')?.addEventListener('click', (e) => {
+        const circle = e.target.closest('.cursor-circle');
+        if (circle) changeCursorStyle(circle.dataset.cursor);
     });
 
-    // --- 추가: 투명도 슬라이더 바인딩 ---
-    loadWallpaperOpacity();
+    // --- 추가: 투명도 및 커서 크기 슬라이더 바인딩 ---
     loadEffectOpacity();
 
     // 초기 UI 상태 동기화 (저장된 값 반영)
     updateEffectUI(MouseEffect.currentMode);
-    updateWallpaperUI(StorageUtils.get('wallpaper', 'none'));
+    updateCursorUI(StorageUtils.get('mouseCursorStyle', 'circle'));
 
     // 효과 아이콘 클릭 이벤트
     document.getElementById('effectCircles')?.addEventListener('click', (e) => {
@@ -547,10 +513,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (circle) changeEffect(circle.dataset.effect);
     });
 
-    const wallpaperOpacityRange = document.getElementById('wallpaperOpacityRange');
-    if (wallpaperOpacityRange) {
-        wallpaperOpacityRange.addEventListener('input', (e) => {
-            applyWallpaperOpacity(e.target.value);
+    const cursorSizeRange = document.getElementById('cursorSizeRange');
+    if (cursorSizeRange) {
+        cursorSizeRange.addEventListener('input', (e) => {
+            changeCursorSize(e.target.value);
         });
     }
 

@@ -812,31 +812,46 @@ header h1 {
   background: #9e9e9e;
 }
 
-/* 오른쪽 섹션 (25%) */
+/* 오른쪽 섹션 (25%) - 카드 영역과 업무 목록을 도립 컨테이너로 분리 */
 .right-section {
   flex: 0 0 25%;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  /* Add this line */
+  overflow: hidden;
+  /* 스크롤은 내부 tasks-content-wrapper에서만 처리 */
 }
 
-/* New sticky-header-container rule */
+/* 카운트 카드 영역은 스크롤 안 됨 - flex-shrink 0으로 고정 */
 .sticky-header-container {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-shrink: 0;
+  z-index: 10;
   background-color: white;
-  /* Ensures no content from below shows through */
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* tasks-section: 상단 카드 + 하단 업무 목록을 묶는 flex 컨테이너 */
+.tasks-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 업무 목록 영역: 이 영역만 독립적으로 스크롤됨 */
+.tasks-content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  /* flex child가 콘테츠보다 작아질 수 있도록 필수 */
 }
 
 /* 오늘 업무 상태 요약 */
 .status-summary {
   background: #f8f9fa;
   padding: 15px 20px;
-  border-radius: 12px;
-  /* margin-bottom: 20px; */
-  /* Removed to eliminate gap */
+  border-radius: 0;
+  /* 직각으로 변경 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   /* Removed position: sticky; */
   /* Removed top: 0; */
@@ -915,34 +930,45 @@ header h1 {
 
 .status-summary-label.status-전체,
 .status-summary-count.status-전체 {
-  color: #333;
+  color: #000;
+  /* 더 진한 검정 */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .status-summary-label.status-pending,
 .status-summary-count.status-pending {
-  color: #ffc107;
+  color: #bf9100;
+  /* 진한 노란색 */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .status-summary-label.status-in-progress,
 .status-summary-count.status-in-progress {
-  color: #2196f3;
+  color: #0d47a1;
+  /* 진한 파란색 */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .status-summary-label.status-completed,
 .status-summary-count.status-completed {
-  color: #4caf50;
+  color: #1b5e20;
+  /* 진한 초록색 */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .status-summary-label.status-on-hold,
 .status-summary-count.status-on-hold {
-  color: #9e9e9e;
+  color: #424242;
+  /* 진한 회색 */
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 /* 미완료 업무 요약 스타일 */
 .unfinished-tasks-summary {
   background: #f8f9fa;
   padding: 15px 20px;
-  border-radius: 12px;
+  border-radius: 0;
+  /* 직각으로 변경 */
   margin-bottom: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   background: white;
@@ -971,8 +997,8 @@ header h1 {
 .priority-summary {
   background: #f8f9fa;
   padding: 15px 20px;
-  border-radius: 12px;
-  /* Removed margin-bottom: 20px; to eliminate gap */
+  border-radius: 0;
+  /* 직각으로 변경 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   /* Removed position: sticky; */
   /* Removed top: 87px; */

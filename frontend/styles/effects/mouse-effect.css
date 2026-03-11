@@ -38,10 +38,9 @@
   color: #ff6b6b;
 }
 
-.mouse-fragment.bubble {
-  border: 2px solid var(--effect-color);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+.mouse-fragment.petal {
+  color: #ffb7c5;
+  /* 연분홍색 */
 }
 
 /* 헤더 내 이펙트 셀렉터 스타일 */
