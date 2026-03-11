@@ -172,6 +172,12 @@
                         :rules="nameRule" placeholder="내용을 입력하세요"></custom-input>
                 </div>
 
+                <!-- 분리된 Input 컴포넌트 사용 (가격) -->
+                <div class="field-group">
+                    <label>가격</label>
+                    <custom-input type="number" :name="`products[${index}].price`" v-model="field.value.price"
+                        :rules="priceRule" placeholder="가격을 입력하세요" is-price="true"></custom-input>
+                </div>
                 <button type="button" class="btn-remove" @click="removeProduct(index)">삭제</button>
             </div>
 
@@ -200,7 +206,7 @@
                 const { fields, push, remove } = useFieldArray('products');
 
                 // push 할 때 필요한 초기 데이터 구조를 넣어줍니다.
-                const addProduct = () => push({ date: '', name: '' });
+                const addProduct = () => push({ date: '', name: '', price: '' });
                 const removeProduct = (idx) => remove(idx);
 
                 // 전체 삭제 함수 (행 자체를 모두 제거)
@@ -219,7 +225,7 @@
                 const clearValues = () => {
                     if (confirm('현재 입력된 모든 값을 지우시겠습니까?')) {
                         // 현재 생성된 행의 개수만큼 빈 데이터 배열을 만듭니다.
-                        const clearedValues = fields.value.map(() => ({ date: '', name: '' }));
+                        const clearedValues = fields.value.map(() => ({ date: '', name: '', price: '' }));
 
                         // resetForm에 새로운 값을 전달하면 값은 바뀌면서 에러/터치 상태는 초기화됩니다.
                         resetForm({
@@ -242,6 +248,12 @@
                     return true;
                 };
 
+                const priceRule = (val) => {
+                    if (val === undefined || val === null || val === '') return '💰 가격을 입력해 주세요.';
+                    if (isNaN(val) || Number(val) < 0) return '올바른 가격을 입력해 주세요.';
+                    return true;
+                };
+
                 // 제출 핸들러
                 const onSubmit = handleSubmit((formValues) => {
                     console.log('최종 데이터:', formValues);
@@ -256,6 +268,7 @@
                     clearValues,
                     dateRule,
                     nameRule,
+                    priceRule,
                     onSubmit
                 };
             }
