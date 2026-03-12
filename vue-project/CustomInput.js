@@ -40,7 +40,7 @@ const CustomInput = {
             () => props.name,
             props.rules,
             {
-                // validateOnValueUpdate: false, // 입력 시에는 검증하지 않음
+                // validateOnValueUpdate: false, // 입력/프로그래밍적 값 업데이트 시 검증하지 않음
                 syncVModel: true
             }
         );
@@ -61,9 +61,15 @@ const CustomInput = {
         const handleInput = (event) => {
             let val = event.target.value;
             if (props.isPrice) {
+                // 숫자 이외의 문자 제거
                 const rawValue = val.replace(/[^\d]/g, '');
+
+                // 화면상에도 숫자와 콤마만 나타나도록 입력창 값을 강제로 업데이트
+                // (Vue의 리액티브 데이터가 변하지 않아도 DOM을 직접 수정하여 즉각적인 피드백 제공)
+                const formatted = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                event.target.value = formatted;
+
                 const numValue = rawValue === '' ? '' : Number(rawValue);
-                // handleChange(numValue, false); // 값은 업데이트하되 검증은 실행하지 않음
                 emit('update:modelValue', numValue);
             } else {
                 handleChange(val, false);

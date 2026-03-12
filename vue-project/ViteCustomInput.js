@@ -24,7 +24,7 @@ const { value, errorMessage, validate, handleBlur, handleChange } = useField(
     () => props.name,
     props.rules,
     {
-        // validateOnValueUpdate: false, // 여전히 blur 시 검증을 위해 false 유지
+        validateOnValueUpdate: false, // 여전히 blur 시 검증을 위해 false 유지
         syncVModel: true              // defineModel과 자동으로 동기화
     }
 );
@@ -45,10 +45,14 @@ const displayValue = computed(() => {
 const handleInput = (event) => {
     const val = event.target.value;
     if (props.isPrice) {
+        // 숫자 전용 필터링 및 즉각적인 DOM 반영
         const rawValue = val.replace(/[^\d]/g, '');
+        const formatted = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        event.target.value = formatted;
+        
         const numValue = rawValue === '' ? '' : Number(rawValue);
         handleChange(numValue, false);
-        modelValue.value = numValue; // 부모 데이터 업데이트
+        modelValue.value = numValue;
     } else {
         handleChange(val, false);
         modelValue.value = val;
@@ -89,7 +93,7 @@ const onBlur = async (event) => {
 .custom-input {
   width: 100%;
   padding: 8px 11px;
-  /* ... 기타 스타일은 style.css 참조 ... */
+  // ... 기타 스타일은 style.css 참조 ...
 }
 </style >
 */

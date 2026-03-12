@@ -73,9 +73,25 @@
                             <custom-input :name="'name_' + product.id" type="text" :rules="validateName"
                                 v-model="product.name" placeholder="상품명 입력" />
                         </div>
-                        <div>
-                            <custom-input :name="'price_' + product.id" type="number" :rules="validatePrice"
-                                v-model="product.price" placeholder="가격 입력" :is-price="true" suffix="원" />
+                        <div class="price-container">
+                            <div class="price-type-group">
+                                <label class="radio-label">
+                                    <input type="radio" v-model="product.priceType" value="amount"
+                                        :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
+                                    <span>금액</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" v-model="product.priceType" value="full"
+                                        :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
+                                    <span>전액</span>
+                                </label>
+                            </div>
+                            <div class="price-input-wrap">
+                                <custom-input :name="'price_' + product.id" type="number"
+                                    :rules="(val) => validatePrice(val, product.fullPrice)" v-model="product.price"
+                                    placeholder="가격 입력" :is-price="true" suffix="원"
+                                    :class="{ 'is-full-price': product.priceType === 'full' }" />
+                            </div>
                         </div>
                         <div class="row-del">
                             <button class="btn-icon" @click="removeProduct(product.id)" title="삭제">
@@ -143,12 +159,24 @@
         const { createApp, ref } = Vue;
 
         let uid = 1;
-        const makeProduct = () => ({ id: uid++, date: '', name: '', price: '' });
+        const makeProduct = () => {
+            const isFull = Math.random() > 0.7;
+            // 10만 ~ 100만 사이의 랜덤 전액 (만원 단위)
+            const fullPrice = Math.floor(Math.random() * 91 + 10) * 10000;
+            return {
+                id: uid++,
+                date: '',
+                name: '',
+                fullPrice: fullPrice,
+                price: isFull ? fullPrice : '',
+                priceType: isFull ? 'full' : 'amount'
+            };
+        };
 
         createApp({
             components: { CustomInput },
             setup() {
-                const { validate: validateForm, resetForm } = useForm();
+                const { validate: validateForm, resetForm, setFieldError, resetField } = useForm();
 
                 const products = ref([makeProduct()]);
                 const addCount = ref(1);
@@ -166,15 +194,30 @@
                     return true;
                 };
 
-                const validatePrice = (val) => {
+                const validatePrice = (val, max) => {
                     if (val === undefined || val === null || val === '') return '가격을 입력해주세요.';
-                    if (isNaN(val) || Number(val) < 0) return '올바른 가격을 입력해주세요.';
+                    const num = Number(val);
+                    if (isNaN(num) || num < 0) return '올바른 가격을 입력해주세요.';
+                    if (num > max) return `최대 ${max.toLocaleString()}원(전액)까지 입력 가능합니다.`;
                     return true;
                 };
 
                 const addProducts = () => {
                     const count = Math.max(1, Math.min(20, addCount.value || 1));
                     for (let i = 0; i < count; i++) products.value.push(makeProduct());
+                };
+
+                const handlePriceTypeChange = (product) => {
+                    const fieldName = 'price_' + product.id;
+                    if (product.priceType === 'full') {
+                        // 미리 할당된 전액으로 설정
+                        product.price = product.fullPrice;
+                        setFieldError(fieldName, '');
+                    } else {
+                        // '금액' 선택 시 값 및 상태 전체 초기화
+                        product.price = '';
+                        resetField(fieldName, { value: '' });
+                    }
                 };
 
                 const removeProduct = (id) => {
@@ -196,11 +239,11 @@
 
                     // 현재 등록된 모든 필드의 빈 값을 values로 구성해서 resetForm에 전달
                     const emptyValues = {};
-                    products.value.forEach(p => {
-                        emptyValues['date_' + p.id] = '';
-                        emptyValues['name_' + p.id] = '';
-                        emptyValues['price_' + p.id] = '';
-                    });
+                    // products.value.forEach(p => {
+                    //     emptyValues['date_' + p.id] = '';
+                    //     emptyValues['name_' + p.id] = '';
+                    //     emptyValues['price_' + p.id] = '';
+                    // });
                     resetForm({ values: emptyValues });
 
                     showResetPopup.value = false;
@@ -217,7 +260,7 @@
 
                 return {
                     products, addCount, showResetPopup, toastVisible,
-                    validateDate, validateName, validatePrice,
+                    validateDate, validateName, validatePrice, handlePriceTypeChange,
                     addProducts, removeProduct, resetAll, resetValues, onSubmit
                 };
             }
