@@ -160,7 +160,6 @@
 
         let uid = 1;
         const makeProduct = () => {
-            const isFull = Math.random() > 0.7;
             // 10만 ~ 100만 사이의 랜덤 전액 (만원 단위)
             const fullPrice = Math.floor(Math.random() * 91 + 10) * 10000;
             return {
@@ -168,8 +167,8 @@
                 date: '',
                 name: '',
                 fullPrice: fullPrice,
-                price: isFull ? fullPrice : '',
-                priceType: isFull ? 'full' : 'amount'
+                price: '',
+                priceType: 'amount'
             };
         };
 
