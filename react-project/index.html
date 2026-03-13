@@ -35,6 +35,28 @@
         const App = () => {
             const [searchQuery, setSearchQuery] = useState('');
             const [currentView, setCurrentView] = useState('validation-lab');
+            const [serverError, setServerError] = useState(false);
+            const [targetPort, setTargetPort] = useState(null);
+
+            const switchToProject = async (port) => {
+                setTargetPort(port);
+                try {
+                    const controller = new AbortController();
+                    const id = setTimeout(() => controller.abort(), 1500);
+                    
+                    // 서버 생존 확인
+                    await fetch(`http://localhost:${port}/`, { 
+                        mode: 'no-cors',
+                        signal: controller.signal 
+                    });
+                    
+                    clearTimeout(id);
+                    window.location.href = `http://localhost:${port}/`;
+                } catch (e) {
+                    setServerError(true);
+                    setTimeout(() => { setServerError(false); }, 3000);
+                }
+            };
 
             const menuGroups = useMemo(() => [
                 {
@@ -102,7 +124,19 @@
                             <img src="./frontend/assets/logo.png" alt="React Logo" style=${{ width: '48px', height: '48px', marginBottom: '12px', filter: 'drop-shadow(0 0 8px rgba(97, 218, 251, 0.4))' }} />
                             <h2>React Library Lab</h2>
                             <p>Testing Sandbox</p>
+
+                            <div className="project-switcher">
+                                <span className="switcher-label">Project Switch</span>
+                                <button className="switcher-btn" onClick=${() => switchToProject(3001)} title="Switch to Vue Library Lab (Port 3001)">V</button>
+                                <button className="switcher-btn active" title="React Library Lab (Port 3002)">R</button>
+                            </div>
                         </div>
+
+                        ${serverError && html`
+                            <div className="server-status-msg">
+                                ⚠️ 서버가 실행중이지 않습니다. (Port: ${targetPort})
+                            </div>
+                        `}
 
                         <div className="sidebar-search">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

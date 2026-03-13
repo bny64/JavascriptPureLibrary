@@ -29,7 +29,20 @@
                     <img src="./frontend/assets/logo.png" alt="Vue Logo" style="width: 48px; height: 48px; margin-bottom: 12px; filter: drop-shadow(0 0 8px rgba(66, 184, 131, 0.4));" />
                     <h2>Vue Library Lab</h2>
                     <p>Testing Sandbox</p>
+                    
+                    <div class="project-switcher">
+                        <span class="switcher-label">Project Switch</span>
+                        <button class="switcher-btn active" title="Vue Library Lab (Port 3001)">V</button>
+                        <button class="switcher-btn" @click="switchToProject(3002)" title="Switch to React Library Lab (Port 3002)">R</button>
+                    </div>
                 </div>
+                
+                <!-- Server Status Error Msg -->
+                <teleport to="body">
+                    <div v-if="serverError" class="server-status-msg">
+                        ⚠️ 서버가 실행중이지 않습니다. (Port: {{ targetPort }})
+                    </div>
+                </teleport>
 
                 <div class="sidebar-search">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -140,13 +153,39 @@
                     return found ? found.title : 'Library Lab';
                 });
 
+                const serverError = ref(false);
+                const targetPort = ref(null);
+
+                const switchToProject = async (port) => {
+                    targetPort.value = port;
+                    try {
+                        const controller = new AbortController();
+                        const id = setTimeout(() => controller.abort(), 1500);
+                        
+                        // 서버 생존 확인
+                        await fetch(`http://localhost:${port}/`, { 
+                            mode: 'no-cors',
+                            signal: controller.signal 
+                        });
+                        
+                        clearTimeout(id);
+                        window.location.href = `http://localhost:${port}/`;
+                    } catch (e) {
+                        serverError.value = true;
+                        setTimeout(() => { serverError.value = false; }, 3000);
+                    }
+                };
+
                 return {
                     searchQuery,
                     currentView,
                     menuGroups,
                     filteredMenuGroups,
                     activeComponent,
-                    currentMenuTitle
+                    currentMenuTitle,
+                    serverError,
+                    targetPort,
+                    switchToProject
                 };
             }
         });
