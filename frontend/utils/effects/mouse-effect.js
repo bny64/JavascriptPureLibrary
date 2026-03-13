@@ -8,7 +8,7 @@ export const MouseEffect = {
   currentMode: 'star', // 기본값
   opacity: 1.0, // 추가: 효과 투명도
   currentCursor: 'circle', // 기본 커서 디자인
-  cursorSize: 10, // 기본 커서 크기
+  cursorSize: 16, // 고정 커서 크기 (짝수 사용으로 픽셀 정렬 최적화)
 
   effects: {
     star: ['★', '☆', '✧', '✨', '⭐'],
@@ -23,7 +23,6 @@ export const MouseEffect = {
     this.currentMode = StorageUtils.get('mouseEffectMode', 'star');
     this.opacity = parseFloat(StorageUtils.get('mouseEffectOpacity', '1.0'));
     this.currentCursor = StorageUtils.get('mouseCursorStyle', 'circle');
-    this.cursorSize = parseInt(StorageUtils.get('mouseCursorSize', '10'));
 
     this.container = document.createElement('div');
     this.container.id = 'mouse-tracker-container';
@@ -33,7 +32,8 @@ export const MouseEffect = {
     this.pointer = document.createElement('div');
     this.pointer.id = 'custom-mouse-pointer';
     this.pointer.className = this.currentCursor;
-    this.updatePointerSize();
+    this.pointer.style.width = `${this.cursorSize}px`;
+    this.pointer.style.height = `${this.cursorSize}px`;
     document.body.appendChild(this.pointer);
 
     window.addEventListener('mousemove', (e) => {
@@ -71,17 +71,6 @@ export const MouseEffect = {
     StorageUtils.set('mouseCursorStyle', style);
   },
 
-  setCursorSize(size) {
-    this.cursorSize = parseInt(size);
-    this.updatePointerSize();
-    StorageUtils.set('mouseCursorSize', size);
-  },
-
-  updatePointerSize() {
-    if (!this.pointer) return;
-    this.pointer.style.width = `${this.cursorSize}px`;
-    this.pointer.style.height = `${this.cursorSize}px`;
-  },
 
   updateCustomPointer(e) {
     if (!this.pointer) return;

@@ -170,9 +170,7 @@ function changeTheme(theme) {
 // ══════════════════════════════════════════════
 function loadCursorSettings() {
     const savedStyle = StorageUtils.get('mouseCursorStyle', 'circle');
-    const savedSize = StorageUtils.get('mouseCursorSize', '10');
     changeCursorStyle(savedStyle);
-    changeCursorSize(savedSize);
 }
 
 function changeCursorStyle(style) {
@@ -187,11 +185,6 @@ function updateCursorUI(style) {
     });
 }
 
-function changeCursorSize(size) {
-    MouseEffect.setCursorSize(size);
-    const range = document.getElementById('cursorSizeRange');
-    if (range) range.value = size;
-}
 
 function applyEffectOpacity(opacity) {
     MouseEffect.setOpacity(opacity);
@@ -513,12 +506,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (circle) changeEffect(circle.dataset.effect);
     });
 
-    const cursorSizeRange = document.getElementById('cursorSizeRange');
-    if (cursorSizeRange) {
-        cursorSizeRange.addEventListener('input', (e) => {
-            changeCursorSize(e.target.value);
-        });
-    }
 
     const effectOpacityRange = document.getElementById('effectOpacityRange');
     if (effectOpacityRange) {

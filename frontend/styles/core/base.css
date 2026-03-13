@@ -25,14 +25,21 @@ body {
 /* 커스텀 마우스 포인터 스타일 */
 #custom-mouse-pointer {
   position: fixed;
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   background: white;
   pointer-events: none;
   z-index: 20000;
   mix-blend-mode: difference;
   transition: transform 0.15s ease-out, width 0.2s, height 0.2s, background-color 0.2s, clip-path 0.3s;
   transform: translate(-50%, -50%);
+  /* 사각형 테두리 및 픽셀 잔상 방지 */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  shape-rendering: geometricPrecision; /* 외곽선 정밀 렌더링 */
 }
 
 #custom-mouse-pointer.circle {
@@ -45,11 +52,12 @@ body {
 }
 
 #custom-mouse-pointer.triangle {
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  /* 미세하게 안쪽(약 0.5%)으로 배치하여 박스 끝 잔상 방지 */
+  clip-path: polygon(50% 1%, 1% 99%, 99% 99%);
 }
 
 #custom-mouse-pointer.star {
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(50% 1%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }
 
 #custom-mouse-pointer.hover {
