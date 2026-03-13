@@ -10,7 +10,8 @@ export default function CustomInput({
     placeholder = '',
     isPrice = false,
     suffix = '',
-    error = ''
+    error = '',
+    onBlur
 }) {
     const [displayValue, setDisplayValue] = useState(value);
 
@@ -49,6 +50,7 @@ export default function CustomInput({
                     value=${displayValue || ''}
                     className=${`custom-input ${error ? 'is-invalid' : ''} ${suffix ? 'has-suffix' : ''}`}
                     onInput=${handleInput}
+                    onBlur=${onBlur}
                     placeholder=${placeholder}
                     name=${name}
                 />

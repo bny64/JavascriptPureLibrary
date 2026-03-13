@@ -8,6 +8,7 @@
     <!-- 폐쇄망 환경을 고려한 로컬 라이브러리 참조 -->
     <script src="./frontend/lib/react.development.js" crossorigin></script>
     <script src="./frontend/lib/react-dom.development.js" crossorigin></script>
+    <script src="./frontend/lib/react-hook-form.umd.js"></script>
     <script src="./frontend/lib/chart.umd.js"></script>
 
     <!-- 공통 및 레이아웃 스타일 -->
@@ -27,29 +28,22 @@
 
         // 컴포넌트 임포트
         import CustomInput from './frontend/components/CustomInput.js';
-        import ProductRegistry from './frontend/samples/ProductRegistry.js';
-        import BasicForm from './frontend/samples/BasicForm.js';
         import ChartSample from './frontend/samples/ChartSample.js';
+        import FormValidationSample from './frontend/samples/FormValidationSample.js';
 
         const App = () => {
             const [searchQuery, setSearchQuery] = useState('');
-            const [currentView, setCurrentView] = useState('product-registry');
+            const [currentView, setCurrentView] = useState('react-hook-form-sample');
 
             const menuGroups = useMemo(() => [
                 {
-                    name: 'React Forms (Mock)',
+                    name: 'React-Hook-Form',
                     items: [
                         {
-                            id: 'product-registry',
-                            title: 'Dynamic Product List',
-                            desc: '동적 배열 기반 폼 검증',
-                            component: ProductRegistry
-                        },
-                        {
-                            id: 'basic-form',
-                            title: 'Simple Login Form',
-                            desc: '필드-레벨 기본 유효성 검사',
-                            component: BasicForm
+                            id: 'react-hook-form-sample',
+                            title: 'Advanced Form Validation',
+                            desc: 'useForm 및 Controller 기반 검증 로직 구현',
+                            component: FormValidationSample
                         }
                     ]
                 },
