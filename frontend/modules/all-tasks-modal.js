@@ -7,9 +7,9 @@ import { TaskUI } from '../ui/task-ui.js';
 export function openAllTasksModal(statusToFilter = '전체', priorityToFilter = '전체', category1 = null, dateToFilter = null, category2 = null) {
     const modal = document.getElementById('allTasksModal');
 
-    // 상태 초기화
-    AppState.currentStatusFilter = statusToFilter;
-    AppState.currentPriorityFilter = priorityToFilter;
+    // 상태 초기화 (배열 타입 처리)
+    AppState.currentStatusFilter = Array.isArray(statusToFilter) ? statusToFilter : [statusToFilter];
+    AppState.currentPriorityFilter = Array.isArray(priorityToFilter) ? priorityToFilter : [priorityToFilter];
     AppState.currentDateFilter = dateToFilter;
     AppState.currentPage = 1;
     AppState.sortField = 'endDate';
@@ -76,10 +76,12 @@ export function openAllTasksModalWithDate(date) {
 
 export function activateFilterButtons() {
     document.querySelectorAll('#allTasksModal .status-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-status') === AppState.currentStatusFilter);
+        const status = btn.getAttribute('data-status');
+        btn.classList.toggle('active', AppState.currentStatusFilter.includes(status));
     });
     document.querySelectorAll('#allTasksModal .priority-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-priority') === AppState.currentPriorityFilter);
+        const priority = btn.getAttribute('data-priority');
+        btn.classList.toggle('active', AppState.currentPriorityFilter.includes(priority));
     });
 }
 
@@ -159,11 +161,11 @@ export function renderAllTasks() {
 
     let filtered = AppState.tasks;
 
-    if (AppState.currentStatusFilter !== '전체') {
-        filtered = filtered.filter(t => t.status === AppState.currentStatusFilter);
+    if (!AppState.currentStatusFilter.includes('전체')) {
+        filtered = filtered.filter(t => AppState.currentStatusFilter.includes(t.status));
     }
-    if (AppState.currentPriorityFilter !== '전체') {
-        filtered = filtered.filter(t => t.priority === AppState.currentPriorityFilter);
+    if (!AppState.currentPriorityFilter.includes('전체')) {
+        filtered = filtered.filter(t => AppState.currentPriorityFilter.includes(t.priority));
     }
     if (AppState.currentDateFilter) {
         filtered = filtered.filter(t => t.endDate === AppState.currentDateFilter);
@@ -251,20 +253,36 @@ export function nextPage() {
 }
 
 export function filterByStatus(status) {
-    AppState.currentStatusFilter = status;
+    if (status === '전체') {
+        AppState.currentStatusFilter = ['전체'];
+    } else {
+        AppState.currentStatusFilter = AppState.currentStatusFilter.filter(s => s !== '전체');
+        if (AppState.currentStatusFilter.includes(status)) {
+            AppState.currentStatusFilter = AppState.currentStatusFilter.filter(s => s !== status);
+            if (AppState.currentStatusFilter.length === 0) AppState.currentStatusFilter = ['전체'];
+        } else {
+            AppState.currentStatusFilter.push(status);
+        }
+    }
     AppState.currentPage = 1;
-    document.querySelectorAll('.status-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-status') === status);
-    });
+    activateFilterButtons();
     renderAllTasks();
 }
 
 export function filterByPriority(priority) {
-    AppState.currentPriorityFilter = priority;
+    if (priority === '전체') {
+        AppState.currentPriorityFilter = ['전체'];
+    } else {
+        AppState.currentPriorityFilter = AppState.currentPriorityFilter.filter(p => p !== '전체');
+        if (AppState.currentPriorityFilter.includes(priority)) {
+            AppState.currentPriorityFilter = AppState.currentPriorityFilter.filter(p => p !== priority);
+            if (AppState.currentPriorityFilter.length === 0) AppState.currentPriorityFilter = ['전체'];
+        } else {
+            AppState.currentPriorityFilter.push(priority);
+        }
+    }
     AppState.currentPage = 1;
-    document.querySelectorAll('.priority-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-priority') === priority);
-    });
+    activateFilterButtons();
     renderAllTasks();
 }
 
@@ -277,8 +295,8 @@ export function changeAllTasksSort() {
 
 export function resetAllFilters() {
     // 상태 초기화
-    AppState.currentStatusFilter = '전체';
-    AppState.currentPriorityFilter = '전체';
+    AppState.currentStatusFilter = ['전체'];
+    AppState.currentPriorityFilter = ['전체'];
     AppState.currentDateFilter = null;
     AppState.currentPage = 1;
     AppState.sortField = 'endDate';

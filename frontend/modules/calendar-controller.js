@@ -13,14 +13,15 @@ export function renderTasksForSelectedDate() {
 
     let tasksForDate = CalendarUI.getTasksForDate(AppState.selectedDate, AppState.tasks);
 
-    if (AppState.currentSelectedDateStatusFilter !== '전체') {
-        tasksForDate = tasksForDate.filter(t => t.status === AppState.currentSelectedDateStatusFilter);
+    if (!AppState.currentSelectedDateStatusFilter.includes('전체')) {
+        tasksForDate = tasksForDate.filter(t => AppState.currentSelectedDateStatusFilter.includes(t.status));
     }
 
     const statusFilters = document.querySelectorAll('#selectedDateStatusFilters .filter-btn');
     if (statusFilters.length > 0) {
         statusFilters.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-status').trim() === AppState.currentSelectedDateStatusFilter.trim());
+            const status = btn.getAttribute('data-status').trim();
+            btn.classList.toggle('active', AppState.currentSelectedDateStatusFilter.includes(status));
         });
     }
 
@@ -48,7 +49,24 @@ export function renderTasksForSelectedDate() {
 }
 
 export function filterSelectedDateTasksByStatus(status) {
-    AppState.currentSelectedDateStatusFilter = status;
+    if (status === '전체') {
+        AppState.currentSelectedDateStatusFilter = ['전체'];
+    } else {
+        // '전체'가 포함되어 있으면 제거
+        AppState.currentSelectedDateStatusFilter = AppState.currentSelectedDateStatusFilter.filter(s => s !== '전체');
+
+        if (AppState.currentSelectedDateStatusFilter.includes(status)) {
+            // 이미 선택된 경우 제거
+            AppState.currentSelectedDateStatusFilter = AppState.currentSelectedDateStatusFilter.filter(s => s !== status);
+            // 만약 아무것도 안 남으면 '전체'로 복구
+            if (AppState.currentSelectedDateStatusFilter.length === 0) {
+                AppState.currentSelectedDateStatusFilter = ['전체'];
+            }
+        } else {
+            // 새로 선택한 경우 추가
+            AppState.currentSelectedDateStatusFilter.push(status);
+        }
+    }
     renderTasksForSelectedDate();
 }
 

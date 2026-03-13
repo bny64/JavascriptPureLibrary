@@ -19,11 +19,11 @@ function formatDate(date) {
 export function transformTasksForGantt(tasks) {
     let filtered = tasks.filter(t => t.startDate && t.endDate);
 
-    if (AppState.ganttStatusFilter !== '전체') {
-        filtered = filtered.filter(t => t.status === AppState.ganttStatusFilter);
+    if (!AppState.ganttStatusFilter.includes('전체')) {
+        filtered = filtered.filter(t => AppState.ganttStatusFilter.includes(t.status));
     }
-    if (AppState.ganttPriorityFilter !== '전체') {
-        filtered = filtered.filter(t => t.priority === AppState.ganttPriorityFilter);
+    if (!AppState.ganttPriorityFilter.includes('전체')) {
+        filtered = filtered.filter(t => AppState.ganttPriorityFilter.includes(t.priority));
     }
     if (filtered.length === 0) return [];
 
@@ -217,24 +217,44 @@ export function setGanttMinWidth(ganttEl) {
 }
 
 export function filterGanttByStatus(status) {
-    AppState.ganttStatusFilter = status;
-    StorageUtils.set('ganttStatusFilter', status);
+    if (status === '전체') {
+        AppState.ganttStatusFilter = ['전체'];
+    } else {
+        AppState.ganttStatusFilter = AppState.ganttStatusFilter.filter(s => s !== '전체');
+        if (AppState.ganttStatusFilter.includes(status)) {
+            AppState.ganttStatusFilter = AppState.ganttStatusFilter.filter(s => s !== status);
+            if (AppState.ganttStatusFilter.length === 0) AppState.ganttStatusFilter = ['전체'];
+        } else {
+            AppState.ganttStatusFilter.push(status);
+        }
+    }
+    StorageUtils.set('ganttStatusFilter', AppState.ganttStatusFilter);
     initGanttChart(true);
-    activateGanttFilterButtons();
 }
 
 export function filterGanttByPriority(priority) {
-    AppState.ganttPriorityFilter = priority;
-    StorageUtils.set('ganttPriorityFilter', priority);
+    if (priority === '전체') {
+        AppState.ganttPriorityFilter = ['전체'];
+    } else {
+        AppState.ganttPriorityFilter = AppState.ganttPriorityFilter.filter(p => p !== '전체');
+        if (AppState.ganttPriorityFilter.includes(priority)) {
+            AppState.ganttPriorityFilter = AppState.ganttPriorityFilter.filter(p => p !== priority);
+            if (AppState.ganttPriorityFilter.length === 0) AppState.ganttPriorityFilter = ['전체'];
+        } else {
+            AppState.ganttPriorityFilter.push(priority);
+        }
+    }
+    StorageUtils.set('ganttPriorityFilter', AppState.ganttPriorityFilter);
     initGanttChart(true);
-    activateGanttFilterButtons();
 }
 
 export function activateGanttFilterButtons() {
     document.querySelectorAll('.gantt-filters .status-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-status') === AppState.ganttStatusFilter);
+        const status = btn.getAttribute('data-status');
+        btn.classList.toggle('active', AppState.ganttStatusFilter.includes(status));
     });
     document.querySelectorAll('.gantt-filters .priority-filters .filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-priority') === AppState.ganttPriorityFilter);
+        const priority = btn.getAttribute('data-priority');
+        btn.classList.toggle('active', AppState.ganttPriorityFilter.includes(priority));
     });
 }

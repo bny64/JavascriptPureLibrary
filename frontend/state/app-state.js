@@ -9,9 +9,9 @@ export const AppState = {
     selectedDate: new Date(),
     currentPage: 1,
     tasksPerPage: 5,
-    currentStatusFilter: '전체',
-    currentPriorityFilter: '전체',
-    currentSelectedDateStatusFilter: '전체',
+    currentStatusFilter: ['전체'],
+    currentPriorityFilter: ['전체'],
+    currentSelectedDateStatusFilter: ['전체'],
     currentSearchType: 'text',
     sortField: 'endDate',
     sortDirection: 'asc',
@@ -24,9 +24,15 @@ export const AppState = {
     notificationCategory1: StorageUtils.get('notificationCategory1', '전체'),
     notificationCategory2: StorageUtils.get('notificationCategory2', '전체'),
     notificationCategory3: StorageUtils.get('notificationCategory3', '전체'),
-    // 간트 차트 필터
-    ganttStatusFilter: StorageUtils.get('ganttStatusFilter', '전체'),
-    ganttPriorityFilter: StorageUtils.get('ganttPriorityFilter', '전체'),
+    // 간트 차트 필터 (배열 타입)
+    ganttStatusFilter: (() => {
+        const val = StorageUtils.get('ganttStatusFilter', ['전체']);
+        return Array.isArray(val) ? val : [val];
+    })(),
+    ganttPriorityFilter: (() => {
+        const val = StorageUtils.get('ganttPriorityFilter', ['전체']);
+        return Array.isArray(val) ? val : [val];
+    })(),
     // 카테고리 검색
     currentSearchCategory1: '',
     currentSearchCategory2: '',
