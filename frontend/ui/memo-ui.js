@@ -16,15 +16,21 @@ export const MemoUI = {
           listEl.innerHTML = '<p style="color: #999; text-align: center; margin-top: 50px;">등록된 메모가 없습니다.</p>';
         } else {
           listEl.innerHTML = memos.map(memo => `
-                    <div class="memo-item">
+                    <div class="memo-item" data-id="${memo.id}">
                         <div class="memo-content">${TextUtils.escapeHtml(memo.content)}</div>
                         <div class="memo-meta">
                             <span>${new Date(memo.createdAt).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
-                            <button class="btn-delete-memo" data-id="${memo.id}">삭제</button>
+                            <div class="memo-actions">
+                                <button class="btn-edit-memo" data-id="${memo.id}">수정</button>
+                                <button class="btn-delete-memo" data-id="${memo.id}">삭제</button>
+                            </div>
                         </div>
                     </div>
                 `).join('');
 
+          listEl.querySelectorAll('.btn-edit-memo').forEach(btn => {
+            btn.addEventListener('click', () => this.enterEditMode(btn.getAttribute('data-id'), 'drawer'));
+          });
           listEl.querySelectorAll('.btn-delete-memo').forEach(btn => {
             btn.addEventListener('click', () => this.deleteMemo(btn.getAttribute('data-id')));
           });
@@ -33,7 +39,6 @@ export const MemoUI = {
 
       // 2. 대시보드 스티커 월 렌더링
       if (wallContainer && wallSection) {
-        // 메모가 없어도 관리 버튼을 누를 수 있게 섹션은 항상 표시
         wallSection.style.display = 'block';
 
         if (memos.length === 0) {
@@ -43,16 +48,22 @@ export const MemoUI = {
           wallContainer.innerHTML = memos.map((memo, idx) => {
             const colorClass = colorClasses[idx % colorClasses.length];
             return `
-                    <div class="sticky-note ${colorClass}">
+                    <div class="sticky-note ${colorClass}" data-id="${memo.id}">
                         <div class="sticky-note-content">${TextUtils.escapeHtml(memo.content)}</div>
                         <div class="sticky-note-footer">
                             <span>📅 ${new Date(memo.createdAt).toLocaleDateString()}</span>
-                            <button class="btn-memo-delete-sticker" data-id="${memo.id}">삭제</button>
+                            <div class="memo-actions">
+                                <button class="btn-memo-edit-sticker" data-id="${memo.id}">수정</button>
+                                <button class="btn-memo-delete-sticker" data-id="${memo.id}">삭제</button>
+                            </div>
                         </div>
                     </div>
                   `;
           }).join('');
 
+          wallContainer.querySelectorAll('.btn-memo-edit-sticker').forEach(btn => {
+            btn.addEventListener('click', () => this.enterEditMode(btn.getAttribute('data-id'), 'sticker'));
+          });
           wallContainer.querySelectorAll('.btn-memo-delete-sticker').forEach(btn => {
             btn.addEventListener('click', () => this.deleteMemo(btn.getAttribute('data-id')));
           });
@@ -62,6 +73,57 @@ export const MemoUI = {
     } catch (error) {
       console.error('Failed to render memos:', error);
     }
+  },
+
+  async enterEditMode(id, type) {
+    const item = document.querySelector(`${type === 'drawer' ? '.memo-item' : '.sticky-note'}[data-id="${id}"]`);
+    if (!item) return;
+
+    const contentEl = item.querySelector(type === 'drawer' ? '.memo-content' : '.sticky-note-content');
+    const footerEl = item.querySelector(type === 'drawer' ? '.memo-meta' : '.sticky-note-footer');
+    const originalContent = contentEl.innerText;
+
+    // 기존 내용 숨기기
+    contentEl.style.display = 'none';
+    footerEl.style.display = 'none';
+
+    // 편집 영역 생성
+    const editArea = document.createElement('div');
+    editArea.className = 'memo-edit-container';
+    editArea.innerHTML = `
+      <textarea class="memo-edit-area">${originalContent}</textarea>
+      <div class="memo-edit-actions">
+        <button class="btn-save-memo btn-memo-edit-sticker">저장</button>
+        <button class="btn-cancel-memo btn-memo-delete-sticker">취소</button>
+      </div>
+    `;
+
+    item.appendChild(editArea);
+
+    const textarea = editArea.querySelector('textarea');
+    textarea.focus();
+
+    // 저장 버튼 클릭
+    editArea.querySelector('.btn-save-memo').onclick = async () => {
+      const newContent = textarea.value.trim();
+      if (!newContent) {
+        alert('내용을 입력해주세요.');
+        return;
+      }
+      try {
+        await API.memos.update(id, { content: newContent });
+        await this.render();
+      } catch (error) {
+        alert('수정에 실패했습니다.');
+      }
+    };
+
+    // 취소 버튼 클릭
+    editArea.querySelector('.btn-cancel-memo').onclick = () => {
+      editArea.remove();
+      contentEl.style.display = 'block';
+      footerEl.style.display = 'flex';
+    };
   },
 
   async addQuickMemo() {

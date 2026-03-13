@@ -242,6 +242,22 @@
   border-radius: 3px;
   font-size: 10px;
   cursor: pointer;
+  margin-left: 5px;
+}
+
+.btn-memo-edit-sticker {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.btn-memo-edit-sticker:hover,
+.btn-memo-delete-sticker:hover {
+  opacity: 0.8;
 }
 
 /* 메모 드로어 스타일 */
@@ -374,6 +390,37 @@
   color: #ff5252;
   cursor: pointer;
   font-size: 12px;
+  margin-left: 8px;
+}
+
+.btn-edit-memo {
+  background: none;
+  border: none;
+  color: #2196f3;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-edit-memo:hover,
+.btn-delete-memo:hover {
+  text-decoration: underline;
+}
+
+.memo-edit-area {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.memo-edit-actions {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
 }
 
 .btn-memo {
