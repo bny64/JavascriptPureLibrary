@@ -16,12 +16,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
         rel="stylesheet" />
-
-    <!-- 컴포넌트 로드 -->
-    <script src="./CustomInput.js"></script>
-    <script src="./samples/ProductRegistry.js"></script>
-    <script src="./samples/BasicForm.js"></script>
-    <script src="./samples/ChartSample.js"></script>
 </head>
 
 <body>
@@ -72,7 +66,12 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import CustomInput from './CustomInput.js';
+        import ProductRegistry from './samples/ProductRegistry.js';
+        import BasicForm from './samples/BasicForm.js';
+        import ChartSample from './samples/ChartSample.js';
+
         const { createApp, ref, computed } = Vue;
 
         const app = createApp({

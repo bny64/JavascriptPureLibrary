@@ -1,5 +1,5 @@
 /* d:\workspace\JavascriptPureLibrary\vue-project\samples\ProductRegistry.js */
-const ProductRegistry = {
+export default {
     template: `
         <div class="page-wrap" style="max-width: 100%;">
             <!-- Toolbar -->

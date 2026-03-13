@@ -1,5 +1,5 @@
 /* d:\workspace\JavascriptPureLibrary\vue-project\samples\BasicForm.js */
-const BasicForm = {
+export default {
     template: `
         <div class="page-wrap" style="max-width: 600px; margin: 0;">
             <div class="header" style="margin-bottom: 24px;">

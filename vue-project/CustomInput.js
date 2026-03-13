@@ -4,7 +4,7 @@
  * - blur 시에만 유효성 검증
  * - 에러/값 초기화는 부모의 useForm > resetForm() 으로 처리
  */
-const CustomInput = {
+export default {
     props: {
         modelValue: { default: '' },
         name: { type: String, required: true },

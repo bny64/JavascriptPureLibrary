@@ -15,11 +15,12 @@ description: Vue 라이브러리 테스트 랩(vue-project) 작업 전용 에이
 
 ### 1. 프로젝트 범위 및 경로
 - 모든 작업은 `d:\workspace\JavascriptPureLibrary\vue-project` 디렉토리를 기준으로 수행합니다.
-- 새로운 라이브러리 테스트 시 `lib/` 폴더에 관련 파일을 배치하고 `index.html`에서 수동 로드합니다.
+- 새로운 라이브러리 테스트 시 `lib/` 폴더에 관련 파일을 배치하고 `index.html`에서 직접 로드(Global)하거나 모듈로 로드(ESM)합니다.
+- 로컬 테스트 서버는 `node server.mjs`를 사용하여 실행합니다. (3001 포트 사용)
 
 ### 2. 샘플 구성 규칙
-- 각 실습 코드는 `samples/` 디렉토리에 독립적인 JS 파일(컴포넌트)로 생성합니다.
-- `index.html`의 `menuGroups` 데이터에 카테고리와 함께 등록하여 동적으로 렌더링합니다.
+- 각 실습 코드는 `samples/` 디렉토리에 독립적인 JS 파일로 생성하며, 반드시 `export default` 형식을 사용합니다.
+- `index.html`의 `<script type="module">` 영역에서 `import` 문으로 컴포넌트를 가져와 등록합니다.
 - 사이드바 카테고리 명칭은 실제 라이브러리 이름(예: Vee-Validate, Highcharts)을 사용합니다.
 
 ### 3. 기술 스택 및 디자인

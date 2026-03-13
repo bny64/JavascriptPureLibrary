@@ -1,5 +1,5 @@
 /* d:\workspace\JavascriptPureLibrary\vue-project\samples\ChartSample.js */
-const ChartSample = {
+export default {
     template: `
         <div class="page-wrap" style="max-width: 100%;">
             <div class="header" style="margin-bottom: 24px;">
