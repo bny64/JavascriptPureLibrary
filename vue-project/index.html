@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VeeValidate Samples Dashboard</title>
     <!-- 폐쇄망 환경을 고려한 로컬 라이브러리 참조 -->
-    <script src="./lib/vue.global.js"></script>
-    <script src="./lib/vee-validate.js"></script>
-    <script src="./lib/chart.umd.js"></script>
+    <script src="./frontend/lib/vue.global.js"></script>
+    <script src="./frontend/lib/vee-validate.js"></script>
+    <script src="./frontend/lib/chart.umd.js"></script>
 
     <!-- 공통 및 레이아웃 스타일 -->
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./dashboard-layout.css" />
+    <link rel="stylesheet" href="./frontend/styles/style.css" />
+    <link rel="stylesheet" href="./frontend/styles/dashboard-layout.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
         rel="stylesheet" />
 </head>
 
 <body>
+    <!-- (중략: 대시보드 구조 동일) -->
     <div id="app">
+        <!-- Dashboard 구조 동일 -->
         <div class="dashboard-container">
             <!-- Sidebar -->
             <aside class="dashboard-sidebar">
@@ -67,10 +69,10 @@
     </div>
 
     <script type="module">
-        import CustomInput from './CustomInput.js';
-        import ProductRegistry from './samples/ProductRegistry.js';
-        import BasicForm from './samples/BasicForm.js';
-        import ChartSample from './samples/ChartSample.js';
+        import CustomInput from './frontend/components/CustomInput.js';
+        import ProductRegistry from './frontend/samples/ProductRegistry.js';
+        import BasicForm from './frontend/samples/BasicForm.js';
+        import ChartSample from './frontend/samples/ChartSample.js';
 
         const { createApp, ref, computed } = Vue;
 
