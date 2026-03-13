@@ -27,9 +27,9 @@
         const { useState, useMemo } = window.React;
 
         // 컴포넌트 임포트
-        import CustomInput from './frontend/components/CustomInput.js';
-        import ChartSample from './frontend/samples/ChartSample.js';
-        import FormValidationSample from './frontend/samples/FormValidationSample.js';
+        import CustomInput from './frontend/core/components/CustomInput.js';
+        import ChartSample from './frontend/modules/visualization/samples/ChartSample.js';
+        import FormValidationSample from './frontend/modules/form-validation/samples/FormValidationSample.js';
 
         const App = () => {
             const [searchQuery, setSearchQuery] = useState('');

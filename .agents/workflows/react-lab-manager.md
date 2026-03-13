@@ -16,10 +16,11 @@ description: React 라이브러리 테스트 랩(react-project) 작업 전용 �
 ### 1. 프로젝트 범위 및 경로
 - 모든 작업은 `d:\workspace\JavascriptPureLibrary\react-project` 디렉토리를 기준으로 수행합니다.
 - 리소스는 성격별로 분류된 `frontend/` 하위 폴더에서 관리합니다.
-    - 컴포넌트: `frontend/components/`
-    - 실습 샘플: `frontend/samples/`
+    - 코어 자원: `frontend/core/` (components, utils, hooks 등)
+    - 도메인 모듈: `frontend/modules/` (기능 단위별 components, samples 관리)
     - 스타일: `frontend/styles/`
     - 라이브러리: `frontend/lib/`
+- 신규 샘플 추가 시 관련 기능에 맞는 `modules/[도메인]/samples/` 경로에 배치하여 도메인 응집도를 높입니다.
 - 로컬 테스트 서버는 `node server.js`를 사용하여 실행합니다. (3002 포트 사용)
 
 ### 2. 컴포넌트 및 코드 작성 규칙
