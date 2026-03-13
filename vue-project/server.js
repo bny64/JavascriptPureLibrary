@@ -1,10 +1,6 @@
-import http from 'http';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
 const PORT = 3001;
 
@@ -20,7 +16,9 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
-    let pathname = new URL(req.url, `http://${req.headers.host}`).pathname;
+    // URL 분석 (쿼리 스트링 제외)
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+    let pathname = parsedUrl.pathname;
     
     // 루트 경로면 index.html로 유도
     let filePath = pathname === '/' ? path.join(__dirname, 'index.html') : path.join(__dirname, pathname);
@@ -46,7 +44,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
     console.log(`========================================`);
-    console.log(`  Vue Library Lab Server (ESM) Started  `);
+    console.log(`  Vue Library Lab Server Started        `);
     console.log(`  URL: http://localhost:${PORT}/        `);
     console.log(`========================================`);
 });
