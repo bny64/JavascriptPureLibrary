@@ -12,8 +12,8 @@
     <script src="./frontend/lib/chart.min.js"></script>
 
     <!-- 공통 및 레이아웃 스타일 -->
-    <link rel="stylesheet" href="./frontend/styles/style.css" />
-    <link rel="stylesheet" href="./frontend/styles/dashboard-layout.css" />
+    <link rel="stylesheet" href="./frontend/styles/style.css?v=3" />
+    <link rel="stylesheet" href="./frontend/styles/dashboard-layout.css?v=3" />
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
         rel="stylesheet" />
@@ -27,9 +27,9 @@
         const { useState, useMemo } = window.React;
 
         // 컴포넌트 임포트
-        import CustomInput from './frontend/core/components/CustomInput.js';
-        import ChartSample from './frontend/modules/visualization/samples/ChartSample.js';
-        import FormValidationSample from './frontend/modules/form-validation/samples/FormValidationSample.js';
+        import CustomInput from './frontend/core/components/CustomInput.js?v=3';
+        import ChartSample from './frontend/modules/visualization/samples/ChartSample.js?v=3';
+        import FormValidationSample from './frontend/modules/form-validation/samples/FormValidationSample.js?v=3';
 
         const App = () => {
             const [searchQuery, setSearchQuery] = useState('');

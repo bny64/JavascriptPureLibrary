@@ -106,7 +106,8 @@ body {
     background: var(--accent);
     color: #fff;
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(91, 106, 255, 0.3);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
 }
 
 .menu-item-desc {

@@ -11,8 +11,8 @@
   --surface: #14161c;
   --surface2: #1c1f28;
   --border: #2a2e3d;
-  --border-focus: #61dafb;
-  --accent: #61dafb;
+  --border-focus: #0284c7;
+  --accent: #0284c7;
   --accent2: #282c34;
   --success: #3de6b4;
   --text: #e8eaf0;
@@ -79,7 +79,7 @@ body {
 }
 
 .btn-primary:hover {
-  background: #4ab8d8;
+  background: #0284c7;
   transform: translateY(-1px);
 }
 
@@ -164,7 +164,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(97, 218, 251, 0.15);
+  background: rgba(14, 165, 233, 0.15);
   color: var(--accent);
   font-family: 'DM Mono', monospace;
   font-size: 12px;
@@ -322,7 +322,7 @@ body {
 
 .custom-input:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.14);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.14);
 }
 
 .custom-input.is-invalid {
@@ -381,7 +381,7 @@ body {
 /* 전액 선택 시 입력창 강조 */
 .is-full-price .custom-input {
   border-color: var(--accent);
-  background: rgba(97, 218, 251, 0.05);
+  background: rgba(14, 165, 233, 0.05);
   font-weight: 700;
   color: var(--accent);
 }
@@ -425,8 +425,8 @@ body {
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, var(--accent), #282c34);
-  color: #20232a;
+  background: linear-gradient(135deg, #0284c7, #075985);
+  color: #fff;
   padding: 12px 32px;
   font-size: 14px;
   font-weight: 700;
@@ -435,7 +435,7 @@ body {
   cursor: pointer;
   font-family: 'Sora', sans-serif;
   transition: all 0.2s;
-  box-shadow: 0 4px 18px rgba(97, 218, 251, 0.28);
+  box-shadow: 0 4px 18px rgba(2, 132, 199, 0.3);
 }
 
 .btn-submit:hover {
@@ -443,7 +443,24 @@ body {
   box-shadow: 0 6px 24px rgba(91, 106, 255, 0.42);
 }
 
-/* ── Popup overlay ── */
+/* ── Card Styles ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-footer {
+  padding: 32px;
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.01);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
