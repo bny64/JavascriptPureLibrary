@@ -71,7 +71,7 @@
 
     <script type="module">
         import CustomInput from './frontend/components/CustomInput.js';
-        import ValidationDualLab from './frontend/modules/form-validation/ValidationDualLab.js';
+        import ValidationLab from './frontend/modules/form-validation/ValidationLab.js';
         import BasicForm from './frontend/modules/form-validation/BasicForm.js';
         import ChartSample from './frontend/modules/visualization/ChartSample.js';
 
@@ -80,17 +80,17 @@
         const app = createApp({
             setup() {
                 const searchQuery = ref('');
-                const currentView = ref('validation-dual-lab');
+                const currentView = ref('validation-lab');
 
                 const menuGroups = [
                     {
                         name: 'Vee-Validate',
                         items: [
                             {
-                                id: 'validation-dual-lab',
+                                id: 'validation-lab',
                                 title: 'Validation Laboratory',
-                                desc: '2열 그리드 통합 검증 센터',
-                                component: ValidationDualLab
+                                desc: '통합 검증 실험실 (UseForm vs UseField)',
+                                component: ValidationLab
                             },
                             {
                                 id: 'basic-form',

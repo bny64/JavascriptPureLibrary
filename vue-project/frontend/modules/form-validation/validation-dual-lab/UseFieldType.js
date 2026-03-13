@@ -1,4 +1,4 @@
-/* d:\workspace\JavascriptPureLibrary\vue-project\frontend\modules\form-validation\samples\RegistryAlpha.js */
+/* d:\workspace\JavascriptPureLibrary\vue-project\frontend\modules\form-validation\validation-dual-lab\UseFieldType.js */
 export default {
     template: `
         <div class="page-wrap" style="max-width: 100%;">
