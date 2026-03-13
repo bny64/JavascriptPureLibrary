@@ -70,27 +70,27 @@
     </div>
 
     <script type="module">
-        import CustomInput from './frontend/core/components/CustomInput.js';
-        import ProductRegistry from './frontend/modules/form-validation/samples/ProductRegistry.js';
-        import BasicForm from './frontend/modules/form-validation/samples/BasicForm.js';
-        import ChartSample from './frontend/modules/visualization/samples/ChartSample.js';
+        import CustomInput from './frontend/components/CustomInput.js';
+        import ValidationDualLab from './frontend/modules/form-validation/ValidationDualLab.js';
+        import BasicForm from './frontend/modules/form-validation/BasicForm.js';
+        import ChartSample from './frontend/modules/visualization/ChartSample.js';
 
         const { createApp, ref, computed } = Vue;
 
         const app = createApp({
             setup() {
                 const searchQuery = ref('');
-                const currentView = ref('product-registry');
+                const currentView = ref('validation-dual-lab');
 
                 const menuGroups = [
                     {
                         name: 'Vee-Validate',
                         items: [
                             {
-                                id: 'product-registry',
-                                title: 'Dynamic Product List',
-                                desc: '동적 배열 기반 폼 검증 (v-for)',
-                                component: ProductRegistry
+                                id: 'validation-dual-lab',
+                                title: 'Validation Laboratory',
+                                desc: '2열 그리드 통합 검증 센터',
+                                component: ValidationDualLab
                             },
                             {
                                 id: 'basic-form',

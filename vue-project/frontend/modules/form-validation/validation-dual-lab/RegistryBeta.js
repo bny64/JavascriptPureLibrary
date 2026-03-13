@@ -1,4 +1,4 @@
-/* d:\workspace\JavascriptPureLibrary\vue-project\samples\ProductRegistry.js */
+/* d:\workspace\JavascriptPureLibrary\vue-project\frontend\modules\form-validation\samples\RegistryBeta.js */
 export default {
     template: `
         <div class="page-wrap" style="max-width: 100%;">

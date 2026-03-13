@@ -34,6 +34,16 @@ body {
   margin: 0 auto;
 }
 
+/* 2열 그리드 레이아웃 유틸리티 */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 /* ── Header ── */
 .header {
   margin-bottom: 36px;
