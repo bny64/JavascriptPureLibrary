@@ -161,8 +161,8 @@ export default function FormValidationSample() {
                 </div>
 
                 <div style=${{ padding: '32px', borderTop: '1px solid var(--border)', background: 'rgba(255, 255, 255, 0.01)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', width: '100%', boxSizing: 'border-box' }}>
-                    <button type="button" className="btn btn-ghost" onClick=${() => reset()} style=${{ minWidth: '120px', height: '44px', textAlign: 'center' }}>초기화</button>
-                    <button type="submit" className="btn btn-primary" style=${{ minWidth: '160px', height: '44px', fontWeight: '700' }}>저장하기</button>
+                    <button type="button" className="btn btn-ghost" onClick=${() => reset()} style=${{ minWidth: '120px', height: '44px', justifyContent: 'center' }}>초기화</button>
+                    <button type="submit" className="btn btn-primary" style=${{ minWidth: '160px', height: '44px', fontWeight: '700', justifyContent: 'center' }}>저장하기</button>
                 </div>
             </form>
         </div>
