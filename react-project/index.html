@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Samples Dashboard</title>
+    <!-- 폐쇄망 환경을 고려한 로컬 라이브러리 참조 -->
+    <script src="./frontend/lib/react.development.js" crossorigin></script>
+    <script src="./frontend/lib/react-dom.development.js" crossorigin></script>
+    <script src="./frontend/lib/chart.umd.js"></script>
+
+    <!-- 공통 및 레이아웃 스타일 -->
+    <link rel="stylesheet" href="./frontend/styles/style.css" />
+    <link rel="stylesheet" href="./frontend/styles/dashboard-layout.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="module">
+        import html from './frontend/lib/htmEngine.js';
+        const { useState, useMemo } = window.React;
+
+        // 컴포넌트 임포트
+        import CustomInput from './frontend/components/CustomInput.js';
+        import ProductRegistry from './frontend/samples/ProductRegistry.js';
+        import BasicForm from './frontend/samples/BasicForm.js';
+        import ChartSample from './frontend/samples/ChartSample.js';
+
+        const App = () => {
+            const [searchQuery, setSearchQuery] = useState('');
+            const [currentView, setCurrentView] = useState('product-registry');
+
+            const menuGroups = useMemo(() => [
+                {
+                    name: 'React Forms (Mock)',
+                    items: [
+                        {
+                            id: 'product-registry',
+                            title: 'Dynamic Product List',
+                            desc: '동적 배열 기반 폼 검증',
+                            component: ProductRegistry
+                        },
+                        {
+                            id: 'basic-form',
+                            title: 'Simple Login Form',
+                            desc: '필드-레벨 기본 유효성 검사',
+                            component: BasicForm
+                        }
+                    ]
+                },
+                {
+                    name: 'Chart.js',
+                    items: [
+                        {
+                            id: 'chart-js',
+                            title: 'Basic Visualization',
+                            desc: '다양한 차트 타입 및 데이터 연동',
+                            component: ChartSample
+                        }
+                    ]
+                }
+            ], []);
+
+            const allItems = useMemo(() => menuGroups.flatMap(g => g.items), [menuGroups]);
+
+            const filteredMenuGroups = useMemo(() => {
+                const query = searchQuery.toLowerCase();
+                return menuGroups.map(group => {
+                    const isGroupNameMatch = group.name.toLowerCase().includes(query);
+                    return {
+                        ...group,
+                        items: group.items.filter(item =>
+                            isGroupNameMatch ||
+                            item.title.toLowerCase().includes(query) ||
+                            item.desc.toLowerCase().includes(query)
+                        )
+                    };
+                });
+            }, [searchQuery, menuGroups]);
+
+            const ActiveComponent = useMemo(() => {
+                const found = allItems.find(item => item.id === currentView);
+                return found ? found.component : null;
+            }, [allItems, currentView]);
+
+            const currentMenuTitle = useMemo(() => {
+                const found = allItems.find(item => item.id === currentView);
+                return found ? found.title : 'Library Lab';
+            }, [allItems, currentView]);
+
+            return html`
+                <div className="dashboard-container">
+                    <!-- Sidebar -->
+                    <aside className="dashboard-sidebar">
+                        <div className="sidebar-header">
+                            <h2>React Library Lab</h2>
+                            <p>Testing Sandbox</p>
+                        </div>
+
+                        <div className="sidebar-search">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                            <input
+                                type="text"
+                                value=${searchQuery}
+                                onInput=${e => setSearchQuery(e.target.value)}
+                                placeholder="컴포넌트 검색..."
+                            />
+                        </div>
+
+                        <nav className="sidebar-menu">
+                            ${filteredMenuGroups.map((category, index) => html`
+                                <${window.React.Fragment} key=${category.name + index}>
+                                    ${category.items.length > 0 && html`<div className="menu-category">${category.name}</div>`}
+                                    ${category.items.map(item => html`
+                                        <div
+                                            key=${item.id}
+                                            className="menu-item ${currentView === item.id ? 'active' : ''}"
+                                            onClick=${() => setCurrentView(item.id)}
+                                        >
+                                            ${item.title}
+                                            <span className="menu-item-desc">${item.desc}</span>
+                                        </div>
+                                    `)}
+                                </${window.React.Fragment}>
+                            `)}
+                        </nav>
+                    </aside>
+
+                    <!-- Main Content -->
+                    <main className="dashboard-main">
+                        <header className="main-header">
+                            <h3>${currentMenuTitle}</h3>
+                        </header>
+
+                        <section className="main-content">
+                            <div className="content-inner">
+                                ${ActiveComponent ? html`<${ActiveComponent} />` : null}
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            `;
+        };
+
+        const root = window.ReactDOM.createRoot(document.getElementById('root'));
+        root.render(html`<${App} />`);
+    </script>
+</body>
+</html>
