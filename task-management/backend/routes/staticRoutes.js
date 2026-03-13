@@ -13,8 +13,19 @@ const mimeTypes = {
 };
 
 const staticRoutes = (req, res, pathname) => {
-    // 루트 경로면 index.html로 유도
-    let filePath = pathname === '/' ? './index.html' : '.' + pathname;
+    // 프로젝트 루트 경로 설정 (task-management 폴더 기준)
+    const taskMgmtRoot = path.join(__dirname, '..', '..');
+    const projectRoot = path.join(taskMgmtRoot, '..');
+
+    let filePath;
+    if (pathname.startsWith('/vue-project/')) {
+        // vue-project 요청은 상위 폴더에서 찾음
+        filePath = path.join(projectRoot, pathname);
+    } else {
+        // 나머지는 task-management 폴더 내에서 찾음
+        filePath = pathname === '/' ? path.join(taskMgmtRoot, 'index.html') : path.join(taskMgmtRoot, pathname);
+    }
+
     const extname = path.extname(filePath);
     const contentType = mimeTypes[extname] || 'application/octet-stream';
 
