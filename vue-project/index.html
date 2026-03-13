@@ -4,266 +4,155 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>상품 관리</title>
+    <title>VeeValidate Samples Dashboard</title>
+    <!-- 폐쇄망 환경을 고려한 로컬 라이브러리 참조 -->
     <script src="./lib/vue.global.js"></script>
     <script src="./lib/vee-validate.js"></script>
-    <script src="./CustomInput.js"></script>
+    <script src="./lib/chart.umd.js"></script>
+
+    <!-- 공통 및 레이아웃 스타일 -->
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./dashboard-layout.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css" />
+
+    <!-- 컴포넌트 로드 -->
+    <script src="./CustomInput.js"></script>
+    <script src="./samples/ProductRegistry.js"></script>
+    <script src="./samples/BasicForm.js"></script>
+    <script src="./samples/ChartSample.js"></script>
 </head>
 
 <body>
     <div id="app">
-        <div class="page-wrap">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h2>Vue Library Lab</h2>
+                    <p>Testing Sandbox</p>
+                </div>
 
-            <!-- Header -->
-            <div class="header">
-                <h1>상품 관리</h1>
-                <p>product.registry / v1.1</p>
-            </div>
+                <div class="sidebar-search">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" v-model="searchQuery" placeholder="컴포넌트 검색..." />
+                </div>
 
-            <!-- Toolbar -->
-            <div class="toolbar">
-                <span class="badge">{{ products.length }}</span>
-                <span style="font-size:13px; color:var(--muted)">개 상품</span>
-                <div class="toolbar-right">
-                    <div class="count-wrap">
-                        <label>추가 수량</label>
-                        <input class="count-input" type="number" v-model.number="addCount" min="1" max="20" />
+                <nav class="sidebar-menu">
+                    <template v-for="category in filteredMenuGroups" :key="category.name">
+                        <div class="menu-category" v-if="category.items.length > 0">{{ category.name }}</div>
+                        <div v-for="item in category.items" :key="item.id" class="menu-item"
+                            :class="{ active: currentView === item.id }" @click="currentView = item.id">
+                            {{ item.title }}
+                            <span class="menu-item-desc">{{ item.desc }}</span>
+                        </div>
+                    </template>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="dashboard-main">
+                <header class="main-header">
+                    <h3>{{ currentMenuTitle }}</h3>
+                </header>
+
+                <section class="main-content">
+                    <div class="content-inner">
+                        <transition name="fade" mode="out-in">
+                            <component :is="activeComponent"></component>
+                        </transition>
                     </div>
-                    <button class="btn btn-primary btn-sm" @click="addProducts">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        상품 추가
-                    </button>
-                    <button class="btn btn-ghost btn-sm" @click="showResetPopup = true"
-                        :disabled="products.length === 0">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="1 4 1 10 7 10" />
-                            <path d="M3.51 15a9 9 0 1 0 .49-3.28" />
-                        </svg>
-                        전체 초기화
-                    </button>
-                </div>
-            </div>
-
-            <!-- Product list -->
-            <div v-if="products.length > 0">
-                <div class="list-header">
-                    <div>#</div>
-                    <div>날짜</div>
-                    <div>상품명</div>
-                    <div>가격</div>
-                    <div></div>
-                </div>
-                <transition-group name="row" tag="div">
-                    <div class="product-row" v-for="(product, index) in products" :key="product.id">
-                        <div class="row-num">{{ index + 1 }}</div>
-                        <div>
-                            <custom-input :name="'date_' + product.id" type="date" :rules="validateDate"
-                                v-model="product.date" placeholder="날짜 선택" />
-                        </div>
-                        <div>
-                            <custom-input :name="'name_' + product.id" type="text" :rules="validateName"
-                                v-model="product.name" placeholder="상품명 입력" />
-                        </div>
-                        <div class="price-container">
-                            <div class="price-type-group">
-                                <label class="radio-label">
-                                    <input type="radio" v-model="product.priceType" value="amount"
-                                        :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
-                                    <span>금액</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" v-model="product.priceType" value="full"
-                                        :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
-                                    <span>전액</span>
-                                </label>
-                            </div>
-                            <div class="price-input-wrap">
-                                <custom-input :name="'price_' + product.id" type="number"
-                                    :rules="(val) => validatePrice(val, product.fullPrice)" v-model="product.price"
-                                    placeholder="가격 입력" :is-price="true" suffix="원"
-                                    :class="{ 'is-full-price': product.priceType === 'full' }" />
-                            </div>
-                        </div>
-                        <div class="row-del">
-                            <button class="btn-icon" @click="removeProduct(product.id)" title="삭제">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5">
-                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </transition-group>
-            </div>
-
-            <!-- Empty state -->
-            <div v-else class="empty-state">
-                <div class="icon">📦</div>
-                <p>추가된 상품이 없습니다. 상품 추가 버튼을 눌러주세요.</p>
-            </div>
-
-            <!-- Submit -->
-            <div class="submit-area" v-if="products.length > 0">
-                <button class="btn-submit" @click="onSubmit">저장하기</button>
-            </div>
+                </section>
+            </main>
         </div>
-
-        <!-- Reset Popup -->
-        <div class="overlay" v-if="showResetPopup" @click.self="showResetPopup = false">
-            <div class="popup">
-                <h3>⚙️ 초기화 옵션</h3>
-                <p>어떤 방식으로 초기화하시겠습니까?</p>
-                <div class="popup-actions">
-                    <button class="btn btn-danger" @click="resetAll">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6l-1 14H6L5 6" />
-                            <path d="M10 11v6" />
-                            <path d="M14 11v6" />
-                            <path d="M9 6V4h6v2" />
-                        </svg>
-                        전체 삭제 (행 포함)
-                    </button>
-                    <button class="btn btn-success" @click="resetValues">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <polyline points="1 4 1 10 7 10" />
-                            <path d="M3.51 15a9 9 0 1 0 .49-3.28" />
-                        </svg>
-                        입력값만 초기화
-                    </button>
-                </div>
-                <div class="popup-cancel">
-                    <button @click="showResetPopup = false">취소</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Toast -->
-        <div class="toast" v-if="toastVisible">✓ 저장되었습니다!</div>
     </div>
 
     <script>
-        const { useForm, useField } = VeeValidate;
-        const { createApp, ref } = Vue;
+        const { createApp, ref, computed } = Vue;
 
-        let uid = 1;
-        const makeProduct = () => {
-            // 10만 ~ 100만 사이의 랜덤 전액 (만원 단위)
-            const fullPrice = Math.floor(Math.random() * 91 + 10) * 10000;
-            return {
-                id: uid++,
-                date: '',
-                name: '',
-                fullPrice: fullPrice,
-                price: '',
-                priceType: 'amount'
-            };
-        };
-
-        createApp({
-            components: { CustomInput },
+        const app = createApp({
             setup() {
-                const { validate: validateForm, resetForm, setFieldError, resetField } = useForm();
+                const searchQuery = ref('');
+                const currentView = ref('product-registry');
 
-                const products = ref([makeProduct()]);
-                const addCount = ref(1);
-                const showResetPopup = ref(false);
-                const toastVisible = ref(false);
-
-                const validateDate = (val) => {
-                    if (!val) return '날짜를 입력해주세요.';
-                    return true;
-                };
-
-                const validateName = (val) => {
-                    if (!val || !val.trim()) return '상품명을 입력해주세요.';
-                    if (val.trim().length < 2) return '상품명은 2자 이상이어야 합니다.';
-                    return true;
-                };
-
-                const validatePrice = (val, max) => {
-                    if (val === undefined || val === null || val === '') return '가격을 입력해주세요.';
-                    const num = Number(val);
-                    if (isNaN(num) || num < 0) return '올바른 가격을 입력해주세요.';
-                    if (num > max) return `최대 ${max.toLocaleString()}원(전액)까지 입력 가능합니다.`;
-                    return true;
-                };
-
-                const addProducts = () => {
-                    const count = Math.max(1, Math.min(20, addCount.value || 1));
-                    for (let i = 0; i < count; i++) products.value.push(makeProduct());
-                };
-
-                const handlePriceTypeChange = (product) => {
-                    const fieldName = 'price_' + product.id;
-                    if (product.priceType === 'full') {
-                        // 미리 할당된 전액으로 설정
-                        product.price = product.fullPrice;
-                        setFieldError(fieldName, '');
-                    } else {
-                        // '금액' 선택 시 값 및 상태 전체 초기화
-                        product.price = '';
-                        resetField(fieldName, { value: '' });
+                const menuGroups = [
+                    {
+                        name: 'Vee-Validate',
+                        items: [
+                            {
+                                id: 'product-registry',
+                                title: 'Dynamic Product List',
+                                desc: '동적 배열 기반 폼 검증 (v-for)',
+                                component: ProductRegistry
+                            },
+                            {
+                                id: 'basic-form',
+                                title: 'Simple Login Form',
+                                desc: '필드-레벨 기본 유효성 검사',
+                                component: BasicForm
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Chart.js',
+                        items: [
+                            {
+                                id: 'chart-js',
+                                title: 'Basic Visualization',
+                                desc: '다양한 차트 타입 및 데이터 연동',
+                                component: ChartSample
+                            }
+                        ]
                     }
-                };
+                ];
 
-                const removeProduct = (id) => {
-                    products.value = products.value.filter(p => p.id !== id);
-                };
+                const allItems = computed(() => menuGroups.flatMap(g => g.items));
 
-                const resetAll = () => {
-                    products.value = [];
-                    showResetPopup.value = false;
-                };
-
-                const resetValues = () => {
-                    // products 데이터 초기화
-                    products.value.forEach(p => {
-                        p.date = '';
-                        p.name = '';
-                        p.price = '';
+                const filteredMenuGroups = computed(() => {
+                    const query = searchQuery.value.toLowerCase();
+                    return menuGroups.map(group => {
+                        const isGroupNameMatch = group.name.toLowerCase().includes(query);
+                        return {
+                            ...group,
+                            items: group.items.filter(item =>
+                                isGroupNameMatch ||
+                                item.title.toLowerCase().includes(query) ||
+                                item.desc.toLowerCase().includes(query)
+                            )
+                        };
                     });
+                });
 
-                    // 현재 등록된 모든 필드의 빈 값을 values로 구성해서 resetForm에 전달
-                    const emptyValues = {};
-                    // products.value.forEach(p => {
-                    //     emptyValues['date_' + p.id] = '';
-                    //     emptyValues['name_' + p.id] = '';
-                    //     emptyValues['price_' + p.id] = '';
-                    // });
-                    resetForm({ values: emptyValues });
+                const activeComponent = computed(() => {
+                    const found = allItems.value.find(item => item.id === currentView.value);
+                    return found ? found.component : null;
+                });
 
-                    showResetPopup.value = false;
-                };
-
-                const onSubmit = async () => {
-                    const result = await validateForm();
-                    if (result.valid) {
-                        console.log('제출 데이터:', JSON.parse(JSON.stringify(products.value)));
-                        toastVisible.value = true;
-                        setTimeout(() => { toastVisible.value = false; }, 2500);
-                    }
-                };
+                const currentMenuTitle = computed(() => {
+                    const found = allItems.value.find(item => item.id === currentView.value);
+                    return found ? found.title : 'Library Lab';
+                });
 
                 return {
-                    products, addCount, showResetPopup, toastVisible,
-                    validateDate, validateName, validatePrice, handlePriceTypeChange,
-                    addProducts, removeProduct, resetAll, resetValues, onSubmit
+                    searchQuery,
+                    currentView,
+                    menuGroups,
+                    filteredMenuGroups,
+                    activeComponent,
+                    currentMenuTitle
                 };
             }
-        }).mount('#app');
+        });
+
+        // 공통 컴포넌트 등록
+        app.component('custom-input', CustomInput);
+
+        app.mount('#app');
     </script>
 </body>
 
