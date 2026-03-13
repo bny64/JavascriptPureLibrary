@@ -12,8 +12,9 @@
   --surface2: #1c1f28;
   --border: #2a2e3d;
   --border-focus: #0284c7;
-  --accent: #0284c7;
-  --accent2: #282c34;
+  --accent: #0284c7;  /* Blue */
+  --accent2: #8b5cf6; /* Purple */
+  --accent3: #ec4899; /* Pink */
   --success: #3de6b4;
   --text: #e8eaf0;
   --muted: #6b7280;
@@ -30,7 +31,25 @@ body {
 }
 
 .page-wrap {
-  max-width: 860px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 그리드 레이아웃 유틸리티 */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
   margin: 0 auto;
 }
 

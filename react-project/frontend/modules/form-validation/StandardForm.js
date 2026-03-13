@@ -1,5 +1,5 @@
-import html from '../../../lib/htmEngine.js';
-import CustomInput from '../../../core/components/CustomInput.js';
+import html from '../../lib/htmEngine.js';
+import CustomInput from '../../components/CustomInput.js';
 
 const { useState } = window.React;
 // ReactHookForm (UMD global)

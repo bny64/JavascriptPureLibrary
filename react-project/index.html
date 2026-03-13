@@ -27,33 +27,40 @@
         const { useState, useMemo } = window.React;
 
         // 컴포넌트 임포트
-        import CustomInput from './frontend/core/components/CustomInput.js?v=3';
-        import ChartSample from './frontend/modules/visualization/samples/ChartSample.js?v=3';
-        import FormValidationSample from './frontend/modules/form-validation/samples/FormValidationSample.js?v=3';
+        import CustomInput from './frontend/components/CustomInput.js?v=4';
+        import ChartSample from './frontend/modules/visualization/ChartSample.js?v=4';
+        import StandardForm from './frontend/modules/form-validation/StandardForm.js?v=4';
+        import ValidationLab from './frontend/modules/form-validation/ValidationLab.js?v=4';
 
         const App = () => {
             const [searchQuery, setSearchQuery] = useState('');
-            const [currentView, setCurrentView] = useState('react-hook-form-sample');
+            const [currentView, setCurrentView] = useState('validation-lab');
 
             const menuGroups = useMemo(() => [
                 {
-                    name: 'React-Hook-Form',
+                    name: 'Validation Laboratory',
                     items: [
                         {
-                            id: 'react-hook-form-sample',
-                            title: 'Advanced Form Validation',
-                            desc: 'useForm 및 Controller 기반 검증 로직 구현',
-                            component: FormValidationSample
+                            id: 'validation-lab',
+                            title: 'Validation Integrated Lab',
+                            desc: '3종 유효성 검사 전략 비교 (Standard, Manual, Array)',
+                            component: ValidationLab
+                        },
+                        {
+                            id: 'react-hook-form-standard',
+                            title: 'Standard Hook Form',
+                            desc: 'useForm 기반 실무형 단일 폼 샘플',
+                            component: StandardForm
                         }
                     ]
                 },
                 {
-                    name: 'Chart.js',
+                    name: 'Data Visualization',
                     items: [
                         {
                             id: 'chart-js',
-                            title: 'Basic Visualization',
-                            desc: '다양한 차트 타입 및 데이터 연동',
+                            title: 'Chart.js Visual Lab',
+                            desc: 'React와 Chart.js의 데이터 연동 테스트',
                             component: ChartSample
                         }
                     ]

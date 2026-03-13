@@ -1,4 +1,4 @@
-import html from '../../lib/htmEngine.js';
+import html from '../lib/htmEngine.js';
 
 const { useState, useEffect } = window.React;
 
