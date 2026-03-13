@@ -34,13 +34,21 @@ body {
   margin: 0 auto;
 }
 
-/* 2열 그리드 레이아웃 유틸리티 */
+/* 그리드 레이아웃 유틸리티 */
 .grid-2-col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   align-items: flex-start;
-  max-width: 1200px;
+  width: 100%;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
   margin: 0 auto;
 }
 
