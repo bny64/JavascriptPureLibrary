@@ -16,14 +16,16 @@ description: Vue 라이브러리 테스트 랩(vue-project) 작업 전용 에이
 ### 1. 프로젝트 범위 및 경로
 - 모든 작업은 `d:\workspace\JavascriptPureLibrary\vue-project` 디렉토리를 기준으로 수행합니다.
 - 리소스는 성격별로 분류된 `frontend/` 하위 폴더에서 관리합니다.
-    - 컴포넌트: `frontend/components/`
-    - 실습 샘플: `frontend/samples/`
+    - 코어 자원: `frontend/core/` (components, utils, composables 등)
+    - 도메인 모듈: `frontend/modules/` (기능 단위별 components, samples 관리)
+    - 레이아웃: `frontend/layouts/`
     - 스타일: `frontend/styles/`
     - 라이브러리: `frontend/lib/`
+- 신규 샘플 추가 시 관련 기능에 맞는 `modules/[도메인]/samples/` 경로에 배치하여 도메인 응집도를 높입니다.
 - 로컬 테스트 서버는 `node server.js`를 사용하여 실행합니다. (3001 포트 사용)
 
 ### 2. 샘플 구성 규칙
-- 각 실습 코드는 `frontend/samples/` 디렉토리에 독립적인 JS 파일로 생성하며, 반드시 `export default` 형식을 사용합니다.
+- 각 실습 코드는 해당 도메인의 `samples/` 디렉토리에 독립적인 JS 파일로 생성하며, 반드시 `export default` 형식을 사용합니다.
 - `index.html`의 `<script type="module">` 영역에서 `import` 문으로 컴포넌트를 가져와 등록합니다.
 - 사이드바 카테고리 명칭은 실제 라이브러리 이름(예: Vee-Validate, Highcharts)을 사용합니다.
 
