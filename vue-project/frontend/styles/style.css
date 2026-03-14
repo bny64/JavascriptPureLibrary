@@ -13,7 +13,9 @@
   --border: #2a2e3d;
   --border-focus: #42b883;
   --accent: #42b883;
-  --accent2: #35495e;
+  --accent2: #64748b;
+  --accent3: #5b6aff;
+  --accent4: #f59e0b;
   --success: #3de6b4;
   --text: #e8eaf0;
   --muted: #6b7280;
@@ -30,7 +32,7 @@ body {
 }
 
 .page-wrap {
-  max-width: 860px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 

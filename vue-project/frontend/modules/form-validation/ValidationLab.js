@@ -1,12 +1,14 @@
 import UseFormType from './validation-dual-lab/UseFormType.js';
 import UseFieldType from './validation-dual-lab/UseFieldType.js';
 import UseFieldArrayType from './validation-dual-lab/UseFieldArrayType.js';
+import UseGroupType from './validation-dual-lab/UseGroupType.js';
 
 export default {
     components: {
         UseFormType,
         UseFieldType,
-        UseFieldArrayType
+        UseFieldArrayType,
+        UseGroupType
     },
     template: `
         <div class="validation-lab-container">
@@ -17,7 +19,8 @@ export default {
                 <p style="color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 800px;">
                     Vee-Validate의 <span style="color: var(--text);">useForm</span>, 
                     <span style="color: var(--text);">reactive</span> 상태를 이용한 수동 검증, 
-                    그리고 <span style="color: var(--text);">useFieldArray</span>를 활용한 동적 배열 관리 방식을 한눈에 비교합니다.
+                    <span style="color: var(--text);">useFieldArray</span>를 활용한 동적 배열,
+                    그리고 <span style="color: var(--text);">validateField</span>를 이용한 그룹 검증 전략을 한눈에 비교합니다.
                 </p>
             </div>
 
@@ -47,6 +50,15 @@ export default {
                         <p style="font-size: 12px; color: var(--muted);">동적 배열 특화 기능 활용</p>
                     </div>
                     <UseFieldArrayType />
+                </div>
+
+                <!-- Approach 4: Group Validation -->
+                <div class="lab-section">
+                    <div class="section-header" style="margin-bottom: 20px;">
+                        <h2 style="font-size: 18px; color: var(--accent4, #f59e0b);">04. Group Validation</h2>
+                        <p style="font-size: 12px; color: var(--muted);">validateField 기반 부분 검증</p>
+                    </div>
+                    <UseGroupType />
                 </div>
             </div>
         </div>

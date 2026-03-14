@@ -1,11 +1,11 @@
-/* d:\workspace\JavascriptPureLibrary\vue-project\frontend\modules\form-validation\validation-dual-lab\UseFieldArrayType.js */
+/* d:\workspace\JavascriptPureLibrary\vue-project\frontend\modules\form-validation\validation-dual-lab\UseGroupType.js */
 export default {
     template: /* html */`
         <div class="page-wrap" style="max-width: 100%;">
-            <!-- Toolbar (Same UI as UseFormType) -->
+            <!-- Toolbar -->
             <div class="toolbar">
-                <span class="badge">{{ fields.length }}</span>
-                <span style="font-size:13px; color:var(--muted)">개 상품 (useFieldArray)</span>
+                <span class="badge">{{ products.length }}</span>
+                <span style="font-size:13px; color:var(--muted)">개 상품 (Group Validation)</span>
                 <div class="toolbar-right">
                     <div class="count-wrap">
                         <label>추가 수량</label>
@@ -18,7 +18,7 @@ export default {
                         </svg>
                         상품 추가
                     </button>
-                    <button class="btn btn-ghost btn-sm" @click="showResetPopup = true" :disabled="fields.length === 0">
+                    <button class="btn btn-ghost btn-sm" @click="showResetPopup = true" :disabled="products.length === 0">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <polyline points="1 4 1 10 7 10" />
                             <path d="M3.51 15a9 9 0 1 0 .49-3.28" />
@@ -29,7 +29,7 @@ export default {
             </div>
 
             <!-- Product list -->
-            <div v-if="fields.length > 0">
+            <div v-if="products.length > 0">
                 <div class="list-header">
                     <div>#</div>
                     <div>날짜</div>
@@ -38,31 +38,31 @@ export default {
                     <div></div>
                 </div>
                 <transition-group name="row" tag="div">
-                    <div class="product-row" v-for="(field, index) in fields" :key="field.key">
+                    <div class="product-row" v-for="(product, index) in products" :key="product.id">
                         <div class="row-num">{{ index + 1 }}</div>
                         <div>
-                            <custom-input :name="'products[' + index + '].date'" type="date" :rules="validateRules.date" v-model="field.value.date" placeholder="날짜 선택" />
+                            <custom-input :name="'date_' + product.id" type="date" :rules="validateDate" v-model="product.date" placeholder="날짜 선택" />
                         </div>
                         <div>
-                            <custom-input :name="'products[' + index + '].name'" type="text" :rules="validateRules.name" v-model="field.value.name" placeholder="상품명 입력" />
+                            <custom-input :name="'name_' + product.id" type="text" :rules="validateName" v-model="product.name" placeholder="상품명 입력" />
                         </div>
                         <div class="price-container">
                             <div class="price-type-group">
                                 <label class="radio-label">
-                                    <input type="radio" v-model="field.value.priceType" value="amount" :name="'priceType_' + field.key" @change="handlePriceTypeChange(field.value)">
+                                    <input type="radio" v-model="product.priceType" value="amount" :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
                                     <span>금액</span>
                                 </label>
                                 <label class="radio-label">
-                                    <input type="radio" v-model="field.value.priceType" value="full" :name="'priceType_' + field.key" @change="handlePriceTypeChange(field.value)">
+                                    <input type="radio" v-model="product.priceType" value="full" :name="'priceType_' + product.id" @change="handlePriceTypeChange(product)">
                                     <span>전액</span>
                                 </label>
                             </div>
                             <div class="price-input-wrap">
-                                <custom-input :name="'products[' + index + '].price'" type="number" :rules="(val) => validateRules.price(val, field.value.fullPrice)" v-model="field.value.price" placeholder="가격 입력" :is-price="true" suffix="원" :class="{ 'is-full-price': field.value.priceType === 'full' }" />
+                                <custom-input :name="'price_' + product.id" type="number" :rules="(val) => validatePrice(val, product.fullPrice)" v-model="product.price" placeholder="가격 입력" :is-price="true" suffix="원" :class="{ 'is-full-price': product.priceType === 'full' }" />
                             </div>
                         </div>
                         <div class="row-del">
-                            <button class="btn-icon" @click="remove(index)" title="삭제">
+                            <button class="btn-icon" @click="removeProduct(product.id)" title="삭제">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
@@ -72,10 +72,12 @@ export default {
                     </div>
                 </transition-group>
 
-                <div class="submit-area">
-                    <button class="btn-submit" @click="onSubmit" style="background: var(--accent3);">
-                        useFieldArray 데이터 전송
-                    </button>
+                <!-- Submit Area with Group Actions -->
+                <div class="submit-area" style="gap: 12px; align-items: center;">
+                    <span style="font-size: 11px; color: var(--muted); margin-right: auto;">* 부분 검증은 토스트 알림으로 결과를 알립니다.</span>
+                    <button class="btn btn-ghost" @click="validateGroup('basic')">날짜/이름 그룹 검증</button>
+                    <button class="btn btn-ghost" @click="validateGroup('price')">가격 정보 그룹 검증</button>
+                    <button class="btn-submit" @click="onSubmit">전체 데이터 전송</button>
                 </div>
             </div>
 
@@ -108,49 +110,46 @@ export default {
         </div>
     `,
     setup() {
-        const { ref } = Vue;
-        const { useForm, useFieldArray } = VeeValidate;
+        const { ref, reactive } = Vue;
+        const { useForm } = VeeValidate;
 
+        const products = ref([]);
         const addCount = ref(1);
         const showResetPopup = ref(false);
         const showToast = ref(false);
         const toastMsg = ref('');
 
-        const { handleSubmit, resetForm } = useForm({
-            initialValues: { products: [] }
-        });
-
-        const { fields, push, remove } = useFieldArray('products');
-
-        const validateRules = {
-            date: (val) => val ? true : '날짜 선택 필수',
-            name: (val) => val && val.trim() ? true : '상품명 입력 필수',
-            price: (val, max) => {
-                if (val === undefined || val === null || val === '') return '가격 입력 필수';
-                const num = Number(val);
-                if (isNaN(num) || num <= 0) return '유효 가격 입력 필수';
-                if (num > max) return `최대 금액(${max.toLocaleString()}원) 초과`;
-                return true;
-            }
-        };
+        const { handleSubmit, validateField, resetForm } = useForm();
 
         const addProducts = () => {
             for (let i = 0; i < addCount.value; i++) {
                 const randomFullPrice = Math.floor(Math.random() * 91 + 10) * 10000;
-                push({
+                products.value.push({
                     id: Date.now() + Math.random(),
-                    date: '', name: '', price: '',
-                    priceType: 'amount', fullPrice: randomFullPrice
+                    date: '',
+                    name: '',
+                    price: '',
+                    priceType: 'amount',
+                    fullPrice: randomFullPrice
                 });
             }
             addCount.value = 1;
         };
 
+        const removeProduct = (id) => {
+            products.value = products.value.filter(p => p.id !== id);
+        };
+
         const handlePriceTypeChange = (product) => {
-            product.price = product.priceType === 'full' ? product.fullPrice : '';
+            if (product.priceType === 'full') {
+                product.price = product.fullPrice;
+            } else {
+                product.price = '';
+            }
         };
 
         const confirmReset = () => {
+            products.value = [];
             resetForm();
             showResetPopup.value = false;
             showToastMessage('모든 데이터가 초기화되었습니다.');
@@ -162,15 +161,50 @@ export default {
             setTimeout(() => { showToast.value = false; }, 2500);
         };
 
+        // 특정 그룹만 validateField로 검증
+        const validateGroup = async (groupType) => {
+            if (products.value.length === 0) return;
+
+            let fieldNames = [];
+            if (groupType === 'basic') {
+                fieldNames = products.value.flatMap(p => [`date_${p.id}`, `name_${p.id}`]);
+            } else if (groupType === 'price') {
+                fieldNames = products.value.map(p => `price_${p.id}`);
+            }
+
+            const results = await Promise.all(
+                fieldNames.map(name => validateField(name))
+            );
+
+            const isValid = results.every(res => res.valid);
+            const groupName = groupType === 'basic' ? '날짜/이름' : '가격 정보';
+            
+            if (isValid) {
+                showToastMessage(`✅ ${groupName} 그룹 검증 통과!`);
+            } else {
+                showToastMessage(`❌ ${groupName} 그룹에 오류가 있습니다.`);
+            }
+        };
+
+        const validateDate = (val) => val ? true : '날짜를 선택해주세요.';
+        const validateName = (val) => val && val.trim() ? true : '상품명을 입력해주세요.';
+        const validatePrice = (val, max) => {
+            if (val === undefined || val === null || val === '') return '가격을 입력해주세요.';
+            const num = Number(val);
+            if (isNaN(num) || num <= 0) return '유효한 가격을 입력해주세요.';
+            if (num > max) return `최대 금액(${max.toLocaleString()}원) 초과`;
+            return true;
+        };
+
         const onSubmit = handleSubmit((values) => {
-            console.log('useFieldArray Submit:', values);
-            alert('useFieldArray 전송 성공!');
+            console.log('Group Form Success:', values);
+            alert('전체 데이터 전송 성공!');
         });
 
         return {
-            fields, remove, addCount, showResetPopup, showToast, toastMsg,
-            addProducts, confirmReset, handlePriceTypeChange, onSubmit,
-            validateRules
+            products, addCount, showResetPopup, showToast, toastMsg,
+            addProducts, removeProduct, confirmReset, handlePriceTypeChange, onSubmit,
+            validateDate, validateName, validatePrice, validateGroup
         };
     }
 };
