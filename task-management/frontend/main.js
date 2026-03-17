@@ -80,7 +80,7 @@ import {
     openTaskModal, closeTaskModal,
     populateCategoryDropdowns, updateSubCategories, updateDetailCategories,
     saveTask, copyTask, addSubtask, toggleSubtask, deleteSubtask, deleteTaskInModal
-} from './modules/task-modal.js';
+} from './modules/task-modal.js?v=20240317';
 
 import {
     openCategoryModal, closeCategoryModal,

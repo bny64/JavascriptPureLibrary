@@ -119,8 +119,11 @@ export function openTaskModal(task = null) {
         modalTitle.textContent = '새 업무 추가';
         document.getElementById('taskId').value = '';
         document.getElementById('taskForm').reset();
-        document.getElementById('startDate').value = '';
-        document.getElementById('endDate').value = '';
+        
+        const today = KoreanTime.today();
+        document.getElementById('startDate').value = today;
+        document.getElementById('endDate').value = today;
+        
         document.getElementById('status').value = 'pending';
         document.getElementById('priority').value = 'middle';
         document.getElementById('description').value = '';
