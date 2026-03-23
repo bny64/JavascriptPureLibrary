@@ -8,11 +8,15 @@ const mimeTypes = {
     '.html': 'text/html',
     '.css': 'text/css',
     '.js': 'text/javascript',
+    '.vue': 'text/javascript',
     '.json': 'application/json',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
     '.gif': 'image/gif',
-    '.svg': 'image/svg+xml'
+    '.svg': 'image/svg+xml',
+    '.woff': 'font/woff',
+    '.woff2': 'font/woff2',
+    '.ttf': 'font/ttf'
 };
 
 const server = http.createServer((req, res) => {
