@@ -6,7 +6,7 @@ import RiskDisclosurePopup from './popups/RiskDisclosurePopup.js';
 import SubscriberCheckPopup from './popups/SubscriberCheckPopup.js';
 import InvestmentNoticePopup from './popups/InvestmentNoticePopup.js';
 
-const { computed, ref, watch } = Vue;
+const { computed, ref, watch, onMounted } = Vue;
 
 export default {
     name: 'TermsAgreementManager',
@@ -83,7 +83,7 @@ export default {
     </div>
 
     <!-- 동적 팝업 시퀀스 (Portal) -->
-    <teleport to="#popup-root">
+    <teleport to="#popup-root" v-if="isMounted">
         <template v-for="popup in activePopups" :key="popup.term.productId + '_' + popup.term.id">
             <component 
                 :is="getPopupComponent(popup.term.popupComponent)"
@@ -101,6 +101,14 @@ export default {
         const agreedTerms = ref(new Set());
         const activePopups = ref([]);
         const allTermsList = ref([]);
+        const isMounted = ref(false);
+
+        onMounted(() => {
+            isMounted.value = true;
+            if (!document.getElementById('popup-root')) {
+                console.error('[TermsAgreementManager] #popup-root element NOT found in DOM.');
+            }
+        });
 
         const getPopupComponent = (type) => {
             const map = {
@@ -135,6 +143,7 @@ export default {
         };
 
         const showPopup = (term) => {
+            console.log('[TermsAgreementManager] showPopup called for:', term.id);
             const existing = activePopups.value.find(p => p.term.id === term.id);
             const productTerms = getProductTerms(term.productId, term.productType);
             const popupTerms = productTerms.filter(t => t.requirePopup);
@@ -178,9 +187,16 @@ export default {
 
         const handleTermCheck = (term, isChecked, event) => {
             if (event) event.stopPropagation();
+            console.log('[TermsAgreementManager] handleTermCheck:', term.id, 'isChecked:', isChecked);
             if (isChecked) {
-                if (term.requirePopup) showPopup(term);
-                else { agreedTerms.value.add(term.id); emitUpdate(); }
+                if (term.requirePopup) {
+                    console.log('[TermsAgreementManager] term requirePopup is TRUE, showing popup...');
+                    showPopup(term);
+                }
+                else { 
+                    agreedTerms.value.add(term.id); 
+                    emitUpdate(); 
+                }
             } else {
                 agreedTerms.value.delete(term.id);
                 if (term.requirePopup) hidePopup(term.id);
@@ -212,6 +228,6 @@ export default {
         watch(() => props.products, initializeTermsList, { deep: true, immediate: true });
         watch(() => props.resetTrigger, (v) => { if (v > 0) resetAgreements(); });
 
-        return { getPopupComponent, activePopups, getProductTerms, isTermAgreed, isProductAllAgreed, handleProductAllCheck, handleTermCheck, handlePopupConfirm, handlePopupClose };
+        return { isMounted, getPopupComponent, activePopups, getProductTerms, isTermAgreed, isProductAllAgreed, handleProductAllCheck, handleTermCheck, handlePopupConfirm, handlePopupClose };
     }
 };
