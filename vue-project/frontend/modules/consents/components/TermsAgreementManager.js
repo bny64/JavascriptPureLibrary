@@ -25,25 +25,59 @@ export default {
     emits: ['all-agreed', 'update:agreed-terms'],
     template: `
   <div class="terms-agreement-manager">
-    <div v-for="product in products" :key="product.id" class="product-terms-group card">
-      <div class="product-header">
-        <label class="all-agree-checkbox">
-          <input type="checkbox" :checked="isProductAllAgreed(product.id, product.type)" @change="handleProductAllCheck(product.id, product.type, $event.target.checked, $event)" />
-          <span class="all-agree-label">전체 동의</span>
-        </label>
-        <div class="product-title">
-          <span class="product-name">{{ product.name }}</span>
-          <span class="product-type-badge">{{ product.type }}</span>
-        </div>
-      </div>
+    <!-- 상품별 카드 뷰 -->
+    <div class="product-grid">
+      <div v-for="product in products" :key="product.id" class="product-card">
+        <div class="product-card-inner">
+          <div class="product-info-section">
+            <div class="product-type-label">{{ product.type }}</div>
+            <h3 class="product-display-name">{{ product.name }}</h3>
+            <div class="product-status-line">
+              <span class="status-indicator" :class="{ 'done': isProductAllAgreed(product.id, product.type) }"></span>
+              {{ isProductAllAgreed(product.id, product.type) ? '동의 완료' : '동의 필요' }}
+            </div>
+            
+            <button 
+              class="quick-agree-btn"
+              :class="{ 'agreed': isProductAllAgreed(product.id, product.type) }"
+              @click="handleProductAllCheck(product.id, product.type, !isProductAllAgreed(product.id, product.type), $event)"
+            >
+              <svg v-if="isProductAllAgreed(product.id, product.type)" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              {{ isProductAllAgreed(product.id, product.type) ? '전체 동의됨' : '한번에 전체 동의' }}
+            </button>
+          </div>
 
-      <div class="terms-list">
-        <div v-for="term in getProductTerms(product.id, product.type)" :key="term.id" class="term-item" :class="{ 'agreed': isTermAgreed(term.id) }">
-          <label>
-            <input type="checkbox" :checked="isTermAgreed(term.id)" @change="handleTermCheck(term, $event.target.checked, $event)" />
-            <span class="term-label">{{ term.label }}</span>
-            <span v-if="term.requirePopup" class="popup-required-badge">팝업확인 필수</span>
-          </label>
+          <div class="divider"></div>
+
+          <div class="terms-items-section">
+            <div v-for="term in getProductTerms(product.id, product.type)" 
+                 :key="term.id" 
+                 class="term-row"
+                 :class="{ 'is-agreed': isTermAgreed(term.id) }"
+                 @click="handleTermCheck(term, !isTermAgreed(term.id), $event)">
+              
+              <div class="term-check-box">
+                <div class="custom-checkbox" :class="{ 'checked': isTermAgreed(term.id) }">
+                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="term-meta">
+                <span class="term-text">{{ term.label }}</span>
+                <span v-if="term.requirePopup" class="popup-pill">POPUP</span>
+              </div>
+
+              <div class="term-arrow" v-if="term.requirePopup">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,7 +86,7 @@ export default {
     <template v-for="popup in activePopups" :key="popup.term.productId + '_' + popup.term.id">
         <component 
             :is="getPopupComponent(popup.term.popupComponent)"
-            v-show="popup.isVisible"
+            v-if="popup.isVisible"
             :term="popup.term"
             :is-last-popup="popup.isLastPopup"
             @confirm="handlePopupConfirm"
@@ -120,13 +154,14 @@ export default {
         const emitUpdate = () => {
             const list = Array.from(agreedTerms.value);
             emit('update:agreed-terms', list);
-            if (allTermsList.value.length > 0 && allTermsList.value.every(t => agreedTerms.value.has(t.id))) emit('all-agreed', list);
+            const allTermsAgreed = allTermsList.value.length > 0 && allTermsList.value.every(t => agreedTerms.value.has(t.id));
+            if (allTermsAgreed) emit('all-agreed', list);
         };
 
         const handleProductAllCheck = (productId, productType, isChecked, event) => {
+            if (event) event.stopPropagation();
             const terms = getProductTerms(productId, productType);
             if (isChecked) {
-                event.target.checked = false;
                 const nextPopup = terms.find(t => t.requirePopup && !agreedTerms.value.has(t.id));
                 if (nextPopup) showPopup(nextPopup);
                 else {
@@ -140,8 +175,9 @@ export default {
         };
 
         const handleTermCheck = (term, isChecked, event) => {
+            if (event) event.stopPropagation();
             if (isChecked) {
-                if (term.requirePopup) { event.target.checked = false; showPopup(term); }
+                if (term.requirePopup) showPopup(term);
                 else { agreedTerms.value.add(term.id); emitUpdate(); }
             } else {
                 agreedTerms.value.delete(term.id);
@@ -167,7 +203,6 @@ export default {
 
         const resetAgreements = () => {
             agreedTerms.value.clear();
-            activePopups.value.forEach(p => p.isVisible = false);
             activePopups.value = [];
             emitUpdate();
         };
