@@ -87,6 +87,7 @@
         import ValidationLab from './frontend/modules/form-validation/ValidationLab.js';
         import BasicForm from './frontend/modules/form-validation/BasicForm.js';
         import ChartSample from './frontend/modules/visualization/ChartSample.js';
+        import TermsAgreementSample from './frontend/modules/consents/samples/TermsAgreementSample.js';
 
         const { createApp, ref, computed } = Vue;
 
@@ -121,6 +122,17 @@
                                 title: 'Basic Visualization',
                                 desc: '다양한 차트 타입 및 데이터 연동',
                                 component: ChartSample
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Process Flow',
+                        items: [
+                            {
+                                id: 'terms-agreements',
+                                title: 'Terms Agreements',
+                                desc: '동적 팝업 시퀀스 기반 약관 동의 프로세스',
+                                component: TermsAgreementSample
                             }
                         ]
                     }
