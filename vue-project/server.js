@@ -8,25 +8,21 @@ const mimeTypes = {
     '.html': 'text/html',
     '.css': 'text/css',
     '.js': 'text/javascript',
-    '.vue': 'text/javascript',
     '.json': 'application/json',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
     '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.woff': 'font/woff',
-    '.woff2': 'font/woff2',
-    '.ttf': 'font/ttf'
+    '.svg': 'image/svg+xml'
 };
 
 const server = http.createServer((req, res) => {
     // URL 분석 (쿼리 스트링 제외)
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     let pathname = parsedUrl.pathname;
-    
+
     // 루트 경로면 index.html로 유도
     let filePath = pathname === '/' ? path.join(__dirname, 'index.html') : path.join(__dirname, pathname);
-    
+
     const extname = path.extname(filePath);
     const contentType = mimeTypes[extname] || 'application/octet-stream';
 

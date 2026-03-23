@@ -1,4 +1,4 @@
-import TermsAgreementManager from '../components/TermsAgreementManager.vue';
+import TermsAgreementManager from '../components/TermsAgreementManager.js';
 import { PRODUCT_TYPES, TERMS_CONFIG } from '../utils/termsConfig.js';
 
 const { ref, computed, watch } = Vue;

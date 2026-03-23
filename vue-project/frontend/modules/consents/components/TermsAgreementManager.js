@@ -1,5 +1,5 @@
 import { TERMS_CONFIG } from '../utils/termsConfig.js';
-import BaseTermsPopup from './popups/BaseTermsPopup.vue';
+import BaseTermsPopup from './popups/BaseTermsPopup.js';
 
 const { computed, ref, watch } = Vue;
 
