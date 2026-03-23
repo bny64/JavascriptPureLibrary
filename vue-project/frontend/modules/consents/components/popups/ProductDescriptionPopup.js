@@ -27,7 +27,7 @@ const template = `
 `;
 
 export default {
-    name: 'BaseTermsPopup', 
+    name: 'ProductDescriptionPopup', 
     props: {
         term: { type: Object, required: true },
         isLastPopup: { type: Boolean, default: false }

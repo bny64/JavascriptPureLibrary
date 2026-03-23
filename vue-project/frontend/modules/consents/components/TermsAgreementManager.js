@@ -82,17 +82,19 @@ export default {
       </div>
     </div>
 
-    <!-- 동적 팝업 시퀀스 -->
-    <template v-for="popup in activePopups" :key="popup.term.productId + '_' + popup.term.id">
-        <component 
-            :is="getPopupComponent(popup.term.popupComponent)"
-            v-if="popup.isVisible"
-            :term="popup.term"
-            :is-last-popup="popup.isLastPopup"
-            @confirm="handlePopupConfirm"
-            @close="handlePopupClose"
-        />
-    </template>
+    <!-- 동적 팝업 시퀀스 (Portal) -->
+    <teleport to="#popup-root">
+        <template v-for="popup in activePopups" :key="popup.term.productId + '_' + popup.term.id">
+            <component 
+                :is="getPopupComponent(popup.term.popupComponent)"
+                v-if="popup.isVisible"
+                :term="popup.term"
+                :is-last-popup="popup.isLastPopup"
+                @confirm="handlePopupConfirm"
+                @close="handlePopupClose"
+            />
+        </template>
+    </teleport>
   </div>
     `,
     setup(props, { emit }) {
